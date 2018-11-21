@@ -1,0 +1,20 @@
+{% extends 'lavajato_base.html' %}
+
+{% block body %}
+{% load static %}
+{% if msg %}
+    <h1 style="text-align:center;">{{msg}}</h1><hr />
+{%endif%}
+<h1>Fechar caixa</h1><hr />
+    <form method="POST">
+    {%csrf_token%}
+        <div class="form-row">
+                <div class="form-group col-md-3">
+                    <label for="inputCel">Valor</label>
+                    <input type="number" class="form-control" step="0.1" name="valor">
+                </div>
+            </div>
+            <br />
+            <button type="submit" class="btn btn-secondary float-right">Fechar</button>
+    </form>
+{% endblock %}

@@ -1,0 +1,44 @@
+{% extends 'chica_base.html' %}
+
+{% block body %}
+{% load static %}
+{% if msg %}
+    <h1 style="text-align:center;">{{msg}}</h1><hr />
+{%endif%}
+<h1>Conferir caixa</h1><hr />
+    <form method="POST">
+    {%csrf_token%}
+    <div class="form-row">
+        <div class="form-group col-md-9"></div>
+        <div class="form-group col-md-3">
+            <label>Data</label>
+            <input type="date" class="form-control" value="{{hoje}}" name="data"/>
+            <button type="submit" class="btn btn-secondary float-right">Buscar</button>
+        </div>
+        <table class="table table-sm">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Data</th>
+                    <th scope="col">Op.</th>
+                    <th scope="col">Valor Op.</th>
+                    <th scope="col">Desc. Op.</th>
+                    <th scope="col">Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for caixa_geral in caixas %}
+                <tr>
+                    <td>{{caixa_geral.id_operacao}}</td>
+                    <td>{{caixa_geral.data|date:"d/m/Y"}}</td>
+                    <td>{{caixa_geral.get_operacao_display}}</td>
+                    <td>R$ {{caixa_geral.valor_operacao}}</td>
+                    <td>{{caixa_geral.descricao}}</td>
+                    <td>R$ {{caixa_geral.total}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    </form>
+{% endblock %}

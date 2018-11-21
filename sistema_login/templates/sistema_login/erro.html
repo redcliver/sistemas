@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <title>Erro - HeadTec Desenvolvimento de Sistemas</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    {% load staticfiles %}
+    <link href="{% static '/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link rel="shortcut icon" href="{% static '/img/icons/icone.ico' %}" type="image/x-icon" />
+    <style type="text/css">
+        body {
+            background-image: url(../../static/img/fundo_erro.jpg);
+            background-repeat: no-repeat;
+            background-position: center center;
+            background-attachment: fixed;
+            background-size: cover;
+            background-color: #000000;
+        }
+
+        .wrapper {
+            text-align: center;
+        }
+
+        .button {
+            position: absolute;
+            top: 65%;
+        }
+
+        .btn:hover {
+            border-color: #c13e3e;
+        }
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <a class="btn btn-primary button" style="background-color:#ad1a1a; border-color:#ad1a1a; color:aliceblue;" href="/">LOGIN</a>
+    </div>
+</body>
+</html>

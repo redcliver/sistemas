@@ -1,0 +1,27 @@
+{% extends 'lavajato_base.html' %}
+
+{% block body %}
+{% load static %}
+{% if msg %}
+    <h1 style="text-align:center;">{{msg}}</h1><hr />
+{%endif%}
+<h1>Editar Conta</h1><hr /><br />
+    <form method="POST" action="/lavajato_contas/edita">
+    {%csrf_token%}
+    <div class="form-row">
+        <div class="form-group col-md-12">
+            <select name="conta_id" class="form-control" required>
+                <option disabled selected > -- Conta -- Valor -- Data Venc. -- </option>
+                {% for conta in contas %}
+                    <option value={{conta.id}}>{{conta.nome}} -- R${{conta.valor}} -- {{conta.data_venc|date:"d/m/Y"}}</option>
+                {% endfor %}
+            </select>
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="form-group col-md-12">
+            <button type="submit" class="btn btn-secondary float-right">Editar</button>
+        </div>
+    </div>
+    </form>
+{% endblock %}

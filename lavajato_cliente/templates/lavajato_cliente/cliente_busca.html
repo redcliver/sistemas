@@ -1,0 +1,24 @@
+{% extends 'lavajato_base.html' %}
+
+{% block body %}
+{% load static %}
+<h1>Busca Cliente</h1><hr /><br />
+    <form method="POST">
+    {%csrf_token%}
+    <div class="form-row">
+        <div class="form-group col-md-12">
+            <select name="cliente_id" class="form-control" required>
+                <option disabled selected > -- Cliente -- </option>
+                {% for cliente in clientes %}
+                    <option value={{cliente.id}}>{{cliente.nome}}</option>
+                {% endfor %}
+            </select>
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="form-group col-md-12">
+            <button type="submit" class="btn btn-secondary float-right">Buscar</button>
+        </div>
+    </div>
+    </form>
+{% endblock %}

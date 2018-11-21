@@ -1,0 +1,273 @@
+﻿<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <title>{{title}} - Chica Diniz - Micropigmentação</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    {% load staticfiles %}
+    <!--===============================================================================================-->
+    <link rel="icon" type="image/png" href="{% static '/img/favicon.ico' %}" />
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="{% static '/vendor/bootstrap/css/bootstrap.min.css' %}">
+    <!--===============================================================================================-->
+    <link href="https://fonts.googleapis.com/css?family=Corben" rel="stylesheet">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="{% static '/fonts/font-awesome-4.7.0/css/font-awesome.min.css' %}">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="{% static '/fonts/Linearicons-Free-v1.0.0/icon-font.min.css' %}">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="{% static '/vendor/animate/animate.css' %}">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="{% static '/vendor/css-hamburgers/hamburgers.min.css' %}">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="{% static '/vendor/animsition/css/animsition.min.css' %}">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="{% static '/vendor/select2/select2.min.css' %}">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="{% static '/vendor/daterangepicker/daterangepicker.css' %}">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="{% static '/css/util.css'% }">
+    <link rel="stylesheet" type="text/css" href="{% static '/css/main.css' %}">
+    <!--===============================================================================================-->
+    <style>
+        body {
+            background-image: url(../../static/img/chica_fundo.jpg); 
+            width: 100%; 
+            height: auto; 
+            background-repeat:no-repeat; 
+            background-position:center;
+            background-size: cover;
+        }
+        .navbar-brand {
+            background: url('../../static/img/logo.png');
+            width: 103px;
+            height: 38px;
+            margin-left: 5px;
+        }
+        .sansserif {
+            color: rgb(0,0,0);
+            font-family: 'Corben', cursive;
+            font-size: 20px;
+           
+        }
+        .sansserif1 {
+            color: rgb(0,0,0);
+            font-family: 'Corben', cursive;
+            font-size: 14px;
+           
+        }
+        .navbar-dark .navbar-nav .nav-link {
+            color: rgba(0,0,0,0.8);
+        }
+        .navbar-dark .navbar-nav .nav-link:hover {
+            color: rgba(0,0,0,0.3);
+        }
+        .navbar-dark .navbar-nav .active > .nav-link {
+            color: #888;
+        }
+        .jumbotron {
+            margin-top: 60px;
+            margin-left: 50px;
+            margin-right: 50px;
+            margin-bottom: 30px;
+            background: -moz-linear-gradient(top, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 100%); /* FF3.6-15 */
+            background: -webkit-linear-gradient(top, rgba(255,255,255,0) 0%,rgba(255,255,255,1) 100%); /* Chrome10-25,Safari5.1-6 */
+            background: linear-gradient(to bottom, rgba(255,255,255,0) 0%,rgba(255,255,255,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+            filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00ffffff', endColorstr='#ffffff',GradientType=0 ); /* IE6-9 */
+            height: 80vh;
+
+        }
+        .navbar {
+            background: rgb(252,252,252); /* Old browsers */
+            background: -moz-linear-gradient(-45deg, rgba(252,252,252,1) 7%, rgba(196,207,212,1) 65%, rgba(196,207,212,1) 65%, rgba(196,207,212,1) 100%); /* FF3.6-15 */
+            background: -webkit-linear-gradient(-45deg, rgba(252,252,252,1) 7%,rgba(196,207,212,1) 65%,rgba(196,207,212,1) 65%,rgba(196,207,212,1) 100%); /* Chrome10-25,Safari5.1-6 */
+            background: linear-gradient(135deg, rgba(252,252,252,1) 7%,rgba(196,207,212,1) 65%,rgba(196,207,212,1) 65%,rgba(196,207,212,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+            filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fcfcfc', endColorstr='#c4cfd4',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+            -webkit-box-shadow: 0 6px 6px -6px rgba(0, 0, 0, 0.8);
+            -moz-box-shadow: 0 6px 6px -6px rgba(0, 0, 0, 0.8);
+            box-shadow: 0 6px 6px -6px rgba(0, 0, 0, 0.8);
+        }
+        .parceiros {
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 36px;
+            color: #343a40;
+        }
+        .clientes {
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 18px;
+            color: #343a40;
+            margin-left: 30px;
+        }
+        /* The Modal (background) */
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 1; /* Sit on top */
+            padding-top: 100px; /* Location of the box */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgb(0,0,0); /* Fallback color */
+            background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+        }
+
+        /* Modal Content */
+        .modal-content {
+            background-color: #fefefe;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 30%;
+        }
+        /* The Close Button */
+        .close {
+            color: #1c1c1c;
+            float: right;
+            line-height: 2;
+            
+        }
+
+            .close:hover,
+            .close:focus {
+                background-color: #aaaaaa;
+                text-decoration: none;
+                cursor: pointer;
+            }
+        .footer {
+            position: fixed;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            color: #000000;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark " >
+        <a class="navbar-brand" href="/chica_home"></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav " >
+                <li class="nav-item active">
+                    <a class="nav-link sansserif " href="/chica_home">Início <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item ">
+                    <div class="dropdown show">
+                      <a class="nav-link sansserif dropdown-toggle" href="#" style="color: rgba(0,0,0,0.8);" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Agenda
+                      </a>
+
+                      <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                        <a class="dropdown-item sansserif1" href="/chica_cliente">Novo Agendamento</a>
+                        <a class="dropdown-item sansserif1" href="#">Editar Agendamento</a>
+                        <a class="dropdown-item sansserif1" href="#">Visualizar Agenda</a>
+                      </div>
+                    </div>
+                </li>
+                <li class="nav-item ">
+                    <div class="dropdown show">
+                      <a class="nav-link sansserif dropdown-toggle" href="#" style="color: rgba(0,0,0,0.8);" role="button" id="dropdownMenuLink1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Clientes
+                      </a>
+
+                      <div class="dropdown-menu" aria-labelledby="dropdownMenuLink1">
+                        <a class="dropdown-item sansserif1" href="/chica_cliente">Novo Cliente</a>
+                        <a class="dropdown-item sansserif1" href="/chica_cliente/busca">Buscar Cliente</a>
+                        <a class="dropdown-item sansserif1" href="/chica_cliente/edita">Editar Cliente</a>
+                      </div>
+                    </div>
+                </li>
+                <li class="nav-item ">
+                    <div class="dropdown show">
+                      <a class="nav-link sansserif dropdown-toggle" href="#" style="color: rgba(0,0,0,0.8);" role="button" id="dropdownMenuLink2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Contas
+                      </a>
+
+                      <div class="dropdown-menu" aria-labelledby="dropdownMenuLink2">
+                        <a class="dropdown-item sansserif1" href="/chica_conta">Cadastrar Conta</a>
+                        <a class="dropdown-item sansserif1" href="/chica_conta/busca">Buscar Conta</a>
+                          <a class="dropdown-item sansserif1" href="/chica_conta/edita">Editar Conta</a>
+                        <a class="dropdown-item sansserif1" href="/chica_conta/pagar">Pagar conta</a>
+                      </div>
+                    </div>
+                </li>
+                <li class="nav-item ">
+                    <div class="dropdown show">
+                      <a class="nav-link sansserif dropdown-toggle" href="#" style="color: rgba(0,0,0,0.8);" role="button" id="dropdownMenuLink3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Caixa
+                      </a>
+
+                      <div class="dropdown-menu" aria-labelledby="dropdownMenuLink3">
+                        <a class="dropdown-item sansserif1" href="/chica_caixa/entrada">Entrada</a>
+                        <a class="dropdown-item sansserif1" href="/chica_caixa/saida">Saida</a>
+                        <a class="dropdown-item sansserif1" href="/chica_caixa/conferencia">Conferir caixa</a>
+                        <a class="dropdown-item sansserif1" href="/chica_caixa/fechar">Fechar caixa</a>
+                      </div>
+                    </div>
+                </li>
+                <li class="nav-item ">
+                    <div class="dropdown show">
+                      <a class="nav-link sansserif dropdown-toggle" href="#" style="color: rgba(0,0,0,0.8);" role="button" id="dropdownMenuLink4" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Estoque
+                      </a>
+
+                      <div class="dropdown-menu" aria-labelledby="dropdownMenuLink4">
+                        <a class="dropdown-item sansserif1" href="/chica_estoque/entrada">Entrada</a>
+                        <a class="dropdown-item sansserif1" href="/chica_caixa">Saida</a>
+                        <a class="dropdown-item sansserif1" href="/chica_caixa">Consultar estoque</a>
+                        <a class="dropdown-item sansserif1" href="/chica_caixa">Conferir inventario</a>
+                        <a class="dropdown-item sansserif1" href="/chica_estoque/novo_produto">Cadastro de produto</a>
+                      </div>
+                    </div>
+                </li>
+                <li class="nav-item ">
+                    <a class="nav-link sansserif " href="/chica_controle">Controle</a>
+                </li>
+                <li class="nav-item ">
+                    <a class="nav-link sansserif " href="/chica_home/suporte">Suporte</a>
+                </li>
+                <li class="nav-item ">
+                    <a class="nav-link sansserif " href="#">Sair</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <div class="jumbotron ">
+        <div class="container">
+           {% block body %}
+           {% endblock %} 
+        </div>
+    </div>
+    <footer>
+        <center style="font-size:20px;">HeadTec Desenvolvimento de Sistemas &#9474; 2018</center>
+    </footer>
+    <!--===============================================================================================-->
+    <script src="{% static '/vendor/jquery/jquery-3.2.1.min.js' %}"></script>
+    <!--===============================================================================================-->
+    <script src="{% static '/vendor/animsition/js/animsition.min.js' %}"></script>
+    <!--===============================================================================================-->
+    <script src="{% static '/vendor/bootstrap/js/popper.js' %}"></script>
+    <script src="{% static '/vendor/bootstrap/js/bootstrap.min.js' %}"></script>
+    <!--===============================================================================================-->
+    <script src="{% static '/vendor/select2/select2.min.js' %}"></script>
+    <!--===============================================================================================-->
+    <script src="{% static '/vendor/daterangepicker/moment.min.js' %}"></script>
+    <script src="{% static '/vendor/daterangepicker/daterangepicker.js' %}"></script>
+    <!--===============================================================================================-->
+    <script src="{% static '/vendor/countdowntime/countdowntime.js' %}"></script>
+    <!--===============================================================================================-->
+    <script src="{% static '/js/main.js' %}"></script>
+    <script>
+        function goBack() {
+            window.history.back();
+        }
+    </script>
+    
+</body>
+</html>

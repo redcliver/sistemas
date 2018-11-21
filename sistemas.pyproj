@@ -1,0 +1,436 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <Name>sistemas</Name>
+    <RootNamespace>sistemas</RootNamespace>
+    <InterpreterId>MSBuild|env|$(MSBuildProjectFullPath)</InterpreterId>
+  </PropertyGroup>
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>d0001ddb-9c81-4328-a4c1-702de02495c3</ProjectGuid>
+    <ProjectHome>.</ProjectHome>
+    <ProjectTypeGuids>{5F0BE9CA-D677-4A4D-8806-6076C0FAAD37};{349c5851-65df-11da-9384-00065b846f21};{888888a0-9f3d-457c-b088-3a5042f75d52}</ProjectTypeGuids>
+    <StartupFile>manage.py</StartupFile>
+    <SearchPath>
+    </SearchPath>
+    <WorkingDirectory>.</WorkingDirectory>
+    <WebBrowserUrl>http://localhost</WebBrowserUrl>
+    <LaunchProvider>Django launcher</LaunchProvider>
+    <DjangoSettingsModule>sistemas.settings</DjangoSettingsModule>
+    <OutputPath>.</OutputPath>
+    <SuppressCollectPythonCloudServiceFiles>true</SuppressCollectPythonCloudServiceFiles>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <DebugSymbols>true</DebugSymbols>
+    <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <DebugSymbols>true</DebugSymbols>
+    <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="app\forms.py" />
+    <Compile Include="app\models.py" />
+    <Compile Include="app\tests.py" />
+    <Compile Include="app\views.py" />
+    <Compile Include="app\__init__.py" />
+    <Compile Include="app\migrations\__init__.py" />
+    <Compile Include="chica_caixa\admin.py" />
+    <Compile Include="chica_caixa\apps.py" />
+    <Compile Include="chica_caixa\migrations\__init__.py" />
+    <Compile Include="chica_caixa\models.py" />
+    <Compile Include="chica_caixa\tests.py" />
+    <Compile Include="chica_caixa\urls.py" />
+    <Compile Include="chica_caixa\views.py" />
+    <Compile Include="chica_caixa\__init__.py" />
+    <Compile Include="chica_cliente\admin.py" />
+    <Compile Include="chica_cliente\apps.py" />
+    <Compile Include="chica_cliente\migrations\__init__.py" />
+    <Compile Include="chica_cliente\models.py" />
+    <Compile Include="chica_cliente\tests.py" />
+    <Compile Include="chica_cliente\urls.py" />
+    <Compile Include="chica_cliente\views.py" />
+    <Compile Include="chica_cliente\__init__.py" />
+    <Compile Include="chica_conta\admin.py" />
+    <Compile Include="chica_conta\apps.py" />
+    <Compile Include="chica_conta\migrations\__init__.py" />
+    <Compile Include="chica_conta\models.py" />
+    <Compile Include="chica_conta\tests.py" />
+    <Compile Include="chica_conta\urls.py" />
+    <Compile Include="chica_conta\views.py" />
+    <Compile Include="chica_conta\__init__.py" />
+    <Compile Include="chica_controle\admin.py" />
+    <Compile Include="chica_controle\apps.py" />
+    <Compile Include="chica_controle\migrations\__init__.py" />
+    <Compile Include="chica_controle\models.py" />
+    <Compile Include="chica_controle\tests.py" />
+    <Compile Include="chica_controle\urls.py" />
+    <Compile Include="chica_controle\views.py" />
+    <Compile Include="chica_controle\__init__.py" />
+    <Compile Include="chica_estoque\admin.py" />
+    <Compile Include="chica_estoque\apps.py" />
+    <Compile Include="chica_estoque\migrations\__init__.py" />
+    <Compile Include="chica_estoque\models.py" />
+    <Compile Include="chica_estoque\tests.py" />
+    <Compile Include="chica_estoque\urls.py" />
+    <Compile Include="chica_estoque\views.py" />
+    <Compile Include="chica_estoque\__init__.py" />
+    <Compile Include="chica_home\admin.py" />
+    <Compile Include="chica_home\apps.py" />
+    <Compile Include="chica_home\migrations\__init__.py" />
+    <Compile Include="chica_home\models.py" />
+    <Compile Include="chica_home\tests.py" />
+    <Compile Include="chica_home\urls.py" />
+    <Compile Include="chica_home\views.py" />
+    <Compile Include="chica_home\__init__.py" />
+    <Compile Include="lavajato_caixa\admin.py" />
+    <Compile Include="lavajato_caixa\apps.py" />
+    <Compile Include="lavajato_caixa\migrations\__init__.py" />
+    <Compile Include="lavajato_caixa\models.py" />
+    <Compile Include="lavajato_caixa\tests.py" />
+    <Compile Include="lavajato_caixa\urls.py" />
+    <Compile Include="lavajato_caixa\views.py" />
+    <Compile Include="lavajato_caixa\__init__.py" />
+    <Compile Include="lavajato_cliente\admin.py" />
+    <Compile Include="lavajato_cliente\apps.py" />
+    <Compile Include="lavajato_cliente\migrations\__init__.py" />
+    <Compile Include="lavajato_cliente\models.py" />
+    <Compile Include="lavajato_cliente\tests.py" />
+    <Compile Include="lavajato_cliente\urls.py" />
+    <Compile Include="lavajato_cliente\views.py" />
+    <Compile Include="lavajato_cliente\__init__.py" />
+    <Compile Include="lavajato_contas\admin.py" />
+    <Compile Include="lavajato_contas\apps.py" />
+    <Compile Include="lavajato_contas\migrations\__init__.py" />
+    <Compile Include="lavajato_contas\models.py" />
+    <Compile Include="lavajato_contas\tests.py" />
+    <Compile Include="lavajato_contas\urls.py" />
+    <Compile Include="lavajato_contas\views.py" />
+    <Compile Include="lavajato_contas\__init__.py" />
+    <Compile Include="lavajato_home\admin.py" />
+    <Compile Include="lavajato_home\apps.py" />
+    <Compile Include="lavajato_home\migrations\__init__.py" />
+    <Compile Include="lavajato_home\models.py" />
+    <Compile Include="lavajato_home\tests.py" />
+    <Compile Include="lavajato_home\urls.py" />
+    <Compile Include="lavajato_home\views.py" />
+    <Compile Include="lavajato_home\__init__.py" />
+    <Compile Include="manage.py" />
+    <Compile Include="sistemas\__init__.py" />
+    <Compile Include="sistemas\settings.py" />
+    <Compile Include="sistemas\urls.py" />
+    <Compile Include="sistemas\wsgi.py" />
+    <Compile Include="sistema_login\admin.py" />
+    <Compile Include="sistema_login\apps.py" />
+    <Compile Include="sistema_login\migrations\__init__.py" />
+    <Compile Include="sistema_login\models.py" />
+    <Compile Include="sistema_login\tests.py" />
+    <Compile Include="sistema_login\urls.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="sistema_login\views.py" />
+    <Compile Include="sistema_login\__init__.py" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="app\" />
+    <Folder Include="app\migrations\" />
+    <Folder Include="app\static\" />
+    <Folder Include="app\static\app\" />
+    <Folder Include="app\static\app\content\" />
+    <Folder Include="app\static\app\fonts\" />
+    <Folder Include="app\static\app\scripts\" />
+    <Folder Include="app\templates\" />
+    <Folder Include="app\templates\app\" />
+    <Folder Include="chica_caixa\" />
+    <Folder Include="chica_caixa\migrations\" />
+    <Folder Include="chica_caixa\templates\" />
+    <Folder Include="chica_caixa\templates\chica_caixa\" />
+    <Folder Include="chica_cliente\" />
+    <Folder Include="chica_cliente\migrations\" />
+    <Folder Include="chica_cliente\templates\" />
+    <Folder Include="chica_cliente\templates\chica_cliente\" />
+    <Folder Include="chica_conta\" />
+    <Folder Include="chica_conta\migrations\" />
+    <Folder Include="chica_conta\templates\" />
+    <Folder Include="chica_conta\templates\chica_conta\" />
+    <Folder Include="chica_controle\" />
+    <Folder Include="chica_controle\migrations\" />
+    <Folder Include="chica_controle\templates\" />
+    <Folder Include="chica_controle\templates\chica_controle\" />
+    <Folder Include="chica_estoque\" />
+    <Folder Include="chica_estoque\migrations\" />
+    <Folder Include="chica_estoque\templates\" />
+    <Folder Include="chica_estoque\templates\chica_estoque\" />
+    <Folder Include="chica_home\" />
+    <Folder Include="chica_home\migrations\" />
+    <Folder Include="chica_home\static\" />
+    <Folder Include="chica_home\static\img\" />
+    <Folder Include="chica_home\templates\" />
+    <Folder Include="chica_home\templates\chica_home\" />
+    <Folder Include="lavajato_caixa\" />
+    <Folder Include="lavajato_caixa\migrations\" />
+    <Folder Include="lavajato_caixa\templates\" />
+    <Folder Include="lavajato_caixa\templates\lavajato_caixa\" />
+    <Folder Include="lavajato_cliente\" />
+    <Folder Include="lavajato_cliente\migrations\" />
+    <Folder Include="lavajato_cliente\templates\" />
+    <Folder Include="lavajato_cliente\templates\lavajato_cliente\" />
+    <Folder Include="lavajato_contas\" />
+    <Folder Include="lavajato_contas\migrations\" />
+    <Folder Include="lavajato_contas\templates\" />
+    <Folder Include="lavajato_contas\templates\lavajato_contas\" />
+    <Folder Include="lavajato_home\" />
+    <Folder Include="lavajato_home\migrations\" />
+    <Folder Include="lavajato_home\static\" />
+    <Folder Include="lavajato_home\templates\" />
+    <Folder Include="lavajato_home\templates\lavajato_home\" />
+    <Folder Include="sistemas\" />
+    <Folder Include="sistema_login\" />
+    <Folder Include="sistema_login\migrations\" />
+    <Folder Include="sistema_login\static\" />
+    <Folder Include="sistema_login\static\css\" />
+    <Folder Include="sistema_login\static\img\" />
+    <Folder Include="sistema_login\static\img\icons\" />
+    <Folder Include="sistema_login\static\js\" />
+    <Folder Include="sistema_login\static\vendor\" />
+    <Folder Include="sistema_login\static\vendor\animate\" />
+    <Folder Include="sistema_login\static\vendor\animsition\" />
+    <Folder Include="sistema_login\static\vendor\animsition\css\" />
+    <Folder Include="sistema_login\static\vendor\animsition\js\" />
+    <Folder Include="sistema_login\static\vendor\bootstrap\" />
+    <Folder Include="sistema_login\static\vendor\bootstrap\css\" />
+    <Folder Include="sistema_login\static\vendor\bootstrap\js\" />
+    <Folder Include="sistema_login\static\vendor\countdowntime\" />
+    <Folder Include="sistema_login\static\vendor\css-hamburgers\" />
+    <Folder Include="sistema_login\static\vendor\daterangepicker\" />
+    <Folder Include="sistema_login\static\vendor\jquery\" />
+    <Folder Include="sistema_login\static\vendor\perfect-scrollbar\" />
+    <Folder Include="sistema_login\static\vendor\select2\" />
+    <Folder Include="sistema_login\templates\" />
+    <Folder Include="sistema_login\templates\sistema_login\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="chica_caixa\templates\chica_caixa\caixa_fechar.html" />
+    <Content Include="chica_caixa\templates\chica_caixa\caixa_saida.html" />
+    <Content Include="chica_caixa\templates\chica_caixa\caixa_entrada.html" />
+    <Content Include="chica_caixa\templates\chica_caixa\caixa_conferencia.html" />
+    <Content Include="chica_cliente\templates\chica_cliente\cliente_busca_edita.html" />
+    <Content Include="chica_cliente\templates\chica_cliente\cliente_busca.html" />
+    <Content Include="chica_cliente\templates\chica_cliente\cliente_edita.html" />
+    <Content Include="chica_cliente\templates\chica_cliente\cliente_visualizar.html" />
+    <Content Include="chica_cliente\templates\chica_cliente\cliente_novo.html" />
+    <Content Include="chica_conta\templates\chica_conta\conta_pagar.html" />
+    <Content Include="chica_conta\templates\chica_conta\conta_busca_edita.html" />
+    <Content Include="chica_conta\templates\chica_conta\conta_busca.html" />
+    <Content Include="chica_conta\templates\chica_conta\conta_edita.html" />
+    <Content Include="chica_conta\templates\chica_conta\conta_visualizar.html" />
+    <Content Include="chica_conta\templates\chica_conta\conta_novo.html" />
+    <Content Include="chica_controle\templates\chica_controle\controle.html" />
+    <Content Include="chica_estoque\templates\chica_estoque\estoque_produto.html" />
+    <Content Include="chica_estoque\templates\chica_estoque\estoque_entrada.html" />
+    <Content Include="chica_home\templates\chica_base.html" />
+    <Content Include="chica_home\templates\chica_home\suporte.html" />
+    <Content Include="chica_home\templates\chica_home\home.html" />
+    <Content Include="lavajato_caixa\templates\lavajato_caixa\caixa_conferencia.html" />
+    <Content Include="lavajato_caixa\templates\lavajato_caixa\caixa_entrada.html" />
+    <Content Include="lavajato_caixa\templates\lavajato_caixa\caixa_fechar.html" />
+    <Content Include="lavajato_caixa\templates\lavajato_caixa\caixa_saida.html" />
+    <Content Include="lavajato_cliente\templates\lavajato_cliente\cliente_busca.html" />
+    <Content Include="lavajato_cliente\templates\lavajato_cliente\cliente_busca_edita.html" />
+    <Content Include="lavajato_cliente\templates\lavajato_cliente\cliente_edita.html" />
+    <Content Include="lavajato_cliente\templates\lavajato_cliente\cliente_novo.html" />
+    <Content Include="lavajato_cliente\templates\lavajato_cliente\cliente_visualizar.html" />
+    <Content Include="lavajato_contas\templates\lavajato_contas\conta_busca.html" />
+    <Content Include="lavajato_contas\templates\lavajato_contas\conta_busca_edita.html" />
+    <Content Include="lavajato_contas\templates\lavajato_contas\conta_edita.html" />
+    <Content Include="lavajato_contas\templates\lavajato_contas\conta_novo.html" />
+    <Content Include="lavajato_contas\templates\lavajato_contas\conta_pagar.html" />
+    <Content Include="lavajato_contas\templates\lavajato_contas\conta_visualizar.html" />
+    <Content Include="lavajato_home\templates\lavajato_base.html" />
+    <Content Include="lavajato_home\templates\lavajato_home\home.html" />
+    <Content Include="lavajato_home\templates\lavajato_home\suporte.html" />
+    <Content Include="requirements.txt" />
+    <Content Include="db.sqlite3" />
+    <Content Include="app\static\app\content\bootstrap.css" />
+    <Content Include="app\static\app\content\bootstrap.min.css" />
+    <Content Include="app\static\app\content\site.css" />
+    <Content Include="app\static\app\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="app\static\app\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="app\static\app\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="app\static\app\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="app\static\app\scripts\bootstrap.js" />
+    <Content Include="app\static\app\scripts\bootstrap.min.js" />
+    <Content Include="app\static\app\scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="app\static\app\scripts\jquery-1.10.2.js" />
+    <Content Include="app\static\app\scripts\jquery-1.10.2.min.js" />
+    <Content Include="app\static\app\scripts\jquery-1.10.2.min.map" />
+    <Content Include="app\static\app\scripts\jquery.validate-vsdoc.js" />
+    <Content Include="app\static\app\scripts\jquery.validate.js" />
+    <Content Include="app\static\app\scripts\jquery.validate.min.js" />
+    <Content Include="app\static\app\scripts\jquery.validate.unobtrusive.js" />
+    <Content Include="app\static\app\scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="app\static\app\scripts\modernizr-2.6.2.js" />
+    <Content Include="app\static\app\scripts\respond.js" />
+    <Content Include="app\static\app\scripts\respond.min.js" />
+    <Content Include="app\static\app\scripts\_references.js" />
+    <Content Include="app\templates\app\about.html" />
+    <Content Include="app\templates\app\contact.html" />
+    <Content Include="app\templates\app\index.html" />
+    <Content Include="app\templates\app\layout.html" />
+    <Content Include="app\templates\app\login.html" />
+    <Content Include="app\templates\app\loginpartial.html" />
+    <Content Include="sistema_login\static\css\main.css" />
+    <Content Include="sistema_login\static\css\simple-sidebar.css" />
+    <Content Include="sistema_login\static\css\util.css" />
+    <Content Include="sistema_login\static\img\bg-01.jpg" />
+    <Content Include="sistema_login\static\img\botao.png" />
+    <Content Include="sistema_login\static\img\caixa.png" />
+    <Content Include="sistema_login\static\img\cliente.png" />
+    <Content Include="sistema_login\static\img\cliente1.png" />
+    <Content Include="sistema_login\static\img\contas.png" />
+    <Content Include="sistema_login\static\img\delta_logo.png" />
+    <Content Include="sistema_login\static\img\e_produto.png" />
+    <Content Include="sistema_login\static\img\e_refeicao.png" />
+    <Content Include="sistema_login\static\img\favicon.ico" />
+    <Content Include="sistema_login\static\img\fechar.png" />
+    <Content Include="sistema_login\static\img\fundo.jpg" />
+    <Content Include="sistema_login\static\img\fundo_erro.jpg" />
+    <Content Include="sistema_login\static\img\fundo_login.jpg" />
+    <Content Include="sistema_login\static\img\fundo_rest.jpg" />
+    <Content Include="sistema_login\static\img\hab_vencida.png" />
+    <Content Include="sistema_login\static\img\hab_vencida1.png" />
+    <Content Include="sistema_login\static\img\home.png" />
+    <Content Include="sistema_login\static\img\icons\favicon.ico" />
+    <Content Include="sistema_login\static\img\inf_geral.png" />
+    <Content Include="sistema_login\static\img\inf_men.png" />
+    <Content Include="sistema_login\static\img\inf_sem.png" />
+    <Content Include="sistema_login\static\img\logo.png" />
+    <Content Include="sistema_login\static\img\logo1.png" />
+    <Content Include="sistema_login\static\img\mais.png" />
+    <Content Include="sistema_login\static\img\mario_logo.png" />
+    <Content Include="sistema_login\static\img\novo_cliente.png" />
+    <Content Include="sistema_login\static\img\novo_cliente1.png" />
+    <Content Include="sistema_login\static\img\n_produto.png" />
+    <Content Include="sistema_login\static\img\n_refeicao.png" />
+    <Content Include="sistema_login\static\img\outros.png" />
+    <Content Include="sistema_login\static\img\pedidos.png" />
+    <Content Include="sistema_login\static\img\produtos.png" />
+    <Content Include="sistema_login\static\img\refeicao.png" />
+    <Content Include="sistema_login\static\img\retirada.png" />
+    <Content Include="sistema_login\static\img\sair.png" />
+    <Content Include="sistema_login\static\img\sair1.png" />
+    <Content Include="sistema_login\static\img\service-4.jpg" />
+    <Content Include="sistema_login\static\img\top_logo.png" />
+    <Content Include="sistema_login\static\img\winner_logo.png" />
+    <Content Include="sistema_login\static\js\main.js" />
+    <Content Include="sistema_login\static\js\map-custom.js" />
+    <Content Include="sistema_login\static\vendor\animate\animate.css" />
+    <Content Include="sistema_login\static\vendor\animsition\css\animsition.css" />
+    <Content Include="sistema_login\static\vendor\animsition\css\animsition.min.css" />
+    <Content Include="sistema_login\static\vendor\animsition\js\animsition.js" />
+    <Content Include="sistema_login\static\vendor\animsition\js\animsition.min.js" />
+    <Content Include="sistema_login\static\vendor\bootstrap\css\bootstrap-grid.css" />
+    <Content Include="sistema_login\static\vendor\bootstrap\css\bootstrap-grid.css.map" />
+    <Content Include="sistema_login\static\vendor\bootstrap\css\bootstrap-grid.min.css" />
+    <Content Include="sistema_login\static\vendor\bootstrap\css\bootstrap-grid.min.css.map" />
+    <Content Include="sistema_login\static\vendor\bootstrap\css\bootstrap-reboot.css" />
+    <Content Include="sistema_login\static\vendor\bootstrap\css\bootstrap-reboot.css.map" />
+    <Content Include="sistema_login\static\vendor\bootstrap\css\bootstrap-reboot.min.css" />
+    <Content Include="sistema_login\static\vendor\bootstrap\css\bootstrap-reboot.min.css.map" />
+    <Content Include="sistema_login\static\vendor\bootstrap\css\bootstrap.css" />
+    <Content Include="sistema_login\static\vendor\bootstrap\css\bootstrap.css.map" />
+    <Content Include="sistema_login\static\vendor\bootstrap\css\bootstrap.min.css" />
+    <Content Include="sistema_login\static\vendor\bootstrap\css\bootstrap.min.css.map" />
+    <Content Include="sistema_login\static\vendor\bootstrap\js\bootstrap.bundle.js" />
+    <Content Include="sistema_login\static\vendor\bootstrap\js\bootstrap.bundle.js.map" />
+    <Content Include="sistema_login\static\vendor\bootstrap\js\bootstrap.bundle.min.js" />
+    <Content Include="sistema_login\static\vendor\bootstrap\js\bootstrap.bundle.min.js.map" />
+    <Content Include="sistema_login\static\vendor\bootstrap\js\bootstrap.js" />
+    <Content Include="sistema_login\static\vendor\bootstrap\js\bootstrap.js.map" />
+    <Content Include="sistema_login\static\vendor\bootstrap\js\bootstrap.min.js" />
+    <Content Include="sistema_login\static\vendor\bootstrap\js\bootstrap.min.js.map" />
+    <Content Include="sistema_login\static\vendor\bootstrap\js\popper.js" />
+    <Content Include="sistema_login\static\vendor\bootstrap\js\popper.min.js" />
+    <Content Include="sistema_login\static\vendor\bootstrap\js\tooltip.js" />
+    <Content Include="sistema_login\static\vendor\countdowntime\countdowntime.js" />
+    <Content Include="sistema_login\static\vendor\css-hamburgers\hamburgers.css" />
+    <Content Include="sistema_login\static\vendor\css-hamburgers\hamburgers.min.css" />
+    <Content Include="sistema_login\static\vendor\daterangepicker\daterangepicker.css" />
+    <Content Include="sistema_login\static\vendor\daterangepicker\daterangepicker.js" />
+    <Content Include="sistema_login\static\vendor\daterangepicker\moment.js" />
+    <Content Include="sistema_login\static\vendor\daterangepicker\moment.min.js" />
+    <Content Include="sistema_login\static\vendor\jquery\jquery-3.2.1.min.js" />
+    <Content Include="sistema_login\static\vendor\jquery\jquery.js" />
+    <Content Include="sistema_login\static\vendor\jquery\jquery.min.js" />
+    <Content Include="sistema_login\static\vendor\jquery\jquery.min.map" />
+    <Content Include="sistema_login\static\vendor\jquery\jquery.slim.js" />
+    <Content Include="sistema_login\static\vendor\jquery\jquery.slim.min.js" />
+    <Content Include="sistema_login\static\vendor\jquery\jquery.slim.min.map" />
+    <Content Include="sistema_login\static\vendor\perfect-scrollbar\perfect-scrollbar.css" />
+    <Content Include="sistema_login\static\vendor\perfect-scrollbar\perfect-scrollbar.min.js" />
+    <Content Include="sistema_login\static\vendor\select2\select2.css" />
+    <Content Include="sistema_login\static\vendor\select2\select2.js" />
+    <Content Include="sistema_login\static\vendor\select2\select2.min.css" />
+    <Content Include="sistema_login\static\vendor\select2\select2.min.js" />
+    <Content Include="sistema_login\templates\sistema_login\erro.html" />
+    <Content Include="sistema_login\templates\sistema_login\login.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="readme.html">
+      <SubType>WebBrowser</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Interpreter Include="env\">
+      <Id>env</Id>
+      <Version>3.6</Version>
+      <Description>env (Python 3.6 (64-bit))</Description>
+      <InterpreterPath>Scripts\python.exe</InterpreterPath>
+      <WindowsInterpreterPath>Scripts\pythonw.exe</WindowsInterpreterPath>
+      <PathEnvironmentVariable>PYTHONPATH</PathEnvironmentVariable>
+      <Architecture>X64</Architecture>
+    </Interpreter>
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.Django.targets" />
+  <!-- Specify pre- and post-build commands in the BeforeBuild and 
+       AfterBuild targets below. -->
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <AutoAssignPort>True</AutoAssignPort>
+          <UseCustomServer>True</UseCustomServer>
+          <CustomServerUrl>http://localhost</CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}" User="">
+        <WebProjectProperties>
+          <StartPageUrl>
+          </StartPageUrl>
+          <StartAction>CurrentPage</StartAction>
+          <AspNetDebugging>True</AspNetDebugging>
+          <SilverlightDebugging>False</SilverlightDebugging>
+          <NativeDebugging>False</NativeDebugging>
+          <SQLDebugging>False</SQLDebugging>
+          <ExternalProgram>
+          </ExternalProgram>
+          <StartExternalURL>
+          </StartExternalURL>
+          <StartCmdLineArguments>
+          </StartCmdLineArguments>
+          <StartWorkingDirectory>
+          </StartWorkingDirectory>
+          <EnableENC>False</EnableENC>
+          <AlwaysStartWebServerOnDebug>False</AlwaysStartWebServerOnDebug>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+</Project>

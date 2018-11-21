@@ -1,0 +1,201 @@
+﻿<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <title>Acesso - HeadTec Desenvolvimento de Sistemas</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    {% load staticfiles %}
+    <!--===============================================================================================-->
+    <link rel="icon" type="image/png" href="{% static '/img/favicon.ico' %}" />
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="{% static '/vendor/bootstrap/css/bootstrap.min.css' %}">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="{% static '/fonts/font-awesome-4.7.0/css/font-awesome.min.css' %}">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="{% static '/fonts/Linearicons-Free-v1.0.0/icon-font.min.css' %}">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="{% static '/vendor/animate/animate.css' %}">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="{% static '/vendor/css-hamburgers/hamburgers.min.css' %}">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="{% static '/vendor/animsition/css/animsition.min.css' %}">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="{% static '/vendor/select2/select2.min.css' %}">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="{% static '/vendor/daterangepicker/daterangepicker.css' %}">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="{% static '/css/util.css'% }">
+    <link rel="stylesheet" type="text/css" href="{% static '/css/main.css' %}">
+    <!--===============================================================================================-->
+    <style>
+        body {
+            background-image: url(../../static/img/fundo_login.jpg); 
+            width: 100%; 
+            height: auto; 
+            background-repeat:no-repeat; 
+            background-position:center;
+            background-size: cover;
+        }
+        .navbar-brand {
+            background: url('../../static/img/logo.png');
+            width: 178px;
+            height: 75px;
+            margin-left: 5px;
+        }
+        .deltatres {
+            background: url('../../static/img/delta_logo.png');
+            width: 80px;
+            height: 70px;
+            margin-left: 5px;
+        }
+        .sansserif {
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 16px;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 1);
+        }
+        .jumbotron {
+            margin-top: -10px;
+            margin-left: 50px;
+            margin-right: 50px;
+            margin-bottom: 30px;
+            background: rgba(206, 206, 206, 0.8);
+            height: 80vh;
+
+        }
+        .navbar {
+            -webkit-box-shadow: 0 6px 6px -6px rgba(0, 0, 0, 0.8);
+            -moz-box-shadow: 0 6px 6px -6px rgba(0, 0, 0, 0.8);
+            box-shadow: 0 6px 6px -6px rgba(0, 0, 0, 0.8);
+        }
+        .parceiros {
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 36px;
+            color: #343a40;
+        }
+        .clientes {
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 18px;
+            color: #343a40;
+            margin-left: 30px;
+        }
+        /* The Modal (background) */
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 1; /* Sit on top */
+            padding-top: 100px; /* Location of the box */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgb(0,0,0); /* Fallback color */
+            background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+        }
+
+        /* Modal Content */
+        .modal-content {
+            background-color: #fefefe;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 30%;
+        }
+        /* The Close Button */
+        .close {
+            color: #aaaaaa;
+            float: right;
+            line-height: 2;
+            
+        }
+
+            .close:hover,
+            .close:focus {
+                background-color:transparent;
+                text-decoration: none;
+                cursor: pointer;
+            }
+        .footer {
+            position: fixed;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            color: #000000;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="#"></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav">
+                <li class="nav-item active">
+                    <a class="nav-link sansserif " href="#">Site <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item ">
+                    <a class="nav-link sansserif " href="#">Suporte</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <div class="jumbotron ">
+        <div class="container">
+            <div class="col-md-4 offset-md-4 center">
+                <form method="POST">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Usuário</label>
+                        <input type="text" class="form-control" name="username" id="exampleInputEmail1" placeholder="Ex:Mario" autofocus required>
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputPassword1">Senha</label>
+                        <input type="password" class="form-control" id="exampleInputPassword1" name="password" placeholder="******" required>
+                    </div>
+                    <div class="form-group">
+                        <button class="btn btn-secondary form-control" style="font-size:22px;">Entrar</button>
+                    </div>
+                </form>
+            </div>
+            <br />
+            <label class="parceiros">Parceiros</label><br />
+            <div class="form-group">
+                <button id="myBtn" class="clientes" style="margin-left: 40px;" disabled><img src="{% static '/img/mario_logo.png' %}" alt="Mario Miyazaki - Seguros" /><br />Mario<br />Myiazaki</button>
+                <button id="myBtn" class="clientes" disabled><img src="{% static '/img/winner_logo.png' %}" alt="Winner - Idiomas" /><br />Winner<br />Idiomas</button>
+                <button id="myBtn" class="clientes" disabled><img src="{% static '/img/chica_logo.png' %}" alt="Chica Diniz - Micropigmentacao" /><br />Chica Diniz<br />Micropigmentação</button>
+                <!-- <button id="myBtn" class="clientes" disabled><img src="{% static '/img/top_logo.png' %}" alt="TOP Financeira" /><br />TOP<br />Financeira</button>
+                <button id="myBtn" class="clientes" disabled><img src="{% static '/img/delta_logo.png' %}" alt="DeltaTres Seguros" /><br />DeltaTres<br />Seguros</button>-->
+            </div>
+        </div>
+    </div>
+    <footer>
+        <center style="font-size:20px;">HeadTec Desenvolvimento de Sistemas &#9474; 2018</center>
+    </footer>
+    <!--===============================================================================================-->
+    <script src="{% static '/vendor/jquery/jquery-3.2.1.min.js' %}"></script>
+    <!--===============================================================================================-->
+    <script src="{% static '/vendor/animsition/js/animsition.min.js' %}"></script>
+    <!--===============================================================================================-->
+    <script src="{% static '/vendor/bootstrap/js/popper.js' %}"></script>
+    <script src="{% static '/vendor/bootstrap/js/bootstrap.min.js' %}"></script>
+    <!--===============================================================================================-->
+    <script src="{% static '/vendor/select2/select2.min.js' %}"></script>
+    <!--===============================================================================================-->
+    <script src="{% static '/vendor/daterangepicker/moment.min.js' %}"></script>
+    <script src="{% static '/vendor/daterangepicker/daterangepicker.js' %}"></script>
+    <!--===============================================================================================-->
+    <script src="{% static '/vendor/countdowntime/countdowntime.js' %}"></script>
+    <!--===============================================================================================-->
+    <script src="{% static '/js/main.js' %}"></script>
+    <script>
+        function goBack() {
+            window.history.back();
+        }
+    </script>
+    
+</body>
+</html>

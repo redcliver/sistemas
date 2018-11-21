@@ -1,0 +1,55 @@
+{% extends 'chica_base.html' %}
+
+{% block body %}
+{% load static %}
+{% if msg %}
+    <h1 style="text-align:center;">{{msg}}</h1><hr />
+{%endif%}
+<h1>Cadastrar produto</h1><hr />
+    <form method="POST">
+    {%csrf_token%}
+        <div class="form-row">
+                <div class="form-group col-md-9">
+                    <label for="inputName">Produto</label>
+                    <input type="text" class="form-control" id="inputEmail4" name="nome" maxlength="200" required autofocus>
+                </div>
+                <div class="form-group col-md-3">
+                    
+                </div>
+                <div class="form-group col-md-2">
+                    <label for="inputCel">Valor de compra</label>
+                    <input type="number" class="form-control" step="0.1" name="valor_compra">
+                </div>
+                <div class="form-group col-md-1">
+                    
+                </div>
+                <div class="form-group col-md-1">
+                    <label for="inputCel">% lucro</label>
+                    <input type="number" class="form-control" name="lucro">
+                </div>
+                <div class="form-group col-md-1">
+                    
+                </div>
+                <div class="form-group col-md-2">
+                    <label for="inputCel">Valor de venda</label>
+                    <input type="number" class="form-control" step="0.1" name="valor_venda">
+                </div>
+                <div class="form-group col-md-5">
+                    
+                </div>
+                <div class="form-group col-md-1">
+                    <label for="inputCel">Quantidade</label>
+                    <input type="number" class="form-control" name="quantidade">
+                </div>
+                <div class="form-group col-md-1">
+                    
+                </div>
+                <div class="form-group col-md-2">
+                    <label for="inputCel">Estoque min.</label>
+                    <input type="number" class="form-control" name="quantidade_minima">
+                </div>
+            </div>
+            <br />
+            <button type="submit" class="btn btn-secondary float-right">Cadastrar</button>
+    </form>
+{% endblock %}

@@ -1,1 +1,1 @@
-web: gunicorn sistemas.wsgi --log-file -
+web: gunicorn headtec.wsgi --log-file - 

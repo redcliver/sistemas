@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.9/ref/settings/
 """
 
+
 import os
 import posixpath
 import dj_database_url
@@ -30,6 +31,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = [
     'headtec.herokuapp.com',
+    'localhost'
 ]
 
 

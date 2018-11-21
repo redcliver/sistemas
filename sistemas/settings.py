@@ -28,7 +28,9 @@ SECRET_KEY = 'ff45c9aa-ee6e-456f-b84e-f037d2233108'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'headtec.herokuapp.com'
+]
 
 
 # Application definition

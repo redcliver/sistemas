@@ -1,5 +1,5 @@
 certifi==2018.4.16
-Django==1.11.15
+django >=1.11.15
 django-heroku==0.3.1
 dj-database-url==0.5.0
 gunicorn==19.9.0

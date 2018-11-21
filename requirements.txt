@@ -1,10 +1,10 @@
 certifi==2018.4.16
-django >=1.11.15
+django==1.11.16
 django-heroku==0.3.1
 dj-database-url==0.5.0
 gunicorn==19.9.0
-pip==18.0
-pipenv==2018.7.1
+pip==18.1
+pipenv==2018.11.14
 psycopg2==2.7.5
 pytz==2018.5
 setuptools==39.0.1

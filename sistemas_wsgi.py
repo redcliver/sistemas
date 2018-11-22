@@ -1,1 +1,1 @@
-gunicorn  sistemas:application -b 127.0.0.1:8000
+gunicorn  sistemas:application -b 0.0.0.0:17528

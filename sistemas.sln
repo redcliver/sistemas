@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28010.2016
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "sistemas", "sistemas\sistemas.pyproj", "{D0001DDB-9C81-4328-A4C1-702DE02495C3}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D0001DDB-9C81-4328-A4C1-702DE02495C3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D0001DDB-9C81-4328-A4C1-702DE02495C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D0001DDB-9C81-4328-A4C1-702DE02495C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D0001DDB-9C81-4328-A4C1-702DE02495C3}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {01FE7DDF-0627-4BB5-85A9-E881452B6A23}
+	EndGlobalSection
+EndGlobal

@@ -16,9 +16,11 @@ from django.contrib import admin
 admin.autodiscover()
 
 urlpatterns = [
-    # Examples:
+    # Sistema
     url(r'^$', login, {'template_name': 'sistema_login/login.html'}),
     url(r'^sistema_login/', include('sistema_login.urls')),
+
+    # URL Chica Diniz
     url(r'^chica_home/', include('chica_home.urls')),
     url(r'^chica_cliente/', include('chica_cliente.urls')),
     url(r'^chica_conta/', include('chica_conta.urls')),
@@ -26,11 +28,17 @@ urlpatterns = [
     url(r'^chica_caixa/', include('chica_caixa.urls')),
     url(r'^chica_estoque/', include('chica_estoque.urls')),
 
+    # URL Dayson Lava-jato
     url(r'^lavajato_home/', include('lavajato_home.urls')),
     url(r'^lavajato_cliente/', include('lavajato_cliente.urls')),
     url(r'^lavajato_contas/', include('lavajato_contas.urls')),
     url(r'^lavajato_caixa/', include('lavajato_caixa.urls')),
 
+    # URL Mario Miazaky
+    url(r'^mario_home/', include('mario_home.urls')),
+    url(r'^mario_cliente/', include('mario_cliente.urls')),
+
+    # Padrao
     url(r'^contact$', app.views.contact, name='contact'),
     url(r'^about$', app.views.about, name='about'),
     url(r'^login/$',
@@ -55,6 +63,6 @@ urlpatterns = [
     # Uncomment the admin/doc line below to enable admin documentation:
     # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
 
-    # Uncomment the next line to enable the admin:
+    # Admin
     url(r'^admin/', include(admin.site.urls)),
 ]

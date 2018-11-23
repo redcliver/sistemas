@@ -7,6 +7,8 @@ def sistema_login(request):
             return render(request, 'chica_home/home.html', {'title':'Home'})
         elif empresa == 'dayson':
             return render(request, 'lavajato_home/home.html', {'title':'Home'})
+        elif empresa == 'mario':
+            return render(request, 'mario_home/home.html', {'title':'Home'})
         return render(request, 'sistema_login/erro.html', {'title':'Erro'})
     else:
         return render(request, 'sistema_login/erro.html', {'title':'Erro'})

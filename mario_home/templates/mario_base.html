@@ -1,0 +1,415 @@
+﻿<!DOCTYPE html>
+
+<html lang="pt-br" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Sistema de controle de clientes">
+    <meta name="author" content="Igor Peres">
+    <title>{{title}} - HeadTec Desenvolvimento de Sistemas</title>
+    {% load staticfiles %}
+    <!-- Bootstrap core CSS -->
+    <link href="{% static '/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet" />
+    <link rel="icon" type="image/png" href="{% static '/img/favicon.ico' %}" />
+    <!-- Custom styles for this template -->
+    <style type="text/css">
+        body {
+            padding-top: 54px;
+            background-image: url('../../static/img/fundo.jpg');
+            background-repeat: no-repeat;
+            background-position: center center;
+            background-attachment: fixed;
+            background-size: cover;
+            background-color: #000000;
+        }
+
+        .fundo {
+            background-color: #996633;
+        }
+
+        .navbar {
+            background: #e2e2e2; /* Old browsers */
+            background: -moz-linear-gradient(top, #e2e2e2 0%, #dbdbdb 50%, #d1d1d1 51%, #fefefe 100%); /* FF3.6-15 */
+            background: -webkit-linear-gradient(top, #e2e2e2 0%,#dbdbdb 50%,#d1d1d1 51%,#fefefe 100%); /* Chrome10-25,Safari5.1-6 */
+            background: linear-gradient(to bottom, #e2e2e2 0%,#dbdbdb 50%,#d1d1d1 51%,#fefefe 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+            filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e2e2e2', endColorstr='#fefefe',GradientType=0 ); /* IE6-9 */
+            background-repeat: repeat;
+            border-bottom: 3px solid #1c6354;
+        }
+
+        li a {
+            color: #ffffff;
+        }
+
+            li a:hover {
+                color: #663300;
+            }
+
+        .nav-pills .nav-link.active {
+            background-color: #663300;
+            color: white;
+        }
+
+        .nav-pills .nav-link {
+            color: #663300;
+        }
+
+        .main-fundo {
+            bottom: 0;
+            color: #e0e0e0;
+        }
+
+        .jumbotron {
+            background-color: #f7f7f7;
+            position: center;
+            text-align: left;
+            margin-top: 80px;
+            color: #0d2c3a;
+            font-size: 20px;
+        }
+
+        .busca {
+            min-width: 70%;
+        }
+
+        .visu {
+            color: #000000;
+            text-shadow: 2px 2px 4px #000000;
+        }
+
+        .btn-primary {
+            border: #0d2c3a;
+            background-color: #0d2c3a;
+            color: white;
+        }
+
+            .btn-primary:hover {
+                border: #0d2c3a;
+                background-color: #0d2c3a;
+            }
+
+        .navbar-brand {
+            background: url('../../static/img/logo.png');
+            width: 237px;
+            height: 100px;
+            margin-left: 5px;
+        }
+
+        .cli {
+            background: url('../../static/img/cliente.png');
+            width: 200px;
+            height: 70px;
+            margin-left: 5px;
+        }
+
+        .novo_cli {
+            background: url('../../static/img/novo_cliente.png');
+            width: 200px;
+            height: 100px;
+            margin-left: 5px;
+        }
+
+        .hab {
+            background: url('../../static/img/hab_vencida.png');
+            width: 200px;
+            height: 100px;
+            margin-left: 5px;
+        }
+
+        .sair {
+            background: url('../../static/img/sair.png');
+            width: 150px;
+            height: 70px;
+            margin-left: 5px;
+        }
+
+        .navbar-dark .navbar-toggler {
+            background-image: url('../../static/img/botao.png');
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+
+        .navbar-dark .navbar-toggler-icon {
+            background-image: url('../../static/img/botao.png');
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+
+        @media (min-width: 992px) {
+            body {
+                padding-top: 54px;
+                background-image: url('../../static/img/fundo.jpg');
+                background-repeat: no-repeat;
+                background-position: center center;
+                background-attachment: fixed;
+                background-size: cover;
+                background-color: #000000;
+            }
+
+            .fundo {
+                background-color: #996633;
+            }
+
+            .navbar {
+                background: #e2e2e2; /* Old browsers */
+                background: -moz-linear-gradient(top, #e2e2e2 0%, #dbdbdb 50%, #d1d1d1 51%, #fefefe 100%); /* FF3.6-15 */
+                background: -webkit-linear-gradient(top, #e2e2e2 0%,#dbdbdb 50%,#d1d1d1 51%,#fefefe 100%); /* Chrome10-25,Safari5.1-6 */
+                background: linear-gradient(to bottom, #e2e2e2 0%,#dbdbdb 50%,#d1d1d1 51%,#fefefe 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+                filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e2e2e2', endColorstr='#fefefe',GradientType=0 ); /* IE6-9 */
+                background-repeat: repeat;
+                border-bottom: 3px solid #1c6354;
+            }
+
+            li a {
+                color: #ffffff;
+            }
+
+                li a:hover {
+                    color: #663300;
+                }
+
+            .nav-pills .nav-link.active {
+                background-color: #663300;
+                color: white;
+            }
+
+            .nav-pills .nav-link {
+                color: #663300;
+            }
+
+            .main-fundo {
+                bottom: 0;
+                color: #e0e0e0;
+            }
+
+            .jumbotron {
+                background-color: #f7f7f7;
+                position: center;
+                text-align: left;
+                margin-top: 80px;
+                color: #0d2c3a;
+                font-size: 20px;
+            }
+
+            .busca {
+                min-width: 70%;
+            }
+
+            .visu {
+                color: #000000;
+                text-shadow: 2px 2px 4px #000000;
+            }
+
+            .btn-primary {
+                border: #0d2c3a;
+                background-color: #0d2c3a;
+                color: white;
+            }
+
+                .btn-primary:hover {
+                    border: #0d2c3a;
+                    background-color: #0d2c3a;
+                }
+
+            .navbar-brand {
+                background: url('../../static/img/logo.png');
+                width: 237px;
+                height: 100px;
+                margin-left: 5px;
+            }
+
+            .cli {
+                background: url('../../static/img/cliente.png');
+                width: 200px;
+                height: 70px;
+                margin-left: 5px;
+            }
+
+            .novo_cli {
+                background: url('../../static/img/novo_cliente.png');
+                width: 200px;
+                height: 100px;
+                margin-left: 5px;
+            }
+
+            .hab {
+                background: url('../../static/img/hab_vencida.png');
+                width: 200px;
+                height: 100px;
+                margin-left: 5px;
+            }
+
+            .sair {
+                background: url('../../static/img/sair.png');
+                width: 150px;
+                height: 70px;
+                margin-left: 5px;
+            }
+
+            .navbar-dark .navbar-toggler {
+                background-image: url('../../static/img/botao.png');
+                background-repeat: no-repeat;
+                background-position: center;
+            }
+
+            .navbar-dark .navbar-toggler-icon {
+                background-image: url('../../static/img/botao.png');
+                background-repeat: no-repeat;
+                background-position: center;
+            }
+        }
+
+        @media only screen and (max-width: 600px) {
+            body {
+                padding-top: 54px;
+                background-image: url('../../static/img/fundo.jpg');
+                background-repeat: no-repeat;
+                background-position: center center;
+                background-attachment: fixed;
+                background-size: cover;
+                background-color: #000000;
+            }
+
+            .fundo {
+                background-color: #996633;
+            }
+
+            .navbar {
+                background: #e2e2e2; /* Old browsers */
+                background: -moz-linear-gradient(top, #e2e2e2 0%, #dbdbdb 50%, #d1d1d1 51%, #fefefe 100%); /* FF3.6-15 */
+                background: -webkit-linear-gradient(top, #e2e2e2 0%,#dbdbdb 50%,#d1d1d1 51%,#fefefe 100%); /* Chrome10-25,Safari5.1-6 */
+                background: linear-gradient(to bottom, #e2e2e2 0%,#dbdbdb 50%,#d1d1d1 51%,#fefefe 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+                filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e2e2e2', endColorstr='#fefefe',GradientType=0 ); /* IE6-9 */
+                background-repeat: repeat;
+                border-bottom: 3px solid #1c6354;
+            }
+
+            li a {
+                color: #ffffff;
+            }
+
+                li a:hover {
+                    color: #663300;
+                }
+
+            .nav-pills .nav-link.active {
+                background-color: #663300;
+                color: white;
+            }
+
+            .nav-pills .nav-link {
+                color: #663300;
+            }
+
+            .main-fundo {
+                bottom: 0;
+                color: #e0e0e0;
+            }
+
+            .jumbotron {
+                background-color: #f7f7f7;
+                position: center;
+                text-align: left;
+                margin-top: 80px;
+                color: #0d2c3a;
+                font-size: 20px;
+            }
+
+            .busca {
+                min-width: 70%;
+            }
+
+            .btn-primary {
+                border: #0d2c3a;
+                background-color: #0d2c3a;
+                color: white;
+            }
+
+                .btn-primary:hover {
+                    border: #0d2c3a;
+                    background-color: #0d2c3a;
+                }
+
+            .navbar-brand {
+                background: url('../../static/img/logo1.png');
+                width: 118px;
+                height: 50px;
+            }
+
+            .cli {
+                background: url('../../static/img/cliente1.png');
+                width: 114px;
+                height: 40px;
+            }
+
+            .novo_cli {
+                background: url('../../static/img/novo_cliente1.png');
+                width: 80px;
+                height: 40px;
+            }
+
+            .hab {
+                background: url('../../static/img/hab_vencida1.png');
+                width: 80px;
+                height: 40px;
+            }
+
+            .sair {
+                background: url('../../static/img/sair1.png');
+                width: 86px;
+                height: 40px;
+            }
+
+            .navbar-dark .navbar-toggler {
+                background-image: url('../../static/img/botao.png');
+                background-repeat: no-repeat;
+                background-position: center;
+            }
+
+            .navbar-dark .navbar-toggler-icon {
+                background-image: url('../../static/img/botao.png');
+                background-repeat: no-repeat;
+                background-position: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark fundo fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="/home"> </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="cli nav-link" href="/home"> </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="novo_cli nav-link" href="/home/novo"> </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="hab nav-link" href="/home/hab_vencidas"> </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="sair nav-link" href="/logout"></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    {% block body %}
+    <div class="container marketing">
+    </div>
+    {% endblock %}
+    <!-- Bootstrap core JavaScript -->
+    <script src="{% static '/vendor/jquery/jquery.min.js' %}"></script>
+    <script src="{% static '/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+
+</body>
+
+</html>

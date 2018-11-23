@@ -38,18 +38,27 @@ ALLOWED_HOSTS = [
 # Application definition
 
 INSTALLED_APPS = [
+    # Sistema
     'app',
     'sistema_login',
+
+    # Chica
     'chica_home',
     'chica_cliente',
     'chica_conta',
     'chica_controle',
     'chica_caixa',
     'chica_estoque',
+
+    # Lavajato
     'lavajato_home',
     'lavajato_cliente',
     'lavajato_contas',
     'lavajato_caixa',
+
+    # Mario
+    'mario_home',
+    'mario_cliente',
 
     # Add your apps here to enable them
     'django.contrib.admin',

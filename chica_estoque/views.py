@@ -59,7 +59,7 @@ def novo_produto(request):
                 lucro = Decimal(valor_compra) - Decimal(valor_venda)
                 lucro = lucro / Decimal(valor_compra)
                 lucro = lucro * 100
-                lucro = abs(lucro)
+                lucro = lucro * -1
                 novo_produto = produto(nome=nome, valor_compra=valor_compra, valor_venda=valor_venda, quantidade=quantidade, quantidade_minima=quantidade_minima, lucro=lucro)
                 novo_produto.save()
                 msg = novo_produto.nome + " cadastrado com suceso!"

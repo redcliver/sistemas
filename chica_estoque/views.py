@@ -118,7 +118,7 @@ def nova_saida(request):
                 novo_caixa.save()
                 msg = "Retirada do " + produto_obj.nome + " realizada com sucesso."
                 return render(request, 'chica_estoque/estoque_saida.html', {'title':'Saida estoque', 'produto_obj':produto_obj, 'msg':msg})
-            elif request.method == 'POST' and request.POST.get('venda', None) == None:
+            else:
                 produto_id = request.POST.get('nova_saida')
                 quantidade = request.POST.get('quantidade')
                 produto_obj = produto.objects.filter(id=produto_id).get()

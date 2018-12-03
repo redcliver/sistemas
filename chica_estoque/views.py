@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from .models import produto
+from decimal import Decimal
 
 # Create your views here.
 def entrada(request):
@@ -26,7 +27,9 @@ def novo_produto(request):
                 valor_venda = request.POST.get('valor_venda')
                 quantidade = request.POST.get('quantidade')
                 quantidade_minima = request.POST.get('quantidade_minima')
-                lucro = request.POST.get('lucro')
+                lucro = Decimal(valor_compra) - Decimal(valor_venda)
+                lucro = lucro / Decimal(valor_compra)
+                lucro = lucro * 100
                 novo_produto = produto(nome=nome, valor_compra=valor_compra, valor_venda=valor_venda, quantidade=quantidade, quantidade_minima=quantidade_minima, lucro=lucro)
                 novo_produto.save()
                 msg = novo_produto.nome + " cadastrado com suceso!"

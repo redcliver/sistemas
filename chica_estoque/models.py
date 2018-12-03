@@ -17,7 +17,7 @@ class produto(models.Model):
 
 class lote(models.Model):
     id = models.AutoField(primary_key=True)
-    prod = models.ForeignKey(produto)
+    prod = models.ForeignKey(produto,on_delete=models.CASCADE)
     valor_venda = models.DecimalField(max_digits=10, decimal_places=2)
     valor_compra = models.DecimalField(max_digits=10, decimal_places=2)
     quantidade = models.IntegerField()

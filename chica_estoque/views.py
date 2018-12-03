@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .models import produto
+from .models import produto, lote
 from decimal import Decimal
 
 # Create your views here.
@@ -25,7 +25,22 @@ def nova_entrada(request):
             if request.method == 'POST' and request.POST.get('novo_lote') != None:
                 produto_id = request.POST.get('novo_lote')
                 produto_obj = produto.objects.filter(id=produto_id).get()
-                return render(request, 'chica_estoque/estoque_entrada.html', {'title':'Entrada de estoque', 'produto_obj':produto_obj})
+                valor_compra = request.POST.get('valor_compra')
+                valor_venda = request.POST.get('valor_venda')
+                quantidade = request.POST.get('quantidade')
+                n_lote = lote(prod=produto_obj, valor_compra=valor_compra, valor_venda=valor_venda, quantidade=quantidade)
+                n_lote.save()
+                produto_obj.quantidade = produto_obj.quantidade + quantidade
+                produto_obj.valor_compra = valor_compra
+                produto_obj.valor_venda = valor_venda
+                lucro = Decimal(valor_compra) - Decimal(valor_venda)
+                lucro = lucro / Decimal(valor_compra)
+                lucro = lucro * 100
+                lucro = abs(lucro)
+                produto_obj.lucro = lucro
+                produto_obj.save()
+                msg = produto_obj.nome + " adicionado com sucesso ao estoque."
+                return render(request, 'chica_estoque/estoque_entrada.html', {'title':'Entrada de estoque', 'msg':msg})
             return render(request, 'chica_estoque/estoque_entrada.html', {'title':'Entrada de estoque', 'produtos':produtos})
         return render(request, 'sistema_login/erro.html', {'title':'Erro'})
     else:

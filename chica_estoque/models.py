@@ -25,3 +25,4 @@ class lote(models.Model):
     
     def __str__(self):
         return self.str(id)
+

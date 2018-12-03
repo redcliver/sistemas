@@ -116,7 +116,16 @@ def nova_saida(request):
                 id_op = int(caixa.id_operacao) + 1
                 novo_caixa = caixa_geral(operacao=1, descricao=descricao, id_operacao= id_op, valor_operacao=total_venda, total=total_atual)
                 novo_caixa.save()
-                return render(request, 'chica_estoque/estoque_saida.html', {'title':'Saida estoque', 'produto_obj':produto_obj})
+                msg = "Retirada do " + produto_obj.nome + " realizada com sucesso."
+                return render(request, 'chica_estoque/estoque_saida.html', {'title':'Saida estoque', 'produto_obj':produto_obj, 'msg':msg})
+            elif request.method == 'POST' and request.POST.get('venda', None) == None:
+                produto_id = request.POST.get('nova_saida')
+                quantidade = request.POST.get('quantidade')
+                produto_obj = produto.objects.filter(id=produto_id).get()
+                produto_obj.quantidade = produto_obj.quantidade - Decimal(quantidade)
+                produto_obj.save()
+                msg = "Retirada do " + produto_obj.nome + " realizada com sucesso."
+                return render(request, 'chica_estoque/estoque_saida.html', {'title':'Saida estoque', 'produto_obj':produto_obj, 'msg':msg})
             return render(request, 'chica_estoque/estoque_saida.html', {'title':'Saida estoque', 'produtos':produtos})
         return render(request, 'sistema_login/erro.html', {'title':'Erro'})
     else:

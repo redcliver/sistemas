@@ -37,6 +37,10 @@
         <input type="hidden" name="nova_saida" value="{{produto_obj.id}}" />
         <div class="form-row">
             <div class="form-group col-md-1">
+                <label for="inputCel">Estoque</label>
+                <input type="number" class="form-control" value="{{produto_obj.quantidade}}" required>
+            </div>
+            <div class="form-group col-md-1">
                 <label for="inputCel">Quantidade</label>
                 <input type="number" class="form-control" name="quantidade" required>
             </div>

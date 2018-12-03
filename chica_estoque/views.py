@@ -111,7 +111,7 @@ def nova_saida(request):
                 produto_obj.quantidade = produto_obj.quantidade - Decimal(quantidade)
                 produto_obj.save()
                 total_venda = produto_obj.valor_venda * Decimal(quantidade)
-                total_atual = caixa_geral.total + total_venda
+                total_atual = caixa.total + total_venda
                 descricao = "Venda de " + produto_obj.nome
                 id_op = caixa.ip_operacao + 1
                 novo_caixa = caixa_geral(operacao=1, descricao=descricao, id_operacao= id_op, valor_operacao=total_venda)

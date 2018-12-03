@@ -104,7 +104,7 @@ def nova_saida(request):
         if empresa == 'chicadiniz':
             produtos = produto.objects.all().order_by('nome')
             if request.method == 'POST' and 'venda' in request.POST:
-                produto_id = request.POST.get('produto_id')
+                produto_id = request.POST.get('nova_saida')
                 quantidade = request.POST.get('quantidade')
                 produto_obj = produto.objects.filter(id=produto_id).get()
                 caixa = caixa_geral.objects.latest('id')

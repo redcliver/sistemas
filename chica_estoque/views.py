@@ -113,7 +113,7 @@ def nova_saida(request):
                 total_venda = produto_obj.valor_venda * Decimal(quantidade)
                 total_atual = caixa.total + total_venda
                 descricao = "Venda de " + produto_obj.nome
-                id_op = caixa.ip_operacao + 1
+                id_op = caixa.id_operacao + 1
                 novo_caixa = caixa_geral(operacao=1, descricao=descricao, id_operacao= id_op, valor_operacao=total_venda)
                 novo_caixa.save()
                 return render(request, 'chica_estoque/estoque_saida.html', {'title':'Saida estoque', 'produto_obj':produto_obj})

@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .models import produto, lote
+from .models import produto, lote, retiradas
 from chica_caixa.models import caixa_geral
 from decimal import Decimal
 
@@ -116,6 +116,8 @@ def nova_saida(request):
                 id_op = int(caixa.id_operacao) + 1
                 novo_caixa = caixa_geral(operacao=1, descricao=descricao, id_operacao= id_op, valor_operacao=total_venda, total=total_atual)
                 novo_caixa.save()
+                nova_retirada = retiradas(prod=produto_obj, quantidade=quantidade, uso=2)
+                nova_retirada.save()
                 msg = "Retirada do " + produto_obj.nome + " realizada com sucesso."
                 return render(request, 'chica_estoque/estoque_saida.html', {'title':'Saida estoque', 'produto_obj':produto_obj, 'msg':msg})
             else:
@@ -124,6 +126,8 @@ def nova_saida(request):
                 produto_obj = produto.objects.filter(id=produto_id).get()
                 produto_obj.quantidade = produto_obj.quantidade - Decimal(quantidade)
                 produto_obj.save()
+                nova_retirada = retiradas(prod=produto_obj, quantidade=quantidade, uso=1)
+                nova_retirada.save()
                 msg = "Retirada do " + produto_obj.nome + " realizada com sucesso."
                 return render(request, 'chica_estoque/estoque_saida.html', {'title':'Saida estoque', 'produto_obj':produto_obj, 'msg':msg})
             return render(request, 'chica_estoque/estoque_saida.html', {'title':'Saida estoque', 'produtos':produtos})

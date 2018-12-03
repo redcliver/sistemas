@@ -26,3 +26,16 @@ class lote(models.Model):
     def __str__(self):
         return self.str(id)
 
+class retiradas(models.Model):
+    OP = (
+        ('1', 'Proprio'),
+        ('2', 'Venda'),
+    )
+    id = models.AutoField(primary_key=True)
+    uso = models.CharField(max_length=1, choices=OP)
+    prod = models.ForeignKey(produto,on_delete=models.CASCADE)
+    quantidade = models.IntegerField()
+    data = models.DateTimeField(default=timezone.now)
+    
+    def __str__(self):
+        return self.str(id)

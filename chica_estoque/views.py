@@ -82,3 +82,17 @@ def consulta(request):
         return render(request, 'sistema_login/erro.html', {'title':'Erro'})
     else:
         return render(request, 'sistema_login/erro.html', {'title':'Erro'})
+
+def saida(request):
+    if request.user.is_authenticated():
+        empresa = request.user.get_short_name()
+        if empresa == 'chicadiniz':
+            produtos = produto.objects.all().order_by('nome')
+            if request.method == 'POST' and request.POST.get('produto_id') != None:
+                produto_id = request.POST.get('produto_id')
+                produto_obj = produto.objects.filter(id=produto_id).get()
+                return render(request, 'chica_estoque/estoque_consulta.html', {'title':'Saida estoque', 'produto_obj':produto_obj})
+            return render(request, 'chica_estoque/estoque_saida.html', {'title':'Saida estoque', 'produtos':produtos})
+        return render(request, 'sistema_login/erro.html', {'title':'Erro'})
+    else:
+        return render(request, 'sistema_login/erro.html', {'title':'Erro'})

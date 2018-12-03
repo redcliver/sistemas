@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from .models import produto, lote
+from chica_caixa.models import caixa_geral
 from decimal import Decimal
 
 # Create your views here.
@@ -90,7 +91,34 @@ def saida(request):
             produtos = produto.objects.all().order_by('nome')
             if request.method == 'POST' and request.POST.get('produto_id') != None:
                 produto_id = request.POST.get('produto_id')
+                quantidade = request.POST.get('quantidade')
                 produto_obj = produto.objects.filter(id=produto_id).get()
+                caixa = caixa_geral.objects.latest('id')
+                produto_obj.quantidade = produto_obj.quantidade - Decimal(quantidade)
+                produto_obj.save()
+                total_venda = produto_obj.valor_venda * Decimal(quantidade)
+                total_atual = caixa_geral.total + total_venda
+                descricao = "Venda de " + produto_obj.nome
+                id_op = caixa.ip_operacao + 1
+                novo_caixa = caixa_geral(operacao=1, descricao=descricao, id_operacao= id_op, valor_operacao=total_venda)
+                novo_caixa.save()
+                return render(request, 'chica_estoque/estoque_saida.html', {'title':'Saida estoque', 'produto_obj':produto_obj})
+            return render(request, 'chica_estoque/estoque_saida.html', {'title':'Saida estoque', 'produtos':produtos})
+        return render(request, 'sistema_login/erro.html', {'title':'Erro'})
+    else:
+        return render(request, 'sistema_login/erro.html', {'title':'Erro'})
+
+def nova_saida(request):
+    if request.user.is_authenticated():
+        empresa = request.user.get_short_name()
+        if empresa == 'chicadiniz':
+            produtos = produto.objects.all().order_by('nome')
+            if request.method == 'POST' and 'venda' in request.POST:
+                produto_id = request.POST.get('nova_saida')
+                produto_obj = produto.objects.filter(id=produto_id).get()
+                quantidade = request.POST.get('quantidade')
+                produto_obj.quantidade = produto_obj.quantidade - Decimal(quantidade)
+                produto_obj.save()
                 return render(request, 'chica_estoque/estoque_saida.html', {'title':'Saida estoque', 'produto_obj':produto_obj})
             return render(request, 'chica_estoque/estoque_saida.html', {'title':'Saida estoque', 'produtos':produtos})
         return render(request, 'sistema_login/erro.html', {'title':'Erro'})

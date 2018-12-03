@@ -38,7 +38,7 @@
         <div class="form-row">
             <div class="form-group col-md-1">
                 <label for="inputCel">Quantidade</label>
-                <input type="number" class="form-control" name="quantidade" value="{{produto_obj.quantidade}}" disabled>
+                <input type="number" class="form-control" name="quantidade" value="{{produto_obj.quantidade}}" >
             </div>
             <div class="form-group form-check">
                 <input class="form-check-input" type="checkbox" name="venda" value="" id="defaultCheck1">
@@ -49,7 +49,7 @@
         </div>
         <div class="form-row">
             <div class="form-group col-md-10">
-                <button type="submit" class="btn btn-secondary float-right" formaction="/chica_estoque/nova_entrada">Salvar</button>
+                <button type="submit" class="btn btn-secondary float-right" formaction="/chica_estoque/nova_saida">Registrar</button>
             </div>
         </div>
         {% endif %}

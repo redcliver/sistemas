@@ -5,14 +5,14 @@
 {% if msg %}
     <h1 style="text-align:center;">{{msg}}</h1><hr />
 {%endif%}
-<h1>Consultar estoque</h1><hr />
+<h1>Saida estoque</h1><hr />
     <form method="POST">
     {%csrf_token%}
         {% if produto_obj %}
         <div class="form-row">
             <div class="form-group col-md-10">
                 <label for="inputName">Produto<strong>*</strong></label>
-                <input type="text" class="form-control" name="valor_compra" value="{{produto_obj.nome}}" disabled>
+                <input type="text" class="form-control" name="nome" value="{{produto_obj.nome}}" disabled>
                 <br>
                 <button type="submit" class="btn btn-secondary float-right">Outro</button>
             </div>
@@ -36,29 +36,21 @@
         {% if produto_obj %}
         <input type="hidden" name="novo_lote" value="{{produto_obj.id}}" />
         <div class="form-row">
-            <div class="form-group col-md-2">
-                <label for="inputCel">Valor de compra</label>
-                <input type="number" class="form-control" step="0.1" name="valor_compra" value="{{produto_obj.valor_compra}}" disabled>
-            </div>
-            <div class="form-group col-md-1">
-            </div>
-            <div class="form-group col-md-1">
-                <label for="inputCel">% lucro</label>
-                <input type="number" class="form-control" name="lucro" value="{{produto_obj.lucro}} %" disabled>
-            </div>
-            <div class="form-group col-md-1">
-            </div>
-            <div class="form-group col-md-2">
-                <label for="inputCel">Valor de venda</label>
-                <input type="number" class="form-control" step="0.1" name="valor_venda" value="{{produto_obj.valor_venda}}" disabled>
-            </div>
-            <div class="form-group col-md-5">
-            </div>
             <div class="form-group col-md-1">
                 <label for="inputCel">Quantidade</label>
                 <input type="number" class="form-control" name="quantidade" value="{{produto_obj.quantidade}}" disabled>
             </div>
-            
+            <div class="form-group form-check">
+                <input class="form-check-input" type="checkbox" name="venda" value="" id="defaultCheck1">
+                <label class="form-check-label" for="defaultCheck1">
+                    Venda
+                </label>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-md-10">
+                <button type="submit" class="btn btn-secondary float-right" formaction="/chica_estoque/nova_entrada">Salvar</button>
+            </div>
         </div>
         {% endif %}
     </form>

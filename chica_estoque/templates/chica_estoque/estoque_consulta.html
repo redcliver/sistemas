@@ -1,0 +1,70 @@
+{% extends 'chica_base.html' %}
+
+{% block body %}
+{% load static %}
+{% if msg %}
+    <h1 style="text-align:center;">{{msg}}</h1><hr />
+{%endif%}
+<h1>Entrada estoque</h1><hr />
+    <form method="POST">
+    {%csrf_token%}
+        {% if produto_obj %}
+        <div class="form-row">
+            <div class="form-group col-md-10">
+                <label for="inputName">Produto<strong>*</strong></label>
+                <input type="text" class="form-control" name="valor_compra" value="{{produto_obj.nome}}" disabled>
+                <br>
+                <button type="submit" class="btn btn-secondary float-right">Outro</button>
+            </div>
+        </div>
+        <hr />
+        {% else %}
+        <div class="form-row">
+            <div class="form-group col-md-10">
+                <label for="inputName">Produto<strong>*</strong></label>
+                    <select autofocus name="produto_id" class="form-control">
+                        <option disabled selected> -- Produtos -- </option>
+                        {% for produto in produtos %}
+                            <option value="{{produto.id}}">{{produto.nome}}</option>
+                        {% endfor %}
+                    </select>
+                <br>
+                <button type="submit" class="btn btn-secondary float-right">Proximo</button>
+            </div>
+        </div>
+        {% endif %}
+        {% if produto_obj %}
+        <input type="hidden" name="novo_lote" value="{{produto_obj.id}}" />
+        <div class="form-row">
+            <div class="form-group col-md-2">
+                <label for="inputCel">Valor de compra</label>
+                <input type="number" class="form-control" step="0.1" name="valor_compra" value="{{produto_obj.valor_compra}}" disabled>
+            </div>
+            <div class="form-group col-md-1">
+            </div>
+            <div class="form-group col-md-1">
+                <label for="inputCel">% lucro</label>
+                <input type="number" class="form-control" name="lucro" value="{{produto_obj.lucro}}" disabled>
+            </div>
+            <div class="form-group col-md-1">
+            </div>
+            <div class="form-group col-md-2">
+                <label for="inputCel">Valor de venda</label>
+                <input type="number" class="form-control" step="0.1" name="valor_venda" value="{{produto_obj.valor_venda}}" disabled>
+            </div>
+            <div class="form-group col-md-5">
+            </div>
+            <div class="form-group col-md-1">
+                <label for="inputCel">Quantidade</label>
+                <input type="number" class="form-control" name="quantidade" value="{{produto_obj.quantidade}}" disabled>
+            </div>
+            
+        </div>
+        <div class="form-row">
+            <div class="form-group col-md-10">
+                <button type="submit" class="btn btn-secondary float-right" formaction="/chica_estoque/nova_entrada">Salvar</button>
+            </div>
+        </div>
+        {% endif %}
+    </form>
+{% endblock %}

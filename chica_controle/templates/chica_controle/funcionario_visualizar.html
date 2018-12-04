@@ -1,0 +1,35 @@
+{% extends 'chica_base.html' %}
+
+{% block body %}
+{% load static %}
+    <h1>Visualizar Cliente</h1>
+    <hr />
+        <form method="post" action="/chica_cliente/edita">
+        {% csrf_token %}
+            <input type="hidden" name="cliente_id" value="{{cliente_obj.id}}" />
+            <div class="form-row">
+                <div class="form-group col-md-9">
+                    <label for="inputName">Nome Completo </label>
+                    <input type="text" class="form-control" value="{{cliente_obj.nome}}" disabled>
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="inputTel">Data de Nasc.</label>
+                    <input type="text" class="form-control" value="{{cliente_obj.data_nasc|date:"d/m/Y"}}" disabled>
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="inputTel">Telefone</label>
+                    <input type="text" class="form-control" value="{{cliente_obj.telefone}}" disabled>
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="inputCel">Celular</label>
+                    <input type="text" class="form-control" value="{{cliente_obj.celular}}" disabled>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="inputEmail">E-mail</label>
+                    <input type="text" class="form-control" value="{{cliente_obj.email}}" disabled>
+                </div>
+            </div>
+            <br />
+            <button type="submit" class="btn btn-secondary float-right">Editar</button>
+        </form>
+{% endblock %}

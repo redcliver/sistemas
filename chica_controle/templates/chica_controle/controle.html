@@ -3,17 +3,36 @@
 {% block body %}
 {% load static %}
 <h1>Controle</h1><hr /><br />
-<div class="dropdown show">
-    <a class="nav-link sansserif dropdown-toggle" href="#" style="color: rgba(0,0,0,0.8);" role="button" id="dropdownMenuLink4" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-    Estoque
-    </a>
+<div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav " >
+                
+                <li class="nav-item ">
+                    <div class="dropdown show">
+                      <a class="nav-link sansserif dropdown-toggle" href="#" style="color: rgba(0,0,0,0.8);" role="button" id="dropdownMenuLink1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Funcionario
+                      </a>
 
-    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink4">
-        <a class="dropdown-item sansserif1" href="/chica_estoque/entrada">Entrada</a>
-        <a class="dropdown-item sansserif1" href="/chica_estoque/saida">Saida</a>
-        <a class="dropdown-item sansserif1" href="/chica_estoque/consulta">Consultar estoque</a>
-        <a class="dropdown-item sansserif1" href="/chica_estoque/inventario">Conferir inventario</a>
-        <a class="dropdown-item sansserif1" href="/chica_estoque/novo_produto">Cadastro de produto</a>
-    </div>
-</div>
+                      <div class="dropdown-menu" aria-labelledby="dropdownMenuLink1">
+                        <a class="dropdown-item sansserif1" href="/chica_controle/novo_funcionario">Novo Funcionario</a>
+                        <a class="dropdown-item sansserif1" href="/chica_controle/busca_funcionario">Buscar Funcionario</a>
+                        <a class="dropdown-item sansserif1" href="/chica_controle/edita_funcionario">Editar Funcionario</a>
+                      </div>
+                    </div>
+                </li>
+                <li class="nav-item ">
+                    <div class="dropdown show">
+                      <a class="nav-link sansserif dropdown-toggle" href="#" style="color: rgba(0,0,0,0.8);" role="button" id="dropdownMenuLink2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Servico
+                      </a>
+
+                      <div class="dropdown-menu" aria-labelledby="dropdownMenuLink2">
+                          <a class="dropdown-item sansserif1" href="/chica_controle">Novo Servico</a>
+                          <a class="dropdown-item sansserif1" href="/chica_controle/busca">Buscar Servico</a>
+                          <a class="dropdown-item sansserif1" href="/chica_controle/edita">Editar Servico</a>
+                      </div>
+                    </div>
+                </li>
+                
+            </ul>
+        </div>
 {% endblock %}

@@ -44,10 +44,12 @@ def busca(request):
         if empresa == 'chicadiniz':
             hoje = datetime.date.today().strftime('%Y-%m-%d')
             agendas = agenda.objects.filter(pagamento=4).order_by('data')
-            if request.method == 'POST' and request.POST.get('data') != None:
-                hoje = request.POST.get('data')
-                agendas = agenda.objects.filter(data__icontains=hoje, pagamento=4)
-                return render(request, 'chica_agenda/agenda_edita.html', {'title':'Editar Agenda', 'agendas':agendas, 'hoje':hoje})
+            if request.method == 'POST' and request.POST.get('agenda_id') != None:
+                agenda_id = request.POST.get('agenda_id')
+                agenda_obj = agenda.objects.filter(id=agenda_id)
+                servicos = servico.objects.all().order_by('nome')
+                funcionarios = funcionario.objects.all().order_by('nome')
+                return render(request, 'chica_agenda/agenda_add_servico.html', {'title':'Adicionar Servico', 'agenda_obj':agenda_obj, 'servicos':servicos, 'funcionarios':funcionarios})
             return render(request, 'chica_agenda/agenda_busca.html', {'title':'Editar Agenda', 'agendas':agendas, 'hoje':hoje})
         return render(request, 'sistema_login/erro.html', {'title':'Erro'})
     else:

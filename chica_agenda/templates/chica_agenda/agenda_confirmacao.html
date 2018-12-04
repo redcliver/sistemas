@@ -6,32 +6,32 @@
     <h1 style="text-align:center;">{{msg}}</h1><hr />
 {%endif%}
 <h1>Confirmacao</h1><hr />
-    <form method="POST">
-    {%csrf_token%}
-        <input type="hidden" name="agenda_id" value="{{agenda_obj.id}}" />
-        <div class="form-row">
-            <div class="form-group col-md-10">
-                <label for="inputName">Cliente<strong>*</strong></label>
-                <input type="text" class="form-control" value="{{agenda_obj.cli.nome}}" disabled>
-            </div>
-            <div class="form-group col-md-10">
-                <label for="inputName">Servico<strong>*</strong></label>
-                <input type="text" class="form-control" value="{{agenda_obj.serv.nome}}" disabled>
-            </div>
-            <div class="form-group col-md-10">
-                <label for="inputName">Funcionario<strong>*</strong></label>
-                <input type="text" class="form-control" value="{{agenda_obj.func.nome}}" disabled>
-            </div>
-            <div class="form-group col-md-2">
-            </div>
-            <div class="form-group col-md-3">
-                <label for="inputTel">Data</label>
-                <input type="date" class="form-control" value="{{agenda_obj.data|date:"Y-m-d"}}" disabled>
-            </div>
-        </div>
-            <br />
-            <button type="submit" class="btn btn-secondary float-right" formaction="/chica_agenda/dinheiro">>Dinheiro</button>
-            <button type="submit" class="btn btn-secondary float-right" formaction="/chica_agenda/credito">>Cartao<br />credito</button>
-            <button type="submit" class="btn btn-secondary float-right" formaction="/chica_agenda/debito">>Cartao<br />debito</button>
-    </form>
+                    <form method="POST">
+                        {%csrf_token%}
+                        <input type="hidden" name="agenda_id" value="{{agenda_obj.id}}" />
+                        <div class="form-row">
+                            <div class="form-group col-md-10">
+                                <label for="inputName">Cliente<strong>*</strong></label>
+                                <input type="text" class="form-control" value="{{agenda_obj.cli.nome}}" disabled>
+                            </div>
+                            <div class="form-group col-md-10">
+                                <label for="inputName">Servico<strong>*</strong></label>
+                                <input type="text" class="form-control" value="{{agenda_obj.serv.nome}}" disabled>
+                            </div>
+                            <div class="form-group col-md-10">
+                                <label for="inputName">Funcionario<strong>*</strong></label>
+                                <input type="text" class="form-control" value="{{agenda_obj.func.nome}}" disabled>
+                            </div>
+                            <div class="form-group col-md-2">
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label for="inputTel">Data</label>
+                                <input type="date" class="form-control" value="{{agenda_obj.data|date:"Y-m-d"}}" disabled>
+                            </div>
+                        </div>
+                        <br />
+                        <button type="submit" class="btn btn-secondary float-right" formaction="/chica_agenda/dinheiro">Dinheiro</button>&nbsp;
+                        <button type="submit" class="btn btn-secondary float-right" formaction="/chica_agenda/credito">Cartao<br />Credito</button>&nbsp;
+                        <button type="submit" class="btn btn-secondary float-right" formaction="/chica_agenda/debito">Cartao<br />Debito</button>&nbsp;
+                    </form>
 {% endblock %}

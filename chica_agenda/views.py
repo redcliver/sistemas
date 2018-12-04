@@ -67,6 +67,7 @@ def visualiza(request):
             agendas = agenda.objects.filter(data__date=hoje)
             if request.method == 'POST' and request.POST.get('data') != None:
                 data = request.POST.get('data')
+                datetime.datetime.strptime(data, "%Y-%m-%d").date()
                 agendas = agenda.objects.filter(data__day=data.day,data__month=data.data__month,data__year=data.year)
                 return render(request, 'chica_agenda/agenda_visualiza.html', {'title':'Visualizar Agenda', 'agendas':agendas, 'hoje':data})
             return render(request, 'chica_agenda/agenda_visualiza.html', {'title':'Visualizar Agenda', 'agendas':agendas, 'hoje':hoje})

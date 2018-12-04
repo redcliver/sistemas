@@ -108,7 +108,7 @@ def novo_servico(request):
                     nome = request.POST.get('nome')
                     valor = request.POST.get('valor')
                     descricao = request.POST.get('descricao')
-                    novo_servico = servico(nome=name, valor=valor, descricao=descricao)
+                    novo_servico = servico(nome=nome, valor=valor, descricao=descricao)
                     novo_servico.save()
                     msg = nome+" salvo com sucesso!"
                     return render(request, 'chica_controle/servico_novo.html', {'title':'Novo Servico', 'msg':msg})

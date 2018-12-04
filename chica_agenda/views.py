@@ -67,7 +67,6 @@ def visualiza(request):
             if request.method == 'POST' and request.POST.get('data') != None:
                 data = request.POST.get('data')
                 datetime.datetime.strptime(data, "%Y-%m-%d").date()
-                data = data.strftime('%Y-%m-%d')
                 agendas = agenda.objects.filter(data__icontains=data).all()
                 return render(request, 'chica_agenda/agenda_visualiza.html', {'title':'Visualizar Agenda', 'agendas':agendas, 'hoje':data})
             return render(request, 'chica_agenda/agenda_visualiza.html', {'title':'Visualizar Agenda', 'agendas':agendas, 'hoje':hoje})

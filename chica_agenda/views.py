@@ -21,6 +21,8 @@ def novo(request):
                 funcionario_obj = funcionario.objects.filter(id=funcionario_id).get()
                 data = request.POST.get('data')
                 hora = request.POST.get('hora')
+                format = "%H:%M"
+                hora = datetime.strptime(hora, format)
                 horario = datetime.combine(data, hora)
                 novo_agendamento = agenda(cli=cliente_obj, serv=servico_obj, func=funcionario_obj, data = horario)
                 novo_agendamento.save()

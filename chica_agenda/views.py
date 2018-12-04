@@ -20,7 +20,7 @@ def novo(request):
                 funcionario_id = request.POST.get('funcionario_id')
                 funcionario_obj = funcionario.objects.filter(id=funcionario_id).get()
                 data = request.POST.get('data')
-                novo_agendamento = agenda(cli=cliente_obj, serv=servico_obj, func=funcionario_obj, data = data)
+                novo_agendamento = agenda(cli=cliente_obj, serv=servico_obj, func=funcionario_obj, data = data, pagamento=4)
                 novo_agendamento.save()
                 msg = name+" agendado com sucesso!"
                 return render(request, 'chica_agenda/agenda_novo.html', {'title':'Novo Agendamento', 'msg':msg})

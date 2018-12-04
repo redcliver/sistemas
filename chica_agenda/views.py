@@ -38,6 +38,20 @@ def novo(request):
     else:
         return render(request, 'sistema_login/erro.html', {'title':'Erro'})
 
+def busca(request):
+    if request.user.is_authenticated():
+        empresa = request.user.get_short_name()
+        if empresa == 'chicadiniz':
+            hoje = datetime.date.today().strftime('%Y-%m-%d')
+            agendas = agenda.objects.filter(pagamento=4).order_by('data')
+            if request.method == 'POST' and request.POST.get('data') != None:
+                hoje = request.POST.get('data')
+                agendas = agenda.objects.filter(data__icontains=hoje, pagamento=4)
+                return render(request, 'chica_agenda/agenda_edita.html', {'title':'Editar Agenda', 'agendas':agendas, 'hoje':hoje})
+            return render(request, 'chica_agenda/agenda_busca.html', {'title':'Editar Agenda', 'agendas':agendas, 'hoje':hoje})
+        return render(request, 'sistema_login/erro.html', {'title':'Erro'})
+    else:
+        return render(request, 'sistema_login/erro.html', {'title':'Erro'})
 
 def edita(request):
     if request.user.is_authenticated():

@@ -20,12 +20,12 @@ def novo_funcionario(request):
         if empresa == 'chicadiniz':
             if cargo == 'boss':
                 if request.method == 'POST' and request.POST.get('nome') != None:
-                    name = request.POST.get('nome')
+                    nome = request.POST.get('nome')
                     telefone = request.POST.get('tel')
                     celular = request.POST.get('cel')
                     email = request.POST.get('mail')
                     data_nasc = request.POST.get('data_nasc')
-                    novo_funcionario = funcionario(nome=name, telefone=telefone, celular=celular, data_nasc = data_nasc, email=email)
+                    novo_funcionario = funcionario(nome=nome, telefone=telefone, celular=celular, data_nasc = data_nasc, email=email)
                     novo_funcionario.save()
                     msg = name+" salvo com sucesso!"
                     return render(request, 'chica_controle/funcionario_novo.html', {'title':'Novo funcionario', 'msg':msg})
@@ -162,7 +162,7 @@ def salva_servico(request):
                 if request.method == 'POST' and request.POST.get('servico_id') != None:
                     servico_id = request.POST.get('servico_id')
                     servico_obj = servico.objects.get(id=servico_id)
-                    name = request.POST.get('nome')
+                    nome = request.POST.get('nome')
                     valor = request.POST.get('valor')
                     descricao = request.POST.get('descricao')
                     servico_obj.nome = nome

@@ -27,6 +27,7 @@ urlpatterns = [
     url(r'^chica_controle/', include('chica_controle.urls')),
     url(r'^chica_caixa/', include('chica_caixa.urls')),
     url(r'^chica_estoque/', include('chica_estoque.urls')),
+    url(r'^chica_agenda/', include('chica_agenda.urls')),
 
     # URL Dayson Lava-jato
     url(r'^lavajato_home/', include('lavajato_home.urls')),

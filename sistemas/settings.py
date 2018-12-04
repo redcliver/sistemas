@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'chica_controle',
     'chica_caixa',
     'chica_estoque',
+    'chica_agenda',
 
     # Lavajato
     'lavajato_home',

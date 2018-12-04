@@ -2,9 +2,11 @@ from django.shortcuts import render
 from django.utils import timezone
 import datetime
 from datetime import date
+from decimal import *
 from .models import agenda, servico_item
 from chica_cliente.models import cliente
 from chica_controle.models import funcionario, servico
+from chica_caixa.models import caixa_geral
 
 # Create your views here.
 def novo(request):
@@ -92,7 +94,19 @@ def dinheiro(request):
                 agenda_id = request.POST.get('agenda_id')
                 recebido = request.POST.get('recebido')
                 agenda_obj = agenda.objects.filter(id=agenda_id).get()
-                return render(request, 'chica_agenda/agenda_confirmacao.html', {'title':'Confirmar Agenda', 'agenda_obj':agenda_obj})
+                troco = agenda_obj.total - Decimal(recebido)
+                agenda_obj.pagamento = 1
+                agenda_obj.save()
+                caixa = caixa_geral.objects.latest('id')
+                ultimo_id = caixa.id_operacao
+                ultimo_id = int(ultimo_id) + 1
+                novo_total = caixa.total + agenda_obj.total
+                valor = agenda_obj.total
+                desc = "Agendamento N:" + str(agenda_obj.id)
+                nova_entrada = caixa_geral(operacao=1, id_operacao=ultimo_id, valor_operacao=valor, descricao=desc, total=novo_total)
+                nova_entrada.save()
+                msg = "Pagamento do agendamento "+str(agenda_obj.id)+ "concluido com sucesso."
+                return render(request, 'chica_agenda/agenda_troco.1.html', {'title':'Confirmar Agenda', 'agenda_obj':agenda_obj, 'troco':troco, 'recebido':recebido})
             return render(request, 'chica_agenda/agenda_visualiza.html', {'title':'Visualizar Agenda', 'agendas':agendas, 'hoje':hoje})
         return render(request, 'sistema_login/erro.html', {'title':'Erro'})
     else:

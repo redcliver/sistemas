@@ -6,7 +6,7 @@
     <h1 style="text-align:center;">{{msg}}</h1><hr />
 {%endif%}
 <h1>Troco</h1><hr />
-    <form method="POST" action="/chica_agenda/dinheiro">
+    <form action="/chica_home/">
     {%csrf_token%}
         <input type="hidden" name="agenda_id" value="{{agenda_obj.id}}" />
         <div class="form-row justify-content-md-center">
@@ -16,11 +16,11 @@
             </div>
             <div class="form-group col-md-3">
                 <label for="inputName">Recebido<strong>*</strong></label>
-                <input type="text" class="form-control" name="recebido" required>
+                <input type="text" class="form-control" value="{{recebido}}" disabled>
             </div>
             <div class="form-group col-md-3">
                 <label for="inputName">Troco<strong>*</strong></label>
-                <input type="text" class="form-control" value="R$0,00" disabled>
+                <input type="text" class="form-control" value="R${{troco}}" disabled>
             </div>
             <div class="form-group col-md-2">
             </div>
@@ -30,6 +30,6 @@
             </div>
         </div>
             <br />
-            <button type="submit" class="btn btn-secondary float-right">Registrar</button>
+            <button type="submit" class="btn btn-secondary float-right">Finalizar</button>
     </form>
 {% endblock %}

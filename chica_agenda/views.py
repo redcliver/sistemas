@@ -22,7 +22,7 @@ def novo(request):
                 data = request.POST.get('data')
                 novo_agendamento = agenda(cli=cliente_obj, serv=servico_obj, func=funcionario_obj, data = data, pagamento=4)
                 novo_agendamento.save()
-                msg = name+" agendado com sucesso!"
+                msg = cliente_obj.nome+" agendado com sucesso!"
                 return render(request, 'chica_agenda/agenda_novo.html', {'title':'Novo Agendamento', 'msg':msg})
             return render(request, 'chica_agenda/agenda_novo.html', {'title':'Novo Agendamento', 'clientes':clientes, 'servicos':servicos, 'funcionarios':funcionarios})
         return render(request, 'sistema_login/erro.html', {'title':'Erro'})

@@ -134,3 +134,13 @@ def nova_saida(request):
         return render(request, 'sistema_login/erro.html', {'title':'Erro'})
     else:
         return render(request, 'sistema_login/erro.html', {'title':'Erro'})
+
+def inventario(request):
+    if request.user.is_authenticated():
+        empresa = request.user.get_short_name()
+        if empresa == 'chicadiniz':
+            produtos = produto.objects.all().order_by('nome')
+            return render(request, 'chica_estoque/estoque_inventario.html', {'title':'Consultar inventario', 'produtos':produtos})
+        return render(request, 'sistema_login/erro.html', {'title':'Erro'})
+    else:
+        return render(request, 'sistema_login/erro.html', {'title':'Erro'})

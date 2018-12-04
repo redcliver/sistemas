@@ -63,10 +63,10 @@ def visualiza(request):
         empresa = request.user.get_short_name()
         if empresa == 'chicadiniz':
             hoje = datetime.date.today().strftime('%Y-%m-%d')
-            agendas = agenda.objects.filter(data__icontains=hoje)
+            agendas = agenda.objects.filter(data__date=hoje)
             if request.method == 'POST' and request.POST.get('data') != None:
                 data = request.POST.get('data')
-                agendas = agenda.objects.filter(data__icontains=data)
+                agendas = agenda.objects.filter(data__date=data)
                 return render(request, 'chica_agenda/agenda_visualiza.html', {'title':'Visualizar Agenda', 'agendas':agendas, 'hoje':data})
             return render(request, 'chica_agenda/agenda_visualiza.html', {'title':'Visualizar Agenda', 'agendas':agendas, 'hoje':hoje})
         return render(request, 'sistema_login/erro.html', {'title':'Erro'})

@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.utils import timezone
 import datetime
+from datetime import date
 from .models import agenda
 from chica_cliente.models import cliente
 from chica_controle.models import funcionario, servico
@@ -66,7 +67,7 @@ def visualiza(request):
             agendas = agenda.objects.filter(data__date=hoje)
             if request.method == 'POST' and request.POST.get('data') != None:
                 data = request.POST.get('data')
-                agendas = agenda.objects.filter(data__date=data)
+                agendas = agenda.objects.filter(data__day=data.day,data__month=data.data__month,data__year=data.year)
                 return render(request, 'chica_agenda/agenda_visualiza.html', {'title':'Visualizar Agenda', 'agendas':agendas, 'hoje':data})
             return render(request, 'chica_agenda/agenda_visualiza.html', {'title':'Visualizar Agenda', 'agendas':agendas, 'hoje':hoje})
         return render(request, 'sistema_login/erro.html', {'title':'Erro'})

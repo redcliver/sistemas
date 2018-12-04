@@ -76,7 +76,8 @@ def confirmacao(request):
             if request.method == 'POST' and request.POST.get('agenda_id') != None:
                 agenda_id = request.POST.get('agenda_id')
                 agenda_obj = agenda.objects.filter(id=agenda_id).get()
-                return render(request, 'chica_agenda/agenda_confirmacao.html', {'title':'Confirmar Agenda', 'agenda_obj':agenda_obj})
+                servicos = agenda_obj.item_servico.all()
+                return render(request, 'chica_agenda/agenda_confirmacao.html', {'title':'Confirmar Agenda', 'agenda_obj':agenda_obj, 'servicos':servicos})
             return render(request, 'chica_agenda/agenda_visualiza.html', {'title':'Visualizar Agenda', 'agendas':agendas, 'hoje':hoje})
         return render(request, 'sistema_login/erro.html', {'title':'Erro'})
     else:

@@ -15,15 +15,12 @@
             <input type="date" class="form-control" value="{{hoje}}" name="data"/>
             <button type="submit" class="btn btn-secondary float-right">Buscar</button>
         </div>
-        <div class="form-group col-md-10">
-            <label for="inputName">Cliente<strong>*</strong></label>
-            <input type="text" class="form-control" value="{{agenda_obj.cli.nome}}" disabled>
-        </div>
         <table class="table table-sm">
             <thead>
                 <tr>
                     <th scope="col">#</th>
                     <th scope="col">Hora</th>
+                    <th scope="col">Cliente</th>
                     <th scope="col">Servico</th>
                     <th scope="col">Funcionario</th>
                     <th scope="col">Estado</th>
@@ -35,14 +32,10 @@
                     {% if agenda.pagamento == '1' %}
                         <tr>
                             <td>{{agenda.id}}</td>
-                            <td>{{agenda.data_cadastro|date:"H:i"}}</td>
-                            <td>{% for item_servico in servicos %}
-                                    {{item_servico.serv.nome}}<br>
-                                {% endfor %}
-                            </td>
-                            <td>{% for item_servico in servicos %}
-                                    {{item_servico.func.nome}}<br>
-                                {% endfor %}</td>
+                            <td>{{agenda.data|date:"H:i"}}</td>
+                            <td>{{agenda.cli.nome}}</td>
+                            <td>{{agenda.serv.nome}}</td>
+                            <td>{{agenda.func.nome}}</td>
                             <td>{{agenda.get_pagamento_display}}</td>
                             <td>Finalizado</td>
                         </tr>
@@ -72,14 +65,10 @@
                     {% if agenda.pagamento == '4' %}
                         <tr>
                             <td>{{agenda.id}}</td>
-                            <td>{{agenda.data_cadastro|date:"H:i"}}</td>
-                            <td>{% for item_servico in servicos %}
-                                    {{item_servico.serv.nome}}<br>
-                                {% endfor %}
-                            </td>
-                            <td>{% for item_servico in servicos %}
-                                    {{item_servico.func.nome}}<br>
-                                {% endfor %}</td>
+                            <td>{{agenda.data|date:"H:i"}}</td>
+                            <td>{{agenda.cli.nome}}</td>
+                            <td>{{agenda.serv.nome}}</td>
+                            <td>{{agenda.func.nome}}</td>
                             <td>{{agenda.get_pagamento_display}}</td>
                             <td><button name="agenda_id" value="{{agenda.id}}" class="btn btn-default" formaction="/chica_agenda/confirmacao">Confirmar</button></td>
                         </tr>

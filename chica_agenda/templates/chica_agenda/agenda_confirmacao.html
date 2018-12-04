@@ -6,42 +6,41 @@
     <h1 style="text-align:center;">{{msg}}</h1><hr />
 {%endif%}
 <h1>Confirmacao</h1><hr />
-                    <form method="GET">
-                        <input type="hidden" name="agenda_id" value="{{agenda_obj.id}}" />
-                        <div class="form-row">
-                            <div class="form-group col-md-10">
-                                <label for="inputName">Cliente<strong>*</strong></label>
-                                <input type="text" class="form-control" value="{{agenda_obj.cli.nome}}" disabled>
-                            </div>
-                            <div class="form-group col-md-10">
-                                <label for="inputName">Servico<strong>*</strong></label>
-                                <input type="text" class="form-control" value="{{agenda_obj.serv.nome}}" disabled>
-                            </div>
-                            <div class="form-group col-md-10">
-                                <label for="inputName">Funcionario<strong>*</strong></label>
-                                <input type="text" class="form-control" value="{{agenda_obj.func.nome}}" disabled>
-                            </div>
-                            <div class="form-group col-md-2">
-                            </div>
-                            <div class="form-group col-md-2">
-                                <label for="inputTel">Data</label>
-                                <input type="text" class="form-control" value="{{agenda_obj.data|date:"d/m/Y"}}" disabled>
-                            </div>
-                            <div class="form-group col-md-2">
-                                <label for="inputTel">Hora</label>
-                                <input type="text" class="form-control" value="{{agenda_obj.data|date:"H:m"}}" disabled>
-                            </div>
-                            <div class="form-group col-md-2">
-                            </div>
-                            <div class="form-group col-md-3">
-                                <label for="inputTel">Total</label>
-                                <input type="text" class="form-control" value="R${{agenda_obj.serv.valor}}" style="background-color:#2d2c2c; color:aliceblue;" disabled>
-                            </div>
-                        </div>
-                        <br />
-                        <label for="inputName">Pagamento<strong>*</strong></label><hr />
-                        <button type="submit" class="btn btn-secondary " formaction="/chica_agenda/dinheiro">Dinheiro</button>&nbsp;
-                        <button type="submit" class="btn btn-secondary " formaction="/chica_agenda/credito">Cartao Credito</button>&nbsp;
-                        <button type="submit" class="btn btn-secondary " formaction="/chica_agenda/debito">Cartao Debito</button>&nbsp;
-                    </form>
+    <form method="GET">
+        <input type="hidden" name="agenda_id" value="{{agenda_obj.id}}" />
+        <div class="form-row">
+            <div class="form-group col-md-10">
+                <label for="inputName">Cliente<strong>*</strong></label>
+                <input type="text" class="form-control" value="{{agenda_obj.cli.nome}}" disabled>
+            </div>
+            <table class="table table-sm">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Hora</th>
+                    <th scope="col">Servico</th>
+                    <th scope="col">Valor</th>
+                    <th scope="col">Funcionario</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item_servico in servicos %}
+                    <tr>
+                        <td>{{item_servico.id}}</td>
+                        <td>{{item_servico.data_cadastro|date:"H:i"}}</td>
+                        <td>{{item_servico.serv.nome}}</td>
+                        <td>{{item_servico.serv.valor}}</td>
+                        <td>{{item_servico.func.nome}}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <label>Total: R${{agenda_obj.total}}</label>
+        </div>
+        <br />
+        <label for="inputName">Pagamento<strong>*</strong></label><hr />
+        <button type="submit" class="btn btn-secondary " formaction="/chica_agenda/dinheiro">Dinheiro</button>&nbsp;
+        <button type="submit" class="btn btn-secondary " formaction="/chica_agenda/credito">Cartao Credito</button>&nbsp;
+        <button type="submit" class="btn btn-secondary " formaction="/chica_agenda/debito">Cartao Debito</button>&nbsp;
+    </form>
 {% endblock %}

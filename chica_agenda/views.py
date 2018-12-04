@@ -80,6 +80,7 @@ def dinheiro(request):
         empresa = request.user.get_short_name()
         if empresa == 'chicadiniz':
             if request.method == 'GET' and request.GET.get('agenda_id') != None:
+                return render(request, 'chica_agenda/agenda_confirmacao.html', {'title':'Confirmar Agenda', 'agenda_obj':agenda_obj})
             if request.method == 'POST' and request.POST.get('agenda_id') != None:
                 agenda_id = request.POST.get('agenda_id')
                 agenda_obj = agenda.objects.filter(id=agenda_id).get()

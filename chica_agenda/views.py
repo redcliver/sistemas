@@ -20,11 +20,7 @@ def novo(request):
                 funcionario_id = request.POST.get('funcionario_id')
                 funcionario_obj = funcionario.objects.filter(id=funcionario_id).get()
                 data = request.POST.get('data')
-                hora = request.POST.get('hora')
-                format = "%H:%M"
-                hora = datetime.strptime(hora, format)
-                horario = datetime.combine(data, hora)
-                novo_agendamento = agenda(cli=cliente_obj, serv=servico_obj, func=funcionario_obj, data = horario)
+                novo_agendamento = agenda(cli=cliente_obj, serv=servico_obj, func=funcionario_obj, data = data)
                 novo_agendamento.save()
                 msg = name+" agendado com sucesso!"
                 return render(request, 'chica_agenda/agenda_novo.html', {'title':'Novo Agendamento', 'msg':msg})

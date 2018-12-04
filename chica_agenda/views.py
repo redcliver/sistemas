@@ -61,24 +61,13 @@ def visualiza(request):
     if request.user.is_authenticated():
         empresa = request.user.get_short_name()
         if empresa == 'chicadiniz':
-            clientes = cliente.objects.all().order_by('nome')
-            if request.method == 'POST' and request.POST.get('cliente_id') != None:
-                cliente_id = request.POST.get('cliente_id')
-                cliente_obj = cliente.objects.get(id=cliente_id)
-                nome = request.POST.get('nome')
-                tel = request.POST.get('tel')
-                cel = request.POST.get('cel')
-                mail = request.POST.get('mail')
-                data_nasc = request.POST.get('data_nasc')
-                cliente_obj.nome = nome
-                cliente_obj.telefone = tel
-                cliente_obj.celular = cel
-                cliente_obj.email = mail
-                cliente_obj.data_nasc = data_nasc
-                cliente_obj.save()
-                msg = cliente_obj.nome + " editado(a) com sucesso!"
-                return render(request, 'chica_cliente/cliente_busca_edita.html', {'title':'Editar Cliente', 'clientes':clientes, 'msg':msg})
-            return render(request, 'chica_cliente/cliente_busca_edita.html', {'title':'Editar Cliente', 'clientes':clientes})
+            agendas = agenda.objects.all().order_by('data')
+            hoje = datetime.date.today().strftime('%Y-%m-%d')
+            if request.method == 'POST' and request.POST.get('data') != None:
+                hoje = request.POST.get('data')
+                agendas = agenda.objects.filter(data__icontains=hoje)
+                return render(request, 'chica_agenda/agenda_visualiza.html', {'title':'Visualizar Agenda', 'agendas':agendas, 'hoje':hoje})
+            return render(request, 'chica_agenda/agenda_visualiza.html', {'title':'Visualizar Agenda', 'agendas':agendas, 'hoje':hoje})
         return render(request, 'sistema_login/erro.html', {'title':'Erro'})
     else:
         return render(request, 'sistema_login/erro.html', {'title':'Erro'})

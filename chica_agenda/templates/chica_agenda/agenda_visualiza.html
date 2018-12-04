@@ -1,0 +1,46 @@
+{% extends 'chica_base.html' %}
+
+{% block body %}
+{% load static %}
+{% if msg %}
+    <h1 style="text-align:center;">{{msg}}</h1><hr />
+{%endif%}
+<h1>Visualizar agenda</h1><hr />
+    <form method="POST">
+    {%csrf_token%}
+    <div class="form-row">
+        <div class="form-group col-md-9"></div>
+        <div class="form-group col-md-3">
+            <label>Data</label>
+            <input type="date" class="form-control" value="{{hoje}}" name="data"/>
+            <button type="submit" class="btn btn-secondary float-right">Buscar</button>
+        </div>
+        <table class="table table-sm">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Hora</th>
+                    <th scope="col">Cliente</th>
+                    <th scope="col">Servico</th>
+                    <th scope="col">Funcionario</th>
+                    <th scope="col">Estado</th>
+                    <th scope="col">Confirmacao</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for agenda in agendas %}
+                <tr>
+                    <td>{{agenda.id}}</td>
+                    <td>{{agenda.data|date:"H:i"}}</td>
+                    <td>{{agenda.cli.nome}}</td>
+                    <td>{{agenda.serv.nome}}</td>
+                    <td>{{agenda.func.nome}}</td>
+                    <td>{{agenda.get_pagamento_display}}</td>
+                    <td><button>Confirmar</button></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    </form>
+{% endblock %}

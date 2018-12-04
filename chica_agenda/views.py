@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.utils import timezone
 import datetime
 from datetime import date
-from .models import agenda
+from .models import agenda, servico_item
 from chica_cliente.models import cliente
 from chica_controle.models import funcionario, servico
 
@@ -22,7 +22,12 @@ def novo(request):
                 funcionario_id = request.POST.get('funcionario_id')
                 funcionario_obj = funcionario.objects.filter(id=funcionario_id).get()
                 data = request.POST.get('data')
-                novo_agendamento = agenda(cli=cliente_obj, serv=servico_obj, func=funcionario_obj, data = data, pagamento=4)
+                novo_serv_item = servico_item(serv=servico_obj, func=funcionario_obj)
+                novo_serv_item.save()
+                novo_agendamento = agenda(cli=cliente_obj, data = data, pagamento=4, total=0)
+                novo_agendamento.save()
+                novo_agendamento.item_servico.add(novo_serv_item)
+                novo_agendamento.total = servico_obj.valor
                 novo_agendamento.save()
                 msg = cliente_obj.nome+" agendado com sucesso!"
                 return render(request, 'chica_agenda/agenda_novo.html', {'title':'Novo Agendamento', 'msg':msg})
@@ -80,9 +85,12 @@ def dinheiro(request):
         empresa = request.user.get_short_name()
         if empresa == 'chicadiniz':
             if request.method == 'GET' and request.GET.get('agenda_id') != None:
-                return render(request, 'chica_agenda/agenda_confirmacao.html', {'title':'Confirmar Agenda', 'agenda_obj':agenda_obj})
-            if request.method == 'POST' and request.POST.get('agenda_id') != None:
+                agenda_id = request.GET.get('agenda_id')
+                agenda_obj = agenda.objects.filter(id=agenda_id).get()
+                return render(request, 'chica_agenda/agenda_troco.html', {'title':'Troco', 'agenda_obj':agenda_obj})
+            if request.method == 'POST' and request.POST.get('recebido') != None and request.POST.get('agenda_id') != None:
                 agenda_id = request.POST.get('agenda_id')
+                recebido = request.POST.get('recebido')
                 agenda_obj = agenda.objects.filter(id=agenda_id).get()
                 return render(request, 'chica_agenda/agenda_confirmacao.html', {'title':'Confirmar Agenda', 'agenda_obj':agenda_obj})
             return render(request, 'chica_agenda/agenda_visualiza.html', {'title':'Visualizar Agenda', 'agendas':agendas, 'hoje':hoje})

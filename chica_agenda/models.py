@@ -4,6 +4,15 @@ from chica_cliente.models import cliente
 from chica_controle.models import funcionario, servico
 
 # Create your models here.
+class servico_item(models.Model):
+    id = models.AutoField(primary_key=True)
+    func = models.ForeignKey(funcionario, on_delete=models.CASCADE)
+    serv = models.ForeignKey(servico, on_delete=models.CASCADE)
+    data_cadastro = models.DateTimeField(default=timezone.now)
+    
+    def __str__(self):
+        return self.__str__(id)
+
 class agenda(models.Model):
     PG = (
         ('1', 'Dinheiro'),
@@ -13,10 +22,10 @@ class agenda(models.Model):
     )
     id = models.AutoField(primary_key=True)
     pagamento = models.CharField(max_length=1, choices=PG)
-    func = models.ForeignKey(funcionario, on_delete=models.CASCADE)
-    serv = models.ForeignKey(servico, on_delete=models.CASCADE)
+    item_servico = models.ManyToManyField(servico_item)
     cli = models.ForeignKey(cliente, on_delete=models.CASCADE)
     data = models.DateTimeField(null=True, blank=True)
+    total = models.DecimalField(max_digits=10, decimal_places=2)
     data_cadastro = models.DateTimeField(default=timezone.now)
     
     def __str__(self):

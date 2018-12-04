@@ -7,4 +7,7 @@ urlpatterns = [
     url(r'^edita', views.edita),
     url(r'^visualiza', views.visualiza),
     url(r'^confirmacao', views.confirmacao),
+    url(r'^dinheiro', views.dinheiro),
+    url(r'^credito', views.credito),
+    url(r'^debito', views.debito),
     ]

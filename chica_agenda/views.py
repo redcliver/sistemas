@@ -57,7 +57,7 @@ def edita(request):
     else:
         return render(request, 'sistema_login/erro.html', {'title':'Erro'})
 
-def salva(request):
+def visualiza(request):
     if request.user.is_authenticated():
         empresa = request.user.get_short_name()
         if empresa == 'chicadiniz':

@@ -66,7 +66,7 @@ def visualiza(request):
             hoje = datetime.date.today().strftime('%Y-%m-%d')
             if request.method == 'POST' and request.POST.get('data') != None:
                 hoje = request.POST.get('data')
-                agendas = agenda.objects.filter(data__icontains=hoje)
+                agendas = agenda.objects.filter(data__icontains=hoje).all()
                 return render(request, 'chica_agenda/agenda_visualiza.html', {'title':'Visualizar Agenda', 'agendas':agendas, 'hoje':hoje})
             return render(request, 'chica_agenda/agenda_visualiza.html', {'title':'Visualizar Agenda', 'agendas':agendas, 'hoje':hoje})
         return render(request, 'sistema_login/erro.html', {'title':'Erro'})

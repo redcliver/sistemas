@@ -27,7 +27,7 @@ def novo_funcionario(request):
                     data_nasc = request.POST.get('data_nasc')
                     novo_funcionario = funcionario(nome=nome, telefone=telefone, celular=celular, data_nasc = data_nasc, email=email)
                     novo_funcionario.save()
-                    msg = name+" salvo com sucesso!"
+                    msg = nome+" salvo com sucesso!"
                     return render(request, 'chica_controle/funcionario_novo.html', {'title':'Novo funcionario', 'msg':msg})
                 return render(request, 'chica_controle/funcionario_novo.html', {'title':'Novo funcionario'})
             return render(request, 'chica_home/home.html', {'title':'Home'})
@@ -105,12 +105,12 @@ def novo_servico(request):
         if empresa == 'chicadiniz':
             if cargo == 'boss':
                 if request.method == 'POST' and request.POST.get('nome') != None:
-                    name = request.POST.get('nome')
+                    nome = request.POST.get('nome')
                     valor = request.POST.get('valor')
                     descricao = request.POST.get('descricao')
                     novo_servico = servico(nome=name, valor=valor, descricao=descricao)
                     novo_servico.save()
-                    msg = name+" salvo com sucesso!"
+                    msg = nome+" salvo com sucesso!"
                     return render(request, 'chica_controle/servico_novo.html', {'title':'Novo Servico', 'msg':msg})
                 return render(request, 'chica_controle/servico_novo.html', {'title':'Novo Servico'})
             return render(request, 'chica_home/home.html', {'title':'Home'})

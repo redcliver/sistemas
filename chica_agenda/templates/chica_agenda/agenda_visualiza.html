@@ -21,8 +21,7 @@
                     <th scope="col">#</th>
                     <th scope="col">Hora</th>
                     <th scope="col">Cliente</th>
-                    <th scope="col">Servico</th>
-                    <th scope="col">Funcionario</th>
+                    <th scope="col">Total</th>
                     <th scope="col">Estado</th>
                     <th scope="col">Confirmacao</th>
                 </tr>
@@ -34,8 +33,7 @@
                             <td>{{agenda.id}}</td>
                             <td>{{agenda.data|date:"H:i"}}</td>
                             <td>{{agenda.cli.nome}}</td>
-                            <td>{{agenda.serv.nome}}</td>
-                            <td>{{agenda.func.nome}}</td>
+                            <td>{{agenda.total}}</td>
                             <td>{{agenda.get_pagamento_display}}</td>
                             <td>Finalizado</td>
                         </tr>
@@ -45,8 +43,7 @@
                             <td>{{agenda.id}}</td>
                             <td>{{agenda.data|date:"H:i"}}</td>
                             <td>{{agenda.cli.nome}}</td>
-                            <td>{{agenda.serv.nome}}</td>
-                            <td>{{agenda.func.nome}}</td>
+                            <td>{{agenda.total}}</td>
                             <td>{{agenda.get_pagamento_display}}</td>
                             <td>Finalizado</td>
                         </tr>
@@ -56,8 +53,7 @@
                             <td>{{agenda.id}}</td>
                             <td>{{agenda.data|date:"H:i"}}</td>
                             <td>{{agenda.cli.nome}}</td>
-                            <td>{{agenda.serv.nome}}</td>
-                            <td>{{agenda.func.nome}}</td>
+                            <td>{{agenda.total}}</td>
                             <td>{{agenda.get_pagamento_display}}</td>
                             <td>Finalizado</td>
                         </tr>
@@ -67,8 +63,7 @@
                             <td>{{agenda.id}}</td>
                             <td>{{agenda.data|date:"H:i"}}</td>
                             <td>{{agenda.cli.nome}}</td>
-                            <td>{{agenda.serv.nome}}</td>
-                            <td>{{agenda.func.nome}}</td>
+                            <td>{{agenda.total}}</td>
                             <td>{{agenda.get_pagamento_display}}</td>
                             <td><button name="agenda_id" value="{{agenda.id}}" class="btn btn-default" formaction="/chica_agenda/confirmacao">Confirmar</button></td>
                         </tr>

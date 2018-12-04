@@ -1,5 +1,6 @@
 from django.shortcuts import render
-from datetime import *
+from django.utils import timezone
+import datetime
 from .models import agenda
 from chica_cliente.models import cliente
 from chica_controle.models import funcionario, servico

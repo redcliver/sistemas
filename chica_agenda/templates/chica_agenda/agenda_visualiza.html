@@ -36,7 +36,7 @@
                     <td>{{agenda.serv.nome}}</td>
                     <td>{{agenda.func.nome}}</td>
                     <td>{{agenda.get_pagamento_display}}</td>
-                    <td><button>Confirmar</button></td>
+                    <td><button name="agenda_id" value="{{agenda.id}}" class="btn btn-default" formaction="/chica_agenda/confimarcao">Confirmar</button></td>
                 </tr>
                 {% endfor %}
             </tbody>

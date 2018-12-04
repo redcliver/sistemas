@@ -6,7 +6,7 @@
     <hr />
         <form method="post" action="/chica_controle/edita_funcionario">
         {% csrf_token %}
-            <input type="hidden" name="cliente_id" value="{{funcionario_obj.id}}" />
+            <input type="hidden" name="funcionario_id" value="{{funcionario_obj.id}}" />
             <div class="form-row">
                 <div class="form-group col-md-9">
                     <label for="inputName">Nome Completo </label>

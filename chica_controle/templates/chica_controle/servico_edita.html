@@ -1,0 +1,27 @@
+{% extends 'chica_base.html' %}
+
+{% block body %}
+{% load static %}
+<h1>Editar Servico</h1>
+    <hr />
+        <form method="post">
+        {% csrf_token %}
+            <input type="hidden" name="servico_id" value="{{servico_obj.id}}" />
+            <div class="form-row">
+                <div class="form-group col-md-9">
+                    <label for="inputName">Nome Completo </label>
+                    <input type="text" class="form-control" value="{{servico_obj.nome}}" name="nome">
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="inputCel">Valor</label>
+                    <input type="number" class="form-control" step="0.1" value="{{servico_obj.valor}}" name="valor">
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="inputTel">Data Cad.</label>
+                    <input type="text" class="form-control" value="{{funcionario_obj.data_cadastro|date:"d/m/Y"}}" disabled>
+                </div>
+            </div>
+            <br />
+            <button type="submit" class="btn btn-secondary float-right" formaction="/chica_controle/salva_servico">Salvar</button>
+        </form>
+{% endblock %}

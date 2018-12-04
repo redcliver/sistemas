@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .models import funcionario
+from .models import funcionario, servico
 
 # Create your views here.
 def chica_controle(request):
@@ -93,6 +93,85 @@ def salva_funcionario(request):
                     msg = funcionario_obj.nome + " editado(a) com sucesso!"
                     return render(request, 'chica_controle/funcionario_busca_edita.html', {'title':'Editar Funcionario', 'funcionarios':funcionarios, 'msg':msg})
                 return render(request, 'chica_controle/funcionario_busca_edita.html', {'title':'Editar Funcionario', 'funcionarios':funcionarios})
+            return render(request, 'chica_home/home.html', {'title':'Home'})
+        return render(request, 'sistema_login/erro.html', {'title':'Erro'})
+    else:
+        return render(request, 'sistema_login/erro.html', {'title':'Erro'})
+
+def novo_servico(request):
+    if request.user.is_authenticated():
+        empresa = request.user.get_short_name()
+        cargo = request.user.last_name
+        if empresa == 'chicadiniz':
+            if cargo == 'boss':
+                if request.method == 'POST' and request.POST.get('nome') != None:
+                    name = request.POST.get('nome')
+                    valor = request.POST.get('valor')
+                    descricao = request.POST.get('descricao')
+                    novo_servico = servico(nome=name, valor=valor, descricao=descricao)
+                    novo_servico.save()
+                    msg = name+" salvo com sucesso!"
+                    return render(request, 'chica_controle/servico_novo.html', {'title':'Novo Servico', 'msg':msg})
+                return render(request, 'chica_controle/servico_novo.html', {'title':'Novo Servico'})
+            return render(request, 'chica_home/home.html', {'title':'Home'})
+        return render(request, 'sistema_login/erro.html', {'title':'Erro'})
+    else:
+        return render(request, 'sistema_login/erro.html', {'title':'Erro'})
+
+def busca_servico(request):
+    if request.user.is_authenticated():
+        empresa = request.user.get_short_name()
+        cargo = request.user.last_name
+        if empresa == 'chicadiniz':
+            if cargo == 'boss':
+                servicos = servico.objects.all().order_by('nome')
+                if request.method == 'POST' and request.POST.get('servico_id') != None:
+                    servico_id = request.POST.get('servico_id')
+                    servico_obj = servico.objects.get(id=servico_id)
+                    return render(request, 'chica_controle/servico_visualizar.html', {'title':'Visualizar Servico', 'servico_obj':servico_obj})
+                return render(request, 'chica_controle/servico_busca.html', {'title':'Buscar Servico', 'servicos':servicos})
+            return render(request, 'chica_home/home.html', {'title':'Home'})
+        return render(request, 'sistema_login/erro.html', {'title':'Erro'})
+    else:
+        return render(request, 'sistema_login/erro.html', {'title':'Erro'})
+
+def edita_servico(request):
+    if request.user.is_authenticated():
+        empresa = request.user.get_short_name()
+        cargo = request.user.last_name
+        if empresa == 'chicadiniz':
+            if cargo == 'boss':
+                servicos = servico.objects.all().order_by('nome')
+                if request.method == 'POST' and request.POST.get('servico_id') != None:
+                    servico_id = request.POST.get('servico_id')
+                    servico_obj = servico.objects.get(id=servico_id)
+                    return render(request, 'chica_controle/servico_edita.html', {'title':'Visualizar Servico', 'servico_obj':servico_obj})
+                return render(request, 'chica_controle/servico_busca_edita.html', {'title':'Editar Servico', 'servicos':servicos})
+            return render(request, 'chica_home/home.html', {'title':'Home'})
+        return render(request, 'sistema_login/erro.html', {'title':'Erro'})
+    else:
+        return render(request, 'sistema_login/erro.html', {'title':'Erro'})
+
+def salva_servico(request):
+    if request.user.is_authenticated():
+        empresa = request.user.get_short_name()
+        cargo = request.user.last_name
+        if empresa == 'chicadiniz':
+            if cargo == 'boss':
+                servicos = servico.objects.all().order_by('nome')
+                if request.method == 'POST' and request.POST.get('servico_id') != None:
+                    servico_id = request.POST.get('servico_id')
+                    servico_obj = servico.objects.get(id=servico_id)
+                    name = request.POST.get('nome')
+                    valor = request.POST.get('valor')
+                    descricao = request.POST.get('descricao')
+                    servico_obj.nome = nome
+                    servico_obj.valor = valor
+                    servico_obj.descricao = descricao
+                    servico_obj.save()
+                    msg = servico_obj.nome + " editado(a) com sucesso!"
+                    return render(request, 'chica_controle/servico_busca_edita.html', {'title':'Editar Servico', 'servicos':servicos, 'msg':msg})
+                return render(request, 'chica_controle/servico_busca_edita.html', {'title':'Editar Servico', 'servicos':servicos})
             return render(request, 'chica_home/home.html', {'title':'Home'})
         return render(request, 'sistema_login/erro.html', {'title':'Erro'})
     else:

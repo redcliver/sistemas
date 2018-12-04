@@ -147,6 +147,7 @@ def dinheiro(request):
                 recebido = request.POST.get('recebido')
                 agenda_obj = agenda.objects.filter(id=agenda_id).get()
                 troco = agenda_obj.total - Decimal(recebido)
+                troco= troco * -1
                 agenda_obj.pagamento = 1
                 agenda_obj.save()
                 caixa = caixa_geral.objects.latest('id')

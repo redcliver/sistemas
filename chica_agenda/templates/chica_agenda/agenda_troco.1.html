@@ -8,27 +8,25 @@
 <h1>Troco</h1><hr />
     <form action="/chica_home/">
     {%csrf_token%}
-        <input type="hidden" name="agenda_id" value="{{agenda_obj.id}}" />
-        <div class="form-row justify-content-md-center">
-            <div class="form-group col-md-3">
-                <label for="inputName">Total<strong>*</strong></label>
-                <input type="text" class="form-control" value="R${{agenda_obj.serv.valor}}" disabled>
-            </div>
-            <div class="form-group col-md-3">
-                <label for="inputName">Recebido<strong>*</strong></label>
-                <input type="text" class="form-control" value="{{recebido}}" disabled>
-            </div>
-            <div class="form-group col-md-3">
-                <label for="inputName">Troco<strong>*</strong></label>
-                <input type="text" class="form-control" value="R${{troco}}" disabled>
-            </div>
-            <div class="form-group col-md-2">
-            </div>
-            <div class="form-group col-md-3">
-                <label for="inputTel">Data</label>
-                <input type="datetime-local" class="form-control" name="data">
-            </div>
+    <input type="hidden" name="agenda_id" value="{{agenda_obj.id}}" />
+    <div class="form-row justify-content-md-center">
+        <div class="form-group">
+            <label for="inputName">Total<strong>*</strong></label>
+            <input type="text" class="form-control" value="R${{agenda_obj.total}}" disabled>
         </div>
+    </div>
+    <div class="form-row justify-content-md-center">
+        <div class="form-group ">
+            <label for="inputName">Recebido<strong>*</strong></label>
+            <input type="text" class="form-control" name="{{recebido}}" autofocus required>
+        </div>
+    </div>
+    <div class="form-row justify-content-md-center">
+        <div class="form-group ">
+            <label for="inputName">Troco<strong>*</strong></label>
+            <input type="text" class="form-control" value="{{troco}}" disabled>
+        </div>            
+    </div>
             <br />
             <button type="submit" class="btn btn-secondary float-right">Finalizar</button>
     </form>

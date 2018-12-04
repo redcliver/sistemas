@@ -6,6 +6,7 @@ urlpatterns = [
     url(r'^$', views.novo),
     url(r'^edita', views.edita),
     url(r'^busca', views.busca),
+    url(r'^add_servico', views.add_servico),
     url(r'^visualiza', views.visualiza),
     url(r'^confirmacao', views.confirmacao),
     url(r'^dinheiro', views.dinheiro),

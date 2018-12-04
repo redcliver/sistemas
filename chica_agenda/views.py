@@ -49,8 +49,35 @@ def busca(request):
                 agenda_obj = agenda.objects.filter(id=agenda_id)
                 servicos = servico.objects.all().order_by('nome')
                 funcionarios = funcionario.objects.all().order_by('nome')
+                it_servicos = agenda_obj.item_servico.all()
                 return render(request, 'chica_agenda/agenda_add_servico.html', {'title':'Adicionar Servico', 'agenda_obj':agenda_obj, 'servicos':servicos, 'funcionarios':funcionarios})
             return render(request, 'chica_agenda/agenda_busca.html', {'title':'Editar Agenda', 'agendas':agendas, 'hoje':hoje})
+        return render(request, 'sistema_login/erro.html', {'title':'Erro'})
+    else:
+        return render(request, 'sistema_login/erro.html', {'title':'Erro'})
+
+def add_servico(request):
+    if request.user.is_authenticated():
+        empresa = request.user.get_short_name()
+        if empresa == 'chicadiniz':
+            agendas = agenda.objects.filter(pagamento=4).order_by('data')
+            servicos = servico.objects.all().order_by('nome')
+            funcionarios = funcionario.objects.all().order_by('nome')
+            if request.method == 'POST' and request.POST.get('agenda_id') != None and request.POST.get('servico_id') != None:
+                agenda_id = request.POST.get('agenda_id')
+                agenda_obj = agenda.objects.filter(id=agenda_id).get()
+                servico_id = request.POST.get('servico_id')
+                servico_obj = servico.objects.filter(id=servico_id).get()
+                funcionario_id = request.POST.get('funcionario_id')
+                funcionario_obj = funcionario.objects.filter(id=funcionario_id).get()
+                novo_serv_item = servico_item(serv=servico_obj, func=funcionario_obj)
+                novo_serv_item.save()
+                agenda_obj.item_servico.add(novo_serv_item)
+                agenda_obj.total = agenda_obj.total + servico_obj.valor
+                agenda_obj.save()
+                msg = agenda_obj.cli.nome+" editado com sucesso!"
+                return render(request, 'chica_agenda/agenda_add_servico.html', {'title':'Adicionar Servico ', 'msg':msg, 'agendas':agendas, 'servicos':servicos, 'funcionarios':funcionarios})
+            return render(request, 'chica_agenda/agenda_add_servico.html', {'title':'Adicionar Servico', 'agendas':agendas, 'servicos':servicos, 'funcionarios':funcionarios})
         return render(request, 'sistema_login/erro.html', {'title':'Erro'})
     else:
         return render(request, 'sistema_login/erro.html', {'title':'Erro'})

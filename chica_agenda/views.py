@@ -46,11 +46,11 @@ def busca(request):
             agendas = agenda.objects.filter(pagamento=4).order_by('data')
             if request.method == 'POST' and request.POST.get('agenda_id') != None:
                 agenda_id = request.POST.get('agenda_id')
-                agenda_obj = agenda.objects.filter(id=agenda_id)
+                agenda_obj = agenda.objects.filter(id=agenda_id).get()
                 servicos = servico.objects.all().order_by('nome')
                 funcionarios = funcionario.objects.all().order_by('nome')
                 it_servicos = agenda_obj.item_servico.all()
-                return render(request, 'chica_agenda/agenda_add_servico.html', {'title':'Adicionar Servico', 'agenda_obj':agenda_obj, 'servicos':servicos, 'funcionarios':funcionarios})
+                return render(request, 'chica_agenda/agenda_add_servico.html', {'title':'Adicionar Servico', 'agenda_obj':agenda_obj, 'servicos':servicos, 'funcionarios':funcionarios, 'it_servicos':it_servicos})
             return render(request, 'chica_agenda/agenda_busca.html', {'title':'Editar Agenda', 'agendas':agendas, 'hoje':hoje})
         return render(request, 'sistema_login/erro.html', {'title':'Erro'})
     else:

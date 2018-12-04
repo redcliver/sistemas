@@ -31,30 +31,18 @@ def novo(request):
     else:
         return render(request, 'sistema_login/erro.html', {'title':'Erro'})
 
-def busca(request):
-    if request.user.is_authenticated():
-        empresa = request.user.get_short_name()
-        if empresa == 'chicadiniz':
-            clientes = cliente.objects.all().order_by('nome')
-            if request.method == 'POST' and request.POST.get('cliente_id') != None:
-                cliente_id = request.POST.get('cliente_id')
-                cliente_obj = cliente.objects.get(id=cliente_id)
-                return render(request, 'chica_cliente/cliente_visualizar.html', {'title':'Visualizar Cliente', 'cliente_obj':cliente_obj})
-            return render(request, 'chica_cliente/cliente_busca.html', {'title':'Buscar Cliente', 'clientes':clientes})
-        return render(request, 'sistema_login/erro.html', {'title':'Erro'})
-    else:
-        return render(request, 'sistema_login/erro.html', {'title':'Erro'})
 
 def edita(request):
     if request.user.is_authenticated():
         empresa = request.user.get_short_name()
         if empresa == 'chicadiniz':
-            clientes = cliente.objects.all().order_by('nome')
-            if request.method == 'POST' and request.POST.get('cliente_id') != None:
-                cliente_id = request.POST.get('cliente_id')
-                cliente_obj = cliente.objects.get(id=cliente_id)
-                return render(request, 'chica_cliente/cliente_edita.html', {'title':'Visualizar Cliente', 'cliente_obj':cliente_obj})
-            return render(request, 'chica_cliente/cliente_busca_edita.html', {'title':'Editar Cliente', 'clientes':clientes})
+            hoje = datetime.date.today().strftime('%Y-%m-%d')
+            agendas = agenda.objects.filter(data__icontains=hoje, estado=4)
+            if request.method == 'POST' and request.POST.get('data') != None:
+                hoje = request.POST.get('data')
+                agendas = agenda.objects.filter(data__icontains=hoje, estado=4)
+                return render(request, 'chica_agenda/agenda_edita.html', {'title':'Editar Agenda', 'agendas':agendas, 'hoje':hoje})
+            return render(request, 'chica_agenda/agenda_edita.html', {'title':'Editar Agenda', 'agendas':agendas, 'hoje':hoje})
         return render(request, 'sistema_login/erro.html', {'title':'Erro'})
     else:
         return render(request, 'sistema_login/erro.html', {'title':'Erro'})

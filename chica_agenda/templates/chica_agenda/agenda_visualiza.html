@@ -29,15 +29,50 @@
             </thead>
             <tbody>
                 {% for agenda in agendas %}
-                <tr>
-                    <td>{{agenda.id}}</td>
-                    <td>{{agenda.data|date:"H:i"}}</td>
-                    <td>{{agenda.cli.nome}}</td>
-                    <td>{{agenda.serv.nome}}</td>
-                    <td>{{agenda.func.nome}}</td>
-                    <td>{{agenda.get_pagamento_display}}</td>
-                    <td><button name="agenda_id" value="{{agenda.id}}" class="btn btn-default" formaction="/chica_agenda/confirmacao">Confirmar</button></td>
-                </tr>
+                    {% if agenda.pagamento == '1' %}
+                        <tr>
+                            <td>{{agenda.id}}</td>
+                            <td>{{agenda.data|date:"H:i"}}</td>
+                            <td>{{agenda.cli.nome}}</td>
+                            <td>{{agenda.serv.nome}}</td>
+                            <td>{{agenda.func.nome}}</td>
+                            <td>{{agenda.get_pagamento_display}}</td>
+                            <td>Finalizado</td>
+                        </tr>
+                    {% endif %}
+                    {% if agenda.pagamento == '2' %}
+                        <tr>
+                            <td>{{agenda.id}}</td>
+                            <td>{{agenda.data|date:"H:i"}}</td>
+                            <td>{{agenda.cli.nome}}</td>
+                            <td>{{agenda.serv.nome}}</td>
+                            <td>{{agenda.func.nome}}</td>
+                            <td>{{agenda.get_pagamento_display}}</td>
+                            <td>Finalizado</td>
+                        </tr>
+                    {% endif %}
+                    {% if agenda.pagamento == '3' %}
+                        <tr>
+                            <td>{{agenda.id}}</td>
+                            <td>{{agenda.data|date:"H:i"}}</td>
+                            <td>{{agenda.cli.nome}}</td>
+                            <td>{{agenda.serv.nome}}</td>
+                            <td>{{agenda.func.nome}}</td>
+                            <td>{{agenda.get_pagamento_display}}</td>
+                            <td>Finalizado</td>
+                        </tr>
+                    {% endif %}
+                    {% if agenda.pagamento == '4' %}
+                        <tr>
+                            <td>{{agenda.id}}</td>
+                            <td>{{agenda.data|date:"H:i"}}</td>
+                            <td>{{agenda.cli.nome}}</td>
+                            <td>{{agenda.serv.nome}}</td>
+                            <td>{{agenda.func.nome}}</td>
+                            <td>{{agenda.get_pagamento_display}}</td>
+                            <td><button name="agenda_id" value="{{agenda.id}}" class="btn btn-default" formaction="/chica_agenda/confirmacao">Confirmar</button></td>
+                        </tr>
+                    {% endif %}
                 {% endfor %}
             </tbody>
         </table>

@@ -63,13 +63,6 @@ def add_servico(request):
             agendas = agenda.objects.filter(pagamento=4).order_by('data')
             servicos = servico.objects.all().order_by('nome')
             funcionarios = funcionario.objects.all().order_by('nome')
-            if request.method == 'POST' and request.POST.get('agenda_id') != None and request.POST.get('servico_id') == None:
-                agenda_id = request.POST.get('agenda_id')
-                agenda_obj = agenda.objects.filter(id=agenda_id).get()
-                servicos = servico.objects.all().order_by('nome')
-                funcionarios = funcionario.objects.all().order_by('nome')
-                it_servicos = agenda_obj.item_servico.all()
-                return render(request, 'chica_agenda/agenda_add_servico.html', {'title':'Adicionar Servico ', 'it_servicos':it_servicos, 'agenda_obj':agenda_obj, 'servicos':servicos, 'funcionarios':funcionarios})
             if request.method == 'POST' and request.POST.get('agenda_id') != None and request.POST.get('servico_id') != None:
                 agenda_id = request.POST.get('agenda_id')
                 agenda_obj = agenda.objects.filter(id=agenda_id).get()

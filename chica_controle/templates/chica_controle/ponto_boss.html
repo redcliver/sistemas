@@ -1,0 +1,10 @@
+{% extends 'chica_base.html' %}
+
+{% block body %}
+{% load static %}
+<h1>Ponto</h1><hr /><br />
+<form method="GET">
+    <button class="btn btn-secondary"  formaction="/chica_controle/confirma_ponto">Confirmar({{pendencias}})</button>
+</form>
+
+{% endblock %}

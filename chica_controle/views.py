@@ -1,5 +1,7 @@
 from django.shortcuts import render
-from .models import funcionario, servico
+from .models import funcionario, servico, reg_ponto
+from django.utils import timezone
+from datetime import datetime
 
 # Create your views here.
 def chica_controle(request):
@@ -172,6 +174,58 @@ def salva_servico(request):
                     msg = servico_obj.nome + " editado(a) com sucesso!"
                     return render(request, 'chica_controle/servico_busca_edita.html', {'title':'Editar Servico', 'servicos':servicos, 'msg':msg})
                 return render(request, 'chica_controle/servico_busca_edita.html', {'title':'Editar Servico', 'servicos':servicos})
+            return render(request, 'chica_home/home.html', {'title':'Home'})
+        return render(request, 'sistema_login/erro.html', {'title':'Erro'})
+    else:
+        return render(request, 'sistema_login/erro.html', {'title':'Erro'})
+
+def ponto(request):
+    if request.user.is_authenticated():
+        empresa = request.user.get_short_name()
+        cargo = request.user.last_name
+        if empresa == 'chicadiniz':
+            if cargo == 'funcionario':
+                if request.method == 'POST' and request.POST.get('entrada') != None:
+                    func = request.user.get_short_name()##alterar para username
+                    novo_registro = reg_ponto(estado = 1, operacao = 1, funcionario = func)
+                    novo_registro.save()
+                    msg = "Ponto registrado com sucesso!"
+                    return render(request, 'chica_controle/registro_ponto.html', {'title':'Registro de Ponto', 'msg':msg})
+                if request.method == 'POST' and request.POST.get('saida') != None:
+                    func = request.user.get_short_name()##alterar para username
+                    novo_registro = reg_ponto(estado = 1, operacao = 2, funcionario = func)
+                    novo_registro.save()
+                    msg = "Ponto registrado com sucesso!"
+                    return render(request, 'chica_controle/registro_ponto.html', {'title':'Registro de Ponto', 'msg':msg})
+                return render(request, 'chica_controle/registro_ponto.html', {'title':'Registro de Ponto'})
+            if cargo == 'boss':
+                try:
+                    pendencias = reg_ponto.objects.filter(estado=1).count()
+                except:
+                    pendencias = 0
+                return render(request, 'chica_controle/ponto_boss.html', {'title':'Ponto', 'pendencias':pendencias})
+            return render(request, 'chica_home/home.html', {'title':'Home'})
+        return render(request, 'sistema_login/erro.html', {'title':'Erro'})
+    else:
+        return render(request, 'sistema_login/erro.html', {'title':'Erro'})
+
+def confirma_ponto(request):
+    if request.user.is_authenticated():
+        empresa = request.user.get_short_name()
+        cargo = request.user.last_name
+        if empresa == 'chicadiniz':
+            if cargo == 'boss':
+                ponto_aberto = reg_ponto.objects.filter(estado = 1).order_by("data_cadastro")
+                if request.method == 'POST' and request.POST.get('reg_ponto_id') != None:
+                    reg_ponto_id = request.POST.get('reg_ponto_id')
+                    hoje = timezone.now()
+                    ponto_obj = reg_ponto.objects.get(id=reg_ponto_id)
+                    ponto_obj.estado = 2
+                    ponto_obj.data_confirmacao = hoje
+                    ponto_obj.save()
+                    msg = "Ponto confirmado com sucesso!"
+                    return render(request, 'chica_controle/confirmacao_ponto.html', {'title':'Confirmacao de Ponto', 'ponto_aberto':ponto_aberto, 'msg':msg})
+                return render(request, 'chica_controle/confirmacao_ponto.html', {'title':'Confirmacao de Ponto', 'ponto_aberto':ponto_aberto})
             return render(request, 'chica_home/home.html', {'title':'Home'})
         return render(request, 'sistema_login/erro.html', {'title':'Erro'})
     else:

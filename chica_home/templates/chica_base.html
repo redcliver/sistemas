@@ -28,15 +28,16 @@
     <!--===============================================================================================-->
     <link rel="stylesheet" type="text/css" href="{% static '/css/util.css'% }">
     <link rel="stylesheet" type="text/css" href="{% static '/css/main.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <!--===============================================================================================-->
     <style>
-        body {
-            background-image: url(../../static/img/chica_fundo.jpg); 
-            width: 100%; 
-            height: auto; 
-            background-repeat:no-repeat; 
-            background-position:center;
+        body { 
+            background: url(../../static/img/chica_fundo.jpg) no-repeat center center fixed;
+            -webkit-background-size: cover;
+            -moz-background-size: cover;
+            -o-background-size: cover;
             background-size: cover;
+	        color:#1c1c1c;
         }
         .navbar-brand {
             background: url('../../static/img/chica_logo.png');

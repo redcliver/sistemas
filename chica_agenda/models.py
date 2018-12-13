@@ -19,6 +19,7 @@ class agenda(models.Model):
         ('2', 'Cartao Debito'),
         ('3', 'Cartao Credito'),
         ('4', 'Aberto'),
+        ('5', 'Desmarcado')
     )
     id = models.AutoField(primary_key=True)
     pagamento = models.CharField(max_length=1, choices=PG)

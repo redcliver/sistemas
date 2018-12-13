@@ -88,10 +88,12 @@ def edita(request):
         empresa = request.user.get_short_name()
         if empresa == 'chicadiniz':
             hoje = datetime.date.today().strftime('%Y-%m-%d')
-            agendas = agenda.objects.filter(data__icontains=hoje, pagamento=4)
+            agendas = agenda.objects.filter(data__icontains=hoje)
             if request.method == 'POST' and request.POST.get('data') != None:
                 hoje = request.POST.get('data')
-                agendas = agenda.objects.filter(data__icontains=hoje, pagamento=4)
+                agendas = agenda.objects.filter(data__icontains=hoje)
+                return render(request, 'chica_agenda/agenda_edita.html', {'title':'Editar Agenda', 'agendas':agendas, 'hoje':hoje})
+            if request.method == 'POST' and request.POST.get('agenda_id') != None:
                 return render(request, 'chica_agenda/agenda_edita.html', {'title':'Editar Agenda', 'agendas':agendas, 'hoje':hoje})
             return render(request, 'chica_agenda/agenda_edita.html', {'title':'Editar Agenda', 'agendas':agendas, 'hoje':hoje})
         return render(request, 'sistema_login/erro.html', {'title':'Erro'})
@@ -153,6 +155,64 @@ def dinheiro(request):
                 nova_entrada.save()
                 msg = "Pagamento do agendamento "+str(agenda_obj.id)+ "concluido com sucesso."
                 return render(request, 'chica_agenda/agenda_troco.1.html', {'title':'Confirmar Agenda', 'agenda_obj':agenda_obj, 'troco':troco, 'recebido':recebido})
+            return render(request, 'chica_agenda/agenda_visualiza.html', {'title':'Visualizar Agenda', 'agendas':agendas, 'hoje':hoje})
+        return render(request, 'sistema_login/erro.html', {'title':'Erro'})
+    else:
+        return render(request, 'sistema_login/erro.html', {'title':'Erro'})
+
+def debito(request):
+    if request.user.is_authenticated():
+        empresa = request.user.get_short_name()
+        if empresa == 'chicadiniz':
+            if request.method == 'GET' and request.GET.get('agenda_id') != None:
+                agenda_id = request.GET.get('agenda_id')
+                agenda_obj = agenda.objects.filter(id=agenda_id).get()
+                return render(request, 'chica_agenda/agenda_troco.html', {'title':'Troco', 'agenda_obj':agenda_obj})
+            if request.method == 'POST' and request.POST.get('agenda_id') != None:
+                agenda_id = request.POST.get('agenda_id')
+                agenda_obj = agenda.objects.filter(id=agenda_id).get()
+                agenda_obj.pagamento = 2
+                agenda_obj.save()
+                caixa = caixa_geral.objects.latest('id')
+                ultimo_id = caixa.id_operacao
+                ultimo_id = int(ultimo_id) + 1
+                novo_total = caixa.total + agenda_obj.total
+                valor = agenda_obj.total
+                desc = "Agendamento N:" + str(agenda_obj.id)
+                nova_entrada = caixa_geral(operacao=1, id_operacao=ultimo_id, valor_operacao=valor, descricao=desc, total=novo_total)
+                nova_entrada.save()
+                msg = "Pagamento do agendamento "+str(agenda_obj.id)+ " concluido com sucesso."
+                total_msg = "Total: R$"+ str(valor)
+                return render(request, 'chica_home/home.html', {'title':'Home', 'msg':msg, 'total_msg':total_msg})
+            return render(request, 'chica_agenda/agenda_visualiza.html', {'title':'Visualizar Agenda', 'agendas':agendas, 'hoje':hoje})
+        return render(request, 'sistema_login/erro.html', {'title':'Erro'})
+    else:
+        return render(request, 'sistema_login/erro.html', {'title':'Erro'})
+
+def credito(request):
+    if request.user.is_authenticated():
+        empresa = request.user.get_short_name()
+        if empresa == 'chicadiniz':
+            if request.method == 'GET' and request.GET.get('agenda_id') != None:
+                agenda_id = request.GET.get('agenda_id')
+                agenda_obj = agenda.objects.filter(id=agenda_id).get()
+                return render(request, 'chica_agenda/agenda_troco.html', {'title':'Troco', 'agenda_obj':agenda_obj})
+            if request.method == 'POST' and request.POST.get('agenda_id') != None:
+                agenda_id = request.POST.get('agenda_id')
+                agenda_obj = agenda.objects.filter(id=agenda_id).get()
+                agenda_obj.pagamento = 3
+                agenda_obj.save()
+                caixa = caixa_geral.objects.latest('id')
+                ultimo_id = caixa.id_operacao
+                ultimo_id = int(ultimo_id) + 1
+                novo_total = caixa.total + agenda_obj.total
+                valor = agenda_obj.total
+                desc = "Agendamento N:" + str(agenda_obj.id)
+                nova_entrada = caixa_geral(operacao=1, id_operacao=ultimo_id, valor_operacao=valor, descricao=desc, total=novo_total)
+                nova_entrada.save()
+                msg = "Pagamento do agendamento "+str(agenda_obj.id)+ " concluido com sucesso."
+                total_msg = "Total: R$"+ str(valor)
+                return render(request, 'chica_home/home.html', {'title':'Home', 'msg':msg, 'total_msg':total_msg})
             return render(request, 'chica_agenda/agenda_visualiza.html', {'title':'Visualizar Agenda', 'agendas':agendas, 'hoje':hoje})
         return render(request, 'sistema_login/erro.html', {'title':'Erro'})
     else:

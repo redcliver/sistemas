@@ -65,7 +65,7 @@
                             <td>{{agenda.cli.nome}}</td>
                             <td>{{agenda.total}}</td>
                             <td>{{agenda.get_pagamento_display}}</td>
-                            <td><button name="agenda_id" value="{{agenda.id}}" class="btn btn-default" formaction="/chica_agenda/confirmacao">Confirmar</button></td>
+                            <td><button name="agenda_id" value="{{agenda.id}}" class="btn btn-success" formaction="/chica_agenda/confirmacao"><i class="fa fa-check-circle"></i></button> &nbsp;<button name="agenda_id" value="{{agenda.id}}" class="btn btn-light" formaction="/chica_agenda/desmarcar">&#x274C;</button></td>
                         </tr>
                     {% endif %}
                 {% endfor %}

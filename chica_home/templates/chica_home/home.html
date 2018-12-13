@@ -3,6 +3,13 @@
 {% block body %}
 {% load static %}
 <main >
-<h3>Bom dia</h3>  
+    {% if msg %}
+        <h3 style="text-align:center;">{{msg}}</h3>
+        <br/>
+        <h1 style="text-align:center; color: #3abd12;">{{total_msg}}</h1>
+    
+    {% else %}
+        <h3>Bom dia</h3>
+    {%endif%}
 </main>
 {% endblock %}

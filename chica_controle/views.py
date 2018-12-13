@@ -186,13 +186,13 @@ def ponto(request):
         if empresa == 'chicadiniz':
             if cargo == 'funcionario':
                 if request.method == 'POST' and request.POST.get('entrada') != None:
-                    func = request.user.get_short_name()##alterar para username
+                    func = request.user.username
                     novo_registro = reg_ponto(estado = 1, operacao = 1, funcionario = func)
                     novo_registro.save()
                     msg = "Ponto registrado com sucesso!"
                     return render(request, 'chica_controle/registro_ponto.html', {'title':'Registro de Ponto', 'msg':msg})
                 if request.method == 'POST' and request.POST.get('saida') != None:
-                    func = request.user.get_short_name()##alterar para username
+                    func = request.user.username
                     novo_registro = reg_ponto(estado = 1, operacao = 2, funcionario = func)
                     novo_registro.save()
                     msg = "Ponto registrado com sucesso!"

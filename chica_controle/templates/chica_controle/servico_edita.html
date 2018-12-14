@@ -9,12 +9,12 @@
             <input type="hidden" name="servico_id" value="{{servico_obj.id}}" />
             <div class="form-row">
                 <div class="form-group col-md-9">
-                    <label for="inputName">Nome Completo </label>
-                    <input type="text" class="form-control" value="{{servico_obj.nome}}" name="nome">
+                    <label for="inputName">Nome </label>
+                    <input type="text" class="form-control" value="{{servico_obj.nome}}" name="nome" title="Digite o nome">
                 </div>
                 <div class="form-group col-md-3">
                     <label for="inputCel">Valor</label>
-                    <input type="number" class="form-control" step="0.1" value="{{servico_obj.valor}}" name="valor">
+                    <input type="number" class="form-control" step="0.1" value="{{servico_obj.valor}}" name="valor" title="Digite o valor">
                 </div>
                 <div class="form-group col-md-3">
                     <label for="inputTel">Data Cad.</label>
@@ -22,6 +22,6 @@
                 </div>
             </div>
             <br />
-            <button type="submit" class="btn btn-secondary float-right" formaction="/chica_controle/salva_servico">Salvar</button>
+            <button type="submit" class="btn btn-secondary float-right" formaction="/chica_controle/salva_servico" title="Salver alteracao do registro do servico">Salvar</button>
         </form>
 {% endblock %}

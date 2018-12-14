@@ -7,7 +7,7 @@
     {%csrf_token%}
     <div class="form-row">
         <div class="form-group col-md-12">
-            <select name="servico_id" class="form-control" required>
+            <select name="servico_id" class="form-control" required title="Selecione o servico">
                 <option disabled selected> -- Servico -- </option>
                 {% for servico in servicos %}
                 <option value={{servico.id}}>{{servico.nome}}</option>
@@ -17,7 +17,7 @@
     </div>
     <div class="form-row">
         <div class="form-group col-md-12">
-            <button type="submit" class="btn btn-secondary float-right">Buscar</button>
+            <button type="submit" class="btn btn-secondary float-right" title="Visualizar servico">Visualizar</button>
         </div>
     </div>
     </form>

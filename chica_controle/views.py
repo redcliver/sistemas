@@ -2,6 +2,7 @@ from django.shortcuts import render
 from .models import funcionario, servico, reg_ponto
 from django.utils import timezone
 from datetime import datetime
+from chica_agenda.models import agenda
 
 # Create your views here.
 def chica_controle(request):
@@ -226,6 +227,23 @@ def confirma_ponto(request):
                     msg = "Ponto confirmado com sucesso!"
                     return render(request, 'chica_controle/confirmacao_ponto.html', {'title':'Confirmacao de Ponto', 'ponto_aberto':ponto_aberto, 'msg':msg})
                 return render(request, 'chica_controle/confirmacao_ponto.html', {'title':'Confirmacao de Ponto', 'ponto_aberto':ponto_aberto})
+            return render(request, 'chica_home/home.html', {'title':'Home'})
+        return render(request, 'sistema_login/erro.html', {'title':'Erro'})
+    else:
+        return render(request, 'sistema_login/erro.html', {'title':'Erro'})
+
+def busca_agendamento(request):
+    if request.user.is_authenticated():
+        empresa = request.user.get_short_name()
+        cargo = request.user.last_name
+        if empresa == 'chicadiniz':
+            if cargo == 'boss':
+                agendamentos = agenda.objects.all().order_by('-id')
+                if request.method == 'POST' and request.POST.get('servico_id') != None:
+                    servico_id = request.POST.get('servico_id')
+                    servico_obj = servico.objects.get(id=servico_id)
+                    return render(request, 'chica_controle/servico_visualizar.html', {'title':'Visualizar Servico', 'servico_obj':servico_obj})
+                return render(request, 'chica_controle/controle_busca_agendamento.html', {'title':'Buscar Agendamentos', 'agendamentos':agendamentos})
             return render(request, 'chica_home/home.html', {'title':'Home'})
         return render(request, 'sistema_login/erro.html', {'title':'Erro'})
     else:

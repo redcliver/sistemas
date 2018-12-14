@@ -14,4 +14,5 @@ urlpatterns = [
     url(r'^salva_servico', views.salva_servico),
     url(r'^ponto', views.ponto),
     url(r'^confirma_ponto', views.confirma_ponto),
+    url(r'^busca_agendamento', views.busca_agendamento),
     ]

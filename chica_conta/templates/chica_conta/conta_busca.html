@@ -7,7 +7,7 @@
     {%csrf_token%}
     <div class="form-row">
         <div class="form-group col-md-12">
-            <select name="conta_id" class="form-control" required>
+            <select name="conta_id" class="form-control" required title="Selecione a conta">
                 <option disabled selected > -- Conta -- Valor -- Data Venc. -- </option>
                 {% for conta in contas %}
                     <option value={{conta.id}}>{{conta.nome}} -- R${{conta.valor}} -- {{conta.data_venc|date:"d/m/Y"}}</option>
@@ -17,7 +17,7 @@
     </div>
     <div class="form-row">
         <div class="form-group col-md-12">
-            <button type="submit" class="btn btn-secondary float-right">Buscar</button>
+            <button type="submit" class="btn btn-secondary float-right" title="Visualizar conta">Visualizar</button>
         </div>
     </div>
     </form>

@@ -8,6 +8,6 @@
 <h1>Registro de ponto</h1><hr /><br />
 <form method="POST">
     {% csrf_token %}
-    <button class="btn btn-secondary" name="entrada" value="entrada">Entrada</button> &nbsp; &nbsp; &nbsp;<button class="btn btn-secondary" name="saida" value="saida">Saida</button>
+    <button class="btn btn-secondary" name="entrada" value="entrada" title="Registrar ponto de entrada">Entrada</button> &nbsp; &nbsp; &nbsp;<button class="btn btn-secondary" name="saida" value="saida" title="Registrar ponto de saida">Saida</button>
 </form>
 {% endblock %}

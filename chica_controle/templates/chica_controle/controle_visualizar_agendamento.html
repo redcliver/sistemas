@@ -5,7 +5,7 @@
 {% if msg %}
     <h1 style="text-align:center;">{{msg}}</h1><hr />
 {%endif%}
-<h1>Confirmacao</h1><hr />
+<h1>Visualizar agendamento</h1><hr />
     <form method="GET">
         {% csrf_token %}
         <input type="hidden" name="agenda_id" value="{{agenda_obj.id}}" />
@@ -39,9 +39,7 @@
         <h1 class="float-right">Total: R${{agenda_obj.total}}</h1>
         </div>
         <br />
-        <label for="inputName">Pagamento<strong>*</strong></label><hr />
-        <button type="submit" class="btn btn-secondary " formaction="/chica_agenda/dinheiro" title="Pagamento em dinheiro">Dinheiro</button>&nbsp;
-        <button type="submit" class="btn btn-secondary " formmethod="POST" formaction="/chica_agenda/credito" title="Pagamento em cartao de credito">Cartao Credito</button>&nbsp;
-        <button type="submit" class="btn btn-secondary " formmethod="POST" formaction="/chica_agenda/debito" title="Pagamento em cartao de debito">Cartao Debito</button>&nbsp;
+        <label for="inputName">Pagamento</label><hr />
+        
     </form>
 {% endblock %}

@@ -11,15 +11,15 @@
         {% csrf_token %}
             <div class="form-row">
                 <div class="form-group col-md-9">
-                    <label for="inputName">Nome Completo </label>
-                    <input type="text" class="form-control" id="inputEmail4" name="nome" maxlength="200" required autofocus>
+                    <label for="inputName">Nome </label>
+                    <input type="text" class="form-control" id="inputEmail4" name="nome" maxlength="200" required autofocus title="Digite o nome">
                 </div>
                 <div class="form-group col-md-3">
                     <label for="inputCel">Valor</label>
-                    <input type="number" class="form-control" step="0.1" name="valor">
+                    <input type="number" class="form-control" step="0.1" name="valor" title="Digite o valor">
                 </div>
             </div>
             <br />
-            <button type="submit" class="btn btn-secondary float-right">Salvar</button>
+            <button type="submit" class="btn btn-secondary float-right" title="Salvar novo registro de servico">Salvar</button>
         </form>
 {% endblock %}

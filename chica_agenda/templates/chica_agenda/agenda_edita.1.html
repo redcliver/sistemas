@@ -5,44 +5,54 @@
 {% if msg %}
     <h1 style="text-align:center;">{{msg}}</h1><hr />
 {%endif%}
-<h1>Confirmacao</h1><hr />
-    <form method="GET">
-        {% csrf_token %}
-        <input type="hidden" name="agenda_id" value="{{agenda_obj.id}}" />
+<h1>Editar Agendamento</h1><hr />
+    <form method="POST">
+    {%csrf_token%}
+        <input type="hidden" name="agenda_id" value="{{agenda_obj.id}}"/>
         <div class="form-row">
             <div class="form-group col-md-10">
                 <label for="inputName">Cliente<strong>*</strong></label>
                 <input type="text" class="form-control" value="{{agenda_obj.cli.nome}}" disabled>
             </div>
-            <table class="table table-sm">
-            <thead>
-                <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Hora</th>
-                    <th scope="col">Servico</th>
-                    <th scope="col">Valor</th>
-                    <th scope="col">Funcionario</th>
-                    <th scope="col">Editar</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for item_servico in servicos %}
+            <hr />
+                <table class="table table-sm">
+                <thead>
                     <tr>
-                        <td>{{item_servico.id}}</td>
-                        <td>{{item_servico.data_cadastro|date:"H:i"}}</td>
-                        <td>{{item_servico.serv.nome}}</td>
-                        <td>{{item_servico.serv.valor}}</td>
-                        <td>{{item_servico.func.nome}}</td>
+                        <th scope="col">#</th>
+                        <th scope="col">Hora</th>
+                        <th scope="col">Servico</th>
+                        <th scope="col">Valor</th>
+                        <th scope="col">Funcionario</th>
+                        <th scope="col">Excluir</th>
                     </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-        <h1 class="float-right">Total: R${{agenda_obj.total}}</h1>
+                </thead>
+                <tbody>
+                    {% for item_servico in it_servicos %}
+                    {% if item_servico.cancelado == '1' %}
+                        <tr>
+                            <td>{{item_servico.id}}</td>
+                            <td>{{item_servico.data_cadastro|date:"H:i"}}</td>
+                            <td>{{item_servico.serv.nome}}</td>
+                            <td>{{item_servico.serv.valor}}</td>
+                            <td>{{item_servico.func.nome}}</td>
+                            <td><button name="servico_item_id" value="{{item_servico.id}}" class="btn btn-light" formaction="/chica_agenda/excluir" title="Excluir">&#x274C;</button></td>
+                        </tr>
+                    {% endif %}
+                    {% if item_servico.cancelado == '2' %}
+                        <tr>
+                            <td>{{item_servico.id}}</td>
+                            <td style="color:#ff3939;">{{item_servico.data_cadastro|date:"H:i"}}</td>
+                            <td style="color:#ff3939;">{{item_servico.serv.nome}}</td>
+                            <td style="color:#ff3939;">{{item_servico.serv.valor}}</td>
+                            <td style="color:#ff3939;">{{item_servico.func.nome}}</td>
+                            <td style="color:#ff3939;">Excluido</td>
+                        </tr>
+                    {% endif %}
+                    {% endfor %}
+                </tbody>
+            </table>
+            <label class="float-right">Total: R${{agenda_obj.total}}</label>
+            </div>
         </div>
-        <br />
-        <label for="inputName">Pagamento<strong>*</strong></label><hr />
-        <button type="submit" class="btn btn-secondary " formaction="/chica_agenda/dinheiro">Dinheiro</button>&nbsp;
-        <button type="submit" class="btn btn-secondary " formmethod="POST" formaction="/chica_agenda/credito">Cartao Credito</button>&nbsp;
-        <button type="submit" class="btn btn-secondary " formmethod="POST" formaction="/chica_agenda/debito">Cartao Debito</button>&nbsp;
     </form>
 {% endblock %}

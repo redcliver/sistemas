@@ -93,8 +93,34 @@ def edita(request):
                 hoje = request.POST.get('data')
                 agendas = agenda.objects.filter(data__icontains=hoje)
                 return render(request, 'chica_agenda/agenda_edita.html', {'title':'Editar Agenda', 'agendas':agendas, 'hoje':hoje})
-            if request.method == 'POST' and request.POST.get('agenda_id') != None:
-                return render(request, 'chica_agenda/agenda_edita.html', {'title':'Editar Agenda', 'agendas':agendas, 'hoje':hoje})
+            if request.method == 'GET' and request.GET.get('agenda_id') != None:
+                agenda_id = request.GET.get('agenda_id')
+                agenda_obj = agenda.objects.filter(id=agenda_id).get()
+                it_servicos = agenda_obj.item_servico.all()
+                return render(request, 'chica_agenda/agenda_edita.1.html', {'title':'Editar Agenda', 'agenda_obj':agenda_obj, 'it_servicos':it_servicos})
+            return render(request, 'chica_agenda/agenda_edita.html', {'title':'Editar Agenda', 'agendas':agendas, 'hoje':hoje})
+        return render(request, 'sistema_login/erro.html', {'title':'Erro'})
+    else:
+        return render(request, 'sistema_login/erro.html', {'title':'Erro'})
+
+def excluir(request):
+    if request.user.is_authenticated():
+        empresa = request.user.get_short_name()
+        if empresa == 'chicadiniz':
+            hoje = datetime.date.today().strftime('%Y-%m-%d')
+            agendas = agenda.objects.filter(data__icontains=hoje)
+            if request.method == 'POST' and request.POST.get('servico_item_id') != None and request.POST.get('agenda_id') != None:
+                servico_item_id = request.POST.get('servico_item_id')
+                servico_item_obj = servico_item.objects.filter(id=servico_item_id).get()
+                servico_item_obj.cancelado = 2
+                servico_item_obj.serv.valor = servico_item_obj.serv.valor * -1
+                servico_item_obj.save()
+                agenda_id = request.POST.get('agenda_id')
+                agenda_obj = agenda.objects.filter(id=agenda_id).get()
+                agenda_obj.total = agenda_obj.total + servico_item_obj.serv.valor
+                agenda_obj.save()
+                it_servicos = agenda_obj.item_servico.all()
+                return render(request, 'chica_agenda/agenda_edita.1.html', {'title':'Editar Agenda', 'agenda_obj':agenda_obj, 'it_servicos':it_servicos})
             return render(request, 'chica_agenda/agenda_edita.html', {'title':'Editar Agenda', 'agendas':agendas, 'hoje':hoje})
         return render(request, 'sistema_login/erro.html', {'title':'Erro'})
     else:

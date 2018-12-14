@@ -10,7 +10,7 @@
     {%csrf_token%}
     <div class="form-row">
         <div class="form-group col-md-12">
-            <select name="cliente_id" class="form-control" required>
+            <select name="cliente_id" class="form-control" required title="Selecione o cliente">
                 <option disabled selected > -- Cliente -- </option>
                 {% for cliente in clientes %}
                     <option value={{cliente.id}}>{{cliente.nome}}</option>
@@ -20,7 +20,7 @@
     </div>
     <div class="form-row">
         <div class="form-group col-md-12">
-            <button type="submit" class="btn btn-secondary float-right">Editar</button>
+            <button type="submit" class="btn btn-secondary float-right" title="Editar cliente">Editar</button>
         </div>
     </div>
     </form>

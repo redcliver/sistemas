@@ -12,8 +12,8 @@
         <div class="form-group col-md-9"></div>
         <div class="form-group col-md-3">
             <label>Data</label>
-            <input type="date" class="form-control" value="{{hoje}}" name="data"/>
-            <button type="submit" class="btn btn-secondary float-right">Buscar</button>
+            <input type="date" class="form-control" value="{{hoje}}" name="data" title="Selecione a data"/>
+            <button type="submit" class="btn btn-secondary float-right" title="Buscar por data">Buscar</button>
         </div>
         <table class="table table-sm">
             <thead>
@@ -60,7 +60,7 @@
                     <td>{{agenda.data|date:"H:i"}}</td>
                     <td>{{agenda.cli.nome}}</td>
                     <td>{{agenda.get_pagamento_display}}</td>
-                    <td><button name="agenda_id" value="{{agenda.id}}" class="btn btn-secondary" formaction="/chica_agenda/edita_agendamento">Editar</button></td>
+                    <td><button name="agenda_id" value="{{agenda.id}}" class="btn btn-secondary" formmethod="GET" formaction="/chica_agenda/edita" title="Editar agendamento">Editar</button></td>
                 </tr>
                 {% endif %}
                 {% endfor %}

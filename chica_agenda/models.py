@@ -5,7 +5,12 @@ from chica_controle.models import funcionario, servico
 
 # Create your models here.
 class servico_item(models.Model):
+    CA = (
+        ('1', 'Nao'),
+        ('2', 'Sim'),
+    )
     id = models.AutoField(primary_key=True)
+    cancelado = models.CharField(max_length=1, choices=CA, default='1')
     func = models.ForeignKey(funcionario, on_delete=models.CASCADE)
     serv = models.ForeignKey(servico, on_delete=models.CASCADE)
     data_cadastro = models.DateTimeField(default=timezone.now)
@@ -19,7 +24,7 @@ class agenda(models.Model):
         ('2', 'Cartao Debito'),
         ('3', 'Cartao Credito'),
         ('4', 'Aberto'),
-        ('5', 'Desmarcado')
+        ('5', 'Desmarcado'),
     )
     id = models.AutoField(primary_key=True)
     pagamento = models.CharField(max_length=1, choices=PG)

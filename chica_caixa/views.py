@@ -66,11 +66,13 @@ def conferencia(request):
         if empresa == 'chicadiniz':
             hoje = datetime.date.today().strftime('%Y-%m-%d')
             caixas = caixa_geral.objects.filter(data__icontains=hoje)
+            caixa = caixa_geral.objects.latest('id')
+            total = caixa.total
             if request.method == 'POST' and request.POST.get('data') != None:
                 hoje = request.POST.get('data')
                 caixas = caixa_geral.objects.filter(data__icontains=hoje)
-                return render(request, 'chica_caixa/caixa_conferencia.html', {'title':'Conferencia', 'caixas':caixas, 'hoje':hoje})
-            return render(request, 'chica_caixa/caixa_conferencia.html', {'title':'Conferencia', 'caixas':caixas, 'hoje':hoje})
+                return render(request, 'chica_caixa/caixa_conferencia.html', {'title':'Conferencia', 'caixas':caixas, 'hoje':hoje, 'total':total})
+            return render(request, 'chica_caixa/caixa_conferencia.html', {'title':'Conferencia', 'caixas':caixas, 'hoje':hoje, 'total':total})
         return render(request, 'sistema_login/erro.html', {'title':'Erro'})
     else:
         return render(request, 'sistema_login/erro.html', {'title':'Erro'})

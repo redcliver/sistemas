@@ -12,18 +12,18 @@
             <div class="form-row">
                 <div class="form-group col-md-9">
                     <label for="inputName">Descricao da conta </label>
-                    <input type="text" class="form-control" id="inputEmail4" name="nome" maxlength="200" required autofocus>
+                    <input type="text" class="form-control" id="inputEmail4" name="nome" maxlength="200" required autofocus title="Digite a descricao">
                 </div>
                 <div class="form-group col-md-3">
                     <label for="inputTel">Data de Venc.</label>
-                    <input type="date" class="form-control" id="inputPassword4" name="data_venc">
+                    <input type="date" class="form-control" id="inputPassword4" name="data_venc" title="Selecione a data de vencimento">
                 </div>
                 <div class="form-group col-md-3">
                     <label for="inputTel">Valor</label>
-                    <input type="number" step="0.01" class="form-control" maxlength="20" name="valor">
+                    <input type="number" step="0.01" class="form-control" maxlength="20" name="valor" title="Digite o valor">
                 </div>
             </div>
             <br />
-            <button type="submit" class="btn btn-secondary float-right">Salvar</button>
+            <button type="submit" class="btn btn-secondary float-right" title="Salvar registro da nova conta">Salvar</button>
         </form>
 {% endblock %}

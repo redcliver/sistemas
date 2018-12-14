@@ -36,10 +36,29 @@
                 {% endfor %}
             </tbody>
         </table>
+        <hr />
         <h1 class="float-right">Total: R${{agenda_obj.total}}</h1>
         </div>
-        <br />
-        <label for="inputName">Pagamento</label><hr />
-        
+        <hr />
+        {% if agenda_obj.pagamento == '1' %}
+            <label for="inputName">Pagamento</label>
+            <button class="btn btn-secondary " title="Pagamento em {{agenda_obj.pagamento}}}" disabled>Dinheiro</button>
+        {% endif %}
+        {% if agenda_obj.pagamento == '2' %}
+            <label for="inputName">Pagamento</label>
+            <button class="btn btn-secondary " title="Pagamento em {{agenda_obj.pagamento}}}" disabled>Cartao debito</button>
+        {% endif %}
+        {% if agenda_obj.pagamento == '3' %}
+            <label for="inputName">Pagamento</label>
+            <button class="btn btn-secondary " title="Pagamento em {{agenda_obj.pagamento}}}" disabled>Cartao credito</button>
+        {% endif %}
+        {% if agenda_obj.pagamento == '4' %}
+            <label for="inputName">Pagamento</label>
+            <button class="btn btn-secondary " title="Pagamento {{agenda_obj.pagamento}}}" disabled>Em aberto</button>
+        {% endif %}
+        {% if agenda_obj.pagamento == '5' %}
+            <label for="inputName">Pagamento</label>
+            <button class="btn btn-secondary " title="{agenda_obj.pagamento}}}" disabled>Desmarcado</button>
+        {% endif %}
     </form>
 {% endblock %}

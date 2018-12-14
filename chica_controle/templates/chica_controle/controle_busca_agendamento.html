@@ -10,7 +10,7 @@
     {%csrf_token%}
     <div class="form-row">
         <div class="form-group col-md-12">
-            <select name="servico_id" class="form-control" required title="Selecione o Agendamento">
+            <select name="agendamento_id" class="form-control" required title="Selecione o Agendamento">
                 <option disabled selected> -- Agendamentos -- </option>
                 {% for agenda in agendamentos %}
                     <option value={{agenda.id}}>{{agenda.id}}</option>

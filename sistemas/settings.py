@@ -31,6 +31,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = [
     'headtec.herokuapp.com',
+    'sistemachica.herokuapp.com',
     'localhost',
 ]
 

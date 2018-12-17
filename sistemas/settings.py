@@ -68,6 +68,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'chartjs',
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -163,3 +164,5 @@ LOGIN_REDIRECT_URL = '/sistema_login'
 
 # Activate Django-Heroku.
 #django_heroku.settings(locals())
+
+

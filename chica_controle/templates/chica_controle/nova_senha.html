@@ -7,6 +7,7 @@
 {%endif%}
 <h1>Alterar senha</h1><hr /><br />
 <form method="POST" action="/chica_controle/nova_senha">
+    {% csrf_token %}
     <div class="form-group">
         <label for="exampleInputPassword1">Nova senha</label>
         <input type="password" name="nova_senha" class="form-control" id="exampleInputPassword1" placeholder="Nova senha" required>

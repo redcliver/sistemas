@@ -270,7 +270,7 @@ def nova_senha(request):
     if request.user.is_authenticated():
         empresa = request.user.get_short_name()
         if empresa == 'chicadiniz':
-            if request.method == 'POST':
+            if request.method == 'GET':
                 return render(request, 'chica_controle/nova_senha.html', {'title':'Alterar senha'})
             if request.method == 'POST' and request.POST.get('nova_senha') != None and request.POST.get('nova_senha_1') != None:
                 nova_senha = request.POST.get('nova_senha')

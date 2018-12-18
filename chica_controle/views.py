@@ -3,7 +3,6 @@ from .models import funcionario, servico, reg_ponto
 from django.utils import timezone
 from datetime import datetime
 from chica_agenda.models import agenda
-from fusioncharts import FusionCharts
 
 # Create your views here.
 def chica_controle(request):
@@ -264,26 +263,4 @@ def info_agendamento(request):
     else:
         return render(request, 'sistema_login/erro.html', {'title':'Erro'})
 
-def chart(request):
-    # Create an object for the column2d chart using the FusionCharts class constructor
-    column2d = FusionCharts("column2d", "ex1" , "600", "400", "chart-1", "json",
-         # The data is passed as a string in the `dataSource` as parameter.
-        {  
-               "chart": {  
-                  "caption":"Harry\'s SuperMart",
-                  "subCaption":"Top 5 stores in last month by revenue",
-                  "numberPrefix":"$",
-                  "theme":"ocean"
-               },
-               "data": [  
-                    {"label":"Bakersfield Central", "value":"880000"},
-                    {"label":"Garden Groove harbour", "value":"730000"},
-                    {"label":"Los Angeles Topanga", "value":"590000"},
-                    {"label":"Compton-Rancho Dom", "value":"520000"},
-                    {"label":"Daly City Serramonte", "value":"330000"}
-                ]
-            })
 
-    # returning complete JavaScript and HTML code, 
-    # which is used to generate chart in the browsers.
-    return  render(request, 'chica_controle/controle_info_agendamento.html', {'output' : column2d.render()})

@@ -155,6 +155,24 @@ def confirmacao(request):
     else:
         return render(request, 'sistema_login/erro.html', {'title':'Erro'})
 
+def desmarcar(request):
+    if request.user.is_authenticated():
+        empresa = request.user.get_short_name()
+        if empresa == 'chicadiniz':
+            hoje = datetime.date.today().strftime('%Y-%m-%d')
+            agendas = agenda.objects.filter(data__icontains=hoje)
+            if request.method == 'POST' and request.POST.get('agenda_id') != None:
+                agenda_id = request.POST.get('agenda_id')
+                agenda_obj = agenda.objects.filter(id=agenda_id).get()
+                agenda_obj.pagamento = 5
+                agenda_obj.save()
+                msg = "Agendamento numero "+str(agenda_obj.id)+" desmarcado com sucesso."
+                return render(request, 'chica_agenda/agenda_visualiza.html', {'title':'Desmarcar Agendamento', 'agenda_obj':agenda_obj, 'msg':msg})
+            return render(request, 'chica_agenda/agenda_visualiza.html', {'title':'Visualizar Agenda', 'agendas':agendas, 'hoje':hoje})
+        return render(request, 'sistema_login/erro.html', {'title':'Erro'})
+    else:
+        return render(request, 'sistema_login/erro.html', {'title':'Erro'})
+
 def dinheiro(request):
     if request.user.is_authenticated():
         empresa = request.user.get_short_name()

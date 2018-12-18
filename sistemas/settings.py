@@ -31,7 +31,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = [
     'headtec.herokuapp.com',
-    'sistemachica.herokuapp.com',
     'localhost',
 ]
 
@@ -69,7 +68,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'chartjs',
 ]
 
 MIDDLEWARE_CLASSES = [

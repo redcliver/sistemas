@@ -68,6 +68,16 @@
                             <td><button name="agenda_id" value="{{agenda.id}}" class="btn btn-success" formaction="/chica_agenda/confirmacao" title='Confirmar'><i class="fa fa-check-circle"></i></button> &nbsp;<button name="agenda_id" value="{{agenda.id}}" class="btn btn-light" formaction="/chica_agenda/desmarcar" title="Desmarcar">&#x274C;</button></td>
                         </tr>
                     {% endif %}
+                    {% if agenda.pagamento == '5' %}
+                        <tr>
+                            <td>{{agenda.id}}</td>
+                            <td>{{agenda.data|date:"H:i"}}</td>
+                            <td>{{agenda.cli.nome}}</td>
+                            <td>{{agenda.total}}</td>
+                            <td>{{agenda.get_pagamento_display}}</td>
+                            <td>Desmarcado</td>
+                        </tr>
+                    {% endif %}
                 {% endfor %}
             </tbody>
         </table>

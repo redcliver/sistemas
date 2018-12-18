@@ -1,0 +1,9 @@
+{% extends 'chica_base.html' %}
+
+{% block body %}
+{% load static %}
+<h1>Controle</h1><hr /><br />
+<form>
+    <button type="submit" class="btn btn-secondary " formmethod="POST" formaction="/chica_controle/nova_senha" title="Alterar senha">Alterar senha</button>
+</form>
+{% endblock %}

@@ -16,4 +16,5 @@ urlpatterns = [
     url(r'^confirma_ponto', views.confirma_ponto),
     url(r'^busca_agendamento', views.busca_agendamento),
     url(r'^info_agendamento', views.info_agendamento),
+    url(r'^nova_senha', views.nova_senha),
     ]

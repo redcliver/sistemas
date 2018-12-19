@@ -5,7 +5,7 @@
     {% if msg %}
         <h1 style="text-align:center;">{{msg}}</h1><hr />
     {%endif%}
-<h1>Adicionar carro</h1><hr /><br />
+<h1>Adicionar veiculo</h1><hr /><br />
     <form method="POST" action="/lavajato_cliente/novo_carro">
     {%csrf_token%}
     <div class="form-row">
@@ -20,7 +20,7 @@
     </div>
     <div class="form-row">
         <div class="form-group col-md-12">
-            <button type="submit" class="btn btn-secondary float-right">Adicionar carro</button>
+            <button type="submit" class="btn btn-secondary float-right">Adicionar veiculo</button>
         </div>
     </div>
     </form>

@@ -5,7 +5,7 @@
     {% if msg %}
     <h1 style="text-align:center;">{{msg}}</h1><hr />
     {%endif%}
-    <h1>Novo Cliente</h1>
+    <h1>Novo Veiculo</h1>
     <hr />
     <form method="post">
         {% csrf_token %}
@@ -16,7 +16,7 @@
                 <input type="text" class="form-control" id="inputEmail4" value="{{cliente_obj.nome}}" disabled>
             </div>
         </div>
-        <h3>Novo carro</h3>
+        <h3>Novo veiculo</h3>
         <hr />
         <div class="form-row">
             <div class="form-group col-md-8">
@@ -40,7 +40,7 @@
         <button type="submit" class="btn btn-secondary float-right">Salvar</button>
         {% if cars %}
         <hr />
-        <h3>Carros cadastrados</h3>
+        <h3>veiculos cadastrados</h3>
         <table class="table table-sm">
             <thead>
                 <tr>
@@ -55,7 +55,7 @@
             <tbody>
                 {% for carros in cars %}
                 <tr>
-                    <td>{{agenda.id}}</td>
+                    <td>{{carros.id}}</td>
                     <td>{{carros.modelo}}</td>
                     <td>{{carros.cor}}</td>
                     <td>{{carros.placa}}</td>

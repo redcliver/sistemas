@@ -2,7 +2,11 @@
 
 {% block body %}
 {% load static %}
-<main >
-<h3>Bom dia</h3>  
+<main>
+    <h3>Bom dia</h3>
+    {% if vencimento_conta %}
+        <hr />
+        <h3>Hoje vence {{vencimento_conta}} <a href="/lavajato_contas/pagar">contas</a>.</h3>
+    {% endif %}
 </main>
 {% endblock %}

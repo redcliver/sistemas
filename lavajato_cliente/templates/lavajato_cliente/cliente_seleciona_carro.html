@@ -1,0 +1,50 @@
+{% extends 'lavajato_base.html' %}
+
+{% block body %}
+{% load static %}
+    {% if msg %}
+    <h1 style="text-align:center;">{{msg}}</h1><hr />
+    {%endif%}
+    <h1>Editar Veiculo</h1>
+    <hr />
+    <form method="post">
+        {% csrf_token %}
+        <input type="hidden" name="cliente_id" value="{{cliente_obj.id}}" />
+        <div class="form-row">
+            <div class="form-group col-md-9">
+                <label for="inputName">Cliente </label>
+                <input type="text" class="form-control" id="inputEmail4" value="{{cliente_obj.nome}}" disabled>
+            </div>
+        </div>
+        {% if cars %}
+        <hr />
+        <h3>veiculo cadastrados</h3>
+        <table class="table table-sm">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Modelo</th>
+                    <th scope="col">Cor</th>
+                    <th scope="col">Placa</th>
+                    <th scope="col">Observacao</th>
+                    <th scope="col">Data cadastro</th>
+                    <th scope="col">Editar</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for carros in cars %}
+                <tr>
+                    <td>{{carros.id}}</td>
+                    <td>{{carros.modelo}}</td>
+                    <td>{{carros.cor}}</td>
+                    <td>{{carros.placa}}</td>
+                    <td>{{carros.observacao}}</td>
+                    <td>{{carros.data|date:"d/m/Y"}}</td>
+                    <td><button name="carro_id" value="{{carros.id}}" class="btn btn-secondary" formmethod="GET" formaction="/lavajato_cliente/edita_carro" title="Editar Veiculo">Editar</button></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% endif %}
+    </form>
+{% endblock %}

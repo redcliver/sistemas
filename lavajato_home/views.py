@@ -9,7 +9,9 @@ def home(request):
         empresa = request.user.get_short_name()
         if empresa == 'dayson':
             hoje = datetime.date.today().strftime('%Y-%m-%d')
-            vencimento_conta = conta.objects.filter(estado=1, data_pagamento__icontains=hoje).count()
+            vencimento_conta = 0
+            for c in conta.objects.filter(estado=1, data_pagamento__icontains=hoje).all():
+                vencimento_conta = vencimento_conta + 1
             return render(request, 'lavajato_home/home.html', {'title':'Home', 'vencimento_conta':vencimento_conta})
         return render(request, 'sistema_login/erro.html', {'title':'Erro'})
     else:

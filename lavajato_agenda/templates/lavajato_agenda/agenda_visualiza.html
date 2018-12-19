@@ -13,7 +13,7 @@
         <div class="form-group col-md-3">
             <label>Data</label>
             <input type="date" class="form-control" value="{{hoje}}" name="data" title="Selecione a data"/>
-            <button type="submit" class="btn btn-secondary float-right" formaction="/chica_agenda/visualiza" title="Buscar por data">Buscar</button>
+            <button type="submit" class="btn btn-secondary float-right" formaction="/lavajato_agenda/visualiza" title="Buscar por data">Buscar</button>
         </div>
         <table class="table table-sm">
             <thead>
@@ -65,7 +65,7 @@
                             <td>{{agenda.cli.nome}}</td>
                             <td>{{agenda.total}}</td>
                             <td>{{agenda.get_pagamento_display}}</td>
-                            <td><button name="agenda_id" value="{{agenda.id}}" class="btn btn-success" formaction="/chica_agenda/confirmacao" title='Confirmar'><i class="fa fa-check-circle"></i></button> &nbsp;<button name="agenda_id" value="{{agenda.id}}" class="btn btn-light" formaction="/chica_agenda/desmarcar" title="Desmarcar">&#x274C;</button></td>
+                            <td><button name="agenda_id" value="{{agenda.id}}" class="btn btn-success" formaction="/lavajato_agenda/confirmacao" title='Confirmar'><i class="fa fa-check-circle"></i></button> &nbsp;<button name="agenda_id" value="{{agenda.id}}" class="btn btn-light" formaction="/chica_agenda/desmarcar" title="Desmarcar">&#x274C;</button></td>
                         </tr>
                     {% endif %}
                     {% if agenda.pagamento == '5' %}

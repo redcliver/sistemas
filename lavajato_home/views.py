@@ -10,7 +10,7 @@ def home(request):
         if empresa == 'dayson':
             hoje = datetime.date.today().strftime('%Y-%m-%d')
             vencimento_conta = 0
-            for c in conta.objects.filter(estado=1, data_pagamento__icontains=hoje).all():
+            for c in conta.objects.filter(estado=1, data_venc__icontains=hoje).all():
                 vencimento_conta = vencimento_conta + 1
             return render(request, 'lavajato_home/home.html', {'title':'Home', 'vencimento_conta':vencimento_conta})
         return render(request, 'sistema_login/erro.html', {'title':'Erro'})

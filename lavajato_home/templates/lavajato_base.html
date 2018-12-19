@@ -31,17 +31,17 @@
     <!--===============================================================================================-->
     <style>
         body {
-            background-image: url(../../static/lavajato.jpg); 
-            width: 100%; 
-            height: auto; 
-            background-repeat:no-repeat; 
-            background-position:center;
+            background: url(../../static/img/lavajato_fundo.jpg) no-repeat center center fixed;
+            -webkit-background-size: cover;
+            -moz-background-size: cover;
+            -o-background-size: cover;
             background-size: cover;
+            color: #1c1c1c;
         }
         .navbar-brand {
-            background: url('../../static/img/logo.png');
-            width: 211px;
-            height: 75px;
+            background: url('../../static/img/lavajato_logo1.png');
+            width: 184px;
+            height: 70px;
             margin-left: 5px;
         }
         .sansserif {
@@ -78,11 +78,9 @@
 
         }
         .navbar {
-            background: rgb(254,255,255); /* Old browsers */
-            background: -moz-linear-gradient(-45deg, rgba(254,255,255,1) 0%, rgba(141,151,168,1) 53%, rgba(137,149,169,1) 100%); /* FF3.6-15 */
-            background: -webkit-linear-gradient(-45deg, rgba(254,255,255,1) 0%,rgba(141,151,168,1) 53%,rgba(137,149,169,1) 100%); /* Chrome10-25,Safari5.1-6 */
-            background: linear-gradient(135deg, rgba(254,255,255,1) 0%,rgba(141,151,168,1) 53%,rgba(137,149,169,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-            filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#feffff', endColorstr='#8995a9',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+            background: #4b6cb7; /* fallback for old browsers */
+            background: -webkit-linear-gradient(to left, #182848, #4b6cb7); /* Chrome 10-25, Safari 5.1-6 */
+            background: linear-gradient(to left, #182848, #4b6cb7); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
             -webkit-box-shadow: 0 6px 6px -6px rgba(0, 0, 0, 0.8);
             -moz-box-shadow: 0 6px 6px -6px rgba(0, 0, 0, 0.8);
             box-shadow: 0 6px 6px -6px rgba(0, 0, 0, 0.8);

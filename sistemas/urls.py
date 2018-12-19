@@ -33,7 +33,10 @@ urlpatterns = [
     url(r'^lavajato_home/', include('lavajato_home.urls')),
     url(r'^lavajato_cliente/', include('lavajato_cliente.urls')),
     url(r'^lavajato_contas/', include('lavajato_contas.urls')),
+    url(r'^lavajato_controle/', include('lavajato_controle.urls')),
     url(r'^lavajato_caixa/', include('lavajato_caixa.urls')),
+    url(r'^lavajato_estoque/', include('lavajato_estoque.urls')),
+    url(r'^lavajato_agenda/', include('lavajato_agenda.urls')),
 
     # URL Mario Miazaky
     url(r'^mario_home/', include('mario_home.urls')),

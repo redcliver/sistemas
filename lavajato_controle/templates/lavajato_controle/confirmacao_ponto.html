@@ -28,7 +28,7 @@
                     <td>{{reg_ponto.data_cadastro|date:"H:i"}}</td>
                     <td>{{reg_ponto.funcionario}}</td>
                     <td>{{reg_ponto.get_operacao_display}}</td>
-                    <td><button name="reg_ponto_id" value="{{reg_ponto.id}}" class="btn btn-secondary" formaction="/chica_controle/confirma_ponto" title="Confirmar registro de ponto">Confirmar</button></td>
+                    <td><button name="reg_ponto_id" value="{{reg_ponto.id}}" class="btn btn-secondary" formaction="/lavajato_controle/confirma_ponto" title="Confirmar registro de ponto">Confirmar</button></td>
                 </tr>
                 {% endfor %}
             </tbody>

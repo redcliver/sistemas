@@ -6,7 +6,7 @@
     <h3>Bom dia</h3>
     {% if vencimento_conta %}
         <hr />
-        <h3>Hoje vence {{vencimento_conta}} </h3><h3 href="/lavajato_contas/pagar">contas.</h3>
+        <h3>Hoje vence {{vencimento_conta}} </h3><a href="/lavajato_contas/pagar" class="link">contas.</a>
     {% endif %}
 </main>
 {% endblock %}

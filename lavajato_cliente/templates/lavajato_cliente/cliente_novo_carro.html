@@ -1,0 +1,70 @@
+{% extends 'lavajato_base.html' %}
+
+{% block body %}
+{% load static %}
+    {% if msg %}
+    <h1 style="text-align:center;">{{msg}}</h1><hr />
+    {%endif%}
+    <h1>Novo Cliente</h1>
+    <hr />
+    <form method="post">
+        {% csrf_token %}
+        <input type="hidden" name="cliente_id" value="{{cliente_obj.id}}" />
+        <div class="form-row">
+            <div class="form-group col-md-9">
+                <label for="inputName">Cliente </label>
+                <input type="text" class="form-control" id="inputEmail4" value="{{cliente_obj.nome}}" disabled>
+            </div>
+        </div>
+        <h3>Novo carro</h3>
+        <hr />
+        <div class="form-row">
+            <div class="form-group col-md-8">
+                <label for="inputEmail">Modelo</label>
+                <input type="text" class="form-control" id="inputAddress2" maxlength="200" name="modelo">
+            </div>
+            <div class="form-group col-md-4">
+                <label for="inputEmail">Placa</label>
+                <input type="text" class="form-control" id="inputAddress2" maxlength="200" name="placa">
+            </div>
+            <div class="form-group col-md-4">
+                <label for="inputEmail">Cor</label>
+                <input type="text" class="form-control" id="inputAddress2" maxlength="200" name="cor">
+            </div>
+            <div class="form-group col-md-4">
+                <label for="inputEmail">Observacao</label>
+                <textarea class="form-control" id="exampleFormControlTextarea1" name="observacao" maxlength="300" rows="3"></textarea>
+            </div>
+        </div>
+        <br />
+        <button type="submit" class="btn btn-secondary float-right">Salvar</button>
+        {% if cars %}
+        <hr />
+        <h3>Carros cadastrados</h3>
+        <table class="table table-sm">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Modelo</th>
+                    <th scope="col">Cor</th>
+                    <th scope="col">Placa</th>
+                    <th scope="col">Observacao</th>
+                    <th scope="col">Data cadastro</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for carros in cars %}
+                <tr>
+                    <td>{{agenda.id}}</td>
+                    <td>{{carros.modelo}}</td>
+                    <td>{{carros.cor}}</td>
+                    <td>{{carros.placa}}</td>
+                    <td>{{carros.observacao}}</td>
+                    <td>{{carros.data|date:"d/m/Y"}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% endif %}
+    </form>
+{% endblock %}

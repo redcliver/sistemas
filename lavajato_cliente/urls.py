@@ -7,4 +7,5 @@ urlpatterns = [
     url(r'^busca', views.busca),
     url(r'^edita', views.edita),
     url(r'^salva', views.salva),
+    url(r'^novo_carro', views.novo_carro),
     ]

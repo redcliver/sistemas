@@ -1,0 +1,38 @@
+{% extends 'chica_base.html' %}
+
+{% block body %}
+{% load static %}
+{% if msg %}
+    <h1 style="text-align:center;">{{msg}}</h1><hr />
+{%endif%}
+<h1>Pontos em aberto</h1><hr />
+    <form method="POST">
+    {%csrf_token%}
+    <div class="form-row">
+        <table class="table table-sm">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Data</th>
+                    <th scope="col">Hora</th>
+                    <th scope="col">Funcionario</th>
+                    <th scope="col">Operacao</th>
+                    <th scope="col">Confirmacao</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for reg_ponto in ponto_aberto %}
+                <tr>
+                    <td>{{reg_ponto.id}}</td>
+                    <td>{{reg_ponto.data_cadastro|date:"d/m/Y"}}</td>
+                    <td>{{reg_ponto.data_cadastro|date:"H:i"}}</td>
+                    <td>{{reg_ponto.funcionario}}</td>
+                    <td>{{reg_ponto.get_operacao_display}}</td>
+                    <td><button name="reg_ponto_id" value="{{reg_ponto.id}}" class="btn btn-secondary" formaction="/chica_controle/confirma_ponto" title="Confirmar registro de ponto">Confirmar</button></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    </form>
+{% endblock %}

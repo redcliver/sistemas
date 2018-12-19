@@ -1,0 +1,49 @@
+{% extends 'chica_base.html' %}
+
+{% block body %}
+{% load static %}
+{% if msg %}
+    <h1 style="text-align:center;">{{msg}}</h1><hr />
+{%endif%}
+<h1>Novo Agendamento</h1><hr />
+    <form method="POST">
+    {%csrf_token%}
+        <div class="form-row">
+            <div class="form-group col-md-10">
+                <label for="inputName">Cliente<strong>*</strong></label>
+                <select autofocus name="cliente_id" class="form-control" required>
+                    <option disabled selected> -- Cliente -- </option>
+                    {% for cliente in clientes %}
+                    <option value={{cliente.id}}>{{cliente.nome}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group col-md-10">
+                <label for="inputName">Servico<strong>*</strong></label>
+                <select autofocus name="servico_id" class="form-control" required>
+                    <option disabled selected> -- Servico -- </option>
+                    {% for servico in servicos %}
+                    <option value={{servico.id}}>{{servico.nome}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group col-md-10">
+                <label for="inputName">Funcionario<strong>*</strong></label>
+                <select autofocus name="funcionario_id" class="form-control" required>
+                    <option disabled selected> -- Funcionario -- </option>
+                    {% for funcionario in funcionarios %}
+                    <option value={{funcionario.id}}>{{funcionario.nome}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group col-md-2">
+            </div>
+            <div class="form-group col-md-3">
+                <label for="inputTel">Data</label>
+                <input type="datetime-local" class="form-control" name="data">
+            </div>
+        </div>
+            <br />
+            <button type="submit" class="btn btn-secondary float-right" title="Registrar novo agendamento">Registrar</button>
+    </form>
+{% endblock %}

@@ -1,4 +1,4 @@
-{% extends 'lavajato_base.html' %}
+{% extends 'chica_base.html' %}
 
 {% block body %}
 {% load static %}
@@ -11,17 +11,17 @@
         <div class="form-row">
                 <div class="form-group col-md-9">
                     <label for="inputName">Descricao </label>
-                    <input type="text" class="form-control" id="inputEmail4" name="desc" maxlength="200" required autofocus>
+                    <input type="text" class="form-control" id="inputEmail4" name="desc" maxlength="200" required autofocus title="Digite a descricao da saida">
                 </div>
                 <div class="form-group col-md-3">
                     
                 </div>
                 <div class="form-group col-md-3">
                     <label for="inputCel">Valor</label>
-                    <input type="number" class="form-control" step="0.1" name="valor">
+                    <input type="number" class="form-control" step="0.1" name="valor" title="Digite o valor da saida">
                 </div>
             </div>
             <br />
-            <button type="submit" class="btn btn-secondary float-right">Registrar</button>
+            <button type="submit" class="btn btn-secondary float-right" title="Salvar registro da saida">Registrar</button>
     </form>
 {% endblock %}

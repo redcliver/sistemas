@@ -1,0 +1,27 @@
+{% extends 'chica_base.html' %}
+
+{% block body %}
+{% load static %}
+    {% if msg %}
+        <h1 style="text-align:center;">{{msg}}</h1><hr />
+    {%endif%}
+    <h1>Editar Servico</h1><hr /><br />
+    <form method="POST" action="/chica_controle/edita_servico">
+    {%csrf_token%}
+    <div class="form-row">
+        <div class="form-group col-md-12">
+            <select name="servico_id" class="form-control" required title="Selecione o servico">
+                <option disabled selected> -- Servico -- </option>
+                {% for servico in servicos %}
+                <option value={{servico.id}}>{{servico.nome}}</option>
+                {% endfor %}
+            </select>
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="form-group col-md-12">
+            <button type="submit" class="btn btn-secondary float-right" title="Editar registro de servico">Editar</button>
+        </div>
+    </div>
+    </form>
+{% endblock %}

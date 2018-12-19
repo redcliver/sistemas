@@ -1,4 +1,4 @@
-{% extends 'lavajato_base.html' %}
+{% extends 'chica_base.html' %}
 
 {% block body %}
 {% load static %}
@@ -11,10 +11,10 @@
         <div class="form-row">
                 <div class="form-group col-md-3">
                     <label for="inputCel">Valor</label>
-                    <input type="number" class="form-control" step="0.1" name="valor">
+                    <input type="number" class="form-control" step="0.1" name="valor" title="Digire o valor a ser retirado no fechamento">
                 </div>
             </div>
             <br />
-            <button type="submit" class="btn btn-secondary float-right">Fechar</button>
+            <button type="submit" class="btn btn-secondary float-right" title="Registrar o fechamento do caixa">Fechar</button>
     </form>
 {% endblock %}

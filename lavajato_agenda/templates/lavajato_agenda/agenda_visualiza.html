@@ -1,0 +1,86 @@
+{% extends 'chica_base.html' %}
+
+{% block body %}
+{% load static %}
+{% if msg %}
+    <h1 style="text-align:center;">{{msg}}</h1><hr />
+{%endif%}
+<h1>Visualizar agenda</h1><hr />
+    <form method="POST">
+    {%csrf_token%}
+    <div class="form-row">
+        <div class="form-group col-md-9"></div>
+        <div class="form-group col-md-3">
+            <label>Data</label>
+            <input type="date" class="form-control" value="{{hoje}}" name="data" title="Selecione a data"/>
+            <button type="submit" class="btn btn-secondary float-right" formaction="/chica_agenda/visualiza" title="Buscar por data">Buscar</button>
+        </div>
+        <table class="table table-sm">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Hora</th>
+                    <th scope="col">Cliente</th>
+                    <th scope="col">Total</th>
+                    <th scope="col">Estado</th>
+                    <th scope="col">Confirmacao</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for agenda in agendas %}
+                    {% if agenda.pagamento == '1' %}
+                        <tr>
+                            <td>{{agenda.id}}</td>
+                            <td>{{agenda.data|date:"H:i"}}</td>
+                            <td>{{agenda.cli.nome}}</td>
+                            <td>{{agenda.total}}</td>
+                            <td>{{agenda.get_pagamento_display}}</td>
+                            <td>Finalizado</td>
+                        </tr>
+                    {% endif %}
+                    {% if agenda.pagamento == '2' %}
+                        <tr>
+                            <td>{{agenda.id}}</td>
+                            <td>{{agenda.data|date:"H:i"}}</td>
+                            <td>{{agenda.cli.nome}}</td>
+                            <td>{{agenda.total}}</td>
+                            <td>{{agenda.get_pagamento_display}}</td>
+                            <td>Finalizado</td>
+                        </tr>
+                    {% endif %}
+                    {% if agenda.pagamento == '3' %}
+                        <tr>
+                            <td>{{agenda.id}}</td>
+                            <td>{{agenda.data|date:"H:i"}}</td>
+                            <td>{{agenda.cli.nome}}</td>
+                            <td>{{agenda.total}}</td>
+                            <td>{{agenda.get_pagamento_display}}</td>
+                            <td>Finalizado</td>
+                        </tr>
+                    {% endif %}
+                    {% if agenda.pagamento == '4' %}
+                        <tr>
+                            <td>{{agenda.id}}</td>
+                            <td>{{agenda.data|date:"H:i"}}</td>
+                            <td>{{agenda.cli.nome}}</td>
+                            <td>{{agenda.total}}</td>
+                            <td>{{agenda.get_pagamento_display}}</td>
+                            <td><button name="agenda_id" value="{{agenda.id}}" class="btn btn-success" formaction="/chica_agenda/confirmacao" title='Confirmar'><i class="fa fa-check-circle"></i></button> &nbsp;<button name="agenda_id" value="{{agenda.id}}" class="btn btn-light" formaction="/chica_agenda/desmarcar" title="Desmarcar">&#x274C;</button></td>
+                        </tr>
+                    {% endif %}
+                    {% if agenda.pagamento == '5' %}
+                        <tr>
+                            <td>{{agenda.id}}</td>
+                            <td>{{agenda.data|date:"H:i"}}</td>
+                            <td>{{agenda.cli.nome}}</td>
+                            <td>{{agenda.total}}</td>
+                            <td>{{agenda.get_pagamento_display}}</td>
+                            <td>Desmarcado</td>
+                        </tr>
+                    {% endif %}
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    </form>
+{% endblock %}

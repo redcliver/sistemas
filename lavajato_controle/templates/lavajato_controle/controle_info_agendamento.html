@@ -1,0 +1,8 @@
+{% extends 'chica_base.html' %}
+
+{% block body %}
+{% load static %}
+<script type="text/javascript" src="{% static "/fusioncharts/fusioncharts.js" %}"></script>
+<h1>Controle</h1><hr /><br />
+<div id="chartContainer">{{ output|safe }}</div>
+{% endblock %}

@@ -1,0 +1,33 @@
+{% extends 'chica_base.html' %}
+
+{% block body %}
+{% load static %}
+{% if msg %}
+    <h1 style="text-align:center;">{{msg}}</h1><hr />
+{%endif%}
+<h1>Troco</h1><hr />
+    <form action="/chica_home/">
+    {%csrf_token%}
+    <input type="hidden" name="agenda_id" value="{{agenda_obj.id}}" />
+    <div class="form-row justify-content-md-center">
+        <div class="form-group">
+            <label for="inputName">Total<strong>*</strong></label>
+            <input type="text" class="form-control" value="R${{agenda_obj.total}}" disabled>
+        </div>
+    </div>
+    <div class="form-row justify-content-md-center">
+        <div class="form-group ">
+            <label for="inputName">Recebido<strong>*</strong></label>
+            <input type="text" class="form-control" value="R${{recebido}}" disabled>
+        </div>
+    </div>
+    <div class="form-row justify-content-md-center">
+        <div class="form-group ">
+            <label for="inputName">Troco<strong>*</strong></label>
+            <input type="text" style="background:#ffa0a0" class="form-control" value="R${{troco}}" disabled>
+        </div>            
+    </div>
+            <br />
+            <button type="submit" class="btn btn-secondary float-right" formaction="/chica_home/" autofocus title="Finalizar a operacao">Finalizar</button>
+    </form>
+{% endblock %}

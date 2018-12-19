@@ -1,0 +1,33 @@
+{% extends 'chica_base.html' %}
+
+{% block body %}
+{% load static %}
+{% if msg %}
+    <h1 style="text-align:center;">{{msg}}</h1><hr />
+{%endif%}
+<h1>Troco</h1><hr />
+    <form method="POST" action="/chica_agenda/dinheiro">
+    {%csrf_token%}
+        <input type="hidden" name="agenda_id" value="{{agenda_obj.id}}" />
+        <div class="form-row justify-content-md-center">
+            <div class="form-group">
+                <label for="inputName">Total<strong>*</strong></label>
+                <input type="text" class="form-control" value="R${{agenda_obj.total}}" disabled>
+            </div>
+        </div>
+        <div class="form-row justify-content-md-center">
+            <div class="form-group ">
+                <label for="inputName">Recebido<strong>*</strong></label>
+                <input type="text" class="form-control" name="recebido" autofocus required>
+            </div>
+        </div>
+        <div class="form-row justify-content-md-center">
+            <div class="form-group ">
+                <label for="inputName">Troco<strong>*</strong></label>
+                <input type="text" class="form-control" value="R$0,00" disabled>
+            </div>            
+        </div>
+            <br />
+            <button type="submit" class="btn btn-secondary float-right" title="Conferir o troco">Registrar</button>
+    </form>
+{% endblock %}

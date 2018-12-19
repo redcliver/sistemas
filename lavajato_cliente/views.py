@@ -2,7 +2,7 @@ from django.shortcuts import render
 import datetime
 from .models import cliente
 # Create your views here.
-def chica_cliente(request):
+def lavajato_cliente(request):
     if request.user.is_authenticated():
         empresa = request.user.get_short_name()
         if empresa == 'dayson':

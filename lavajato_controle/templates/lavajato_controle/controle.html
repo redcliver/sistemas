@@ -1,0 +1,53 @@
+{% extends 'chica_base.html' %}
+
+{% block body %}
+{% load static %}
+<h1>Controle</h1><hr /><br />
+<ul class="navbar-nav " >          
+    <li class="nav-item ">
+        <div class="dropdown show">
+            <a class="nav-link sansserif dropdown-toggle" href="#" style="color: rgba(0,0,0,0.8);" role="button" id="dropdownMenuLink1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Funcionario
+            </a>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink1">
+            <a class="dropdown-item sansserif1" href="/chica_controle/novo_funcionario">Novo Funcionario</a>
+            <a class="dropdown-item sansserif1" href="/chica_controle/busca_funcionario">Buscar Funcionario</a>
+            <a class="dropdown-item sansserif1" href="/chica_controle/edita_funcionario">Editar Funcionario</a>
+        </div>
+        </div>
+    </li>
+    <li class="nav-item ">
+        <div class="dropdown show">
+            <a class="nav-link sansserif dropdown-toggle" href="#" style="color: rgba(0,0,0,0.8);" role="button" id="dropdownMenuLink2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Servico
+            </a>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink2">
+                <a class="dropdown-item sansserif1" href="/chica_controle/novo_servico">Novo Servico</a>
+                <a class="dropdown-item sansserif1" href="/chica_controle/busca_servico">Buscar Servico</a>
+                <a class="dropdown-item sansserif1" href="/chica_controle/edita_servico">Editar Servico</a>
+            </div>
+        </div>
+    </li>
+    <li class="nav-item ">
+            <div class="dropdown show">
+                <a class="nav-link sansserif dropdown-toggle" href="#" style="color: rgba(0,0,0,0.8);" role="button" id="dropdownMenuLink2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Agendamentos
+                </a>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink2">
+                    <a class="dropdown-item sansserif1" href="/chica_controle/busca_agendamento">Buscar agendamento</a>
+                    <a class="dropdown-item sansserif1" href="/chica_controle/info_agendamento">Informacao dos agendamentos</a>
+                </div>
+            </div>
+        </li>
+    <li class="nav-item ">
+            <div class="dropdown show">
+                <a class="nav-link sansserif dropdown-toggle" href="#" style="color: rgba(0,0,0,0.8);" role="button" id="dropdownMenuLink2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Alterar senha
+                </a>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink2">
+                    <a class="dropdown-item sansserif1" href="/chica_controle/nova_senha">Nova senha</a>
+                </div>
+            </div>
+        </li>
+ </ul>
+{% endblock %}

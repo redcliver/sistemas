@@ -1,0 +1,24 @@
+{% extends 'chica_base.html' %}
+
+{% block body %}
+{% load static %}
+<h1>Busca Funcionario</h1><hr /><br />
+    <form method="POST">
+    {%csrf_token%}
+    <div class="form-row">
+        <div class="form-group col-md-12">
+            <select name="funcionario_id" class="form-control" required title="Selecione o funcionario">
+                <option disabled selected> -- Funcionario -- </option>
+                {% for funcionario in funcionarios %}
+                <option value={{funcionario.id}}>{{funcionario.nome}}</option>
+                {% endfor %}
+            </select>
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="form-group col-md-12">
+            <button type="submit" class="btn btn-secondary float-right" title="Visualizar funcionario">Visualizar</button>
+        </div>
+    </div>
+    </form>
+{% endblock %}

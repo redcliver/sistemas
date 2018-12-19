@@ -1,0 +1,64 @@
+{% extends 'chica_base.html' %}
+
+{% block body %}
+{% load static %}
+{% if msg %}
+    <h1 style="text-align:center;">{{msg}}</h1><hr />
+{%endif%}
+<h1>Visualizar agendamento</h1><hr />
+    <form method="GET">
+        {% csrf_token %}
+        <input type="hidden" name="agenda_id" value="{{agenda_obj.id}}" />
+        <div class="form-row">
+            <div class="form-group col-md-10">
+                <label for="inputName">Cliente<strong>*</strong></label>
+                <input type="text" class="form-control" value="{{agenda_obj.cli.nome}}" disabled>
+            </div>
+            <table class="table table-sm">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Hora</th>
+                    <th scope="col">Servico</th>
+                    <th scope="col">Valor</th>
+                    <th scope="col">Funcionario</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item_servico in servicos %}
+                    <tr>
+                        <td>{{item_servico.id}}</td>
+                        <td>{{item_servico.data_cadastro|date:"H:i"}}</td>
+                        <td>{{item_servico.serv.nome}}</td>
+                        <td>{{item_servico.serv.valor}}</td>
+                        <td>{{item_servico.func.nome}}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <hr />
+        <h1 class="float-right">Total: R${{agenda_obj.total}}</h1>
+        </div>
+        <hr />
+        {% if agenda_obj.pagamento == '1' %}
+            <label for="inputName">Pagamento</label>
+            <button class="btn btn-secondary " title="Pagamento em {{agenda_obj.pagamento}}}" disabled>Dinheiro</button>
+        {% endif %}
+        {% if agenda_obj.pagamento == '2' %}
+            <label for="inputName">Pagamento</label>
+            <button class="btn btn-secondary " title="Pagamento em {{agenda_obj.pagamento}}}" disabled>Cartao debito</button>
+        {% endif %}
+        {% if agenda_obj.pagamento == '3' %}
+            <label for="inputName">Pagamento</label>
+            <button class="btn btn-secondary " title="Pagamento em {{agenda_obj.pagamento}}}" disabled>Cartao credito</button>
+        {% endif %}
+        {% if agenda_obj.pagamento == '4' %}
+            <label for="inputName">Pagamento</label>
+            <button class="btn btn-secondary " title="Pagamento {{agenda_obj.pagamento}}}" disabled>Em aberto</button>
+        {% endif %}
+        {% if agenda_obj.pagamento == '5' %}
+            <label for="inputName">Pagamento</label>
+            <button class="btn btn-secondary " title="{agenda_obj.pagamento}}}" disabled>Desmarcado</button>
+        {% endif %}
+    </form>
+{% endblock %}

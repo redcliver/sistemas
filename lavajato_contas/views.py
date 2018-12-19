@@ -1,8 +1,11 @@
 from django.shortcuts import render
+from django.utils import timezone
+import datetime
 from .models import conta
+from lavajato_caixa.models import caixa_geral
 
 # Create your views here.
-def lavajato_conta(request):
+def lavajato_contas(request):
     if request.user.is_authenticated():
         empresa = request.user.get_short_name()
         if empresa == 'dayson':
@@ -77,10 +80,20 @@ def pagar(request):
         if empresa == 'dayson':
             contas = conta.objects.filter(estado=1).all().order_by('data_venc')
             if request.method == 'POST' and request.POST.get('conta_id') != None:
+                hoje = timezone.now()
                 conta_id = request.POST.get('conta_id')
                 conta_obj = conta.objects.get(id=conta_id)
+                conta_obj.data_pagamento = hoje
                 conta_obj.estado = 2
                 conta_obj.save()
+                caixa = caixa_geral.objects.latest('id')
+                ultimo_id = caixa.id_operacao
+                ultimo_id = int(ultimo_id) + 1
+                novo_total = caixa.total - conta_obj.valor
+                valor = conta_obj.valor
+                desc = "Pagamento da conta : " + str(conta_obj.nome)
+                nova_entrada = caixa_geral(operacao=2, id_operacao=ultimo_id, valor_operacao=valor, descricao=desc, total=novo_total)
+                nova_entrada.save()
                 msg = conta_obj.nome + " pago(a) com sucesso!"
                 return render(request, 'lavajato_contas/conta_pagar.html', {'title':'Pagar Conta', 'contas':contas, 'msg':msg})
             return render(request, 'lavajato_contas/conta_pagar.html', {'title':'Pagar Conta', 'contas':contas})

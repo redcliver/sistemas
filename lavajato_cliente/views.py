@@ -121,7 +121,7 @@ def novo_carro(request):
                 cars = cliente_obj.carros.all().order_by('modelo')
                 msg = modelo+" salvo com sucesso!"
                 return render(request, 'lavajato_cliente/cliente_novo_carro.html', {'title':'Novo Veiculo', 'cliente_obj':cliente_obj, 'cars':cars, 'msg':msg})
-            return render(request, 'lavajato_cliente/cliente_busca_novo_carro.html', {'title':'Novo Veiculo'})
+            return render(request, 'lavajato_cliente/cliente_busca_novo_carro.html', {'title':'Novo Veiculo', 'clientes':clientes})
         return render(request, 'sistema_login/erro.html', {'title':'Erro'})
     else:
         return render(request, 'sistema_login/erro.html', {'title':'Erro'})

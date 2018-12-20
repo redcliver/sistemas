@@ -163,7 +163,7 @@ def edita_estoque_minimo(request):
             if request.method == 'POST' and request.POST.get('produto_id') != None:
                 produto_id = request.POST.get('produto_id')
                 produto_obj = produto.objects.filter(id=produto_id).get()
-                if request.POST.get('quantidade_minima') != produto_obj.quantidade_minima:
+                if request.POST.get('quantidade_minima') != produto_obj.quantidade_minima and request.POST.get('quantidade_minima') != None:
                     quantidade_minima = request.POST.get('quantidade_minima')
                     produto_obj.quantidade_minima = quantidade_minima
                     produto_obj.save()

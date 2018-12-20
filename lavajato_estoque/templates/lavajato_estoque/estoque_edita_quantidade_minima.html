@@ -36,7 +36,7 @@
         {% if produto_obj %}
         <input type="hidden" name="nova_saida" value="{{produto_obj.id}}" />
         <div class="form-row">
-            <div class="form-group col-md-3">
+            <div class="form-group col-md-2">
                 <label for="inputCel">Estoque minimo</label>
                 <input type="number" class="form-control col-md-4" value="{{produto_obj.quantidade_minima}}" disabled>
             </div>
@@ -49,7 +49,7 @@
         </div>
         <div class="form-row">
             <div class="form-group col-md-10">
-                <button type="submit" class="btn btn-secondary float-right" formaction="/lavajato_estoque/edita_estoque_minimo" title="Salvar nova quantidade minima">Registrar</button>
+                <button type="submit" class="btn btn-secondary float-right" formaction="/lavajato_estoque/salvar_novo_estoque_minimo" title="Salvar nova quantidade minima">Registrar</button>
             </div>
         </div>
         {% endif %}

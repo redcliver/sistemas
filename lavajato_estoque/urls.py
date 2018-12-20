@@ -12,4 +12,5 @@ urlpatterns = [
     url(r'^inventario', views.inventario),
     url(r'^lista_estoque_minimo', views.lista_estoque_minimo),
     url(r'^edita_estoque_minimo', views.edita_estoque_minimo),
+    url(r'^salvar_novo_estoque_minimo', views.salvar_novo_estoque_minimo),
     ]

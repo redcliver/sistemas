@@ -154,3 +154,23 @@ def lista_estoque_minimo(request):
         return render(request, 'sistema_login/erro.html', {'title':'Erro'})
     else:
         return render(request, 'sistema_login/erro.html', {'title':'Erro'})
+
+def edita_estoque_minimo(request):
+    if request.user.is_authenticated():
+        empresa = request.user.get_short_name()
+        if empresa == 'dayson':
+            produtos = produto.objects.all().order_by('nome')
+            if request.method == 'POST' and request.POST.get('produto_id') != None:
+                produto_id = request.POST.get('produto_id')
+                produto_obj = produto.objects.filter(id=produto_id).get()
+                if request.POST.get('quantidade_minima') != produto_obj.quantidade_minima:
+                    quantidade_minima = request.POST.get('quantidade_minima')
+                    produto_obj.quantidade_minima = quantidade_minima
+                    produto_obj.save()
+                    msg = "Nova quantidade minima do "+produto_obj.nome+" atualizada com sucesso."
+                    return render(request, 'lavajato_estoque/estoque_edita_quantidade_minima.html', {'title':'Editar Estoque Minimo', 'produtos':produtos, 'msg':msg})
+                return render(request, 'lavajato_estoque/estoque_edita_quantidade_minima.html', {'title':'Editar Estoque Minimo', 'produto_obj':produto_obj})
+            return render(request, 'lavajato_estoque/estoque_edita_quantidade_minima.html', {'title':'Editar Estoque Minimo', 'produtos':produtos})
+        return render(request, 'sistema_login/erro.html', {'title':'Erro'})
+    else:
+        return render(request, 'sistema_login/erro.html', {'title':'Erro'})

@@ -1,0 +1,57 @@
+{% extends 'lavajato_base.html' %}
+
+{% block body %}
+{% load static %}
+{% if msg %}
+    <h1 style="text-align:center;">{{msg}}</h1><hr />
+{%endif%}
+<h1>Editar Estoque Minimo</h1><hr />
+    <form method="POST">
+    {%csrf_token%}
+        {% if produto_obj %}
+        <div class="form-row">
+            <div class="form-group col-md-10">
+                <label for="inputName">Produto<strong>*</strong></label>
+                <input type="text" class="form-control" name="nome" value="{{produto_obj.nome}}" disabled>
+                <br>
+                <button type="submit" class="btn btn-secondary float-right" title="Registrar saida de outro produto">Outro</button>
+            </div>
+        </div>
+        <hr />
+        {% else %}
+        <div class="form-row">
+            <div class="form-group col-md-10">
+                <label for="inputName">Produto<strong>*</strong></label>
+                    <select autofocus name="produto_id" class="form-control" title="Selecione o produto">
+                        <option disabled selected> -- Produtos -- </option>
+                        {% for produto in produtos %}
+                            <option value="{{produto.id}}">{{produto.nome}}</option>
+                        {% endfor %}
+                    </select>
+                <br>
+                <button type="submit" class="btn btn-secondary float-right" title="Registrar saida do produto">Proximo</button>
+            </div>
+        </div>
+        {% endif %}
+        {% if produto_obj %}
+        <input type="hidden" name="nova_saida" value="{{produto_obj.id}}" />
+        <div class="form-row">
+            <div class="form-group col-md-1">
+                <label for="inputCel">Estoque minimo</label>
+                <input type="number" class="form-control" value="{{produto_obj.quantidade_minima}}" disabled>
+            </div>
+            <div class="form-group col-md-1">
+                <span class="align-middle">
+                    <label for="inputCel">Novo estoque minimo</label>
+                    <input type="number" class="form-control" name="quantidade_minima" title="Nova quantidade minima">
+                </span>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-md-10">
+                <button type="submit" class="btn btn-secondary float-right" formaction="/lavajato_estoque/edita_estoque_minimo" title="Salvar nova quantidade minima">Registrar</button>
+            </div>
+        </div>
+        {% endif %}
+    </form>
+{% endblock %}

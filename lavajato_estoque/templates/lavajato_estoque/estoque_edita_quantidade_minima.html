@@ -36,9 +36,9 @@
         {% if produto_obj %}
         <input type="hidden" name="nova_saida" value="{{produto_obj.id}}" />
         <div class="form-row">
-            <div class="form-group col-md-1">
+            <div class="form-group col-md-3">
                 <label for="inputCel">Estoque minimo</label>
-                <input type="number" class="form-control" value="{{produto_obj.quantidade_minima}}" disabled>
+                <input type="number" class="form-control col-md-4" value="{{produto_obj.quantidade_minima}}" disabled>
             </div>
             <div class="form-group col-md-3">
                 <span class="align-middle">

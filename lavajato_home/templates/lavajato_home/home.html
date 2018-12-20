@@ -6,11 +6,11 @@
     <h3>Bom dia</h3>
     {% if vencimento_conta != '0' %}
     <hr />
-    <a href="/lavajato_contas/pagar" style="color:#030e39;">Hoje vence {{vencimento_conta}} conta(s).</a>
+    <a href="/lavajato_contas/pagar" style="color:#030e39; font-size: 1.75rem;">Hoje vence {{vencimento_conta}} conta(s).</a>
     {% endif %}
     {% if estoque_min != '0' %}
     <hr />
-    <a href="/lavajato_estoque/lista_estoque_minimo" style="color:#030e39;">{{estoque_min}} produto(s) em estoque minimo.</a>
+    <a href="/lavajato_estoque/lista_estoque_minimo" style="color:#030e39; font-size: 1.75rem;">{{estoque_min}} produto(s) em estoque minimo.</a>
     {% endif %}
 </main>
 {% endblock %}

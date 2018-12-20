@@ -4,11 +4,11 @@
 {% load static %}
 <main>
     <h3>Bom dia</h3>
-    {% if vencimento_conta > '0' %}
+    {% if vencimento_conta %}
     <hr />
     <a href="/lavajato_contas/pagar" style="color:#030e39; font-size: 1.2rem;">Hoje vence {{vencimento_conta}} conta(s).</a>
     {% endif %}
-    {% if estoque_min > '0' %}
+    {% if estoque_min %}
     <hr />
     <a href="/lavajato_estoque/lista_estoque_minimo" style="color:#030e39; font-size: 1.2rem;">{{estoque_min}} produto(s) em estoque minimo.</a>
     {% endif %}

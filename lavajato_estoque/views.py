@@ -12,8 +12,8 @@ def entrada(request):
             if request.method == 'POST' and request.POST.get('produto_id') != None:
                 produto_id = request.POST.get('produto_id')
                 produto_obj = produto.objects.filter(id=produto_id).get()
-                return render(request, 'lavajato_estoque/estoque_entrada.html', {'title':'Entrada de estoque', 'produto_obj':produto_obj})
-            return render(request, 'lavajato_estoque/estoque_entrada.html', {'title':'Entrada de estoque', 'produtos':produtos})
+                return render(request, 'lavajato_estoque/estoque_entrada.html', {'title':'Entrada de Estoque', 'produto_obj':produto_obj})
+            return render(request, 'lavajato_estoque/estoque_entrada.html', {'title':'Entrada de Estoque', 'produtos':produtos})
         return render(request, 'sistema_login/erro.html', {'title':'Erro'})
     else:
         return render(request, 'sistema_login/erro.html', {'title':'Erro'})
@@ -41,8 +41,8 @@ def nova_entrada(request):
                 produto_obj.lucro = lucro
                 produto_obj.save()
                 msg = produto_obj.nome + " adicionado com sucesso ao estoque."
-                return render(request, 'lavajato_estoque/estoque_entrada.html', {'title':'Entrada de estoque', 'msg':msg})
-            return render(request, 'lavajato_estoque/estoque_entrada.html', {'title':'Entrada de estoque', 'produtos':produtos})
+                return render(request, 'lavajato_estoque/estoque_entrada.html', {'title':'Entrada de Estoque', 'msg':msg})
+            return render(request, 'lavajato_estoque/estoque_entrada.html', {'title':'Entrada de Estoque', 'produtos':produtos})
         return render(request, 'sistema_login/erro.html', {'title':'Erro'})
     else:
         return render(request, 'sistema_login/erro.html', {'title':'Erro'})
@@ -78,8 +78,8 @@ def consulta(request):
             if request.method == 'POST' and request.POST.get('produto_id') != None:
                 produto_id = request.POST.get('produto_id')
                 produto_obj = produto.objects.filter(id=produto_id).get()
-                return render(request, 'lavajato_estoque/estoque_consulta.html', {'title':'Consultar estoque', 'produto_obj':produto_obj})
-            return render(request, 'lavajato_estoque/estoque_consulta.html', {'title':'Consultar estoque', 'produtos':produtos})
+                return render(request, 'lavajato_estoque/estoque_consulta.html', {'title':'Consultar Estoque', 'produto_obj':produto_obj})
+            return render(request, 'lavajato_estoque/estoque_consulta.html', {'title':'Consultar Estoque', 'produtos':produtos})
         return render(request, 'sistema_login/erro.html', {'title':'Erro'})
     else:
         return render(request, 'sistema_login/erro.html', {'title':'Erro'})
@@ -92,8 +92,8 @@ def saida(request):
             if request.method == 'POST' and request.POST.get('produto_id') != None:
                 produto_id = request.POST.get('produto_id')
                 produto_obj = produto.objects.filter(id=produto_id).get()
-                return render(request, 'lavajato_estoque/estoque_saida.html', {'title':'Saida estoque', 'produto_obj':produto_obj})
-            return render(request, 'lavajato_estoque/estoque_saida.html', {'title':'Saida estoque', 'produtos':produtos})
+                return render(request, 'lavajato_estoque/estoque_saida.html', {'title':'Saida Estoque', 'produto_obj':produto_obj})
+            return render(request, 'lavajato_estoque/estoque_saida.html', {'title':'Saida Estoque', 'produtos':produtos})
         return render(request, 'sistema_login/erro.html', {'title':'Erro'})
     else:
         return render(request, 'sistema_login/erro.html', {'title':'Erro'})
@@ -119,7 +119,7 @@ def nova_saida(request):
                 nova_retirada = retiradas(prod=produto_obj, quantidade=quantidade, uso=2)
                 nova_retirada.save()
                 msg = "Retirada do " + produto_obj.nome + " realizada com sucesso."
-                return render(request, 'lavajato_estoque/estoque_saida.html', {'title':'Saida estoque', 'produto_obj':produto_obj, 'msg':msg})
+                return render(request, 'lavajato_estoque/estoque_saida.html', {'title':'Saida Estoque', 'produto_obj':produto_obj, 'msg':msg})
             else:
                 produto_id = request.POST.get('nova_saida')
                 quantidade = request.POST.get('quantidade')
@@ -129,8 +129,8 @@ def nova_saida(request):
                 nova_retirada = retiradas(prod=produto_obj, quantidade=quantidade, uso=1)
                 nova_retirada.save()
                 msg = "Retirada do " + produto_obj.nome + " realizada com sucesso."
-                return render(request, 'lavajato_estoque/estoque_saida.html', {'title':'Saida estoque', 'produto_obj':produto_obj, 'msg':msg})
-            return render(request, 'lavajato_estoque/estoque_saida.html', {'title':'Saida estoque', 'produtos':produtos})
+                return render(request, 'lavajato_estoque/estoque_saida.html', {'title':'Saida Estoque', 'produto_obj':produto_obj, 'msg':msg})
+            return render(request, 'lavajato_estoque/estoque_saida.html', {'title':'Saida Estoque', 'produtos':produtos})
         return render(request, 'sistema_login/erro.html', {'title':'Erro'})
     else:
         return render(request, 'sistema_login/erro.html', {'title':'Erro'})
@@ -140,7 +140,17 @@ def inventario(request):
         empresa = request.user.get_short_name()
         if empresa == 'dayson':
             produtos = produto.objects.all().order_by('nome')
-            return render(request, 'lavajato_estoque/estoque_inventario.html', {'title':'Consultar inventario', 'produtos':produtos})
+            return render(request, 'lavajato_estoque/estoque_inventario.html', {'title':'Consultar Inventario', 'produtos':produtos})
+        return render(request, 'sistema_login/erro.html', {'title':'Erro'})
+    else:
+        return render(request, 'sistema_login/erro.html', {'title':'Erro'})
+
+def lista_estoque_minimo(request):
+    if request.user.is_authenticated():
+        empresa = request.user.get_short_name()
+        if empresa == 'dayson':
+            produtos = produto.objects.all().order_by('-quantidade')
+            return render(request, 'lavajato_estoque/lista_estoque_minimo.html', {'title':'Lista Estoque Minimo', 'produtos':produtos})
         return render(request, 'sistema_login/erro.html', {'title':'Erro'})
     else:
         return render(request, 'sistema_login/erro.html', {'title':'Erro'})

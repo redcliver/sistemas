@@ -6,7 +6,7 @@
     <h1 style="text-align:center;">{{msg}}</h1><hr />
 {%endif%}
 <h1>Troco</h1><hr />
-    <form method="POST" action="/chica_agenda/dinheiro">
+    <form method="POST" action="/lavajato_agenda/dinheiro">
     {%csrf_token%}
         <input type="hidden" name="agenda_id" value="{{agenda_obj.id}}" />
         <div class="form-row justify-content-md-center">

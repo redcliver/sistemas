@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.utils import timezone
 import datetime
 from .models import conta
+from lavajato_agenda.models import conta_parcelada
 from lavajato_caixa.models import caixa_geral
 
 # Create your views here.
@@ -87,8 +88,7 @@ def pagar(request):
                 conta_obj.estado = 2
                 conta_obj.save()
                 caixa = caixa_geral.objects.latest('id')
-                ultimo_id = caixa.id_operacao
-                ultimo_id = int(ultimo_id) + 1
+                ultimo_id = conta_obj.id
                 novo_total = caixa.total - conta_obj.valor
                 valor = conta_obj.valor
                 desc = "Pagamento da conta : " + str(conta_obj.nome)
@@ -97,6 +97,32 @@ def pagar(request):
                 msg = conta_obj.nome + " pago(a) com sucesso!"
                 return render(request, 'lavajato_contas/conta_pagar.html', {'title':'Pagar Conta', 'contas':contas, 'msg':msg})
             return render(request, 'lavajato_contas/conta_pagar.html', {'title':'Pagar Conta', 'contas':contas})
+        return render(request, 'sistema_login/erro.html', {'title':'Erro'})
+    else:
+        return render(request, 'sistema_login/erro.html', {'title':'Erro'})
+
+
+def receber(request):
+    if request.user.is_authenticated():
+        empresa = request.user.get_short_name()
+        if empresa == 'dayson':
+            pagas = 0 
+            for c in conta_parcelada.objects.filter(estate=1).all():
+                for p in c.parcelas.all() :
+                    if p.estado == 2:
+                        pagas = pagas + 1
+                    if p.data == datetime.date.today().strftime('%Y-%m-%d'):
+                        p.estado = 2
+                        caixa = caixa_geral.objects.latest('id')
+                        novo_total = caixa.total + p.valor
+                        ultimo_id = c.id
+                        valor = p.valor
+                        desc = "Parcela " + str(pagas)+"/"+ str(c.parcelas_total)+ " referente ao agendamento N: "+str(c.referente)
+                        nova_entrada = caixa_geral(operacao=1, id_operacao=ultimo_id, valor_operacao=valor, descricao=desc, total=novo_total)
+                        nova_entrada.save()
+                        p.save()
+            msg = "Contas recebidas com sucesso."
+            return render(request, 'lavajato_home/home.html', {'title':'Home', 'msg':msg})
         return render(request, 'sistema_login/erro.html', {'title':'Erro'})
     else:
         return render(request, 'sistema_login/erro.html', {'title':'Erro'})

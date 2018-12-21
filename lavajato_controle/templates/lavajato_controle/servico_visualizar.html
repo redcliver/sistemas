@@ -4,7 +4,7 @@
 {% load static %}
 <h1>Visualizar Servico</h1>
     <hr />
-        <form method="post" action="/chica_controle/edita_servico">
+        <form method="post" action="/lavajato_controle/edita_servico">
         {% csrf_token %}
             <input type="hidden" name="servico_id" value="{{servico_obj.id}}" />
             <div class="form-row">

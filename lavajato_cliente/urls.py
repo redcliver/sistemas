@@ -8,6 +8,6 @@ urlpatterns = [
     url(r'^edita', views.edita),
     url(r'^salva', views.salva),
     url(r'^novo_carro', views.novo_carro),
-    url(r'^edita_carro', views.edita_carro),
-    url(r'^salva_edita_carro', views.salva_edita_carro),
+    url(r'^carro_edita', views.carro_edita),
+    url(r'^carro_salva_edita', views.carro_salva_edita),
     ]

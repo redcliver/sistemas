@@ -6,7 +6,7 @@
     <h1 style="text-align:center;">{{msg}}</h1><hr />
 {%endif%}
 <h1>Troco</h1><hr />
-    <form action="/chica_home/">
+    <form action="/lavajato_home/">
     {%csrf_token%}
     <input type="hidden" name="agenda_id" value="{{agenda_obj.id}}" />
     <div class="form-row justify-content-md-center">
@@ -28,6 +28,6 @@
         </div>            
     </div>
             <br />
-            <button type="submit" class="btn btn-secondary float-right" formaction="/chica_home/" autofocus title="Finalizar a operacao">Finalizar</button>
+            <button type="submit" class="btn btn-secondary float-right" formaction="/lavajato_home/" autofocus title="Finalizar a operacao">Finalizar</button>
     </form>
 {% endblock %}

@@ -7,7 +7,7 @@
     {%endif%}
     <h1>Editar Veiculo</h1>
     <hr />
-    <form method="post">
+    <form method="POST">
         {% csrf_token %}
         <input type="hidden" name="cliente_id" value="{{cliente_obj.id}}" />
         <div class="form-row">
@@ -39,8 +39,8 @@
                     <td>{{carros.cor}}</td>
                     <td>{{carros.placa}}</td>
                     <td>{{carros.observacao}}</td>
-                    <td>{{carros.data|date:"d/m/Y"}}</td>
-                    <td><button name="carro_id" value="{{carros.id}}" class="btn btn-secondary" formmethod="GET" formaction="/lavajato_cliente/edita_carro" title="Editar Veiculo">Editar</button></td>
+                    <td>{{carros.data_cadastro|date:"d/m/Y"}}</td>
+                    <td><button name="carro_id" value="{{carros.id}}" class="btn btn-secondary" formaction="/lavajato_cliente/carro_edita" title="Editar Veiculo">Editar</button></td>
                 </tr>
                 {% endfor %}
             </tbody>

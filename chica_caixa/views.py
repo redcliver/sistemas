@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from .models import caixa_geral
+from lavajato_contas.models import conta
 from django.utils import timezone
 import datetime
 from decimal import *
@@ -96,3 +97,4 @@ def fechar(request):
         return render(request, 'sistema_login/erro.html', {'title':'Erro'})
     else:
         return render(request, 'sistema_login/erro.html', {'title':'Erro'})
+

@@ -41,25 +41,32 @@
         <br />
         <label for="inputName">Pagamento<strong>*</strong></label><hr />
         <button type="submit" class="btn btn-secondary " formaction="/lavajato_agenda/dinheiro" title="Pagamento em dinheiro">Dinheiro</button>&nbsp;
-        <button type="submit" class="btn btn-secondary " formmethod="POST" formaction="/lavajato_agenda/credito" title="Pagamento em cartao de credito">Cartao Credito</button>
         <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#exampleModal">Cartao Credito</button>&nbsp;
         <button type="submit" class="btn btn-secondary " formmethod="POST" formaction="/lavajato_agenda/debito" title="Pagamento em cartao de debito">Cartao Debito</button>&nbsp;
+    
+    </form>
+    <form method="POST">
+        {% csrf_token %}
+        <input type="hidden" name="agenda_id" value="{{agenda_obj.id}}" />
         <!-- Modal -->
         <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
           <div class="modal-dialog" role="document">
             <div class="modal-content">
               <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Cartao de Credito</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">&times;</span>
                 </button>
               </div>
               <div class="modal-body">
-                ...
+                <label for="inputName">Total: R$ {{agenda_obj.total}}</label><hr />
+                <hr>
+                <label for="inputName">Numero de Parcelas<strong>*</strong></label>
+                <input class="form-control col-md-2" type="number" name="n_parcelas" value="1" title="Digite o numero de parcelas" autofocus required>
               </div>
               <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
+                <button type="submit" class="btn btn-secondary" formaction="/lavajato_agenda/credito">A vista</button>
+                <button type="submit" class="btn btn-primary" formaction="/lavajato_agenda/credito">Parcelado</button>
               </div>
             </div>
           </div>

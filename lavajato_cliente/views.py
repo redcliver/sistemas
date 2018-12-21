@@ -126,28 +126,28 @@ def novo_carro(request):
     else:
         return render(request, 'sistema_login/erro.html', {'title':'Erro'})
 
-def edita_carro(request):
+def carro_edita(request):
     if request.user.is_authenticated():
         empresa = request.user.get_short_name()
         if empresa == 'dayson':
             clientes = cliente.objects.all().order_by('nome')
-            if request.method == 'GET' and request.GET.get('carro_id') != None:
-                cliente_id = request.GET.get('cliente_id')
+            if request.method == 'POST' and request.POST.get('carro_id') != None:
+                cliente_id = request.POST.get('cliente_id')
                 cliente_obj = cliente.objects.get(id=cliente_id)
-                carro_id = request.GET.get('carro_id')
+                carro_id = request.POST.get('carro_id')
                 carro_obj = carro.objects.get(id=carro_id)
-                return render(request, 'lavajato_cliente/cliente_edita_carro.1.html', {'title':'Editar Veiculo', 'cliente_obj':cliente_obj, 'carro_obj':carro_obj})
+                return render(request, 'lavajato_cliente/edita_carro.html', {'title':'Editar Veiculo', 'cliente_obj':cliente_obj, 'carro_obj':carro_obj})
             if request.method == 'POST' and request.POST.get('cliente_id') != None:
                 cliente_id = request.POST.get('cliente_id')
                 cliente_obj = cliente.objects.get(id=cliente_id)
                 cars = cliente_obj.carros.all().order_by('modelo')
-                return render(request, 'lavajato_cliente/cliente_seleciona_carro.html', {'title':'Selecione o Veiculo', 'cliente_obj':cliente_obj, 'cars':cars})
-            return render(request, 'lavajato_cliente/cliente_busca_edita_carro.html', {'title':'Editar Veiculo', 'clientes':clientes})
+                return render(request, 'lavajato_cliente/seleciona_carro.html', {'title':'Selecione o Veiculo', 'cliente_obj':cliente_obj, 'cars':cars})
+            return render(request, 'lavajato_cliente/busca_edita_carro.html', {'title':'Editar Veiculo', 'clientes':clientes})
         return render(request, 'sistema_login/erro.html', {'title':'Erro'})
     else:
         return render(request, 'sistema_login/erro.html', {'title':'Erro'})
 
-def salva_edita_carro(request):
+def carro_salva_edita(request):
     if request.user.is_authenticated():
         empresa = request.user.get_short_name()
         if empresa == 'dayson':
@@ -155,7 +155,7 @@ def salva_edita_carro(request):
             if request.method == 'POST' and request.POST.get('cliente_id') != None and request.POST.get('carro_id') != None:
                 cliente_id = request.POST.get('cliente_id')
                 cliente_obj = cliente.objects.get(id=cliente_id)
-                carro_id = request.GET.get('carro_id')
+                carro_id = request.POST.get('carro_id')
                 carro_obj = carro.objects.get(id=carro_id)
                 modelo = request.POST.get('modelo')
                 placa = request.POST.get('placa')
@@ -168,8 +168,8 @@ def salva_edita_carro(request):
                 carro_obj.save()
                 msg = modelo+" alterado com sucesso!"
                 cars = cliente_obj.carros.all().order_by('modelo')
-                return render(request, 'lavajato_cliente/cliente_seleciona_carro.html', {'title':'Selecione o Veiculo', 'cliente_obj':cliente_obj, 'cars':cars})
-            return render(request, 'lavajato_cliente/cliente_busca_edita_carro.html', {'title':'Editar Veiculo', 'clientes':clientes})
+                return render(request, 'lavajato_cliente/seleciona_carro.html', {'title':'Selecione o Veiculo', 'cliente_obj':cliente_obj, 'cars':cars})
+            return render(request, 'lavajato_cliente/busca_edita_carro.html', {'title':'Editar Veiculo', 'clientes':clientes})
         return render(request, 'sistema_login/erro.html', {'title':'Erro'})
     else:
         return render(request, 'sistema_login/erro.html', {'title':'Erro'})

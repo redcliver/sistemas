@@ -4,7 +4,7 @@
 {% load static %}
 <h1>Visualizar Funcionario</h1>
     <hr />
-        <form method="post" action="/chica_controle/edita_funcionario">
+        <form method="post" action="/lavajato_controle/edita_funcionario">
         {% csrf_token %}
             <input type="hidden" name="funcionario_id" value="{{funcionario_obj.id}}" />
             <div class="form-row">

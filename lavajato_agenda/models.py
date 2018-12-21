@@ -51,11 +51,16 @@ class parcela(models.Model):
         return self.__str__(id)
 
 class conta_parcelada(models.Model):
+    ESTADO = (
+        ('1', 'Em Aberto'),
+        ('2', 'Paga'),
+    )
     id = models.AutoField(primary_key=True)
+    estate = models.CharField(max_length=1, choices=ESTADO, default=1)
     referente = models.ForeignKey(agenda, on_delete=models.CASCADE)
     parcelas_total = models.IntegerField()
     parcelas = models.ManyToManyField(parcela)
     data_cadastro = models.DateTimeField(default=timezone.now)
     
     def __str__(self):
-        return self.__str__(agenda_ref)
+        return self.__str__(referente)

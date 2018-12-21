@@ -47,13 +47,13 @@
         .sansserif {
             color: #E5E5E5;
             font-family: 'Corben', cursive;
-            font-size: 20px;
+            font-size: 24px;
            
         }
         .sansserif1 {
             color: #030e39;
             font-family: 'Corben', cursive;
-            font-size: 14px;
+            font-size: 16px;
         }
         .navbar-dark .navbar-nav .nav-link {
             color: rgba(0,0,0,0.8);
@@ -96,28 +96,7 @@
             margin-left: 30px;
         }
         /* The Modal (background) */
-        .modal {
-            display: none; /* Hidden by default */
-            position: fixed; /* Stay in place */
-            z-index: 1; /* Sit on top */
-            padding-top: 100px; /* Location of the box */
-            left: 0;
-            top: 0;
-            width: 100%; /* Full width */
-            height: 100%; /* Full height */
-            overflow: auto; /* Enable scroll if needed */
-            background-color: rgb(0,0,0); /* Fallback color */
-            background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
-        }
-
-        /* Modal Content */
-        .modal-content {
-            background-color: #fefefe;
-            margin: auto;
-            padding: 20px;
-            border: 1px solid #888;
-            width: 30%;
-        }
+        
         /* The Close Button */
         .close {
             color: #1c1c1c;
@@ -182,7 +161,7 @@
                           <a class="dropdown-item sansserif1" style="color: #030e39;" href="/lavajato_cliente/busca">Buscar Cliente</a>
                           <a class="dropdown-item sansserif1" style="color: #030e39;" href="/lavajato_cliente/edita">Editar Cliente</a>
                           <a class="dropdown-item sansserif1" style="color: #030e39;" href="/lavajato_cliente/novo_carro">Adicionar Veiculo</a>
-                          <a class="dropdown-item sansserif1" style="color: #030e39;" href="/lavajato_cliente/edita_carro">Editar Veiculo</a>
+                          <a class="dropdown-item sansserif1" style="color: #030e39;" href="/lavajato_cliente/carro_editar">Editar Veiculo</a>
                       </div>
                     </div>
                 </li>
@@ -195,8 +174,9 @@
                       <div class="dropdown-menu" aria-labelledby="dropdownMenuLink2">
                         <a class="dropdown-item sansserif1" style="color: #030e39;" href="/lavajato_contas">Cadastrar Conta</a>
                         <a class="dropdown-item sansserif1" style="color: #030e39;" href="/lavajato_contas/busca">Buscar Conta</a>
-                          <a class="dropdown-item sansserif1" style="color: #030e39;" href="/lavajato_contas/edita">Editar Conta</a>
+                        <a class="dropdown-item sansserif1" style="color: #030e39;" href="/lavajato_contas/edita">Editar Conta</a>
                         <a class="dropdown-item sansserif1" style="color: #030e39;" href="/lavajato_contas/pagar">Pagar conta</a>
+                        <a class="dropdown-item sansserif1" style="color: #030e39;" href="/lavajato_contas/receber">Contas a receber</a>
                       </div>
                     </div>
                 </li>
@@ -211,6 +191,7 @@
                         <a class="dropdown-item sansserif1" style="color: #030e39;" href="/lavajato_caixa/saida">Saida</a>
                         <a class="dropdown-item sansserif1" style="color: #030e39;" href="/lavajato_caixa/conferencia">Conferir caixa</a>
                         <a class="dropdown-item sansserif1" style="color: #030e39;" href="/lavajato_caixa/fechar">Fechar caixa</a>
+                        <a class="dropdown-item sansserif1" style="color: #030e39;" href="/lavajato_caixa/balanco">Balanco</a>
                       </div>
                     </div>
                 </li>

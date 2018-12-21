@@ -8,4 +8,5 @@ urlpatterns = [
     url(r'^saida', views.saida),
     url(r'^conferencia', views.conferencia),
     url(r'^fechar', views.fechar),
+    url(r'^balanco', views.balanco),
     ]

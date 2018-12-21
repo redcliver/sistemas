@@ -1,0 +1,151 @@
+{% extends 'lavajato_base.html' %}
+
+{% block body %}
+{% load static %}
+{% if msg %}
+    <h1 style="text-align:center;">{{msg}}</h1><hr />
+{%endif%}
+<h1>Balanco</h1><hr />
+    <form method="POST">
+    {%csrf_token%}
+    <div class="form-row">
+        <h3><br>Entradas<hr /></h3>
+        <div class="form-group col-md-4"></div>
+        <div class="form-group col-md-3">
+            <label>Data Inicio</label>
+            <input type="date" class="form-control" value="{{hj}}" name="data_inicio" title="Selecione a data"/>
+        </div>
+        <div class="form-group col-md-3">
+            <label>Data Fim</label>
+            <input type="date" class="form-control" value="{{hj}}" name="data_fim" title="Selecione a data"/>
+            <button type="submit" class="btn btn-secondary float-right" title="Buscar por data">Buscar</button>
+        </div>
+        <table class="table table-sm">
+            <thead>
+                <tr>
+                    <th scope="col-md-2">#</th>
+                    <th scope="col-md-4">Tipo</th>
+                    <th scope="col-md-2">Quantidade</th>
+                    <th scope="col-md-2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                    <th scope="col-md-2">Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if agendamento %}
+                <tr>
+                    <td scope="row">1</td>
+                    <td>Atendimentos</td>
+                    <td>{{n_agendamento}}</td>
+                    <td>-</td>
+                    <td>R$ {{agendamento}}</td>
+                </tr>
+                {% endif %}
+                {% if entradas %}
+                <tr>
+                    <td scope="row">2</td>
+                    <td>Entradas</td>
+                    <td>{{n_entradas}}</td>
+                    <td>-</td>
+                    <td>R$ {{entradas}}</td>
+                </tr>
+                {% endif %}
+            </tbody>
+        </table>
+        <br/>
+        <h5>Metodos de pagamento</h5>
+        <table class="table table-sm">
+            <thead>
+                <tr>
+                    <th scope="col-md-2">#</th>
+                    <th scope="col-md-4">Metodo</th>
+                    <th scope="col-md-2">Quantidade</th>
+                    <th scope="col-md-2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                    <th scope="col-md-2">Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if dinheiro %}
+                <tr>
+                    <td scope="row">1</td>
+                    <td>Dinheiro</td>
+                    <td>{{n_dinheiro}}</td>
+                    <td>-</td>
+                    <td>R$ {{dinheiro}}</td>
+                </tr>
+                {% endif %}
+                {% if debito %}
+                <tr>
+                    <td scope="row">2</td>
+                    <td>Cartao Debito</td>
+                    <td>{{n_debito}}</td>
+                    <td>-</td>
+                    <td>R$ {{debito}}</td>
+                </tr>
+                {% endif %}
+                {% if credito %}
+                <tr>
+                    <td scope="row">3</td>
+                    <td>Cartao Credito</td>
+                    <td>{{n_credito}}</td>
+                    <td>-</td>
+                    <td>R$ {{credito}}</td>
+                </tr>
+                {% endif %}
+                <tr>
+                    <td scope="row">-</td>
+                    <td>TOTAL</td>
+                    <td>{{n_agendamento}}</td>
+                    <td>-</td>
+                    <td>R$ {{agendamento}}</td>
+                </tr>
+            </tbody>
+        </table>
+        <hr>
+        <h3><br><br>Saidas<hr /></h3>
+
+        <table class="table table-sm">
+            <thead>
+                <tr>
+                    <th scope="col-md-2">#</th>
+                    <th scope="col-md-2">Tipo</th>
+                    <th scope="col-md-2">Quantidade</th>
+                    <th scope="col-md-2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                    <th scope="col-md-2">Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if n_contas %}
+                <tr>
+                    <td scope="row">1</td>
+                    <td>Conta(s)</td>
+                    <td>{{n_contas}}</td>
+                    <td>-</td>
+                    <td>R$ {{contas}}</td>
+                </tr>
+                {% endif %}
+                {% if n_retiradas %}
+                <tr>
+                    <td scope="row">2</td>
+                    <td>Retirada(s)</td>
+                    <td>{{n_retiradas}}</td>
+                    <td>-</td>
+                    <td>R$ {{retiradas}}</td>
+                </tr>
+                {% endif %}
+                <tr>
+                    <td scope="row">-</td>
+                    <td>TOTAL</td>
+                    <td>{{n_saidas}}</td>
+                    <td>-</td>
+                    <td>R$ {{saidas}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="form-row">
+        <div class="col align-self-end">
+            <h3><br><hr/>Total do balanco: R$ {{total_geral}}</h3>
+        </div>
+    </div>
+    </form>
+{% endblock %}

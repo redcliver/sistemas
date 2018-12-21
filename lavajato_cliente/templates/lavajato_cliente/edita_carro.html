@@ -7,10 +7,9 @@
     {%endif%}
     <h1>Editar Veiculo</h1>
     <hr />
-    <form method="post" action="/lavajato_clinete/salva_edita_carro">
+    <form method="POST" action="/lavajato_cliente/carro_salva_edita">
         {% csrf_token %}
         <input type="hidden" name="cliente_id" value="{{cliente_obj.id}}" />
-        <input type="hidden" name="carro_id" value="{{carro_obj.id}}" />
         <div class="form-row">
             <div class="form-group col-md-9">
                 <label for="inputName">Cliente </label>
@@ -19,6 +18,7 @@
         </div>
         <hr />
         <div class="form-row">
+        <input type="hidden" name="carro_id" value="{{carro_obj.id}}" />
             <div class="form-group col-md-8">
                 <label for="inputEmail">Modelo</label>
                 <input type="text" class="form-control" id="inputAddress2" maxlength="200" value="{{carro_obj.modelo}}" name="modelo">
@@ -33,7 +33,7 @@
             </div>
             <div class="form-group col-md-4">
                 <label for="inputEmail">Observacao</label>
-                <textarea class="form-control" id="exampleFormControlTextarea1" name="observacao" value="{{carro_obj.observacao}}" maxlength="300" rows="3"></textarea>
+                <textarea class="form-control" id="exampleFormControlTextarea1" name="observacao" maxlength="300" rows="3">{{carro_obj.observacao}}</textarea>
             </div>
         </div>
         <br />

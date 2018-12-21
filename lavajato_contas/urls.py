@@ -8,4 +8,5 @@ urlpatterns = [
     url(r'^edita', views.edita),
     url(r'^salva', views.salva),
     url(r'^pagar', views.pagar),
+    url(r'^receber', views.receber),
     ]

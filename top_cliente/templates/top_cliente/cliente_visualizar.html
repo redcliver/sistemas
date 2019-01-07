@@ -1,0 +1,406 @@
+{% extends 'top_base.html' %}
+
+{% block body %}
+{% load static %}
+    {% if msg %}
+    <h1 style="text-align:center;">{{msg}}</h1><hr />
+    {%endif%}
+    <h1>Visualiza Cliente</h1>
+    <hr />
+    <form method="GET" action="/top_cliente/edita">
+        {% csrf_token %}
+        
+        <div class="form-row">
+            <div class="form-group col-md-3">
+                <label for="inputName">Convenio </label>
+                {% if cliente_obj.convenio == '1' %}
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="convenio" id="exampleRadios1" value="1" checked disabled>
+                    <label class="form-check-label" style="color:black;" for="exampleRadios1">
+                    INSS
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="convenio" id="exampleRadios2" value="2" disabled>
+                    <label class="form-check-label" style="color:black;" for="exampleRadios2">
+                    Estado MS
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="convenio" id="exampleRadios3" value="3" disabled>
+                    <label class="form-check-label" style="color:black;" for="exampleRadios2">
+                    SIAPE
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="convenio" id="exampleRadios4" value="4" disabled>
+                    <label class="form-check-label" style="color:black;" for="exampleRadios2">
+                    Exercito
+                    </label>
+                </div>
+                {% endif %}
+                {% if cliente_obj.convenio == '2' %}
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="convenio" id="exampleRadios1" value="1" disabled>
+                    <label class="form-check-label" style="color:black;" for="exampleRadios1">
+                    INSS
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="convenio" id="exampleRadios2" value="2" checked disabled>
+                    <label class="form-check-label" style="color:black;" for="exampleRadios2">
+                    Estado MS
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="convenio" id="exampleRadios3" value="3" disabled>
+                    <label class="form-check-label" style="color:black;" for="exampleRadios2">
+                    SIAPE
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="convenio" id="exampleRadios4" value="4" disabled>
+                    <label class="form-check-label" style="color:black;" for="exampleRadios2">
+                    Exercito
+                    </label>
+                </div>
+                {% endif %}
+                {% if cliente_obj.convenio == '3' %}
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="convenio" id="exampleRadios1" value="1" disabled>
+                    <label class="form-check-label" style="color:black;" for="exampleRadios1">
+                    INSS
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="convenio" id="exampleRadios2" value="2" disabled>
+                    <label class="form-check-label" style="color:black;" for="exampleRadios2">
+                    Estado MS
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="convenio" id="exampleRadios3" value="3" checked disabled>
+                    <label class="form-check-label" style="color:black;" for="exampleRadios2">
+                    SIAPE
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="convenio" id="exampleRadios4" value="4" disabled>
+                    <label class="form-check-label" style="color:black;" for="exampleRadios2">
+                    Exercito
+                    </label>
+                </div>
+                {% endif %}
+                {% if cliente_obj.convenio == '4' %}
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="convenio" id="exampleRadios1" value="1" disabled>
+                    <label class="form-check-label" style="color:black;" for="exampleRadios1">
+                    INSS
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="convenio" id="exampleRadios2" value="2" disabled>
+                    <label class="form-check-label" style="color:black;" for="exampleRadios2">
+                    Estado MS
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="convenio" id="exampleRadios3" value="3" disabled>
+                    <label class="form-check-label" style="color:black;" for="exampleRadios2">
+                    SIAPE
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="convenio" id="exampleRadios4" value="4" checked disabled>
+                    <label class="form-check-label" style="color:black;" for="exampleRadios2">
+                    Exercito
+                    </label>
+                </div>
+                {% endif %}
+            </div>
+            <div class="form-group col-md-3">
+                <label for="inputName">Operacao </label>
+                {% if cliente_obj.operacao == 'novo' %}
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="operacao" id="exampleRadios1" value="novo" checked disabled>
+                    <label class="form-check-label" style="color:black;" for="exampleRadios1">
+                    Novo
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="operacao" id="exampleRadios2" value="refinanciamento" disabled>
+                    <label class="form-check-label" style="color:black;" for="exampleRadios2">
+                    Refinanciamento
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="operacao" id="exampleRadios3" value="sac" disabled>
+                    <label class="form-check-label" style="color:black;" for="exampleRadios2">
+                    SAC Cartao
+                    </label>
+                </div>
+                {% endif %}
+
+                {% if cliente_obj.operacao == 'refinanciamento' %}
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="operacao" id="exampleRadios1" value="novo" disabled>
+                    <label class="form-check-label" style="color:black;" for="exampleRadios1">
+                    Novo
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="operacao" id="exampleRadios2" value="refinanciamento" checked disabled>
+                    <label class="form-check-label" style="color:black;" for="exampleRadios2">
+                    Refinanciamento
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="operacao" id="exampleRadios3" value="sac" disabled>
+                    <label class="form-check-label" style="color:black;" for="exampleRadios2">
+                    SAC Cartao
+                    </label>
+                </div>
+                {% endif %}
+                {% if cliente_obj.operacao == 'sac' %}
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="operacao" id="exampleRadios1" value="novo" disabled>
+                    <label class="form-check-label" style="color:black;" for="exampleRadios1">
+                    Novo
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="operacao" id="exampleRadios2" value="refinanciamento" disabled>
+                    <label class="form-check-label" style="color:black;" for="exampleRadios2">
+                    Refinanciamento
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="operacao" id="exampleRadios3" value="sac" checked disabled>
+                    <label class="form-check-label" style="color:black;" for="exampleRadios2">
+                    SAC Cartao
+                    </label>
+                </div>
+                {% endif %}
+            </div>
+            <div class="form-group col-md-3">
+                <label for="inputTel">Data do Cadastro</label>
+                <input type="date" class="form-control" id="inputPassword4" name="data_cadastro" value="{{cliente_obj.data_cadastro|date:"Y-m-d"}}" disabled>
+            </div>
+            <div class="form-group col-md-3">
+            </div>
+            <div class="form-group col-md-4">
+                <label for="inputName">Banco </label>
+                <input type="text" class="form-control" id="inputEmail4" name="banco_cad" maxlength="200" value="{{cliente_obj.banco_cad}}" disabled >
+            </div>
+            <div class="form-group col-md-8">
+            </div>
+            <div class="form-group col-md-3">
+                <label for="inputTel">CPF</label>
+                <input type="text" class="form-control" name="cpf" maxlength="14" onkeydown="javascript: fMasc( this, mCPF );" value="{{cliente_obj.cpf}}" disabled>
+            </div>
+            <div class="form-group col-md-3">
+                <label for="inputTel">Num. Beneficio</label>
+                <input type="number" class="form-control" id="inputPassword4" maxlength="25" name="beneficio" value="{{cliente_obj.beneficio}}" disabled>
+            </div>
+            <div class="form-group col-md-1">
+                <label for="inputTel">UF</label>
+                <input type="text" class="form-control" style="text-transform: uppercase;" id="inputPassword4" maxlength="2" name="uf_beneficio" value="{{cliente_obj.uf_beneficio}}" disabled>
+            </div>
+            <div class="form-group col-md-9">
+                <label for="inputName">Nome Completo </label>
+                <input type="text" class="form-control" id="inputEmail4" name="nome" maxlength="200" value="{{cliente_obj.nome}}" disabled >
+            </div>
+            <div class="form-group col-md-9">
+                <label for="inputName">Pai </label>
+                <input type="text" class="form-control" id="inputEmail4" name="pai" maxlength="200" value="{{cliente_obj.pai}}" disabled>
+            </div>
+            <div class="form-group col-md-9">
+                <label for="inputName">Mae </label>
+                <input type="text" class="form-control" id="inputEmail4" name="mae" maxlength="200" value="{{cliente_obj.mae}}" disabled>
+            </div>
+            <div class="form-group col-md-9">
+                <label for="inputEmail">Endereco</label>
+                <input type="text" class="form-control" id="inputAddress2" maxlength="200" name="endereco" value="{{cliente_obj.endereco}}" disabled>
+            </div>
+            <div class="form-group col-md-2">
+                <label for="inputEmail">Numero</label>
+                <input type="text" class="form-control" id="inputAddress2" maxlength="6" name="numero"value="{{cliente_obj.numero}}" disabled>
+            </div>
+            <div class="form-group col-md-4">
+                <label for="inputEmail">Bairro</label>
+                <input type="text" class="form-control" id="inputAddress2" maxlength="200" name="bairro"value="{{cliente_obj.bairro}}" disabled>
+            </div>
+            <div class="form-group col-md-3">
+                <label for="inputTel">CEP</label>
+                <input type="text" class="form-control" name="cep" maxlength="10" onkeydown="javascript: fMasc( this, mCEP );" value="{{cliente_obj.cep}}" disabled>
+            </div>
+            <div class="form-group col-md-4">
+                <label for="inputEmail">Cidade</label>
+                <input type="text" class="form-control" id="inputAddress2" maxlength="200" name="cidade" value="{{cliente_obj.cidade}}" disabled>
+            </div>
+            <div class="form-group col-md-1">
+                <label for="inputTel">UF</label>
+                <input type="text" class="form-control" id="inputPassword4" style="text-transform: uppercase;" maxlength="2" name="uf_cidade" value="{{cliente_obj.uf_cidade}}" disabled>
+            </div>
+            <div class="form-group col-md-3">
+                <label for="inputTel">Data de Nasc.</label>
+                <input type="date" class="form-control" id="inputPassword4" name="data_nasc" value="{{cliente_obj.data_nasc|date:"Y-m-d"}}" disabled>
+            </div>
+            <div class="form-group col-md-4">
+                <label for="inputEmail">Natural</label>
+                <input type="text" class="form-control" id="inputAddress2" maxlength="200" name="natural" value="{{cliente_obj.natural}}" disabled>
+            </div>
+            <div class="form-group col-md-1">
+                <label for="inputTel">UF</label>
+                <input type="text" class="form-control" id="inputPassword4" style="text-transform: uppercase;" maxlength="2" name="uf_natural" value="{{cliente_obj.uf_natural}}" disabled>
+            </div>
+            <div class="form-group col-md-4">
+            </div>
+            <div class="form-group col-md-4">
+                <label for="inputName">RG/CNH</label>
+                <input type="text" class="form-control" id="inputEmail4" name="rg" maxlength="20" value="{{cliente_obj.rg}}" disabled>
+            </div>
+            <div class="form-group col-md-4">
+                <label for="inputName">Exp.</label>
+                <input type="text" class="form-control" id="inputEmail4" name="expedicao" maxlength="20" value="{{cliente_obj.expedicao}}" disabled>
+            </div>
+            <div class="form-group col-md-3">
+                <label for="inputTel">Data de Exp.</label>
+                <input type="date" class="form-control" id="inputPassword4" name="data_exp" value="{{cliente_obj.data_exp|date:"Y-m-d"}}" disabled >
+            </div>
+            <div class="form-group col-md-12">
+                <label for="inputName">Escolaridade</label>
+                <input type="text" class="form-control" id="inputEmail4" name="escolaridade" maxlength="100" value="{{cliente_obj.escolaridade}}" disabled>
+            </div>
+            <div class="form-group col-md-3">
+                <label for="inputTel">Telefone</label>
+                <input type="text" class="form-control" name="tel" maxlength="14" onkeydown="javascript: fMasc( this, mTel );" value="{{cliente_obj.tel}}" disabled>
+            </div>
+            <div class="form-group col-md-3">
+                <label for="inputCel">Celular</label>
+                <input type="text" class="form-control" name="cel" maxlength="14" onkeydown="javascript: fMasc( this, mTel );" value="{{cliente_obj.cel}}" disabled>
+            </div>
+            <div class="form-group col-md-6">
+                <label for="inputEmail">E-mail</label>
+                <input type="email" class="form-control" id="inputAddress2" maxlength="200" name="mail" value="{{cliente_obj.mail}}" disabled>
+            </div>
+            <div class="form-group col-md-4">
+                <label for="inputEmail">Especie do Beneficio</label>
+                <input type="text" class="form-control" id="inputAddress2" maxlength="50" name="especie_beneficio" value="{{cliente_obj.especie_beneficio}}" disabled>
+            </div>
+            <div class="form-group col-md-4">
+                <label for="inputEmail">Renda</label>
+                <input type="text" class="form-control" id="inputAddress2" maxlength="50" name="renda" value="{{cliente_obj.renda}}" disabled>
+            </div>
+            <div class="form-group col-md-4">
+                <label for="inputEmail">Cad. Senha</label>
+                <input type="text" class="form-control" id="inputAddress2" maxlength="50" name="cad_senha" value="{{cliente_obj.cad_senha}}" disabled>
+            </div>
+            <div class="form-group col-md-4">
+                <label for="inputEmail">Senha Econsig.</label>
+                <input type="text" class="form-control" id="inputAddress2" maxlength="50" name="senha_econsig" value="{{cliente_obj.senha_econsig}}" disabled>
+            </div>
+            <div class="form-group col-md-4">
+                <label for="inputEmail">Prec</label>
+                <input type="text" class="form-control" id="inputAddress2" maxlength="50" name="prec" value="{{cliente_obj.prec}}" disabled>
+            </div>
+            <div class="form-group col-md-4">
+                <label for="inputEmail">ID. MG</label>
+                <input type="text" class="form-control" id="inputAddress2" maxlength="50" name="id_mg" value="{{cliente_obj.id_mg}}" disabled>
+            </div>
+            <div class="form-group col-md-4">
+                <label for="inputEmail">Valor Solicitado</label>
+                <input type="text" class="form-control" id="inputAddress2" maxlength="50" name="valor_solicitado" value="{{cliente_obj.valor_solicitado}}" disabled>
+            </div>
+            <div class="form-group col-md-4">
+                <label for="inputEmail">N. de Parcelas</label>
+                <input type="text" class="form-control" id="inputAddress2" maxlength="50" name="n_parcela" value="{{cliente_obj.n_parcela}}" disabled>
+            </div>
+            <div class="form-group col-md-4">
+                <label for="inputEmail">Valor da Parc.</label>
+                <input type="text" class="form-control" id="inputAddress2" maxlength="50" name="valor_parcela" value="{{cliente_obj.valor_parcela}}" disabled>
+            </div>
+            <div class="form-group col-md-3">
+                <label for="inputName">Forma de Pagamento </label>
+                {% if cliente_obj.f_pagamento == 'ted' %}
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="f_pagamento" id="exampleRadios1" value="ted" checked disabled>
+                    <label class="form-check-label" style="color:black;" for="exampleRadios1">
+                    TED
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="f_pagamento" id="exampleRadios2" value="ordem_pagamento" disabled>
+                    <label class="form-check-label" style="color:black;" for="exampleRadios2">
+                    Ordem de Pagamento
+                    </label>
+                </div>
+                {% endif %}
+                {% if cliente_obj.f_pagamento == 'ordem_pagamento' %}
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="f_pagamento" id="exampleRadios1" value="ted" disabled>
+                    <label class="form-check-label" style="color:black;" for="exampleRadios1">
+                    TED
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="f_pagamento" id="exampleRadios2" value="ordem_pagamento" checked disabled>
+                    <label class="form-check-label" style="color:black;" for="exampleRadios2">
+                    Ordem de Pagamento
+                    </label>
+                </div>
+                {% endif %}
+            </div>
+            <div class="form-group col-md-3">
+                <label for="inputEmail">Banco</label>
+                <input type="text" class="form-control" id="inputAddress2" maxlength="50" name="banco" value="{{cliente_obj.banco}}" disabled>
+            </div>
+            <div class="form-group col-md-3">
+                <label for="inputEmail">Agencia</label>
+                <input type="text" class="form-control" id="inputAddress2" maxlength="50" name="agencia" value="{{cliente_obj.agencia}}" disabled>
+            </div>
+            <div class="form-group col-md-3">
+                <label for="inputEmail">Conta N.</label>
+                <input type="text" class="form-control" id="inputAddress2" maxlength="50" name="n_conta" value="{{cliente_obj.n_conta}}" disabled>
+            </div>
+            <div class="form-group col-md-3">
+                <label for="inputName">Conta</label>
+                {% if cliente_obj.t_conta == 'corrente' %}
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="t_conta" id="exampleRadios1" value="corrente" checked disabled>
+                    <label class="form-check-label" style="color:black;" for="exampleRadios1">
+                    Conta Corrente
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="t_conta" id="exampleRadios2" value="poupanca" disabled>
+                    <label class="form-check-label" style="color:black;" for="exampleRadios2">
+                    Poupanca
+                    </label>
+                </div>
+                {% endif %}
+                {% if cliente_obj.t_conta == 'poupanca' %}
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="t_conta" id="exampleRadios1" value="corrente" disabled>
+                    <label class="form-check-label" style="color:black;" for="exampleRadios1">
+                    Conta Corrente
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="t_conta" id="exampleRadios2" value="poupanca" checked disabled>
+                    <label class="form-check-label" style="color:black;" for="exampleRadios2">
+                    Poupanca
+                    </label>
+                </div>
+                {% endif %}
+            </div>
+            <div class="form-group col-md-9">
+                <label for="inputEmail">Obs.</label>
+                <input type="text" class="form-control" id="inputAddress2" maxlength="200" name="obs" value="{{cliente_obj.obs}}" disabled>
+            </div>
+            <input type="hidden" name="cliente_id" value="{{cliente_obj.id}}">
+        </div>
+        
+        <button type="submit" class="btn btn-secondary float-right">Editar</button>
+    </form>
+{% endblock %}

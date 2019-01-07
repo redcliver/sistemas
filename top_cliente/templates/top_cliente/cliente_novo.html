@@ -1,0 +1,249 @@
+{% extends 'top_base.html' %}
+
+{% block body %}
+{% load static %}
+    {% if msg %}
+    <h1 style="text-align:center;">{{msg}}</h1><hr />
+    {%endif%}
+    <h1>Novo Cliente</h1>
+    <hr />
+    <form method="post">
+        {% csrf_token %}
+        <div class="form-row">
+            <div class="form-group col-md-3">
+                <label for="inputName">Convenio </label>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="convenio" id="exampleRadios1" value="1" checked>
+                    <label class="form-check-label" for="exampleRadios1">
+                    INSS
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="convenio" id="exampleRadios2" value="2">
+                    <label class="form-check-label" for="exampleRadios2">
+                    Estado MS
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="convenio" id="exampleRadios3" value="3">
+                    <label class="form-check-label" for="exampleRadios2">
+                    SIAPE
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="convenio" id="exampleRadios4" value="4">
+                    <label class="form-check-label" for="exampleRadios2">
+                    Exercito
+                    </label>
+                </div>
+            </div>
+            <div class="form-group col-md-3">
+                <label for="inputName">Operacao </label>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="operacao" id="exampleRadios1" value="novo" checked>
+                    <label class="form-check-label" for="exampleRadios1">
+                    Novo
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="operacao" id="exampleRadios2" value="refinanciamento">
+                    <label class="form-check-label" for="exampleRadios2">
+                    Refinanciamento
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="operacao" id="exampleRadios3" value="sac">
+                    <label class="form-check-label" for="exampleRadios2">
+                    SAC Cartao
+                    </label>
+                </div>
+            </div>
+            <div class="form-group col-md-3">
+                <label for="inputTel">Data</label>
+                <input type="date" class="form-control" id="inputPassword4" name="data_cadastro" value="{{hoje}}" required>
+            </div>
+            <div class="form-group col-md-3">
+            </div>
+            <div class="form-group col-md-4">
+                <label for="inputName">Banco </label>
+                <input type="text" class="form-control" id="inputEmail4" name="banco_cad" maxlength="200" required >
+            </div>
+            <div class="form-group col-md-8">
+            </div>
+            <div class="form-group col-md-3">
+                <label for="inputTel">CPF</label>
+                <input type="text" class="form-control" name="cpf" maxlength="14" onkeydown="javascript: fMasc( this, mCPF );">
+            </div>
+            <div class="form-group col-md-3">
+                <label for="inputTel">Num. Beneficio</label>
+                <input type="number" class="form-control" id="inputPassword4" maxlength="25" name="beneficio">
+            </div>
+            <div class="form-group col-md-1">
+                <label for="inputTel">UF</label>
+                <input type="text" class="form-control" style="text-transform: uppercase;" id="inputPassword4" maxlength="2" name="uf_beneficio">
+            </div>
+            <div class="form-group col-md-9">
+                <label for="inputName">Nome Completo </label>
+                <input type="text" class="form-control" id="inputEmail4" name="nome" maxlength="200" required >
+            </div>
+            <div class="form-group col-md-9">
+                <label for="inputName">Pai </label>
+                <input type="text" class="form-control" id="inputEmail4" name="pai" maxlength="200" >
+            </div>
+            <div class="form-group col-md-9">
+                <label for="inputName">Mae </label>
+                <input type="text" class="form-control" id="inputEmail4" name="mae" maxlength="200" >
+            </div>
+            <div class="form-group col-md-9">
+                <label for="inputEmail">Endereco</label>
+                <input type="text" class="form-control" id="inputAddress2" maxlength="200" name="endereco">
+            </div>
+            <div class="form-group col-md-2">
+                <label for="inputEmail">Numero</label>
+                <input type="text" class="form-control" id="inputAddress2" maxlength="6" name="numero">
+            </div>
+            <div class="form-group col-md-4">
+                <label for="inputEmail">Bairro</label>
+                <input type="text" class="form-control" id="inputAddress2" maxlength="200" name="bairro">
+            </div>
+            <div class="form-group col-md-3">
+                <label for="inputTel">CEP</label>
+                <input type="text" class="form-control" name="cep" maxlength="10" onkeydown="javascript: fMasc( this, mCEP );">
+            </div>
+            <div class="form-group col-md-4">
+                <label for="inputEmail">Cidade</label>
+                <input type="text" class="form-control" id="inputAddress2" maxlength="200" name="cidade">
+            </div>
+            <div class="form-group col-md-1">
+                <label for="inputTel">UF</label>
+                <input type="text" class="form-control" id="inputPassword4" style="text-transform: uppercase;" maxlength="2" name="uf_cidade">
+            </div>
+            <div class="form-group col-md-3">
+                <label for="inputTel">Data de Nasc.</label>
+                <input type="date" class="form-control" id="inputPassword4" name="data_nasc" required>
+            </div>
+            <div class="form-group col-md-4">
+                <label for="inputEmail">Natural</label>
+                <input type="text" class="form-control" id="inputAddress2" maxlength="200" name="natural">
+            </div>
+            <div class="form-group col-md-1">
+                <label for="inputTel">UF</label>
+                <input type="text" class="form-control" id="inputPassword4" style="text-transform: uppercase;" maxlength="2" name="uf_natural">
+            </div>
+            <div class="form-group col-md-4">
+            </div>
+            <div class="form-group col-md-4">
+                <label for="inputName">RG/CNH</label>
+                <input type="text" class="form-control" id="inputEmail4" name="rg" maxlength="20" >
+            </div>
+            <div class="form-group col-md-4">
+                <label for="inputName">Exp.</label>
+                <input type="text" class="form-control" id="inputEmail4" name="expedicao" maxlength="20" >
+            </div>
+            <div class="form-group col-md-3">
+                <label for="inputTel">Data de Exp.</label>
+                <input type="date" class="form-control" id="inputPassword4" name="data_exp" required >
+            </div>
+            <div class="form-group col-md-12">
+                <label for="inputName">Escolaridade</label>
+                <input type="text" class="form-control" id="inputEmail4" name="escolaridade" maxlength="100" >
+            </div>
+            <div class="form-group col-md-3">
+                <label for="inputTel">Telefone</label>
+                <input type="text" class="form-control" name="tel" maxlength="14" onkeydown="javascript: fMasc( this, mTel );">
+            </div>
+            <div class="form-group col-md-3">
+                <label for="inputCel">Celular</label>
+                <input type="text" class="form-control" name="cel" maxlength="14" onkeydown="javascript: fMasc( this, mTel );">
+            </div>
+            <div class="form-group col-md-6">
+                <label for="inputEmail">E-mail</label>
+                <input type="email" class="form-control" id="inputAddress2" maxlength="200" name="mail">
+            </div>
+            <div class="form-group col-md-4">
+                <label for="inputEmail">Especie do Beneficio</label>
+                <input type="text" class="form-control" id="inputAddress2" maxlength="50" name="especie_beneficio">
+            </div>
+            <div class="form-group col-md-4">
+                <label for="inputEmail">Renda</label>
+                <input type="text" class="form-control" id="inputAddress2" maxlength="50" name="renda">
+            </div>
+            <div class="form-group col-md-4">
+                <label for="inputEmail">Cad. Senha</label>
+                <input type="text" class="form-control" id="inputAddress2" maxlength="50" name="cad_senha">
+            </div>
+            <div class="form-group col-md-4">
+                <label for="inputEmail">Senha Econsig.</label>
+                <input type="text" class="form-control" id="inputAddress2" maxlength="50" name="senha_econsig">
+            </div>
+            <div class="form-group col-md-4">
+                <label for="inputEmail">Prec</label>
+                <input type="text" class="form-control" id="inputAddress2" maxlength="50" name="prec">
+            </div>
+            <div class="form-group col-md-4">
+                <label for="inputEmail">ID. MG</label>
+                <input type="text" class="form-control" id="inputAddress2" maxlength="50" name="id_mg">
+            </div>
+            <div class="form-group col-md-4">
+                <label for="inputEmail">Valor Solicitado</label>
+                <input type="text" class="form-control" id="inputAddress2" maxlength="50" name="valor_solicitado">
+            </div>
+            <div class="form-group col-md-4">
+                <label for="inputEmail">N. de Parcelas</label>
+                <input type="text" class="form-control" id="inputAddress2" maxlength="50" name="n_parcela">
+            </div>
+            <div class="form-group col-md-4">
+                <label for="inputEmail">Valor da Parc.</label>
+                <input type="text" class="form-control" id="inputAddress2" maxlength="50" name="valor_parcela">
+            </div>
+            <div class="form-group col-md-3">
+                <label for="inputName">Forma de Pagamento </label>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="f_pagamento" id="exampleRadios1" value="ted" checked>
+                    <label class="form-check-label" for="exampleRadios1">
+                    TED
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="f_pagamento" id="exampleRadios2" value="ordem_pagamento">
+                    <label class="form-check-label" for="exampleRadios2">
+                    Ordem de Pagamento
+                    </label>
+                </div>
+            </div>
+            <div class="form-group col-md-3">
+                <label for="inputEmail">Banco</label>
+                <input type="text" class="form-control" id="inputAddress2" maxlength="50" name="banco">
+            </div>
+            <div class="form-group col-md-3">
+                <label for="inputEmail">Agencia</label>
+                <input type="text" class="form-control" id="inputAddress2" maxlength="50" name="agencia">
+            </div>
+            <div class="form-group col-md-3">
+                <label for="inputEmail">Conta N.</label>
+                <input type="text" class="form-control" id="inputAddress2" maxlength="50" name="n_conta">
+            </div>
+            <div class="form-group col-md-3">
+                <label for="inputName">Conta</label>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="t_conta" id="exampleRadios1" value="corrente" checked>
+                    <label class="form-check-label" for="exampleRadios1">
+                    Conta Corrente
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="t_conta" id="exampleRadios2" value="poupanca">
+                    <label class="form-check-label" for="exampleRadios2">
+                    Poupanca
+                    </label>
+                </div>
+            </div>
+            <div class="form-group col-md-9">
+                <label for="inputEmail">Obs.</label>
+                <input type="text" class="form-control" id="inputAddress2" maxlength="200" name="obs">
+            </div>
+        </div>
+        
+        <button type="submit" class="btn btn-secondary float-right">Salvar</button>
+    </form>
+{% endblock %}

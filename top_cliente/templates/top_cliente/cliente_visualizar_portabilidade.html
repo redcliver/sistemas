@@ -1,0 +1,307 @@
+{% extends 'top_base.html' %}
+
+{% block body %}
+{% load static %}
+    {% if msg %}
+    <h1 style="text-align:center;">{{msg}}</h1><hr />
+    {%endif%}
+    <h1>Visualiza Cliente Portabilidade</h1>
+    <hr />
+    <form method="post">
+        {% csrf_token %}
+        <div class="form-row">
+            
+            <div class="form-group col-md-3">
+                <label for="inputTel">Data Cadastro</label>
+                <input type="date" class="form-control" id="inputPassword4" name="data_cadastro" value="{{cliente_obj_port.data_cadastro|date:"Y-m-d"}}" disabled>
+            </div>
+            <div class="form-group col-md-9">
+            </div>
+            <div class="form-group col-md-4">
+                <label for="inputName">Orgao </label>
+                <input type="text" class="form-control" id="inputEmail4" name="orgao" maxlength="200" value="{{cliente_obj_port.orgao}}" disabled >
+            </div>
+            <div class="form-group col-md-4">
+                <label for="inputName">N. Beneficio </label>
+                <input type="text" class="form-control" id="inputEmail4" name="n_beneficio" maxlength="50"  value="{{cliente_obj_port.n_beneficio}}" disabled >
+            </div>
+            <div class="form-group col-md-2">
+                <label for="inputName">Especie </label>
+                <input type="text" class="form-control" id="inputEmail4" name="especie_beneficio" maxlength="50" value="{{cliente_obj_port.especie_beneficio}}" disabled >
+            </div>
+            <div class="form-group col-md-2">
+                <label for="inputName">UF </label>
+                <input type="text" class="form-control" style="text-transform: uppercase;" name="uf_beneficio" maxlength="2"  value="{{cliente_obj_port.uf_beneficio}}" disabled >
+            </div>
+            <div class="form-group col-md-8">
+                <label for="inputName">Nome Completo </label>
+                <input type="text" class="form-control" id="inputEmail4" name="nome" maxlength="200" value="{{cliente_obj_port.nome}}" disabled >
+            </div>
+            <div class="form-group col-md-1">
+            </div>
+            <div class="form-group col-md-3">
+                <label for="inputTel">CPF</label>
+                <input type="text" class="form-control" ame="cpf" maxlength="14" onkeydown="javascript: fMasc( this, mCPF );" value="{{cliente_obj_port.cpf}}" disabled >
+            </div>
+            <div class="form-group col-md-3">
+                <label for="inputTel">Data de Nasc.</label>
+                <input type="date" class="form-control" id="inputPassword4" name="data_nasc" value="{{cliente_obj_port.data_nasc|date:"Y-m-d"}}" disabled >
+            </div>
+            <div class="form-group col-md-4">
+                <label for="inputEmail">Natural</label>
+                <input type="text" class="form-control" id="inputAddress2" maxlength="200" name="natural" value="{{cliente_obj_port.natural}}" disabled >
+            </div>
+            <div class="form-group col-md-1">
+                <label for="inputTel">UF</label>
+                <input type="text" class="form-control" id="inputPassword4" style="text-transform: uppercase;" maxlength="2" name="uf_natural" value="{{cliente_obj_port.uf_natural}}" disabled >
+            </div>
+            <div class="form-group col-md-9">
+                <label for="inputEmail">Endereco</label>
+                <input type="text" class="form-control" id="inputAddress2" maxlength="200" name="endereco" value="{{cliente_obj_port.endereco}}" disabled >
+            </div>
+            <div class="form-group col-md-2">
+                <label for="inputEmail">Numero</label>
+                <input type="text" class="form-control" id="inputAddress2" maxlength="6" name="numero" value="{{cliente_obj_port.numero}}" disabled >
+            </div>
+            <div class="form-group col-md-4">
+                <label for="inputEmail">Bairro</label>
+                <input type="text" class="form-control" id="inputAddress2" maxlength="200" name="bairro" value="{{cliente_obj_port.bairro}}" disabled >
+            </div>
+            <div class="form-group col-md-3">
+                <label for="inputTel">CEP</label>
+                <input type="text" class="form-control" name="cep" maxlength="10" onkeydown="javascript: fMasc( this, mCEP );" value="{{cliente_obj_port.cep}}" disabled >
+            </div>
+            <div class="form-group col-md-4">
+                <label for="inputEmail">Cidade</label>
+                <input type="text" class="form-control" id="inputAddress2" maxlength="200" name="cidade" value="{{cliente_obj_port.cidade}}" disabled >
+            </div>
+            <div class="form-group col-md-1">
+                <label for="inputTel">UF</label>
+                <input type="text" class="form-control" id="inputPassword4" style="text-transform: uppercase;" maxlength="2" name="uf_cidade" value="{{cliente_obj_port.uf_cidade}}" disabled >
+            </div>
+            <div class="form-group col-md-3">
+                <label for="inputTel">Telefone</label>
+                <input type="text" class="form-control" name="tel" maxlength="14" onkeydown="javascript: fMasc( this, mTel );" value="{{cliente_obj_port.tel}}" disabled >
+            </div>
+            <div class="form-group col-md-3">
+                <label for="inputCel">Celular</label>
+                <input type="text" class="form-control" name="cel" maxlength="14" onkeydown="javascript: fMasc( this, mTel );" value="{{cliente_obj_port.cel}}" disabled >
+            </div>
+            <div class="form-group col-md-6">
+                <label for="inputEmail">E-mail</label>
+                <input type="email" class="form-control" id="inputAddress2" maxlength="200" name="mail" value="{{cliente_obj_port.mais}}" disabled >
+            </div>
+        </div>
+        <hr>
+        <div class="form-row">
+            <div class="form-group col-md-12">
+                <h4>Banco 1</h4>
+            </div>
+            <div class="form-group col-md-3">
+                <label for="inputTel">Banco Atual</label>
+                <input type="text" class="form-control" maxlength="50" name="banco_atual" value="{{cliente_obj_port.banco_atual}}" disabled >
+            </div>
+            <div class="form-group col-md-1">
+            </div>
+            <div class="form-group col-md-3">
+                <label for="inputTel">Banco Portador</label>
+                <input type="text" class="form-control" maxlength="50" name="banco_portador" value="{{cliente_obj_port.banco_portador}}" disabled >
+            </div>
+            <div class="form-group col-md-5">
+            </div>
+            <div class="form-group col-md-3">
+                <label for="inputEmail">CTT</label>
+                <input type="number" step="0.01" class="form-control"  maxlength="50" name="ctt" value="{{cliente_obj_port.ctt}}" disabled >
+            </div>
+            <div class="form-group col-md-3">
+                <label for="inputEmail">Quitacao</label>
+                <input type="number" step="0.01" class="form-control"  maxlength="50" name="quitacao" value="{{cliente_obj_port.quitacao}}" disabled >
+            </div>
+            <div class="form-group col-md-3">
+                <label for="inputEmail">Valor da Parc.</label>
+                <input type="number" class="form-control" step="0.01" maxlength="50" name="valor_parcela" value="{{cliente_obj_port.valor_parcela}}" disabled >
+            </div>
+            <div class="form-group col-md-3">
+                <label for="inputEmail">Liquido</label>
+                <input type="number" class="form-control" step="0.01" maxlength="50" name="liquido" value="{{cliente_obj_port.liquido}}" disabled >
+            </div>
+            <div class="form-group col-md-12">
+                <h4>Banco 2</h4>
+            </div>
+            <div class="form-group col-md-3">
+                <label for="inputTel">Banco Atual</label>
+                <input type="text" class="form-control" maxlength="50" name="banco_atual1" value="{{cliente_obj_port.banco_atual1}}" disabled >
+            </div>
+            <div class="form-group col-md-1">
+            </div>
+            <div class="form-group col-md-3">
+                <label for="inputTel">Banco Portador</label>
+                <input type="text" class="form-control" maxlength="50" name="banco_portador1" value="{{cliente_obj_port.banco_portador1}}" disabled >
+            </div>
+            <div class="form-group col-md-5">
+            </div>
+            <div class="form-group col-md-3">
+                <label for="inputEmail">CTT</label>
+                <input type="number" step="0.01" class="form-control"  maxlength="50" name="ctt1" value="{{cliente_obj_port.ctt1}}" disabled >
+            </div>
+            <div class="form-group col-md-3">
+                <label for="inputEmail">Quitacao</label>
+                <input type="number" step="0.01" class="form-control"  maxlength="50" name="quitacao1" value="{{cliente_obj_port.quitacao1}}" disabled >
+            </div>
+            <div class="form-group col-md-3">
+                <label for="inputEmail">Valor da Parc.</label>
+                <input type="number" class="form-control" step="0.01" maxlength="50" name="valor_parcela1" value="{{cliente_obj_port.valor_parcela1}}" disabled >
+            </div>
+            <div class="form-group col-md-3">
+                <label for="inputEmail">Liquido</label>
+                <input type="number" class="form-control" step="0.01" maxlength="50" name="liquido1" value="{{cliente_obj_port.liquido1}}" disabled >
+            </div>
+            <div class="form-group col-md-12">
+                <h4>Banco 3</h4>
+            </div>
+            <div class="form-group col-md-3">
+                <label for="inputTel">Banco Atual</label>
+                <input type="text" class="form-control" maxlength="50" name="banco_atual2" value="{{cliente_obj_port.banco_atual2}}" disabled >
+            </div>
+            <div class="form-group col-md-1">
+            </div>
+            <div class="form-group col-md-3">
+                <label for="inputTel">Banco Portador</label>
+                <input type="text" class="form-control" maxlength="50" name="banco_portador2" value="{{cliente_obj_port.banco_portador2}}" disabled >
+            </div>
+            <div class="form-group col-md-5">
+            </div>
+            <div class="form-group col-md-3">
+                <label for="inputEmail">CTT</label>
+                <input type="number" step="0.01" class="form-control"  maxlength="50" name="ctt2" value="{{cliente_obj_port.ctt2}}" disabled >
+            </div>
+            <div class="form-group col-md-3">
+                <label for="inputEmail">Quitacao</label>
+                <input type="number" step="0.01" class="form-control"  maxlength="50" name="quitacao2" value="{{cliente_obj_port.quitacao2}}" disabled >
+            </div>
+            <div class="form-group col-md-3">
+                <label for="inputEmail">Valor da Parc.</label>
+                <input type="number" class="form-control" step="0.01" maxlength="50" name="valor_parcela2" value="{{cliente_obj_port.valor_parcela2}}" disabled >
+            </div>
+            <div class="form-group col-md-3">
+                <label for="inputEmail">Liquido</label>
+                <input type="number" class="form-control" step="0.01" maxlength="50" name="liquido2" value="{{cliente_obj_port.liquido2}}" disabled >
+            </div>
+            <div class="form-group col-md-12">
+                <h4>Banco 4</h4>
+            </div>
+            <div class="form-group col-md-3">
+                <label for="inputTel">Banco Atual</label>
+                <input type="text" class="form-control" maxlength="50" name="banco_atual3" value="{{cliente_obj_port.banco_atual3}}" disabled >
+            </div>
+            <div class="form-group col-md-1">
+            </div>
+            <div class="form-group col-md-3">
+                <label for="inputTel">Banco Portador</label>
+                <input type="text" class="form-control" maxlength="50" name="banco_portador3" value="{{cliente_obj_port.banco_portador3}}" disabled >
+            </div>
+            <div class="form-group col-md-5">
+            </div>
+            <div class="form-group col-md-3">
+                <label for="inputEmail">CTT</label>
+                <input type="number" step="0.01" class="form-control"  maxlength="50" name="ctt3" value="{{cliente_obj_port.ctt3}}" disabled >
+            </div>
+            <div class="form-group col-md-3">
+                <label for="inputEmail">Quitacao</label>
+                <input type="number" step="0.01" class="form-control"  maxlength="50" name="quitacao3" value="{{cliente_obj_port.quitacao3}}" disabled >
+            </div>
+            <div class="form-group col-md-3">
+                <label for="inputEmail">Valor da Parc.</label>
+                <input type="number" class="form-control" step="0.01" maxlength="50" name="valor_parcela3" value="{{cliente_obj_port.valor_parcela3}}" disabled >
+            </div>
+            <div class="form-group col-md-3">
+                <label for="inputEmail">Liquido</label>
+                <input type="number" class="form-control" step="0.01" maxlength="50" name="liquido3" value="{{cliente_obj_port.liquido3}}" disabled >
+            </div>
+        </div>
+        <br>
+        <hr>
+        <div class="form-row">
+            <div class="form-group col-md-3">
+                <label for="inputName">Forma de Pagamento </label>
+                {% if cliente_obj_port.f_pagamento == 'ted' %}
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="f_pagamento" id="exampleRadios1" value="ted" checked disabled>
+                    <label class="form-check-label" style="color: black;" for="exampleRadios1">
+                    TED
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="f_pagamento" id="exampleRadios2" value="ordem_pagamento" disabled>
+                    <label class="form-check-label" style="color: black;" for="exampleRadios2">
+                    Ordem de Pagamento
+                    </label>
+                </div>
+                {% endif %}
+                {% if cliente_obj_port.f_pagamento == 'ordem_pagamento' %}
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="f_pagamento" id="exampleRadios1" value="ted" disabled>
+                    <label class="form-check-label" style="color: black;" for="exampleRadios1">
+                    TED
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="f_pagamento" id="exampleRadios2" value="ordem_pagamento" checked disabled>
+                    <label class="form-check-label" style="color: black;" for="exampleRadios2">
+                    Ordem de Pagamento
+                    </label>
+                </div>
+                {% endif %}
+            </div>
+            <div class="form-group col-md-3">
+                <label for="inputEmail">Banco</label>
+                <input type="text" class="form-control" id="inputAddress2" maxlength="50" name="banco" value="{{cliente_obj_port.banco}}" disabled >
+            </div>
+            <div class="form-group col-md-3">
+                <label for="inputEmail">Agencia</label>
+                <input type="text" class="form-control" id="inputAddress2" maxlength="50" name="agencia" value="{{cliente_obj_port.agencia}}" disabled >
+            </div>
+            <div class="form-group col-md-3">
+                <label for="inputEmail">Conta N.</label>
+                <input type="text" class="form-control" id="inputAddress2" maxlength="50" name="n_conta" value="{{cliente_obj_port.n_conta}}" disabled >
+            </div>
+            <div class="form-group col-md-3">
+                <label for="inputName">Conta</label>
+                {% if cliente_obj_port.t_conta == 'corrente' %}
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="t_conta" id="exampleRadios1" value="corrente" checked disabled>
+                    <label class="form-check-label" style="color: black;" for="exampleRadios1">
+                    Conta Corrente
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="t_conta" id="exampleRadios2" value="poupanca" disabled>
+                    <label class="form-check-label" style="color: black;" for="exampleRadios2">
+                    Poupanca
+                    </label>
+                </div>
+                {% endif %}
+                {% if cliente_obj_port.t_conta == 'poupanca' %}
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="t_conta" id="exampleRadios1" value="corrente" disabled>
+                    <label class="form-check-label" style="color: black;" for="exampleRadios1">
+                    Conta Corrente
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="t_conta" id="exampleRadios2" value="poupanca" checked disabled>
+                    <label class="form-check-label" style="color: black;" for="exampleRadios2">
+                    Poupanca
+                    </label>
+                </div>
+                {% endif %}
+            </div>
+            <div class="form-group col-md-9">
+                <label for="inputEmail">Obs.</label>
+                <input type="text" class="form-control" id="inputAddress2" maxlength="200" name="obs" value="{{cliente_obj_port.obs}}" disabled>
+            </div>
+        </div>
+        <input type="hidden" name="cliente_id_portabilidade" value="{{cliente_obj_port.id}}">
+        <button type="submit" class="btn btn-secondary float-right">Editar</button>
+    </form>
+{% endblock %}

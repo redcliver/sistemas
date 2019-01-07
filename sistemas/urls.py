@@ -42,6 +42,10 @@ urlpatterns = [
     url(r'^mario_home/', include('mario_home.urls')),
     url(r'^mario_cliente/', include('mario_cliente.urls')),
 
+    # URL Chica Diniz
+    url(r'^top_home/', include('top_home.urls')),
+    url(r'^top_cliente/', include('top_cliente.urls')),
+
     # Padrao
     url(r'^contact$', app.views.contact, name='contact'),
     url(r'^about$', app.views.about, name='about'),

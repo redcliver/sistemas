@@ -1,0 +1,128 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+ <html>
+     <head>
+         {% load staticfiles %}
+         <title>Ficha de Cadastro - {{nome}}</title>
+         <style type="text/css">
+             body {
+                 display: inline-block;
+                 font-weight: 200;
+                 font-size: 14px;
+             }
+             .header {
+                 text-align: center;
+                 padding-bottom: 5px;
+                 font-size: 20px;
+                 font-weight: 100;
+                 color: #007cae;
+             }
+             .ordem {
+                 text-decoration: underline;
+                 color: #000000;
+             }
+             .title {
+                 font-size: 22px;
+                 font-weight: 100;
+                /* text-align: right;*/
+                padding: 10px 20px 0px 20px;  
+             }
+             .title span {
+                 color: #007cae;
+             }
+             .details {
+                 padding: 2px 2px 0px 2px;
+                 text-align: left !important;
+                 /*margin-left: 40%;*/
+             }
+             .hrItem {
+                 border: none;
+                 height: 1px;
+                 /* Set the hr color */
+                 color: #333; /* old IE */
+                 background-color: #fff; /* Modern Browsers */
+             }
+             
+             table {
+                 border-collapse: collapse;
+                 width: 100%;
+             }
+             th, td {
+                 border-bottom: 1px solid #282828;
+             }
+             th {
+                 text-align: left;
+             }
+             td {
+                 font-weight: normal;
+             }
+             .direita{
+                 text-align:right;
+             }
+             .esquerda{
+                 text-align:left;
+             }
+             .test {
+                width:200px;
+                display:inline-block;
+                overflow: auto;
+                white-space: nowrap;
+                margin:0px auto;
+                border:1px red solid;
+            }
+         </style>
+    </head>
+    <body>
+        <div class='wrapper'>
+            <div class='header'>
+                <p><img src="top_logo.png" alt=""/></p>
+            </div>
+            <label class="ordem" ><b>FICHA CADASTRO DE CLIENTES</b></label><br /><br />
+            <div class='details'>
+                <label><b>DATA CADASTRO:</b> {{data_cadastro}}</label><br />
+                <label><b>OPERACAO:</b> {{operacao}}</label> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<label><b>CONVENIO:</b> {{convenio}}</label><br />
+                <label><b>BANCO:</b> {{banco_cad}}</label><br />
+                <label><b>CPF:</b> {{cpf}}</label>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<label><b>N. DO BENEFICIO:</b> {{beneficio}}</label>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<label><b>UF:</b> {{uf_beneficio}}</label><br />
+                <label><b>NOME:</b> {{nome}}</label><br />
+                <label><b>PAI:</b> {{pai}}</label><br />
+                <label><b>MAE:</b> {{mae}}</label><br />
+                <label><b>ENDERECO:</b> {{endereco}}</label>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<label><b>NUMERO:</b> {{numero}}</label><br />
+                <label><b>BAIRRO:</b> {{bairro}}</label>&nbsp; &nbsp; &nbsp;<label><b>CIDADE:</b> {{cidade}}</label>&nbsp; &nbsp; &nbsp;<label><b>UF:</b> {{uf_cidade}}</label>&nbsp; &nbsp; &nbsp;<label><b>CEP:</b> {{cep}}</label><br />
+                <label><b>DATA DE NASC.:</b> {{data_nasc}}</label>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<label><b>NATURAL:</b> {{natural}}</label>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<label><b>UF:</b> {{uf_natural}}</label><br />
+                <label><b>RG/CNH:</b> {{rg}}</label>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<label><b>EXP:</b> {{exp}}</label>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<label><b>DATA DE EXP.:</b> {{data_exp}}</label><br />
+                <label><b>ESCOLARIDADE:</b> {{escolaridade}}</label><br />
+                <label><b>TELEFONE:</b> {{tel}}</label>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<label><b>CELULAR:</b> {{cel}}</label>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<label><b>E-MAIL:</b> {{mail}}</label><br />
+                <label><b>ESPECIE DO BENEFICIO:</b> {{especie_beneficio}}</label>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<label><b>RENDA:</b> R${{renda}}</label>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<label><b>CAD. SENHA:</b> {{cad_senha}}</label><br />
+                <label><b>SENHA ECONSIG:</b> {{senha_econsig}}</label>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<label><b>PREC:</b> R${{prec}}</label>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<label><b>ID MG:</b> {{id_mg}}</label><br />
+                <label><b>VALOR SOLICITADO:</b> {{valor_solicitado}}</label>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<label><b>N. DE PARCELAS:</b> R${{n_parcela}}</label>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<label><b>VALOR PARC.:</b> {{valor_parcela}}</label><br />
+                <br />
+                <label><b>FORMA DE PAGAMENTO:</b> {{f_pagamento}}</label><br />
+                <label><b>BANCO:</b> {{banco}}</label><br />
+                <label><b>AGENCIA:</b> {{agencia}}</label><br />
+                <label><b>CONTA:</b> {{n_conta}}</label><br />
+                <label><b>TIPO DA CONTA:</b> {{t_conta}}</label><br /><br />
+                <label style="text-align:justify;"><b>*</b>A simulacao, e uma aproximacao do valor a ser liberado, esses valores podem sofrer alteracao sem aviso</label><br />
+                <label style="text-align:justify;">previo, pois as tabelas de coeficientes sofrem alteracoes diarias.</label><br />
+                <label style="text-align:justify;"><b>*</b>Os prazos de averbacao e pagamento das propostas dependem unica e exclusivamente do ORGAO</label><br />
+                <label style="text-align:justify;">AVERBADOR, responsavel pelo emprestimo consignado; Por esse motivo esses prazos podem variar de </label><br />
+                <label style="text-align:justify;">banco para banco, e de cliente para cliente.</label><br />
+                <label style="text-align:justify;"><b>*</b>TOP FINANCEIRA esta isenta de qualquer atraso que houver no pagamento da proposta.</label><br /><br />
+
+            </div>
+        </div>
+        <br /><br />
+        
+            <div>
+                <div >
+                    <b>RESPONSAVEL:</b> {{responsavel}}   ________________________
+                </div>
+                <br />
+                <br />
+                <br />
+                <div >
+                    <b>CLIENTE:</b> {{nome}}   ________________________
+                </div>
+            </div>
+        
+    </body>
+
+</html>

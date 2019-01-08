@@ -1,0 +1,43 @@
+{% extends 'top_base.html' %}
+
+{% block body %}
+{% load static %}
+<h1>Selecione o Cliente</h1><hr /><br />
+    <form method="GET">
+    {%csrf_token%}
+    <div class="form-row">
+        <div class="form-group col-md-12">
+            <select name="cliente_id" class="form-control" required>
+                <option value="Nulo" selected > -- Cliente -- </option>
+                {% for cliente in clientes %}
+                    <option value={{cliente.id}}>{{cliente.nome}}</option>
+                {% endfor %}
+            </select>
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="form-group col-md-12">
+            <button type="submit" formaction="/top_cliente/imprimir" class="btn btn-secondary float-right">Imprimir</button>
+        </div>
+    </div>
+    
+    <h1>Portabilidade</h1>
+    <hr>
+    <br>
+    <div class="form-row">
+        <div class="form-group col-md-12">
+            <select name="cliente_id_portabilidade" class="form-control" required>
+                <option value="Nulo" selected > -- Cliente Portabilidade -- </option>
+                {% for cliente_portabilidade in clientes_port %}
+                    <option value={{cliente_portabilidade.id}}>{{cliente_portabilidade.nome}}</option>
+                {% endfor %}
+            </select>
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="form-group col-md-12">
+            <button type="submit" formaction="/top_cliente/imprimir" class="btn btn-secondary float-right">Imprimir</button>
+        </div>
+    </div>
+    </form>
+{% endblock %}

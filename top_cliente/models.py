@@ -51,6 +51,7 @@ class cliente(models.Model):
     cel = models.CharField(max_length=20, null=True, blank=True)
     mail = models.CharField(max_length=200, null=True, blank=True)
     obs = models.CharField(max_length=200, null=True, blank=True)
+    responsavel = models.CharField(max_length=200, null=True, blank=True)
     data_cadastro = models.DateTimeField(default=timezone.now)
     
     def __str__(self):
@@ -107,6 +108,7 @@ class cliente_portabilidade(models.Model):
     n_conta = models.CharField(max_length=100, null=True, blank=True)
     t_conta = models.CharField(max_length=100, null=True, blank=True)
     obs = models.CharField(max_length=200, null=True, blank=True)
+    responsavel = models.CharField(max_length=200, null=True, blank=True)
     data_cadastro = models.DateTimeField(default=timezone.now)
     
     def __str__(self):

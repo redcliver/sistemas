@@ -1,6 +1,13 @@
 from django.shortcuts import render
 import datetime
 from .models import cliente, cliente_portabilidade
+from django.views.generic import View
+from django.template.loader import get_template
+from .utils import render_to_pdf
+from django.utils import timezone
+from django.http import HttpResponse
+from django.contrib.auth.models import User
+
 # Create your views here.
 def top_cliente(request):
     if request.user.is_authenticated():
@@ -8,6 +15,7 @@ def top_cliente(request):
         if empresa == 'top':
             hoje = datetime.date.today().strftime('%Y-%m-%d')
             if request.method == 'POST' and request.POST.get('nome') != None:
+                responsavel = request.user.username
                 convenio = request.POST.get('convenio')
                 operacao = request.POST.get('operacao')
                 banco_cad = request.POST.get('banco_cad')
@@ -48,7 +56,7 @@ def top_cliente(request):
                 n_conta = request.POST.get('n_conta')
                 t_conta = request.POST.get('t_conta')
                 obs = request.POST.get('obs')
-                novo_cliente = cliente(convenio=convenio, operacao=operacao, banco_cad=banco_cad, cpf = cpf, beneficio=beneficio, uf_beneficio=uf_beneficio, nome=nome, pai=pai, mae = mae, endereco=endereco , numero=numero, bairro=bairro, cep=cep, cidade = cidade, uf_cidade=uf_cidade, data_nasc=data_nasc, natural=natural, uf_natural=uf_natural, rg = rg, expedicao=expedicao, data_exp=data_exp, escolaridade=escolaridade, tel=tel, cel = cel, mail=mail, especie_beneficio=especie_beneficio, renda=renda, cad_senha=cad_senha, senha_econsig = senha_econsig, prec=prec, id_mg=id_mg, valor_solicitado=valor_solicitado, n_parcela=n_parcela, valor_parcela = valor_parcela, f_pagamento=f_pagamento, banco=banco, agencia=agencia, n_conta=n_conta, t_conta = t_conta, obs=obs)
+                novo_cliente = cliente(convenio=convenio, operacao=operacao, banco_cad=banco_cad, cpf = cpf, beneficio=beneficio, uf_beneficio=uf_beneficio, nome=nome, pai=pai, mae = mae, endereco=endereco , numero=numero, bairro=bairro, cep=cep, cidade = cidade, uf_cidade=uf_cidade, data_nasc=data_nasc, natural=natural, uf_natural=uf_natural, rg = rg, expedicao=expedicao, data_exp=data_exp, escolaridade=escolaridade, tel=tel, cel = cel, mail=mail, especie_beneficio=especie_beneficio, renda=renda, cad_senha=cad_senha, senha_econsig = senha_econsig, prec=prec, id_mg=id_mg, valor_solicitado=valor_solicitado, n_parcela=n_parcela, valor_parcela = valor_parcela, f_pagamento=f_pagamento, banco=banco, agencia=agencia, n_conta=n_conta, t_conta = t_conta, obs=obs, responsavel=responsavel)
                 novo_cliente.save()
                 msg = nome+" salvo com sucesso!"
                 return render(request, 'top_cliente/cliente_novo.html', {'title':'Novo Cliente', 'msg':msg})
@@ -63,6 +71,7 @@ def portabilidade(request):
         if empresa == 'top':
             hoje = datetime.date.today().strftime('%Y-%m-%d')
             if request.method == 'POST' and request.POST.get('nome') != None:
+                responsavel = request.user.username
                 orgao = request.POST.get('orgao')
                 n_beneficio = request.POST.get('n_beneficio')
                 especie_beneficio = request.POST.get('especie_beneficio')
@@ -111,7 +120,7 @@ def portabilidade(request):
                 n_conta = request.POST.get('n_conta')
                 t_conta = request.POST.get('t_conta')
                 obs = request.POST.get('obs')
-                novo_cliente_portabilidade = cliente_portabilidade(orgao=orgao, n_beneficio=n_beneficio, especie_beneficio=especie_beneficio, uf_beneficio = uf_beneficio, nome=nome, cpf=cpf, data_nasc=data_nasc, natural=natural, uf_natural = uf_natural, endereco=endereco , numero=numero, bairro=bairro, cep=cep, cidade = cidade, uf_cidade=uf_cidade, banco_atual=banco_atual, banco_portador=banco_portador, ctt=ctt, quitacao = quitacao, valor_parcela=valor_parcela, liquido=liquido, banco_atual1=banco_atual1, banco_portador1=banco_portador1, ctt1=ctt1, quitacao1 = quitacao1, valor_parcela1=valor_parcela1, liquido1=liquido1, banco_atual2=banco_atual2, banco_portador2=banco_portador2, ctt2=ctt2, quitacao2 = quitacao2, valor_parcela2=valor_parcela2, liquido2=liquido2, banco_atual3=banco_atual3, banco_portador3=banco_portador3, ctt3=ctt3, quitacao3 = quitacao3, valor_parcela3=valor_parcela3, liquido3=liquido3, tel=tel, cel = cel, mail=mail, f_pagamento=f_pagamento, banco=banco, agencia=agencia, n_conta=n_conta, t_conta = t_conta, obs=obs)
+                novo_cliente_portabilidade = cliente_portabilidade(orgao=orgao, n_beneficio=n_beneficio, especie_beneficio=especie_beneficio, uf_beneficio = uf_beneficio, nome=nome, cpf=cpf, data_nasc=data_nasc, natural=natural, uf_natural = uf_natural, endereco=endereco , numero=numero, bairro=bairro, cep=cep, cidade = cidade, uf_cidade=uf_cidade, banco_atual=banco_atual, banco_portador=banco_portador, ctt=ctt, quitacao = quitacao, valor_parcela=valor_parcela, liquido=liquido, banco_atual1=banco_atual1, banco_portador1=banco_portador1, ctt1=ctt1, quitacao1 = quitacao1, valor_parcela1=valor_parcela1, liquido1=liquido1, banco_atual2=banco_atual2, banco_portador2=banco_portador2, ctt2=ctt2, quitacao2 = quitacao2, valor_parcela2=valor_parcela2, liquido2=liquido2, banco_atual3=banco_atual3, banco_portador3=banco_portador3, ctt3=ctt3, quitacao3 = quitacao3, valor_parcela3=valor_parcela3, liquido3=liquido3, tel=tel, cel = cel, mail=mail, f_pagamento=f_pagamento, banco=banco, agencia=agencia, n_conta=n_conta, t_conta = t_conta, obs=obs, responsavel=responsavel)
                 novo_cliente_portabilidade.save()
                 msg = nome+" salvo com sucesso!"
                 return render(request, 'top_cliente/cliente_novo_portabilidade.html', {'title':'Novo Cliente Portabilidade', 'msg':msg})
@@ -361,3 +370,77 @@ def edita(request):
         return render(request, 'sistema_login/erro.html', {'title':'Erro'})
 
 
+def contrato_busca(request):
+    if request.user.is_authenticated():
+        empresa = request.user.get_short_name()
+        if empresa == 'top':
+            clientes = cliente.objects.all().order_by('nome')
+            clientes_port = cliente_portabilidade.objects.all().order_by('nome')
+            return render(request, 'top_cliente/cliente_contrato_busca.html', {'title':'Imprimir Contrato ', 'clientes':clientes, 'clientes_port':clientes_port})
+        return render(request, 'sistema_login/erro.html', {'title':'Erro'})
+    else:
+        return render(request, 'sistema_login/erro.html', {'title':'Erro'})
+
+class GeneratePdf(View):
+    def get(self, request, *args, **kwargs):
+        template = get_template('pdf.html')
+        if request.method == 'GET' and request.GET.get('cliente_id') != "Nulo" and request.GET.get('cliente_id_portabilidade') == "Nulo":
+            cliente_id = request.GET.get('cliente_id')
+            cliente_obj = cliente.objects.get(id=cliente_id)
+
+            context = {
+                    "convenio": cliente_obj.get_convenio_display,
+                    "operacao": cliente_obj.operacao,
+                    "data_cadastro": cliente_obj.data_cadastro.strftime('%d/%m/%Y'),
+                    "banco_cad": cliente_obj.banco_cad,
+                    "cpf": cliente_obj.cpf,
+                    "beneficio": cliente_obj.beneficio,
+                    "uf_beneficio": cliente_obj.uf_beneficio,
+                    "nome": cliente_obj.nome,
+                    "pai": cliente_obj.pai,
+                    "mae": cliente_obj.mae,
+                    "endereco": cliente_obj.endereco,
+                    "numero": cliente_obj.numero,
+                    "bairro": cliente_obj.bairro,
+                    "cep": cliente_obj.cep,
+                    "cidade": cliente_obj.cidade,
+                    "uf_cidade": cliente_obj.uf_cidade,
+                    "data_nasc": cliente_obj.data_nasc.strftime('%d/%m/%Y'),
+                    "natural": cliente_obj.natural,
+                    "uf_natural": cliente_obj.uf_natural,
+                    "rg": cliente_obj.rg,
+                    "exp": cliente_obj.expedicao,
+                    "data_exp": cliente_obj.data_exp.strftime('%d/%m/%Y'),
+                    "escolaridade": cliente_obj.escolaridade,
+                    "tel": cliente_obj.tel,
+                    "cel": cliente_obj.cel,
+                    "mail": cliente_obj.mail,
+                    "especie_beneficio": cliente_obj.especie_beneficio,
+                    "renda": cliente_obj.renda,
+                    "cad_senha": cliente_obj.cad_senha,
+                    "senha_econsig": cliente_obj.senha_econsig,
+                    "prec": cliente_obj.prec,
+                    "id_mg": cliente_obj.id_mg,
+                    "valor_solicitado": cliente_obj.valor_solicitado,
+                    "n_parcela": cliente_obj.n_parcela,
+                    "valor_parcela": cliente_obj.valor_parcela,
+                    "f_pagamento": cliente_obj.f_pagamento,
+                    "banco": cliente_obj.banco,
+                    "agencia": cliente_obj.agencia,
+                    "n_conta": cliente_obj.n_conta,
+                    "t_conta": cliente_obj.t_conta,
+                    "responsavel": cliente_obj.responsavel,
+                }
+            html = template.render(context)
+            pdf = render_to_pdf('pdf.html', context)
+            if pdf:
+                response = HttpResponse(pdf, content_type='application/pdf')
+                filename = "Ficha_%s.pdf" %(cliente_obj.nome)
+                content = "inline-block; filename='%s'" %(filename)
+                download = request.GET.get("download")
+                if download:
+                    content = "attachment; filename='%s'" %(filename)
+                response['Content-Disposition'] = content
+                return response
+            return HttpResponse("Not found")
+        return HttpResponse(pdf, content_type='application/pdf')

@@ -27,41 +27,35 @@
             </thead>
             <tbody>
                 {% for agenda in agendas %}
-                {% if agenda.pagamento == '1' %}
-                <tr>
-                    <td>{{agenda.id}}</td>
-                    <td>{{agenda.data|date:"H:i"}}</td>
-                    <td>{{agenda.cli.nome}}</td>
-                    <td>{{agenda.get_pagamento_display}}</td>
-                    <td>Finalizado</td>
-                </tr>
+                {% if agenda.estado == '1' %}
+                    <tr>
+                        <td>{{agenda.id}}</td>
+                        <td>{{agenda.data|date:"H:i"}}</td>
+                        <td>{{agenda.cli.nome}}</td>
+                        <td>R$ {{agenda.total}}</td>
+                        <td>{{agenda.get_estado_display}}</td>
+                        <td><button name="agenda_id" value="{{agenda.id}}" class="btn btn-secondary" formmethod="GET" formaction="/lavajato_agenda/edita" title="Editar agendamento">Editar</button></td>
+                    </tr>
+                    {% endif %}
+                    {% if agenda.estado == '2' %}
+                    <tr>
+                        <td>{{agenda.id}}</td>
+                        <td>{{agenda.data|date:"H:i"}}</td>
+                        <td>{{agenda.cli.nome}}</td>
+                        <td>R$ {{agenda.total}}</td>
+                        <td>{{agenda.get_estado_display}}</td>
+                        <td>Finalizado</td>
+                    </tr>
                 {% endif %}
-                {% if agenda.pagamento == '2' %}
-                <tr>
-                    <td>{{agenda.id}}</td>
-                    <td>{{agenda.data|date:"H:i"}}</td>
-                    <td>{{agenda.cli.nome}}</td>
-                    <td>{{agenda.get_pagamento_display}}</td>
-                    <td>Finalizado</td>
-                </tr>
-                {% endif %}
-                {% if agenda.pagamento == '3' %}
-                <tr>
-                    <td>{{agenda.id}}</td>
-                    <td>{{agenda.data|date:"H:i"}}</td>
-                    <td>{{agenda.cli.nome}}</td>
-                    <td>{{agenda.get_pagamento_display}}</td>
-                    <td>Finalizado</td>
-                </tr>
-                {% endif %}
-                {% if agenda.pagamento == '4' %}
-                <tr>
-                    <td>{{agenda.id}}</td>
-                    <td>{{agenda.data|date:"H:i"}}</td>
-                    <td>{{agenda.cli.nome}}</td>
-                    <td>{{agenda.get_pagamento_display}}</td>
-                    <td><button name="agenda_id" value="{{agenda.id}}" class="btn btn-secondary" formmethod="GET" formaction="/chica_agenda/edita" title="Editar agendamento">Editar</button></td>
-                </tr>
+                {% if agenda.estado == '3' %}
+                    <tr>
+                        <td>{{agenda.id}}</td>
+                        <td>{{agenda.data|date:"H:i"}}</td>
+                        <td>{{agenda.cli.nome}}</td>
+                        <td>R$ {{agenda.total}}</td>
+                        <td>{{agenda.get_estado_display}}</td>
+                        <td>Finalizado</td>
+                    </tr>
                 {% endif %}
                 {% endfor %}
             </tbody>

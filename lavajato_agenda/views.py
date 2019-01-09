@@ -1,9 +1,10 @@
 from django.shortcuts import render
 from django.utils import timezone
 import datetime
-from datetime import date , timedelta
-from decimal import *
-from .models import agenda, servico_item, conta_parcelada, parcela
+from datetime import datetime
+from datetime import timedelta, date
+from decimal import Decimal
+from .models import agenda, servico_item, conta_parcelada, parcela, pagamento
 from lavajato_cliente.models import cliente
 from lavajato_controle.models import funcionario, servico
 from lavajato_caixa.models import caixa_geral
@@ -26,9 +27,10 @@ def novo(request):
                 data = request.POST.get('data')
                 novo_serv_item = servico_item(serv=servico_obj, func=funcionario_obj)
                 novo_serv_item.save()
-                novo_agendamento = agenda(cli=cliente_obj, data = data, pagamento=4, total=0)
+                novo_agendamento = agenda(cli=cliente_obj, data = data, estado=1)
                 novo_agendamento.save()
                 novo_agendamento.item_servico.add(novo_serv_item)
+                novo_agendamento.subtotal = servico_obj.valor
                 novo_agendamento.total = servico_obj.valor
                 novo_agendamento.save()
                 msg = cliente_obj.nome+" agendado com sucesso!"
@@ -42,8 +44,8 @@ def busca(request):
     if request.user.is_authenticated():
         empresa = request.user.get_short_name()
         if empresa == 'dayson':
-            hoje = datetime.date.today().strftime('%Y-%m-%d')
-            agendas = agenda.objects.filter(pagamento=4).order_by('data')
+            hoje = datetime.now().strftime('%Y-%m-%d')
+            agendas = agenda.objects.filter(estado=1).order_by('data')
             if request.method == 'POST' and request.POST.get('agenda_id') != None:
                 agenda_id = request.POST.get('agenda_id')
                 agenda_obj = agenda.objects.filter(id=agenda_id).get()
@@ -60,7 +62,7 @@ def add_servico(request):
     if request.user.is_authenticated():
         empresa = request.user.get_short_name()
         if empresa == 'dayson':
-            agendas = agenda.objects.filter(pagamento=4).order_by('data')
+            agendas = agenda.objects.filter(estado=1).order_by('data')
             servicos = servico.objects.all().order_by('nome')
             funcionarios = funcionario.objects.all().order_by('nome')
             if request.method == 'POST' and request.POST.get('agenda_id') != None and request.POST.get('servico_id') != None:
@@ -73,6 +75,7 @@ def add_servico(request):
                 novo_serv_item = servico_item(serv=servico_obj, func=funcionario_obj)
                 novo_serv_item.save()
                 agenda_obj.item_servico.add(novo_serv_item)
+                agenda_obj.subtotal = agenda_obj.subtotal + servico_obj.valor
                 agenda_obj.total = agenda_obj.total + servico_obj.valor
                 agenda_obj.save()
                 it_servicos = agenda_obj.item_servico.all()
@@ -87,11 +90,11 @@ def edita(request):
     if request.user.is_authenticated():
         empresa = request.user.get_short_name()
         if empresa == 'dayson':
-            hoje = datetime.date.today().strftime('%Y-%m-%d')
-            agendas = agenda.objects.filter(data__icontains=hoje)
+            hoje = datetime.now().strftime('%Y-%m-%d')
+            agendas = agenda.objects.filter(data__date=timezone.now()).all()
             if request.method == 'POST' and request.POST.get('data') != None:
                 hoje = request.POST.get('data')
-                agendas = agenda.objects.filter(data__icontains=hoje)
+                agendas = agenda.objects.filter(data__date=hoje).all()
                 return render(request, 'lavajato_agenda/agenda_edita.html', {'title':'Editar Agenda', 'agendas':agendas, 'hoje':hoje})
             if request.method == 'GET' and request.GET.get('agenda_id') != None:
                 agenda_id = request.GET.get('agenda_id')
@@ -117,7 +120,7 @@ def excluir(request):
                 servico_item_obj.save()
                 agenda_id = request.POST.get('agenda_id')
                 agenda_obj = agenda.objects.filter(id=agenda_id).get()
-                agenda_obj.total = agenda_obj.total + servico_item_obj.serv.valor
+                agenda_obj.subtotal = agenda_obj.subtotal + servico_item_obj.serv.valor
                 agenda_obj.save()
                 it_servicos = agenda_obj.item_servico.all()
                 return render(request, 'lavajato_agenda/agenda_edita.1.html', {'title':'Editar Agenda', 'agenda_obj':agenda_obj, 'it_servicos':it_servicos})
@@ -130,11 +133,11 @@ def visualiza(request):
     if request.user.is_authenticated():
         empresa = request.user.get_short_name()
         if empresa == 'dayson':
-            hoje = datetime.date.today().strftime('%Y-%m-%d')
-            agendas = agenda.objects.filter(data__icontains=hoje)
+            hoje = datetime.now().strftime('%Y-%m-%d')
+            agendas = agenda.objects.filter(data__date=hoje).all()
             if request.method == 'POST' and request.POST.get('data') != None:
                 hoje = request.POST.get('data')
-                agendas = agenda.objects.filter(data__icontains=hoje)
+                agendas = agenda.objects.filter(data__date=hoje).all()
                 return render(request, 'lavajato_agenda/agenda_visualiza.html', {'title':'Visualizar Agenda', 'agendas':agendas, 'hoje':hoje})
             return render(request, 'lavajato_agenda/agenda_visualiza.html', {'title':'Visualizar Agenda', 'agendas':agendas, 'hoje':hoje})
         return render(request, 'sistema_login/erro.html', {'title':'Erro'})
@@ -145,11 +148,34 @@ def confirmacao(request):
     if request.user.is_authenticated():
         empresa = request.user.get_short_name()
         if empresa == 'dayson':
+            hoje = datetime.now().strftime('%Y-%m-%d')
+            agendas = agenda.objects.filter(data__date=hoje).all()
             if request.method == 'POST' and request.POST.get('agenda_id') != None:
                 agenda_id = request.POST.get('agenda_id')
                 agenda_obj = agenda.objects.filter(id=agenda_id).get()
+                desc_total = agenda_obj.subtotal - agenda_obj.desconto
                 servicos = agenda_obj.item_servico.all()
-                return render(request, 'lavajato_agenda/agenda_confirmacao.html', {'title':'Confirmar Agenda', 'agenda_obj':agenda_obj, 'servicos':servicos})
+                return render(request, 'lavajato_agenda/agenda_confirmacao.html', {'title':'Confirmar Agenda', 'agenda_obj':agenda_obj, 'servicos':servicos, 'desc_total':desc_total})
+            return render(request, 'lavajato_agenda/agenda_visualiza.html', {'title':'Visualizar Agenda', 'agendas':agendas, 'hoje':hoje})
+        return render(request, 'sistema_login/erro.html', {'title':'Erro'})
+    else:
+        return render(request, 'sistema_login/erro.html', {'title':'Erro'})
+
+def desconto(request):
+    if request.user.is_authenticated():
+        empresa = request.user.get_short_name()
+        if empresa == 'dayson':
+            hoje = datetime.now().strftime('%Y-%m-%d')
+            agendas = agenda.objects.filter(data__date=hoje).all()
+            if request.method == 'POST' and request.POST.get('agenda_id') != None and request.POST.get('desconto') != None:
+                agenda_id = request.POST.get('agenda_id')
+                desconto = request.POST.get('desconto')
+                agenda_obj = agenda.objects.filter(id=agenda_id).get()
+                agenda_obj.desconto = desconto
+                agenda_obj.save()
+                desc_total = agenda_obj.total - Decimal(desconto)
+                servicos = agenda_obj.item_servico.all()
+                return render(request, 'lavajato_agenda/agenda_confirmacao.html', {'title':'Confirmar Agenda', 'agenda_obj':agenda_obj, 'servicos':servicos, 'desc_total':desc_total})
             return render(request, 'lavajato_agenda/agenda_visualiza.html', {'title':'Visualizar Agenda', 'agendas':agendas, 'hoje':hoje})
         return render(request, 'sistema_login/erro.html', {'title':'Erro'})
     else:
@@ -159,16 +185,16 @@ def desmarcar(request):
     if request.user.is_authenticated():
         empresa = request.user.get_short_name()
         if empresa == 'dayson':
-            hoje = datetime.date.today().strftime('%Y-%m-%d')
-            agendas = agenda.objects.filter(data__icontains=hoje)
+            hoje = datetime.now().strftime('%Y-%m-%d')
+            agendas = agenda.objects.filter(data__date=hoje)
             if request.method == 'POST' and request.POST.get('agenda_id') != None:
                 agenda_id = request.POST.get('agenda_id')
                 agenda_obj = agenda.objects.filter(id=agenda_id).get()
-                agenda_obj.pagamento = 5
+                agenda_obj.estado = 2
                 agenda_obj.save()
                 msg = "Agendamento numero "+str(agenda_obj.id)+" desmarcado com sucesso."
-                hoje = datetime.date.today().strftime('%Y-%m-%d')
-                agendas = agenda.objects.filter(data__icontains=hoje)
+                hoje = datetime.now().strftime('%Y-%m-%d')
+                agendas = agenda.objects.filter(data__date=hoje)
                 return render(request, 'lavajato_agenda/agenda_visualiza.html', {'title':'Desmarcar Agendamento', 'agendas':agendas, 'hoje':hoje, 'agenda_obj':agenda_obj, 'msg':msg})
             return render(request, 'lavajato_agenda/agenda_visualiza.html', {'title':'Visualizar Agenda', 'agendas':agendas, 'hoje':hoje})
         return render(request, 'sistema_login/erro.html', {'title':'Erro'})
@@ -179,22 +205,32 @@ def dinheiro(request):
     if request.user.is_authenticated():
         empresa = request.user.get_short_name()
         if empresa == 'dayson':
+            hoje = datetime.now().strftime('%Y-%m-%d')
+            agendas = agenda.objects.filter(estado=1).order_by('data')
             if request.method == 'GET' and request.GET.get('agenda_id') != None:
                 agenda_id = request.GET.get('agenda_id')
                 agenda_obj = agenda.objects.filter(id=agenda_id).get()
-                return render(request, 'lavajato_agenda/agenda_troco.html', {'title':'Troco', 'agenda_obj':agenda_obj})
+                desc_total = agenda_obj.subtotal - agenda_obj.desconto
+                return render(request, 'lavajato_agenda/agenda_troco.html', {'title':'Troco', 'agenda_obj':agenda_obj, 'desc_total':desc_total})
             if request.method == 'POST' and request.POST.get('recebido') != None and request.POST.get('agenda_id') != None:
                 agenda_id = request.POST.get('agenda_id')
                 recebido = request.POST.get('recebido')
                 agenda_obj = agenda.objects.filter(id=agenda_id).get()
+                desc_total = agenda_obj.subtotal - agenda_obj.desconto
+                agenda_obj.total = desc_total
+                agenda_obj.save()
                 troco = agenda_obj.total - Decimal(recebido)
                 troco= troco * -1
-                agenda_obj.pagamento = 1
+                agenda_obj.estado = 3
+                agenda_obj.save()
+                valor = agenda_obj.total
+                novo_pagamento = pagamento(tipo=1,valor=valor)
+                novo_pagamento.save()
+                agenda_obj.pag.add(novo_pagamento)
                 agenda_obj.save()
                 caixa = caixa_geral.objects.latest('id')
                 ultimo_id = agenda_obj.id
-                novo_total = caixa.total + agenda_obj.total
-                valor = agenda_obj.total
+                novo_total = caixa.total + valor
                 desc = "Agendamento N:" + str(agenda_obj.id)
                 nova_entrada = caixa_geral(operacao=1, id_operacao=ultimo_id, valor_operacao=valor, descricao=desc, total=novo_total)
                 nova_entrada.save()

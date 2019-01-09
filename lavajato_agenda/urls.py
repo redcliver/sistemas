@@ -10,6 +10,7 @@ urlpatterns = [
     url(r'^add_servico', views.add_servico),
     url(r'^visualiza', views.visualiza),
     url(r'^confirmacao', views.confirmacao),
+    url(r'^desconto', views.desconto),
     url(r'^desmarcar', views.desmarcar),
     url(r'^dinheiro', views.dinheiro),
     url(r'^credito', views.credito),

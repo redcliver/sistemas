@@ -1,0 +1,68 @@
+{% extends 'lavajato_base.html' %}
+
+{% block body %}
+{% load static %}
+{% if msg %}
+    <h1 style="text-align:center;">{{msg}}</h1><hr />
+{%endif%}
+<h1>Extrato da Conta Empresa</h1><hr />
+    <form method="POST">
+    {%csrf_token%}
+    <div class="form-row">
+        <div class="form-group col-md-5"></div>
+        <div class="form-group col-md-3">
+            <label>Data Inicio</label>
+            <input type="date" class="form-control" value="{{data_inicio}}" name="data_inicio" title="Selecione a data"/>
+        </div>
+        <div class="form-group col-md-3">
+            <label>Data Fim</label>
+            <input type="date" class="form-control" value="{{data_fim}}" name="data_fim" title="Selecione a data"/>
+            <button type="submit" class="btn btn-secondary float-right" title="Buscar por data">Buscar</button>
+        </div>
+        <table class="table table-sm">
+            <thead>
+                <tr>
+                    <th scope="col-md-2">#</th>
+                    <th scope="col-md-4">Data</th>
+                    <th scope="col-md-2">Tipo</th>
+                    <th scope="col-md-2">Descricao</th>
+                    <th scope="col-md-2">Valor Op.</th>
+                    <th scope="col-md-2">Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if conta_all %}
+                    {% for conta_empresa in conta_all %}
+                        {% if conta_empresa.operacao == '1' %}
+                            <trd>
+                                <td scope="row">{{conta_empresa.id}}</td>
+                                <td>{{conta_empresa.data|date:"d/m/Y"}}</td>
+                                <td>{{conta_empresa.get_operacao_display}}</td>
+                                <td>{{conta_empresa.descricao}}</td>
+                                <td>R$ {{conta_empresa.valor_operacao}}</td>
+                                <td>R$ {{conta_empresa.total}}</td>
+                            </tr>
+                        {% endif %}
+                        {% if conta_empresa.operacao == '2' %}
+                            <tr bgcolor="#A9A9A9">
+                                <td scope="row">{{conta_empresa.id}}</td>
+                                <td>{{conta_empresa.data|date:"d/m/Y"}}</td>
+                                <td>{{conta_empresa.get_operacao_display}}</td>
+                                <td>{{conta_empresa.descricao}}</td>
+                                <td>R$ {{conta_empresa.valor_operacao}}</td>
+                                <td>R$ {{conta_empresa.total}}</td>
+                            </tr>
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
+            </tbody>
+        </table>
+        <br/>
+    </div>
+    <div class="form-row">
+        <div class="col align-self-end">
+            <h3><br><hr/>Balanco do Periodo: R$ {{total_geral}}</h3>
+        </div>
+    </div>
+    </form>
+{% endblock %}

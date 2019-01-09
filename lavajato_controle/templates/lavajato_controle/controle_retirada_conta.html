@@ -5,10 +5,10 @@
 {% if msg %}
     <h1 style="text-align:center;">{{msg}}</h1><hr />
 {%endif%}
-<h1>Saida</h1><hr />
+<h1>Retirada na Conta</h1><hr />
     <form method="POST">
     {%csrf_token%}
-    <h3 for="inputName"><b>Total em Caixa: R$ {{total}}</b></h3><hr />
+    <h3 for="inputName"><b>Total em Conta: R$ {{total_empresa}}</b></h3><hr />
         <div class="form-row">
                 <div class="form-group col-md-9">
                     <label for="inputName">Descricao </label>
@@ -19,7 +19,7 @@
                 </div>
                 <div class="form-group col-md-3">
                     <label for="inputCel">Valor</label>
-                    <input type="number" class="form-control" step="0.1" name="valor" title="Digite o valor da saida">
+                    <input type="number" class="form-control" step="0.1" name="valor" title="Digite o valor da saida" required>
                 </div>
             </div>
             <br />

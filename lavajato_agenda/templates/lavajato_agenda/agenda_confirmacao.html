@@ -14,7 +14,7 @@
                 <label for="inputName">Cliente<strong>*</strong></label>
                 <input type="text" class="form-control" value="{{agenda_obj.cli.nome}}" disabled>
             </div>
-            <table class="table table-sm">
+          <table class="table table-sm">
             <thead>
                 <tr>
                     <th scope="col">#</th>
@@ -35,14 +35,19 @@
                     </tr>
                 {% endfor %}
             </tbody>
-        </table>
-        <h1 class="float-right">Total: R${{agenda_obj.total}}</h1>
+          </table>
+        </div>
+        <hr />
+        <div class="col-md-4 offset-md-6">
+            <h4 class="float-right">Sub-Total: R$ {{agenda_obj.subtotal}}</h4><br />
+            <h4 class="float-right">Desconto: R$ {{agenda_obj.desconto}}</h4><br />
+            <h3 class="float-right"><b>TOTAL: R$ {{desc_total}}</b></h3>
         </div>
         <br />
         <label for="inputName">Pagamento<strong>*</strong></label><hr />
-        <button type="submit" class="btn btn-secondary " formaction="/lavajato_agenda/dinheiro" title="Pagamento em dinheiro">Dinheiro</button>&nbsp;
-        <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#exampleModal">Cartao Credito</button>&nbsp;
-        <button type="submit" class="btn btn-secondary " formmethod="POST" formaction="/lavajato_agenda/debito" title="Pagamento em cartao de debito">Cartao Debito</button>&nbsp;
+        <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#exampleModal1">1 Metodo</button>&nbsp;
+        <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#exampleModal2">2+ Metodos</button>&nbsp;
+        <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#exampleModal">Desconto</button>
     
     </form>
     <form method="POST">
@@ -50,6 +55,56 @@
         <input type="hidden" name="agenda_id" value="{{agenda_obj.id}}" />
         <!-- Modal -->
         <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Desconto</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <h3 for="inputName"><b>Sub-Total: R$ {{agenda_obj.subtotal}}</b></h3><hr />
+                <label for="inputName">Valor do Desconto<strong>*</strong></label>
+                <input class="form-control col-md-4" type="number" name="desconto" step="0.01" value="{{agenda_obj.desconto}}" title="Digite o valor do desconto" autofocus required>
+              </div>
+              <div class="modal-footer">
+                <button type="submit" class="btn btn-secondary" formaction="/lavajato_agenda/desconto">Registrar</button>
+              </div>
+            </div>
+          </div>
+        </div>
+    </form>
+    <form method="POST">
+        {% csrf_token %}
+        <input type="hidden" name="agenda_id" value="{{agenda_obj.id}}" />
+        <!-- Modal 1-->
+        <div class="modal fade" id="exampleModal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">1 Metodo de Pagamento</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <h3 for="inputName"><b>Total: R$ {{desc_total}}</b></h3>
+              </div>
+              <div class="modal-footer">
+                <button type="submit" class="btn btn-secondary " formmethod="GET" formaction="/lavajato_agenda/dinheiro" title="Pagamento em dinheiro">Dinheiro</button>&nbsp;
+                <button type="submit" class="btn btn-secondary " formaction="/lavajato_agenda/debito" title="Pagamento em cartao de debito">Cartao Debito</button>&nbsp;
+                <button type="submit" class="btn btn-secondary " formaction="/lavajato_agenda/credito" title="Pagamento em cartao de credito">Cartao Credito</button>&nbsp;
+              </div>
+            </div>
+          </div>
+        </div>
+    </form>
+    <form method="POST">
+        {% csrf_token %}
+        <input type="hidden" name="agenda_id" value="{{agenda_obj.id}}" />
+        <!-- Modal 2-->
+        <div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
           <div class="modal-dialog" role="document">
             <div class="modal-content">
               <div class="modal-header">

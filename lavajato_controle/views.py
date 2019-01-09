@@ -1,7 +1,9 @@
 from django.shortcuts import render
-from .models import funcionario, servico, reg_ponto
+from .models import funcionario, servico, reg_ponto, conta_empresa
 from django.utils import timezone
+from decimal import *
 from datetime import datetime
+from datetime import timedelta
 from lavajato_agenda.models import agenda
 from django.contrib.auth.models import User
 
@@ -19,6 +21,7 @@ def chica_controle(request):
         return render(request, 'sistema_login/erro.html', {'title':'Erro'})
     else:
         return render(request, 'sistema_login/erro.html', {'title':'Erro'})
+
 def novo_funcionario(request):
     if request.user.is_authenticated():
         empresa = request.user.get_short_name()
@@ -294,4 +297,78 @@ def nova_senha(request):
     else:
         return render(request, 'sistema_login/erro.html', {'title':'Erro'})
 
+def conta_entrada(request):
+    if request.user.is_authenticated():
+        empresa = request.user.get_short_name()
+        cargo = request.user.last_name
+        if empresa == 'dayson':
+            if cargo == 'boss':
+                empresa_obj = conta_empresa.objects.latest('id')
+                total_empresa = empresa_obj.total
+                if request.method == 'POST' and request.POST.get('desc') != None:
+                    desc = request.POST.get('desc')
+                    valor = request.POST.get('valor')
+                    empresa_obj = conta_empresa.objects.latest('id')
+                    ultimo_id = empresa_obj.id
+                    ultimo_id = int(ultimo_id) + 1
+                    desc = "Entrada - " + desc
+                    novo_total = empresa_obj.total + Decimal(valor)
+                    nova_entrada = conta_empresa(operacao=1, id_operacao=ultimo_id, valor_operacao=valor, descricao=desc, total=novo_total)
+                    nova_entrada.save()
+                    msg = "Entrada registrada com sucesso!"
+                    return render(request, 'lavajato_controle/controle_entrada_conta.html', {'title':'Entrada', 'msg':msg})
+                return render(request, 'lavajato_controle/controle_entrada_conta.html', {'title':'Entrada', 'total_empresa':total_empresa})
+            return render(request, 'sistema_login/erro.html', {'title':'Erro'})
+        return render(request, 'sistema_login/erro.html', {'title':'Erro'})
+    else:
+        return render(request, 'sistema_login/erro.html', {'title':'Erro'})
+
+def conta_retirada(request):
+    if request.user.is_authenticated():
+        empresa = request.user.get_short_name()
+        cargo = request.user.last_name
+        if empresa == 'dayson':
+            if cargo == 'boss':
+                empresa_obj = conta_empresa.objects.latest('id')
+                total_empresa = empresa_obj.total
+                if request.method == 'POST' and request.POST.get('desc') != None:
+                    desc = request.POST.get('desc')
+                    valor = request.POST.get('valor')
+                    empresa_obj = conta_empresa.objects.latest('id')
+                    ultimo_id = empresa_obj.id
+                    ultimo_id = int(ultimo_id) + 1
+                    desc = "Retirada - " + desc
+                    novo_total = empresa_obj.total - Decimal(valor)
+                    nova_saida = conta_empresa(operacao=2, id_operacao=ultimo_id, valor_operacao=valor, descricao=desc, total=novo_total)
+                    nova_saida.save()
+                    msg = "Saida registrada com sucesso!"
+                    return render(request, 'lavajato_controle/controle_retirada_conta.html', {'title':'Saida', 'msg':msg})
+                return render(request, 'lavajato_controle/controle_retirada_conta.html', {'title':'Retirada da Conta', 'total_empresa':total_empresa})
+            return render(request, 'sistema_login/erro.html', {'title':'Erro'})
+        return render(request, 'sistema_login/erro.html', {'title':'Erro'})
+    else:
+        return render(request, 'sistema_login/erro.html', {'title':'Erro'})
+
+def extrato(request):
+    if request.user.is_authenticated():
+        empresa = request.user.get_short_name()
+        cargo = request.user.last_name
+        if empresa == 'dayson':
+            if cargo == 'boss':
+                try:
+                    conta_geral = conta_empresa.objects.latest('id')
+                except:
+                    conta_geral = conta_empresa(operacao=1, id_operacao=1, valor_operacao=0, descricao="Abertura", total=0)
+                    conta_geral.save()
+                hoje = datetime.now()
+                data_inicio = datetime.now().strftime('%Y-%m-%d')
+                data_fim = datetime.now() + timedelta(days=-30)
+                data_fim = data_fim.strftime('%Y-%m-%d')
+                mes = hoje.month
+                conta_all = conta_empresa.objects.filter(data__month=mes).all().order_by('data')
+                return render(request, 'lavajato_controle/controle_conta_empresa.html', {'title':'Extrato da Conta Empresa', 'data_inicio':data_inicio, 'data_fim':data_fim, 'conta_all':conta_all})
+            return render(request, 'lavajato_home/home.html', {'title':'Home'})
+        return render(request, 'sistema_login/erro.html', {'title':'Erro'})
+    else:
+        return render(request, 'sistema_login/erro.html', {'title':'Erro'})
 

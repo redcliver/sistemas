@@ -13,6 +13,7 @@ class conta(models.Model):
     data_venc = models.DateTimeField(null=True, blank=True)
     data_pagamento = models.DateTimeField(null=True, blank=True)
     data_cadastro = models.DateTimeField(default=timezone.now)
+    fixa = models.CharField(max_length=200, default="Nao")
     estado = models.CharField(max_length=1, choices=ESTADO)
     
     def __str__(self):

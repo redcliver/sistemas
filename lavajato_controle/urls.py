@@ -17,4 +17,7 @@ urlpatterns = [
     url(r'^busca_agendamento', views.busca_agendamento),
     url(r'^info_agendamento', views.info_agendamento),
     url(r'^nova_senha', views.nova_senha),
+    url(r'^extrato', views.extrato),
+    url(r'^conta_entrada', views.conta_entrada),
+    url(r'^conta_retirada', views.conta_retirada),
     ]

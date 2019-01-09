@@ -8,13 +8,14 @@
 <h1>Fechar caixa</h1><hr />
     <form method="POST">
     {%csrf_token%}
+    <h3 for="inputName"><b>Total em Caixa: R$ {{total}}</b></h3><hr />
         <div class="form-row">
-                <div class="form-group col-md-3">
-                    <label for="inputCel">Valor</label>
-                    <input type="number" class="form-control" step="0.1" name="valor" title="Digire o valor a ser retirado no fechamento">
-                </div>
+            <div class="form-group col-md-3">
+                <label for="inputCel">Valor da Retirada</label>
+                <input type="number" class="form-control" step="0.1" name="valor" title="Digire o valor a ser retirado no fechamento">
             </div>
-            <br />
-            <button type="submit" class="btn btn-secondary float-right" title="Registrar o fechamento do caixa">Fechar</button>
+        </div>
+        <br />
+        <button type="submit" class="btn btn-secondary float-right" title="Registrar o fechamento do caixa">Fechar</button>
     </form>
 {% endblock %}

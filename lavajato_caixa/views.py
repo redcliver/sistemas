@@ -162,12 +162,6 @@ def balanco(request):
             for s in agenda.objects.filter(pagamento=3, data__month=mes).all():
                 credito = credito + s.total
                 n_credito = n_credito + 1
-            for s in agenda.objects.filter(pagamento=4, data__month=mes).all():
-                aberto = aberto + s.total
-                n_aberto = n_aberto + 1
-            for s in agenda.objects.filter(pagamento=5, data__month=mes).all():
-                desmarcado = desmarcado + s.total
-                n_desmarcado = n_desmarcado + 1
             n_saidas = n_retiradas + n_contas
             saidas = retiradas + contas
             n_agendamento = n_dinheiro + n_credito + n_debito
@@ -217,12 +211,7 @@ def balanco(request):
                 for s in agenda.objects.filter(pagamento=3, data__range=(data_inicio,data_fim)).all():
                     credito = credito + s.total
                     n_credito = n_credito + 1
-                for s in agenda.objects.filter(pagamento=4, data__range=(data_inicio,data_fim)).all():
-                    aberto = aberto + s.total
-                    n_aberto = n_aberto + 1
-                for s in agenda.objects.filter(pagamento=5, data__range=(data_inicio,data_fim)).all():
-                    desmarcado = desmarcado + s.total
-                    n_desmarcado = n_desmarcado + 1
+                
                 n_saidas = n_retiradas + n_contas
                 saidas = retiradas + contas
                 n_agendamento = n_dinheiro + n_credito + n_debito

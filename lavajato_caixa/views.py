@@ -122,7 +122,7 @@ def balanco(request):
             mes = hoje.month
             total_servicos = 0
             servicos = 0
-            dinheiro = 0
+            pago = 0
             debito = 0
             credito = 0
             aberto = 0
@@ -133,7 +133,7 @@ def balanco(request):
             entradas = 0 
             saidas = 0
             total_geral = 0
-            n_dinheiro = 0
+            n_pago = 0
             n_debito = 0
             n_credito = 0
             n_aberto = 0
@@ -153,19 +153,16 @@ def balanco(request):
             for c in conta.objects.filter(estado=2, data_pagamento__month=mes).all():
                 contas = contas + c.valor
                 n_contas = n_contas + 1
-            for d in agenda.objects.filter(pagamento=1, data__month=mes).all():
-                dinheiro = dinheiro + d.total
-                n_dinheiro = n_dinheiro + 1
-            for s in agenda.objects.filter(pagamento=2, data__month=mes).all():
-                debito = debito + s.total
-                n_debito = n_debito + 1
-            for s in agenda.objects.filter(pagamento=3, data__month=mes).all():
-                credito = credito + s.total
-                n_credito = n_credito + 1
+            for d in agenda.objects.filter(pag=1, data__month=mes).all():
+                aberto = aberto + d.total
+                n_aberto = n_aberto + 1
+            for s in agenda.objects.filter(pag=3, data__month=mes).all():
+                pago = pago + s.total
+                n_pago = n_pago + 1
             n_saidas = n_retiradas + n_contas
             saidas = retiradas + contas
-            n_agendamento = n_dinheiro + n_credito + n_debito
-            agendamento = dinheiro + debito + credito 
+            n_agendamento = n_pago
+            agendamento = pago
             total_geral = (agendamento + entradas) - saidas
             if request.method == 'POST' and request.POST.get('data_inicio') != None and request.POST.get('data_fim') != None:
                 data_inicio = request.POST.get('data_inicio')
@@ -275,7 +272,7 @@ def balanco(request):
                 total_geral = (agendamento + entradas) - saidas
                 return render(request, 'lavajato_caixa/caixa_balanco.html', {'title':'Balanco caixa', 'data_inicio':data_inicio, 'data_fim':data_fim, 'dinheiro':dinheiro, 'n_dinheiro':n_dinheiro, 'debito':debito, 'n_debito':n_debito, 'credito':credito, 'n_credito':n_credito, 'aberto':aberto, 'n_aberto':n_aberto, 'desmarcado':desmarcado, 'n_desmarcado':n_desmarcado, 'n_agendamento':n_agendamento, 'agendamento':agendamento, 'n_contas':n_contas, 'contas':contas, 'n_retiradas':n_retiradas, 'retiradas':retiradas, 'n_saidas':n_saidas, 'saidas':saidas, 'total_geral':total_geral, 'n_entradas':n_entradas, 'entradas': entradas})
 
-            return render(request, 'lavajato_caixa/caixa_balanco.html', {'title':'Balanco caixa','data_inicio':data_inicio, 'data_fim':data_fim, 'dinheiro':dinheiro, 'n_dinheiro':n_dinheiro, 'debito':debito, 'n_debito':n_debito, 'credito':credito, 'n_credito':n_credito, 'aberto':aberto, 'n_aberto':n_aberto, 'desmarcado':desmarcado, 'n_desmarcado':n_desmarcado, 'n_agendamento':n_agendamento, 'agendamento':agendamento, 'n_contas':n_contas, 'contas':contas, 'n_retiradas':n_retiradas, 'retiradas':retiradas, 'n_saidas':n_saidas, 'saidas':saidas, 'total_geral':total_geral, 'n_entradas':n_entradas, 'entradas': entradas})
+            return render(request, 'lavajato_caixa/caixa_balanco.html', {'title':'Balanco caixa','data_inicio':data_inicio, 'data_fim':data_fim, 'pago':pago, 'n_pago':n_pago, 'aberto':aberto, 'n_aberto':n_aberto, 'desmarcado':desmarcado, 'n_desmarcado':n_desmarcado, 'n_agendamento':n_agendamento, 'agendamento':agendamento, 'n_contas':n_contas, 'contas':contas, 'n_retiradas':n_retiradas, 'retiradas':retiradas, 'n_saidas':n_saidas, 'saidas':saidas, 'total_geral':total_geral, 'n_entradas':n_entradas, 'entradas': entradas})
         return render(request, 'sistema_login/erro.html', {'title':'Erro'})
     else:
         return render(request, 'sistema_login/erro.html', {'title':'Erro'})

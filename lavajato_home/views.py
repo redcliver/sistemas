@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from lavajato_contas.models import conta
 from lavajato_estoque.models import produto
-from lavajato_agenda.models import conta_parcelada, parcela
+from lavajato_agenda.models import parcela
 from lavajato_caixa.models import caixa_geral
 from django.utils import timezone
 import datetime

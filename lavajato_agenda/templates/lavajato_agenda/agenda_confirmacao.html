@@ -78,6 +78,7 @@
     <form method="POST">
         {% csrf_token %}
         <input type="hidden" name="agenda_id" value="{{agenda_obj.id}}" />
+        <input type="hidden" name="n_parcelas" value="1" />
         <!-- Modal 1-->
         <div class="modal fade" id="exampleModal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
           <div class="modal-dialog" role="document">
@@ -92,9 +93,9 @@
                 <h3 for="inputName"><b>Total: R$ {{desc_total}}</b></h3>
               </div>
               <div class="modal-footer">
-                <button type="submit" class="btn btn-secondary " formmethod="GET" formaction="/lavajato_agenda/dinheiro" title="Pagamento em dinheiro">Dinheiro</button>&nbsp;
+                <button type="submit" class="btn btn-secondary " formmethod="POST" formaction="/lavajato_agenda/dinheiro" title="Pagamento em dinheiro">Dinheiro</button>&nbsp;
                 <button type="submit" class="btn btn-secondary " formaction="/lavajato_agenda/debito" title="Pagamento em cartao de debito">Cartao Debito</button>&nbsp;
-                <button type="submit" class="btn btn-secondary " formaction="/lavajato_agenda/credito" title="Pagamento em cartao de credito">Cartao Credito</button>&nbsp;
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" data-toggle="modal" data-target="#exampleModal3">Cartao Credito</button>
               </div>
             </div>
           </div>
@@ -108,20 +109,57 @@
           <div class="modal-dialog" role="document">
             <div class="modal-content">
               <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">2 Metodo de Pagamento</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <h3 for="inputName"><b>Total: R$ {{desc_total}}</b></h3>
+              </div>
+              <hr />
+              <div class="modal-body col-md-5">
+                  <h5 for="inputName">Valor em Dinheiro:</h5>
+                  <input type="number" class="form-control" step="0.01" name="dinheiro" title="Digite o valor"required/>
+              </div>
+              <div class="modal-body col-md-5">
+                  <h5 for="inputName">Valor em Cartao:</h5>
+                  <input type="number" class="form-control" step="0.01" name="cartao" title="Digite o valor" required/>
+              </div>
+              <div class="modal-body col-md-5">
+                  <h5 for="inputName">Num. Parcelas:</h5>
+                  <input type="number" class="form-control" value="1" name="n_parcelas" title="Digite o numero de parcelas"required/>
+              </div>
+              <div class="modal-footer">
+                <button type="submit" class="btn btn-secondary " formmethod="POST" formaction="/lavajato_agenda/2metodos" title="Registrar Pagamento">Registrar</button>&nbsp;
+              </div>
+            </div>
+          </div>
+        </div>
+    </form>
+    <form method="POST">
+        {% csrf_token %}
+        <input type="hidden" name="agenda_id" value="{{agenda_obj.id}}" />
+        <!-- Modal 3-->
+        <div class="modal fade" id="exampleModal3" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Cartao de Credito</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">&times;</span>
                 </button>
               </div>
               <div class="modal-body">
-                <label for="inputName">Total: R$ {{agenda_obj.total}}</label><hr />
-                <hr>
-                <label for="inputName">Numero de Parcelas<strong>*</strong></label>
-                <input class="form-control col-md-2" type="number" name="n_parcelas" value="1" title="Digite o numero de parcelas" autofocus required>
+                <h3 for="inputName"><b>Total: R$ {{desc_total}}</b></h3>
+              </div>
+              <hr />
+              <div class="modal-body col-md-5">
+                  <h5 for="inputName">Num. Parcelas:</h5>
+                  <input type="number" class="form-control" value="1" name="n_parcelas" title="Digite o numero de parcelas" required/>
               </div>
               <div class="modal-footer">
-                <button type="submit" class="btn btn-secondary" formaction="/lavajato_agenda/credito">A vista</button>
-                <button type="submit" class="btn btn-primary" formaction="/lavajato_agenda/credito">Parcelado</button>
+                  <button type="submit" class="btn btn-secondary" formaction="/lavajato_agenda/credito">Registrar</button>
               </div>
             </div>
           </div>

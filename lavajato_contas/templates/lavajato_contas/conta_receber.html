@@ -5,44 +5,54 @@
 {% if msg %}
     <h1 style="text-align:center;">{{msg}}</h1><hr />
 {%endif%}
-<h1>Conferir caixa</h1><hr />
+<h1>Receber Conta</h1><hr />
     <form method="POST">
     {%csrf_token%}
     <div class="form-row">
         <div class="form-group col-md-9"></div>
         <div class="form-group col-md-3">
             <label>Data</label>
-            <input type="date" class="form-control" value="{{hoje}}" name="data" title="Selecione a data"/>
-            <button type="submit" class="btn btn-secondary float-right" title="Buscar por data">Buscar</button>
+            <input type="date" class="form-control" value="{{hoje}}" name="data" title="Selecione a data" required/>
+            <button type="submit" class="btn btn-secondary float-right" formaction="/lavajato_contas/conta_receber" title="Buscar por data">Buscar</button>
         </div>
-        {% if caixas %}
-            <table class="table table-sm">
-                <thead>
-                    <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">Data</th>
-                        <th scope="col">Op.</th>
-                        <th scope="col">Valor Op.</th>
-                        <th scope="col">Desc. Op.</th>
-                        <th scope="col">Total</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for caixa_geral in caixas %}
-                    <tr>
-                        <td>{{caixa_geral.id_operacao}}</td>
-                        <td>{{caixa_geral.data|date:"d/m/Y"}}</td>
-                        <td>{{caixa_geral.get_operacao_display}}</td>
-                        <td>R$ {{caixa_geral.valor_operacao}}</td>
-                        <td>{{caixa_geral.descricao}}</td>
-                        <td>R$ {{caixa_geral.total}}</td>
-                    </tr>
+        <table class="table table-sm">
+            <thead>
+                <tr>
+                    <th scope="col-md-2">#</th>
+                    <th scope="col-md-4">Data</th>
+                    <th scope="col-md-2">Descricao</th>
+                    <th scope="col-md-2">Valor</th>
+                    <th scope="col-md-2">Estado</th>
+                    <th scope="col-md-2">Confirmar</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if parcela_all %}
+                    {% for parcela in parcela_all %}
+                        {% if parcela.estado == '1' %}
+                        <tr>
+                            <td scope="row">{{parcela.id}}</td>
+                            <td>{{parcela.data|date:"d/m/Y"}}</td>
+                            <td>Parcela Cartao</td>
+                            <td>R$ {{parcela.valor}}</td>
+                            <td>{{parcela.get_estado_display}}</td>
+                            <td><button name="agenda_id" value="{{parcela.id}}" class="btn btn-success" formaction="#" title='Confirmar'>&#x2705;</button></td>
+                        </tr>
+                        {% endif %}
+                        {% if parcela.estado == '2' %}
+                        <tr>
+                            <td scope="row">{{parcela.id}}</td>
+                            <td>{{parcela.data|date:"d/m/Y"}}</td>
+                            <td>Parcela Cartao</td>
+                            <td>R$ {{parcela.valor}}</td>
+                            <td>{{parcela.get_estado_display}}</td>
+                            <td>Recebida</td>
+                        </tr>
+                        {% endif %}
                     {% endfor %}
-                </tbody>
-            </table>
-        {% endif %}
-        <hr />
-        <h3>Total em caixa: R$ {{total}}</h3>
+                {% endif %}
+            </tbody>
+        </table>
     </div>
     </form>
 {% endblock %}

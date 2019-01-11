@@ -1,0 +1,110 @@
+{% extends 'lavajato_base.html' %}
+
+{% block body %}
+{% load static %}
+{% if msg %}
+    <h1 style="text-align:center;">{{msg}}</h1><hr />
+{%endif%}
+<h1>Relatorio Contas a Receber</h1><hr />
+    <form method="POST">
+    {%csrf_token%}
+    <div class="form-row">
+        <div class="form-group col-md-4"></div>
+        <div class="form-group col-md-3">
+            <label>Data Inicio</label>
+            <input type="date" class="form-control" value="{{data_inicio}}" name="data_inicio" title="Selecione a data"/>
+        </div>
+        <div class="form-group col-md-3">
+            <label>Data Fim</label>
+            <input type="date" class="form-control" value="{{data_fim}}" name="data_fim" title="Selecione a data"/>
+            <button type="submit" class="btn btn-secondary float-right" title="Buscar por data">Buscar</button>
+        </div>
+        <table class="table table-sm">
+            <thead>
+                <tr>
+                    <th scope="col-md-2">#</th>
+                    <th scope="col-md-4">Tipo</th>
+                    <th scope="col-md-2">Quantidade</th>
+                    <th scope="col-md-2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                    <th scope="col-md-2">Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td scope="row">1</td>
+                    <td>Cartao Credito</td>
+                    <td>{{n_geral}}</td>
+                    <td>-</td>
+                    <td>R$ {{total_geral}}</td>
+                </tr>
+            </tbody>
+        </table>
+        <br/>
+        <h5>Descricao dos recebimentos</h5>
+        <table class="table table-sm">
+            <thead>
+                <tr>
+                    <th scope="col-md-2">#</th>
+                    <th scope="col-md-4">Data</th>
+                    <th scope="col-md-2">Descricao</th>
+                    <th scope="col-md-2">Valor</th>
+                    <th scope="col-md-2">Estado</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if parcela_all %}
+                    {% for parcela in parcela_all %}
+                        <tr>
+                            <td scope="row">{{parcela.id}}</td>
+                            <td>{{parcela.data|date:"d/m/Y"}}</td>
+                            <td>Parcela Cartao</td>
+                            <td>R$ {{parcela.valor}}</td>
+                            <td>{{parcela.get_estado_display}}</td>
+                         </tr>
+                    {% endfor %}
+                {% endif %}
+                <tr>
+                    <td scope="row">-</td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>-</td>
+                </tr>
+                <tr>
+                    <td scope="row">-</td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>-</td>
+                </tr>
+                <tr>
+                    <td scope="row">-</td>
+                    <td>TOTAL RECEBIDO</td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>R$ {{t_recebido}}</td>
+                </tr>
+                <tr>
+                    <td scope="row">-</td>
+                    <td>TOTAL A RECEBER</td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>R$ {{t_receber}}</td>
+                </tr>
+                <tr>
+                    <td scope="row"><b>-</b></td>
+                    <td><b>TOTAL</b></td>
+                    <td><b>-</b></td>
+                    <td><b>-</b></td>
+                    <td><b>R$ {{total_geral}}</b></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="form-row">
+        <div class="col align-self-end">
+            <h3><br><hr/>Total do Recebido: R$ {{t_recebido}}</h3>
+        </div>
+    </div>
+    </form>
+{% endblock %}

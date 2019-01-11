@@ -4,7 +4,7 @@ import datetime
 from datetime import datetime
 from datetime import timedelta, date
 from decimal import Decimal
-from .models import agenda, servico_item, conta_parcelada, parcela, pagamento
+from .models import agenda, servico_item, parcela, pagamento
 from lavajato_cliente.models import cliente
 from lavajato_controle.models import funcionario, servico
 from lavajato_caixa.models import caixa_geral
@@ -222,6 +222,7 @@ def dinheiro(request):
                 troco = agenda_obj.total - Decimal(recebido)
                 troco= troco * -1
                 agenda_obj.estado = 3
+                agenda_obj.pagas_parcelas = 1
                 agenda_obj.save()
                 valor = agenda_obj.total
                 novo_pagamento = pagamento(tipo=1,valor=valor)
@@ -252,18 +253,25 @@ def debito(request):
             if request.method == 'POST' and request.POST.get('agenda_id') != None:
                 agenda_id = request.POST.get('agenda_id')
                 agenda_obj = agenda.objects.filter(id=agenda_id).get()
-                agenda_obj.pagamento = 2
+                desc_total = agenda_obj.subtotal - agenda_obj.desconto
+                agenda_obj.total = desc_total
+                agenda_obj.estado = 3
+                agenda_obj.pagas_parcelas = 1
+                agenda_obj.save()
+                valor = agenda_obj.total
+                novo_pagamento = pagamento(tipo=2,valor=valor)
+                novo_pagamento.save()
+                agenda_obj.pag.add(novo_pagamento)
                 agenda_obj.save()
                 caixa = caixa_geral.objects.latest('id')
-                ultimo_id = agenda_obj.id
                 novo_total = caixa.total + agenda_obj.total
                 valor = agenda_obj.total
                 desc = "Agendamento N:" + str(agenda_obj.id)
-                nova_entrada = caixa_geral(operacao=1, id_operacao=ultimo_id, valor_operacao=valor, descricao=desc, total=novo_total)
+                nova_entrada = caixa_geral(operacao=1, id_operacao=agenda_obj.id, valor_operacao=valor, descricao=desc, total=novo_total)
                 nova_entrada.save()
                 msg = "Pagamento do agendamento "+str(agenda_obj.id)+ " concluido com sucesso."
                 total_msg = "Total: R$"+ str(valor)
-                return render(request, 'lavajato_homr/home.html', {'title':'Home', 'msg':msg, 'total_msg':total_msg})
+                return render(request, 'lavajato_home/home.html', {'title':'Home', 'msg':msg, 'total_msg':total_msg})
             return render(request, 'lavajato_agenda/agenda_visualiza.html', {'title':'Visualizar Agenda', 'agendas':agendas, 'hoje':hoje})
         return render(request, 'sistema_login/erro.html', {'title':'Erro'})
     else:
@@ -273,49 +281,61 @@ def credito(request):
     if request.user.is_authenticated():
         empresa = request.user.get_short_name()
         if empresa == 'dayson':
-            hoje = datetime.date.today().strftime('%Y-%m-%d')
+            hoje = datetime.now().strftime('%Y-%m-%d')
             agendas = agenda.objects.filter(data__icontains=hoje)
             if request.method == 'POST' and request.POST.get('agenda_id') != None and request.POST.get('n_parcelas') == '1':
                 d = timedelta(days=30)
-                hoje = datetime.date.today()
+                hoje = datetime.now()
                 data_pag = hoje + d
                 agenda_id = request.POST.get('agenda_id')
                 agenda_obj = agenda.objects.filter(id=agenda_id).get()
-                agenda_obj.pagamento = 3
+                desc_total = agenda_obj.subtotal - agenda_obj.desconto
+                agenda_obj.total = desc_total
+                agenda_obj.estado = 3
+                agenda_obj.save()
+                valor = agenda_obj.total
+                novo_pagamento = pagamento(tipo=3,valor=valor)
+                novo_pagamento.save()
+                agenda_obj.pag.add(novo_pagamento)
                 agenda_obj.save()
                 nova_parcela = parcela(estado=1, valor=agenda_obj.total, data=data_pag)
                 nova_parcela.save()
-                nova_conta_parcelada = conta_parcelada(referente=agenda_obj, parcelas_total=1)
-                nova_conta_parcelada.save()
-                nova_conta_parcelada.parcelas.add(nova_parcela)
-                nova_conta_parcelada.save()
-                msg = "Pagamento do agendamento "+str(agenda_obj.id)+ " concluido com sucesso."
-                return render(request, 'lavajato_home/home.html', {'title':'Home', 'msg':msg})
-            if request.method == 'POST' and request.POST.get('agenda_id') != None and request.POST.get('n_parcelas') != '1':
-                d = timedelta(days=30)
-                p = 0
-                hoje = datetime.date.today()
-                data_pag = hoje + d
-                n_parcelas = request.POST.get('n_parcelas')
-                agenda_id = request.POST.get('agenda_id')
-                agenda_obj = agenda.objects.filter(id=agenda_id).get()
-                nova_conta_parcelada = conta_parcelada(referente=agenda_obj, parcelas_total=n_parcelas)
-                nova_conta_parcelada.save()
-                parc_valor = agenda_obj.total / int(n_parcelas)
-                while p < int(n_parcelas):
-                    d = timedelta(days=30)
-                    d = d * p
-                    hoje = datetime.date.today()
-                    data_pag = hoje + d
-                    nova_parcela = parcela(estado=1, valor=parc_valor, data=data_pag)
-                    nova_parcela.save()
-                    nova_conta_parcelada.parcelas.add(nova_parcela)
-                    nova_conta_parcelada.save()
-                    p = p + 1
-                agenda_obj.pagamento = 3
+                agenda_obj.parcelas.add(nova_parcela)
                 agenda_obj.save()
                 msg = "Pagamento do agendamento "+str(agenda_obj.id)+ " concluido com sucesso."
                 return render(request, 'lavajato_home/home.html', {'title':'Home', 'msg':msg})
+            if request.method == 'POST' and request.POST.get('agenda_id') != None and request.POST.get('n_parcelas') != '1':
+                p = 0
+                d = timedelta(days=30)
+                hoje = datetime.now()
+                data_pag = hoje + d
+                agenda_id = request.POST.get('agenda_id')
+                n_parcelas = request.POST.get('n_parcelas')
+                agenda_obj = agenda.objects.filter(id=agenda_id).get()
+                desc_total = agenda_obj.subtotal - agenda_obj.desconto
+                agenda_obj.total = desc_total
+                agenda_obj.total_parcelas = int(n_parcelas)
+                agenda_obj.estado = 3
+                agenda_obj.save()
+                valor = agenda_obj.total
+                v_parcela = valor / int(n_parcelas)
+                while p < int(n_parcelas):
+                    d = timedelta(days=30)
+                    d = d * p
+                    hoje = datetime.now()
+                    data_pag = hoje + d
+                    nova_parcela = parcela(estado=1, valor=v_parcela, data=data_pag)
+                    nova_parcela.save()
+                    agenda_obj.parcelas.add(nova_parcela)
+                    agenda_obj.save()
+                    p = p + 1
+                novo_pagamento = pagamento(tipo=3,valor=valor)
+                novo_pagamento.save()
+                agenda_obj.pag.add(novo_pagamento)
+                agenda_obj.save()
+                msg = "Pagamento do agendamento "+str(agenda_obj.id)+ " concluido com sucesso."
+                return render(request, 'lavajato_home/home.html', {'title':'Home', 'msg':msg})
+            
             return render(request, 'lavajato_agenda/agenda_visualiza.html', {'title':'Visualizar Agenda', 'agendas':agendas, 'hoje':hoje})
         return render(request, 'sistema_login/erro.html', {'title':'Erro'})
     else:

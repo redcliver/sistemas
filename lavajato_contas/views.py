@@ -2,8 +2,8 @@ from django.shortcuts import render
 from django.utils import timezone
 import datetime
 from .models import conta
-from lavajato_agenda.models import conta_parcelada
 from lavajato_caixa.models import caixa_geral
+from lavajato_agenda.models import parcela
 from datetime import datetime
 from datetime import timedelta
 from decimal import Decimal
@@ -127,13 +127,62 @@ def pagar(request):
     else:
         return render(request, 'sistema_login/erro.html', {'title':'Erro'})
 
+def conta_receber(request):
+    if request.user.is_authenticated():
+        empresa = request.user.get_short_name()
+        if empresa == 'dayson':
+            hoje = datetime.now().strftime('%Y-%m-%d')
+            dia = datetime.now()
+            parcela_all = parcela.objects.filter(data__date=dia).all()
+            if request.method == 'POST' and request.POST.get('data') != None:
+                dia = request.POST.get('data')
+                parcela_all = parcela.objects.filter(data__date=dia).all()
+                return render(request, 'lavajato_contas/conta_receber.html', {'title':'Receber Conta', 'hoje':hoje, 'parcela_all':parcela_all})
+            return render(request, 'lavajato_contas/conta_receber.html', {'title':'Receber Conta', 'hoje':hoje, 'parcela_all':parcela_all})
+        return render(request, 'sistema_login/erro.html', {'title':'Erro'})
+    else:
+        return render(request, 'sistema_login/erro.html', {'title':'Erro'})
 
 def receber(request):
     if request.user.is_authenticated():
         empresa = request.user.get_short_name()
         if empresa == 'dayson':
-            msg = "Contas recebidas com sucesso."
-            return render(request, 'lavajato_home/home.html', {'title':'Home', 'msg':msg})
+            data_inicio = datetime.now().strftime('%Y-%m-%d')
+            data_fim = datetime.now().strftime('%Y-%m-%d')
+            mes = datetime.now().month
+            t_receber = 0
+            n_receber = 0
+            t_recebido = 0
+            n_recebido = 0
+            n_geral = 0
+            parcela_all = parcela.objects.filter(data__month=mes).all()
+            for a in parcela.objects.filter(estado=1, data__month=mes).all():
+                    t_receber = t_receber + a.valor
+                    n_receber = n_receber + 1
+            for b in parcela.objects.filter(estado=2, data__month=mes).all():
+                    t_recebido = t_recebido + b.valor
+                    n_recebido = n_recebido + 1
+            n_geral = n_receber + n_recebido
+            total_geral = t_receber + t_recebido
+            if request.method == 'POST' and request.POST.get('data_inicio') != None and request.POST.get('data_fim') != None:
+                data_inicio = request.POST.get('data_inicio')
+                data_fim = request.POST.get('data_fim')
+                t_receber = 0
+                n_receber = 0
+                t_recebido = 0
+                n_recebido = 0
+                n_geral = 0
+                parcela_all = parcela.objects.filter(data__range=(data_inicio,data_fim)).all()
+                for a in parcela.objects.filter(estado=1, data__range=(data_inicio,data_fim)).all():
+                        t_receber = t_receber + a.valor
+                        n_receber = n_receber + 1
+                for b in parcela.objects.filter(estado=2, data__range=(data_inicio,data_fim)).all():
+                        t_recebido = t_recebido + b.valor
+                        n_recebido = n_recebido + 1
+                n_geral = n_receber + n_recebido
+                total_geral = t_receber + t_recebido
+                return render(request, 'lavajato_contas/conta_relatorio_receber.html', {'title':'Relatorio Contas a Receber', 'data_inicio':data_inicio, 'data_fim':data_fim, 'parcela_all':parcela_all, 'n_receber':n_receber, 't_receber':t_receber, 'n_recebido':n_recebido, 't_recebido':t_recebido, 'total_geral':total_geral, 'n_geral':n_geral})
+            return render(request, 'lavajato_contas/conta_relatorio_receber.html', {'title':'Relatorio Contas a Receber', 'data_inicio':data_inicio, 'data_fim':data_fim, 'parcela_all':parcela_all, 'n_receber':n_receber, 't_receber':t_receber, 'n_recebido':n_recebido, 't_recebido':t_recebido, 'total_geral':total_geral, 'n_geral':n_geral})
         return render(request, 'sistema_login/erro.html', {'title':'Erro'})
     else:
         return render(request, 'sistema_login/erro.html', {'title':'Erro'})

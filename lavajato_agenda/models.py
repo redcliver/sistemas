@@ -32,26 +32,6 @@ class pagamento(models.Model):
     def __str__(self):
         return self.__str__(id)
 
-class agenda(models.Model):
-    ES = (
-        ('1', 'Aberto'),
-        ('2', 'Desmarcado'),
-        ('3', 'Pago'),
-    )
-    id = models.AutoField(primary_key=True)
-    estado = models.CharField(max_length=1, choices=ES)
-    item_servico = models.ManyToManyField(servico_item)
-    pag = models.ManyToManyField(pagamento)
-    cli = models.ForeignKey(cliente, on_delete=models.CASCADE)
-    data = models.DateTimeField(null=True, blank=True)
-    subtotal = models.DecimalField(max_digits=10, decimal_places=2, default=0)
-    desconto = models.DecimalField(max_digits=10, decimal_places=2, default=0)
-    total = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
-    data_cadastro = models.DateTimeField(default=timezone.now)
-    
-    def __str__(self):
-        return self.__str__(id)
-
 class parcela(models.Model):
     ESTADO = (
         ('1', 'Em Aberto'),
@@ -65,17 +45,25 @@ class parcela(models.Model):
     def __str__(self):
         return self.__str__(id)
 
-class conta_parcelada(models.Model):
-    ESTADO = (
-        ('1', 'Em Aberto'),
-        ('2', 'Paga'),
+class agenda(models.Model):
+    ES = (
+        ('1', 'Aberto'),
+        ('2', 'Desmarcado'),
+        ('3', 'Pago'),
     )
     id = models.AutoField(primary_key=True)
-    estate = models.CharField(max_length=1, choices=ESTADO, default=1)
-    referente = models.ForeignKey(agenda, on_delete=models.CASCADE)
-    parcelas_total = models.IntegerField(default=1)
+    estado = models.CharField(max_length=1, choices=ES)
+    item_servico = models.ManyToManyField(servico_item)
+    pag = models.ManyToManyField(pagamento)
     parcelas = models.ManyToManyField(parcela)
+    total_parcelas = models.IntegerField(default=1)
+    pagas_parcelas = models.IntegerField(default=0)
+    cli = models.ForeignKey(cliente, on_delete=models.CASCADE)
+    data = models.DateTimeField(null=True, blank=True)
+    subtotal = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+    desconto = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+    total = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
     data_cadastro = models.DateTimeField(default=timezone.now)
     
     def __str__(self):
-        return self.__str__(referente)
+        return self.__str__(id)

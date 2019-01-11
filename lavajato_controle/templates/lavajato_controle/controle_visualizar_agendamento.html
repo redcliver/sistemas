@@ -15,50 +15,44 @@
                 <input type="text" class="form-control" value="{{agenda_obj.cli.nome}}" disabled>
             </div>
             <table class="table table-sm">
-            <thead>
-                <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Hora</th>
-                    <th scope="col">Servico</th>
-                    <th scope="col">Valor</th>
-                    <th scope="col">Funcionario</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for item_servico in servicos %}
+                <thead>
                     <tr>
-                        <td>{{item_servico.id}}</td>
-                        <td>{{item_servico.data_cadastro|date:"H:i"}}</td>
-                        <td>{{item_servico.serv.nome}}</td>
-                        <td>{{item_servico.serv.valor}}</td>
-                        <td>{{item_servico.func.nome}}</td>
+                        <th scope="col">#</th>
+                        <th scope="col">Hora</th>
+                        <th scope="col">Servico</th>
+                        <th scope="col">Valor</th>
+                        <th scope="col">Funcionario</th>
                     </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-        <hr />
-        <h1 class="float-right">Total: R${{agenda_obj.total}}</h1>
+                </thead>
+                <tbody>
+                    {% for item_servico in servicos %}
+                        <tr>
+                            <td>{{item_servico.id}}</td>
+                            <td>{{item_servico.data_cadastro|date:"H:i"}}</td>
+                            <td>{{item_servico.serv.nome}}</td>
+                            <td>{{item_servico.serv.valor}}</td>
+                            <td>{{item_servico.func.nome}}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
         </div>
         <hr />
-        {% if agenda_obj.pagamento == '1' %}
-            <label for="inputName">Pagamento</label>
-            <button class="btn btn-secondary " title="Pagamento em {{agenda_obj.pagamento}}}" disabled>Dinheiro</button>
-        {% endif %}
-        {% if agenda_obj.pagamento == '2' %}
-            <label for="inputName">Pagamento</label>
-            <button class="btn btn-secondary " title="Pagamento em {{agenda_obj.pagamento}}}" disabled>Cartao debito</button>
-        {% endif %}
-        {% if agenda_obj.pagamento == '3' %}
-            <label for="inputName">Pagamento</label>
-            <button class="btn btn-secondary " title="Pagamento em {{agenda_obj.pagamento}}}" disabled>Cartao credito</button>
-        {% endif %}
-        {% if agenda_obj.pagamento == '4' %}
-            <label for="inputName">Pagamento</label>
-            <button class="btn btn-secondary " title="Pagamento {{agenda_obj.pagamento}}}" disabled>Em aberto</button>
-        {% endif %}
-        {% if agenda_obj.pagamento == '5' %}
-            <label for="inputName">Pagamento</label>
-            <button class="btn btn-secondary " title="{agenda_obj.pagamento}}}" disabled>Desmarcado</button>
-        {% endif %}
+        <div class="col-md-4 offset-md-6">
+            {% for pagamento in pagaments %}
+                {% if pagamento.tipo == '1' %}
+                    <button class="btn btn-secondary float-right" title="Pagamento em {{pagamento.get_tipo_display}}" disabled>Dinheiro</button><br />
+                {% endif %}
+                {% if pagamento.tipo == '2' %}
+                    <button class="btn btn-secondary float-right" title="Pagamento em {{pagamento.get_tipo_display}}" disabled>Cartao Debito</button><br />
+                {% endif %}
+                {% if pagamento.tipo == '3' %}
+                    <button class="btn btn-secondary float-right" title="Pagamento em {{pagamento.get_tipo_display}}" disabled>Cartao Credito</button><br />
+                {% endif %}
+            {% endfor %}
+            <h4 class="float-right">Sub-Total: R$ {{agenda_obj.subtotal}}</h4><br />
+            <h4 class="float-right">Desconto: R$ {{agenda_obj.desconto}}</h4><br />
+            <h3 class="float-right"><b>TOTAL: R$ {{agenda_obj.total}}</b></h3>
+        </div>
     </form>
 {% endblock %}

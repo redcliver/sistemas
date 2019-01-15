@@ -41,8 +41,13 @@
                 </tbody>
             </table>
         {% endif %}
-        <hr />
-        <h3>Total em caixa: R$ {{total}}</h3>
+    </div>
+    <div class="form-row">
+        <div class="col align-self-end">
+            <h3><br><hr/><b>Total Cartao Credito: R$ {{t_credito}}</b></h3>
+            <h3><b>Total Cartao Debito: R$ {{t_debito}}</b></h3>
+            <h3><b>Total Dinheiro: R$ {{t_dinheiro}}</b></h3>
+        </div>
     </div>
     </form>
 {% endblock %}

@@ -24,6 +24,7 @@ class cliente(models.Model):
     numero = models.CharField(max_length=200, null=True, blank=True)
     bairro = models.CharField(max_length=200, null=True, blank=True)
     cidade = models.CharField(max_length=200, null=True, blank=True)
+    uf_cidade = models.CharField(max_length=2, null=True, blank=True)
     carros = models.ManyToManyField(carro)
     data_cadastro = models.DateTimeField(default=timezone.now)
     

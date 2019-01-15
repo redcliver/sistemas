@@ -2,23 +2,58 @@
 
 {% block body %}
 {% load static %}
-<h1>Busca Conta</h1><hr /><br />
+{% if msg %}
+    <h1 style="text-align:center;">{{msg}}</h1><hr />
+{%endif%}
+<h1>Contas a Pagar</h1><hr />
     <form method="POST">
     {%csrf_token%}
     <div class="form-row">
-        <div class="form-group col-md-12">
-            <select name="conta_id" class="form-control" required>
-                <option disabled selected > -- Conta -- Valor -- Data Venc. -- </option>
-                {% for conta in contas %}
-                    <option value={{conta.id}}>{{conta.nome}} -- R${{conta.valor}} -- {{conta.data_venc|date:"d/m/Y"}}</option>
+            <div class="form-group col-md-6"></div>
+            <div class="form-group col-md-3">
+                <label>Data Inicio</label>
+                <input type="date" class="form-control" value="{{data_inicio}}" name="data_inicio" title="Selecione a data"/>
+            </div>
+            <div class="form-group col-md-3">
+                <label>Data Fim</label>
+                <input type="date" class="form-control" value="{{data_fim}}" name="data_fim" title="Selecione a data"/>
+                <button type="submit" formmethod="GET" class="btn btn-secondary float-right" title="Buscar por data">Buscar</button>
+            </div>
+        <table class="table table-sm">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Data Venc.</th>
+                    <th scope="col">Descricao</th>
+                    <th scope="col">Valor</th>
+                    <th scope="col">Estado</th>
+                    <th scope="col">Visualizar</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for conta in contas_all %}
+                    {% if conta.estado == '1' %}
+                        <tr>
+                            <td>{{conta.id}}</td>
+                            <td>{{conta.data_venc|date:"H:i"}}</td>
+                            <td>{{conta.nome}}</td>
+                            <td>R$ {{conta.valor}}</td>
+                            <td>{{conta.get_estado_display}}</td>
+                            <td><button name="conta_id" value="{{conta.id}}" class="btn btn-secondary" title='Visualizar'>Ver</button> </td>
+                        </tr>
+                    {% endif %}
+                    {% if agenda.estado == '2' %}
+                    <tr>
+                            <td>{{conta.id}}</td>
+                            <td>{{conta.data_venc|date:"H:i"}}</td>
+                            <td>{{conta.nome}}</td>
+                            <td>R$ {{conta.valor}}</td>
+                            <td><button name="conta_id" value="{{conta.id}}" class="btn btn-secondary" title='Visualizar'>Ver</button> </td>
+                        </tr>
+                    {% endif %}
                 {% endfor %}
-            </select>
-        </div>
-    </div>
-    <div class="form-row">
-        <div class="form-group col-md-12">
-            <button type="submit" class="btn btn-secondary float-right">Buscar</button>
-        </div>
+            </tbody>
+        </table>
     </div>
     </form>
 {% endblock %}

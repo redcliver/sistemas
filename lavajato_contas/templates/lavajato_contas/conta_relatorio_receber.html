@@ -9,7 +9,7 @@
     <form method="POST">
     {%csrf_token%}
     <div class="form-row">
-        <div class="form-group col-md-4"></div>
+        <div class="form-group col-md-6"></div>
         <div class="form-group col-md-3">
             <label>Data Inicio</label>
             <input type="date" class="form-control" value="{{data_inicio}}" name="data_inicio" title="Selecione a data"/>
@@ -57,7 +57,7 @@
                         <tr>
                             <td scope="row">{{parcela.id}}</td>
                             <td>{{parcela.data|date:"d/m/Y"}}</td>
-                            <td>Parcela Cartao</td>
+                            <td>Parcela Cartao {{parcela.numero_parcela}}/{{parcela.total_parcelas}}</td>
                             <td>R$ {{parcela.valor}}</td>
                             <td>{{parcela.get_estado_display}}</td>
                          </tr>
@@ -103,7 +103,7 @@
     </div>
     <div class="form-row">
         <div class="col align-self-end">
-            <h3><br><hr/>Total do Recebido: R$ {{t_recebido}}</h3>
+            <h3><br><hr/><b>Total a Receber: R$ {{t_receber}}</b></h3>
         </div>
     </div>
     </form>

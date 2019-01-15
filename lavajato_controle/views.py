@@ -244,14 +244,19 @@ def busca_agendamento(request):
         cargo = request.user.last_name
         if empresa == 'dayson':
             if cargo == 'boss':
-                agendamentos = agenda.objects.all().order_by('-id')
+                hoje = timezone.now()
+                agendamentos = agenda.objects.filter(data__date=hoje).order_by('data')
+                if request.method == 'GET' and request.GET.get('data') != None:
+                    hoje = request.GET.get('data')
+                    agendamentos = agenda.objects.filter(data__date=hoje).order_by('data')
+                    return render(request, 'lavajato_controle/controle_busca_agendamento.html', {'title':'Buscar Agendamentos', 'agendamentos':agendamentos, 'hoje':hoje})
                 if request.method == 'POST' and request.POST.get('agendamento_id') != None:
                     agendamento_id = request.POST.get('agendamento_id')
                     agenda_obj = agenda.objects.get(id=agendamento_id)
                     servicos = agenda_obj.item_servico.all()
                     pagaments = agenda_obj.pag.all()
                     return render(request, 'lavajato_controle/controle_visualizar_agendamento.html', {'title':'Visualizar Agendamento', 'agenda_obj':agenda_obj, 'servicos':servicos, 'pagaments':pagaments})
-                return render(request, 'lavajato_controle/controle_busca_agendamento.html', {'title':'Buscar Agendamentos', 'agendamentos':agendamentos})
+                return render(request, 'lavajato_controle/controle_busca_agendamento.html', {'title':'Buscar Agendamentos', 'agendamentos':agendamentos, 'hoje':hoje})
             return render(request, 'lavajato_home/home.html', {'title':'Home'})
         return render(request, 'sistema_login/erro.html', {'title':'Erro'})
     else:
@@ -356,18 +361,24 @@ def extrato(request):
         cargo = request.user.last_name
         if empresa == 'dayson':
             if cargo == 'boss':
-                try:
-                    conta_geral = conta_empresa.objects.latest('id')
-                except:
-                    conta_geral = conta_empresa(operacao=1, id_operacao=1, valor_operacao=0, descricao="Abertura", total=0)
-                    conta_geral.save()
                 hoje = datetime.now()
                 data_inicio = datetime.now().strftime('%Y-%m-%d')
                 data_fim = datetime.now() + timedelta(days=-30)
                 data_fim = data_fim.strftime('%Y-%m-%d')
                 mes = hoje.month
-                conta_all = conta_empresa.objects.filter(data__month=mes).all().order_by('data')
-                return render(request, 'lavajato_controle/controle_conta_empresa.html', {'title':'Extrato da Conta Empresa', 'data_inicio':data_inicio, 'data_fim':data_fim, 'conta_all':conta_all})
+                n_entradas = 0
+                n_saidas = 0
+                t_entradas = 0
+                t_saidas = 0
+                conta_all = conta_empresa.objects.filter(data__month=mes).all()
+                for a in conta_empresa.objects.filter(operacao=1, data__month=mes).all():
+                    t_entradas = t_entradas + a.valor_operacao
+                    n_entradas = n_entradas + 1
+                for b in conta_empresa.objects.filter(operacao=2, data__month=mes).all():
+                    t_saidas = t_saidas + b.valor_operacao
+                    n_saidas = n_saidas + 1
+                total_geral = t_entradas - t_saidas
+                return render(request, 'lavajato_controle/controle_conta_empresa.html', {'title':'Extrato da Conta Empresa', 'data_inicio':data_inicio, 'data_fim':data_fim, 't_saidas':t_saidas, 't_entradas':t_entradas, 'total_geral':total_geral, 'conta_all':conta_all})
             return render(request, 'lavajato_home/home.html', {'title':'Home'})
         return render(request, 'sistema_login/erro.html', {'title':'Erro'})
     else:

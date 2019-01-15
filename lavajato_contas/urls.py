@@ -9,6 +9,7 @@ urlpatterns = [
     url(r'^salva', views.salva),
     url(r'^pagar', views.pagar),
     url(r'^conta_receber', views.conta_receber),
+    url(r'^confirmar_recebimento', views.confirmar_recebimento),
     url(r'^relatorio', views.relatorio_pagar),
     url(r'^receber', views.receber),
     ]

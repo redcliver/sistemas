@@ -26,13 +26,24 @@
             </thead>
             <tbody>
                 {% for item_servico in servicos %}
-                    <tr>
-                        <td>{{item_servico.id}}</td>
-                        <td>{{item_servico.data_cadastro|date:"H:i"}}</td>
-                        <td>{{item_servico.serv.nome}}</td>
-                        <td>{{item_servico.serv.valor}}</td>
-                        <td>{{item_servico.func.nome}}</td>
-                    </tr>
+                  {% if item_servico.cancelado == '1' %}
+                      <tr>
+                          <td>{{item_servico.id}}</td>
+                          <td>{{item_servico.data_cadastro|date:"H:i"}}</td>
+                          <td>{{item_servico.serv.nome}}</td>
+                          <td>{{item_servico.serv.valor}}</td>
+                          <td>{{item_servico.func.nome}}</td>
+                      </tr>
+                  {% endif %}
+                  {% if item_servico.cancelado == '2' %}
+                      <tr>
+                          <td>{{item_servico.id}}</td>
+                          <td style="color:#ff3939;">{{item_servico.data_cadastro|date:"H:i"}}</td>
+                          <td style="color:#ff3939;">{{item_servico.serv.nome}}</td>
+                          <td style="color:#ff3939;">{{item_servico.serv.valor}}</td>
+                          <td style="color:#ff3939;">{{item_servico.func.nome}}</td>
+                      </tr>
+                  {% endif %}
                 {% endfor %}
             </tbody>
           </table>
@@ -93,7 +104,7 @@
                 <h3 for="inputName"><b>Total: R$ {{desc_total}}</b></h3>
               </div>
               <div class="modal-footer">
-                <button type="submit" class="btn btn-secondary " formmethod="POST" formaction="/lavajato_agenda/dinheiro" title="Pagamento em dinheiro">Dinheiro</button>&nbsp;
+                <button type="submit" class="btn btn-secondary " formmethod="GET" formaction="/lavajato_agenda/dinheiro" title="Pagamento em dinheiro">Dinheiro</button>&nbsp;
                 <button type="submit" class="btn btn-secondary " formaction="/lavajato_agenda/debito" title="Pagamento em cartao de debito">Cartao Debito</button>&nbsp;
                 <button type="button" class="btn btn-secondary" data-dismiss="modal" data-toggle="modal" data-target="#exampleModal3">Cartao Credito</button>
               </div>

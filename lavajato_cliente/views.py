@@ -15,8 +15,9 @@ def lavajato_cliente(request):
                 numero = request.POST.get('numero')
                 bairro = request.POST.get('bairro')
                 cidade = request.POST.get('cidade')
+                uf_cidade = request.POST.get('uf_cidade')
                 data_nasc = request.POST.get('data_nasc')
-                novo_cliente = cliente(nome=name, telefone=telefone, celular=celular, data_nasc = data_nasc, email=email, endereco=endereco, numero=numero, bairro=bairro, cidade=cidade)
+                novo_cliente = cliente(nome=name, telefone=telefone, celular=celular, data_nasc = data_nasc, email=email, endereco=endereco, numero=numero, bairro=bairro, cidade=cidade, uf_cidade=uf_cidade)
                 novo_cliente.save()
                 if request.POST.get('modelo') != None:
                     modelo = request.POST.get('modelo')
@@ -79,6 +80,7 @@ def salva(request):
                 numero = request.POST.get('numero')
                 bairro = request.POST.get('bairro')
                 cidade = request.POST.get('cidade')
+                uf_cidade = request.POST.get('uf_cidade')
                 data_nasc = request.POST.get('data_nasc')
                 cliente_obj.nome = nome
                 cliente_obj.telefone = tel
@@ -88,6 +90,7 @@ def salva(request):
                 cliente_obj.numero = numero
                 cliente_obj.bairro = bairro
                 cliente_obj.cidade = cidade
+                cliente_obj.uf_cidade = uf_cidade
                 cliente_obj.data_nasc = data_nasc
                 cliente_obj.save()
                 msg = cliente_obj.nome + " editado(a) com sucesso!"

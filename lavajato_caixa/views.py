@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from .models import caixa_geral
-from lavajato_agenda.models import agenda, servico_item
+from lavajato_agenda.models import agenda, servico_item, pagamento
 from lavajato_controle.models import funcionario, servico, conta_empresa
 from lavajato_contas.models import conta
 from django.utils import timezone
@@ -75,11 +75,28 @@ def conferencia(request):
             caixas = caixa_geral.objects.filter(data__date=hoje)
             caixa = caixa_geral.objects.latest('id')
             total = caixa.total
+            t_dinheiro = 0
+            t_debito = 0
+            t_credito = 0
+            for p in pagamento.objects.filter(data__date=hoje).all():
+                if p.tipo == '1':
+                    t_dinheiro = t_dinheiro + p.valor
+                if p.tipo == '2':
+                    t_debito = t_debito + p.valor
+                if p.tipo == '3':
+                    t_credito = t_credito + p.valor
             if request.method == 'POST' and request.POST.get('data') != None:
                 hoje = request.POST.get('data')
                 caixas = caixa_geral.objects.filter(data__date=hoje)
-                return render(request, 'lavajato_caixa/caixa_conferencia.html', {'title':'Conferencia', 'caixas':caixas, 'hoje':hoje, 'total':total})
-            return render(request, 'lavajato_caixa/caixa_conferencia.html', {'title':'Conferencia', 'caixas':caixas, 'hoje':hoje, 'total':total})
+                for p in pagamento.objects.filter(data__date=hoje).all():
+                    if p.tipo == '1':
+                        t_dinheiro = t_dinheiro + p.valor
+                    if p.tipo == '2':
+                        t_debito = t_debito + p.valor
+                    if p.tipo == '3':
+                        t_credito = t_credito + p.valor
+                return render(request, 'lavajato_caixa/caixa_conferencia.html', {'title':'Conferencia', 'caixas':caixas, 'hoje':hoje, 'total':total, 't_credito':t_credito, 't_debito':t_debito, 't_dinheiro':t_dinheiro})
+            return render(request, 'lavajato_caixa/caixa_conferencia.html', {'title':'Conferencia', 'caixas':caixas, 'hoje':hoje, 'total':total, 't_credito':t_credito, 't_debito':t_debito, 't_dinheiro':t_dinheiro})
         return render(request, 'sistema_login/erro.html', {'title':'Erro'})
     else:
         return render(request, 'sistema_login/erro.html', {'title':'Erro'})
@@ -88,11 +105,35 @@ def fechar(request):
     if request.user.is_authenticated():
         empresa = request.user.get_short_name()
         if empresa == 'dayson':
+            hoje = datetime.now().strftime('%Y-%m-%d')
             caixa = caixa_geral.objects.latest('id')
-            total = caixa.total
+            t_dinheiro = 0
+            t_debito = 0
+            t_credito = 0
+            for p in pagamento.objects.filter(data__date=hoje).all():
+                if p.tipo == '1':
+                    t_dinheiro = t_dinheiro + p.valor
+                if p.tipo == '2':
+                    t_debito = t_debito + p.valor
+                if p.tipo == '3':
+                    t_credito = t_credito + p.valor
             if request.method == 'POST' and request.POST.get('valor') != None:
+                hoje = datetime.now().strftime('%Y-%m-%d')
+                t_dinheiro = 0
+                t_debito = 0
+                t_credito = 0
+                for p in pagamento.objects.filter(data__date=hoje).all():
+                    if p.tipo == '1':
+                        t_dinheiro = t_dinheiro + p.valor
+                    if p.tipo == '2':
+                        t_debito = t_debito + p.valor
+                    if p.tipo == '3':
+                        t_credito = t_credito + p.valor
                 desc = "Retirada - Fechamento de caixa"
                 valor = request.POST.get('valor')
+                valor_1 = request.POST.get('valor')
+                t_cartao = t_credito + t_debito
+                valor = Decimal(valor) + t_cartao
                 caixa = caixa_geral.objects.latest('id')
                 ultimo_id = caixa.id_operacao
                 ultimo_id = int(ultimo_id) + 1
@@ -101,12 +142,12 @@ def fechar(request):
                 nova_saida.save()
                 ultima_conta = conta_empresa.objects.latest('id')
                 desc1 = "Fechamento do caixa dia " + str(nova_saida.data.strftime('%d/%m/%Y'))
-                novo_total_conta = ultima_conta.total + Decimal(valor)
-                nova_entrada_conta = conta_empresa(operacao=1, id_operacao=nova_saida.id, valor_operacao=valor, descricao=desc1, total=novo_total_conta)
+                novo_total_conta = ultima_conta.total + Decimal(valor_1)
+                nova_entrada_conta = conta_empresa(operacao=1, id_operacao=nova_saida.id, valor_operacao=valor_1, descricao=desc1, total=novo_total_conta)
                 nova_entrada_conta.save()
-                msg = "Caixa fechado com sucesso, retirada de R$ " + str(valor)
-                return render(request, 'lavajato_caixa/caixa_fechar.html', {'title':'Fechar caixa', 'msg':msg})
-            return render(request, 'lavajato_caixa/caixa_fechar.html', {'title':'Fechar caixa', 'total':total})
+                msg = "Caixa fechado com sucesso, retirada de R$ " + str(valor_1)
+                return render(request, 'lavajato_caixa/caixa_fechar.html', {'title':'Fechar caixa', 'msg':msg, 't_credito':t_credito, 't_debito':t_debito, 't_dinheiro':t_dinheiro})
+            return render(request, 'lavajato_caixa/caixa_fechar.html', {'title':'Fechar caixa', 't_credito':t_credito, 't_debito':t_debito, 't_dinheiro':t_dinheiro})
         return render(request, 'sistema_login/erro.html', {'title':'Erro'})
     else:
         return render(request, 'sistema_login/erro.html', {'title':'Erro'})

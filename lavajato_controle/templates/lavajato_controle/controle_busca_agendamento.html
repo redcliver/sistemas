@@ -2,26 +2,43 @@
 
 {% block body %}
 {% load static %}
-    {% if msg %}
-        <h1 style="text-align:center;">{{msg}}</h1><hr />
-    {%endif%}
-    <h1>Buscar Agendamento</h1><hr /><br />
+{% if msg %}
+    <h1 style="text-align:center;">{{msg}}</h1><hr />
+{%endif%}
+<h1>Busca Agendamento</h1><hr />
     <form method="POST">
     {%csrf_token%}
     <div class="form-row">
-        <div class="form-group col-md-12">
-            <select name="agendamento_id" class="form-control" required title="Selecione o Agendamento">
-                <option disabled selected> -- Agendamentos -- </option>
+        <div class="form-group col-md-9"></div>
+        <div class="form-group col-md-3">
+            <label>Data</label>
+            <input type="date" class="form-control" value="{{hoje}}" name="data" title="Selecione a data"/>
+            <button type="submit" class="btn btn-secondary float-right" formmethod="GET" formaction="/lavajato_controle/busca_agendamento" title="Buscar por data">Buscar</button>
+        </div>
+        <table class="table table-sm">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Hora</th>
+                    <th scope="col">Cliente</th>
+                    <th scope="col">Total</th>
+                    <th scope="col">Estado</th>
+                    <th scope="col">Visualizar</th>
+                </tr>
+            </thead>
+            <tbody>
                 {% for agenda in agendamentos %}
-                    <option value={{agenda.id}}>{{agenda.id}}</option>
+                    <tr>
+                        <td>{{agenda.id}}</td>
+                        <td>{{agenda.data|date:"H:i"}}</td>
+                        <td>{{agenda.cli.nome}}</td>
+                        <td>R$ {{agenda.total}}</td>
+                        <td>{{agenda.get_estado_display}}</td>
+                        <td><button name="agendamento_id" value="{{agenda.id}}" class="btn btn-secondary" title='Visualizar'>Ver</button></td>
+                    </tr>
                 {% endfor %}
-            </select>
-        </div>
-    </div>
-    <div class="form-row">
-        <div class="form-group col-md-12">
-            <button type="submit" class="btn btn-secondary float-right" title="Visualizar o agendamento">Visualizar</button>
-        </div>
+            </tbody>
+        </table>
     </div>
     </form>
 {% endblock %}

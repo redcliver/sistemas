@@ -19,7 +19,7 @@
             <thead>
                 <tr>
                     <th scope="col">#</th>
-                    <th scope="col">Hora</th>
+                    <th scope="col">Data</th>
                     <th scope="col">Cliente</th>
                     <th scope="col">Carro</th>
                     <th scope="col">Total</th>
@@ -32,7 +32,7 @@
                     {% if agenda.estado == '1' %}
                         <tr>
                             <td>{{agenda.id}}</td>
-                            <td>{{agenda.data|date:"H:i"}}</td>
+                            <td>{{agenda.data|date:"d/m/Y"}}</td>
                             <td>{{agenda.cli.nome}}</td>
                             <td>{{agenda.car.modelo}}</td>
                             <td>R$ {{agenda.total}}</td>
@@ -43,7 +43,7 @@
                     {% if agenda.estado == '2' %}
                         <tr>
                             <td>{{agenda.id}}</td>
-                            <td>{{agenda.data|date:"H:i"}}</td>
+                            <td>{{agenda.data|date:"d/m/Y"}}</td>
                             <td>{{agenda.cli.nome}}</td>
                             <td>{{agenda.car.modelo}}</td>
                             <td>R$ {{agenda.total}}</td>
@@ -54,7 +54,7 @@
                     {% if agenda.estado == '3' %}
                         <tr>
                             <td>{{agenda.id}}</td>
-                            <td>{{agenda.data|date:"H:i"}}</td>
+                            <td>{{agenda.data|date:"d/m/Y"}}</td>
                             <td>{{agenda.cli.nome}}</td>
                             <td>{{agenda.car.modelo}}</td>
                             <td>R$ {{agenda.total}}</td>

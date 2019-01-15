@@ -28,7 +28,7 @@
     <div class="form-row">
         <div class="form-group col-md-10">
             <label for="inputName">Cliente<strong>*</strong></label>
-            <select autofocus name="cliente_id" class="form-control">
+            <select name="cliente_id" class="form-control">
                 <option value="{{cliente_obj.id}}" selected >{{cliente_obj.nome}}</option>
             </select>
         </div>
@@ -41,7 +41,7 @@
             <input type="hidden" name="cliente_id" value="{{cliente_obj.id}}">
             <div class="form-group col-md-10">
                 <label for="inputName">Carro<strong>*</strong></label>
-                <select autofocus name="carro_id" class="form-control" required>
+                <select autofocus name="carro_id" class="form-control" required >
                     <option disabled selected> -- Carro -- </option>
                     {% for carro in carros %}
                     <option value={{carro.id}}>{{carro.modelo}}</option>
@@ -50,7 +50,7 @@
             </div>
             <div class="form-group col-md-10">
                 <label for="inputName">Servico<strong>*</strong></label>
-                <select autofocus name="servico_id" class="form-control" required>
+                <select name="servico_id" class="form-control" required>
                     <option disabled selected> -- Servico -- </option>
                     {% for servico in servicos %}
                     <option value={{servico.id}}>{{servico.nome}}</option>
@@ -59,7 +59,7 @@
             </div>
             <div class="form-group col-md-10">
                 <label for="inputName">Funcionario<strong>*</strong></label>
-                <select autofocus name="funcionario_id" class="form-control" required>
+                <select name="funcionario_id" class="form-control" required>
                     <option disabled selected> -- Funcionario -- </option>
                     {% for funcionario in funcionarios %}
                     <option value={{funcionario.id}}>{{funcionario.nome}}</option>
@@ -70,7 +70,7 @@
             </div>
             <div class="form-group col-md-3">
                 <label for="inputTel">Data</label>
-                <input type="datetime-local" class="form-control" name="data">
+                <input type="date" class="form-control" name="data" required>
             </div>
         </div>
             <br />

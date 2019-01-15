@@ -1,0 +1,165 @@
+{% extends 'lavajato_base.html' %}
+
+{% block body %}
+{% load static %}
+{% if msg %}
+    <h1 style="text-align:center;">{{msg}}</h1><hr />
+{%endif%}
+<h1>Receber OS selecionada(s)</h1><hr />
+    <form method="GET">
+        {% csrf_token %}
+        <div class="form-row">
+            <div class="form-group col-md-10">
+                <label for="inputName">Cliente<strong>*</strong></label>
+                <input type="text" class="form-control" value="{{cliente_obj.nome}}" disabled>
+            </div>
+          <table class="table table-sm">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Data</th>
+                    <th scope="col">Carro</th>
+                    <th scope="col">Valor</th>
+                    <th scope="col">Estado</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for agenda in agendas %}
+                    <tr>
+                        <td>{{agenda.id}}</td>
+                        <td>{{agenda.data_cadastro|date:"d/m/Y"}}</td>
+                        <td>{{agenda.car.modelo}}</td>
+                        <td>{{agenda.total}}</td>
+                        <td>{{agenda.get_estado_display}}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        <hr />
+        <div class="col-md-4 offset-md-6">
+            <h3 class="float-right"><b>TOTAL: R$ {{aberto}}</b></h3>
+        </div>
+        <br />
+        <label for="inputName">Pagamento<strong>*</strong></label><hr />
+        <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#exampleModal1">1 Metodo</button>&nbsp;
+        <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#exampleModal2">2+ Metodos</button>&nbsp;
+        <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#exampleModal">Desconto</button>
+    
+    </form>
+    <form method="POST">
+        {% csrf_token %}
+        <input type="hidden" name="agenda_id" value="{{agenda_obj.id}}" />
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Desconto</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <h3 for="inputName"><b>Sub-Total: R$ {{aberto}}</b></h3><hr />
+                <label for="inputName">Valor do Desconto<strong>*</strong></label>
+                <input class="form-control col-md-4" type="number" name="desconto" step="0.01" value="{{agenda_obj.desconto}}" title="Digite o valor do desconto" autofocus required>
+              </div>
+              <div class="modal-footer">
+                <button type="submit" class="btn btn-secondary" formaction="/lavajato_agenda/desconto">Registrar</button>
+              </div>
+            </div>
+          </div>
+        </div>
+    </form>
+    <form method="POST">
+        {% csrf_token %}
+        <input type="hidden" name="agenda_id" value="{{agenda_obj.id}}" />
+        <input type="hidden" name="n_parcelas" value="1" />
+        <!-- Modal 1-->
+        <div class="modal fade" id="exampleModal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">1 Metodo de Pagamento</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <h3 for="inputName"><b>Total: R$ {{desc_total}}</b></h3>
+              </div>
+              <div class="modal-footer">
+                <button type="submit" class="btn btn-secondary " formmethod="GET" formaction="/lavajato_agenda/dinheiro" title="Pagamento em dinheiro">Dinheiro</button>&nbsp;
+                <button type="submit" class="btn btn-secondary " formaction="/lavajato_agenda/debito" title="Pagamento em cartao de debito">Cartao Debito</button>&nbsp;
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" data-toggle="modal" data-target="#exampleModal3">Cartao Credito</button>
+              </div>
+            </div>
+          </div>
+        </div>
+    </form>
+    <form method="POST">
+        {% csrf_token %}
+        <input type="hidden" name="agenda_id" value="{{agenda_obj.id}}" />
+        <!-- Modal 2-->
+        <div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">2 Metodo de Pagamento</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <h3 for="inputName"><b>Total: R$ {{desc_total}}</b></h3>
+              </div>
+              <hr />
+              <div class="modal-body col-md-5">
+                  <h5 for="inputName">Valor em Dinheiro:</h5>
+                  <input type="number" class="form-control" step="0.01" name="dinheiro" title="Digite o valor"required/>
+              </div>
+              <div class="modal-body col-md-5">
+                  <h5 for="inputName">Valor em Cartao:</h5>
+                  <input type="number" class="form-control" step="0.01" name="cartao" title="Digite o valor" required/>
+              </div>
+              <div class="modal-body col-md-5">
+                  <h5 for="inputName">Num. Parcelas:</h5>
+                  <input type="number" class="form-control" value="1" name="n_parcelas" title="Digite o numero de parcelas"required/>
+              </div>
+              <div class="modal-footer">
+                <button type="submit" class="btn btn-secondary " formmethod="POST" formaction="/lavajato_agenda/metodo2" title="Registrar Pagamento">Registrar</button>&nbsp;
+              </div>
+            </div>
+          </div>
+        </div>
+    </form>
+    <form method="POST">
+        {% csrf_token %}
+        <input type="hidden" name="agenda_id" value="{{agenda_obj.id}}" />
+        <!-- Modal 3-->
+        <div class="modal fade" id="exampleModal3" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Cartao de Credito</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <h3 for="inputName"><b>Total: R$ {{desc_total}}</b></h3>
+              </div>
+              <hr />
+              <div class="modal-body col-md-5">
+                  <h5 for="inputName">Num. Parcelas:</h5>
+                  <input type="number" class="form-control" value="1" name="n_parcelas" title="Digite o numero de parcelas" required/>
+              </div>
+              <div class="modal-footer">
+                  <button type="submit" class="btn btn-secondary" formaction="/lavajato_agenda/credito">Registrar</button>
+              </div>
+            </div>
+          </div>
+        </div>
+    </form>
+{% endblock %}

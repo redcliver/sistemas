@@ -1,6 +1,7 @@
 from django.shortcuts import render
 import datetime
 from .models import cliente, carro
+from lavajato_agenda.models import agenda
 # Create your views here.
 def lavajato_cliente(request):
     if request.user.is_authenticated():
@@ -176,6 +177,67 @@ def carro_salva_edita(request):
                 cars = cliente_obj.carros.all().order_by('modelo')
                 return render(request, 'lavajato_cliente/seleciona_carro.html', {'title':'Selecione o Veiculo', 'cliente_obj':cliente_obj, 'cars':cars})
             return render(request, 'lavajato_cliente/busca_edita_carro.html', {'title':'Editar Veiculo', 'clientes':clientes})
+        return render(request, 'sistema_login/erro.html', {'title':'Erro'})
+    else:
+        return render(request, 'sistema_login/erro.html', {'title':'Erro'})
+
+def fechamento_mensal(request):
+    if request.user.is_authenticated():
+        empresa = request.user.get_short_name()
+        if empresa == 'dayson':
+            clientes = cliente.objects.all().order_by('nome')
+            if request.method == 'POST' and request.POST.get('cliente_id') != None and request.POST.get('mes') != None:
+                aberto = 0 
+                pago = 0
+                desmarcado = 0
+                cliente_id = request.POST.get('cliente_id')
+                mes = request.POST.get('mes')
+                cliente_obj = cliente.objects.get(id=cliente_id)
+                agendas = agenda.objects.filter(cli=cliente_obj, data__month=mes).all()
+                for a in agenda.objects.filter(cli=cliente_obj, data__month=mes, estado=1).all():
+                    aberto = aberto + a.total
+                for b in agenda.objects.filter(cli=cliente_obj, data__month=mes, estado=2).all():
+                    desmarcado = desmarcado + b.total
+                for c in agenda.objects.filter(cli=cliente_obj, data__month=mes, estado=3).all():
+                    pago = pago + c.total
+                
+                return render(request, 'lavajato_cliente/cliente_confirma_fechamento.html', {'title':'Fechamento Cliente', 'cliente_obj':cliente_obj, 'agendas':agendas, 'aberto':aberto, 'pago':pago, 'desmarcado':desmarcado, 'mes':mes})
+            return render(request, 'lavajato_cliente/cliente_fechamento.html', {'title':'Fechamento Cliente', 'clientes':clientes})
+        return render(request, 'sistema_login/erro.html', {'title':'Erro'})
+    else:
+        return render(request, 'sistema_login/erro.html', {'title':'Erro'})
+
+def pagamento_geral(request):
+    if request.user.is_authenticated():
+        empresa = request.user.get_short_name()
+        if empresa == 'dayson':
+            clientes = cliente.objects.all().order_by('nome')
+            if request.method == 'GET' and request.GET.get('cliente_id') != None and request.GET.get('mes_cli') != None:
+                aberto = 0
+                cliente_id = request.GET.get('cliente_id')
+                mes_cli = request.GET.get('mes_cli')
+                cliente_obj = cliente.objects.get(id=cliente_id)
+                agendas = agenda.objects.filter(cli=cliente_obj, data__month=mes_cli, estado=1).all()
+                for a in agenda.objects.filter(cli=cliente_obj, data__month=mes_cli, estado=1).all():
+                    aberto = aberto + a.total
+                return render(request, 'lavajato_cliente/cliente_fechar_os.html', {'title':'Fechamento Cliente', 'cliente_obj':cliente_obj, 'agendas':agendas, 'aberto':aberto})
+
+            if request.method == 'POST' and request.POST.get('cliente_id') != None and request.POST.get('mes') != None:
+                aberto = 0 
+                pago = 0
+                desmarcado = 0
+                cliente_id = request.POST.get('cliente_id')
+                mes = request.POST.get('mes')
+                cliente_obj = cliente.objects.get(id=cliente_id)
+                agendas = agenda.objects.filter(cli=cliente_obj, data_cadastro__month=mes).all()
+                for a in agenda.objects.filter(cli=cliente_obj, data_cadastro__month=mes, estado=1).all():
+                    aberto = aberto + a.total
+                for b in agenda.objects.filter(cli=cliente_obj, data_cadastro__month=mes, estado=2).all():
+                    desmarcado = desmarcado + b.total
+                for c in agenda.objects.filter(cli=cliente_obj, data_cadastro__month=mes, estado=3).all():
+                    pago = pago + c.total
+                return render(request, 'lavajato_cliente/cliente_confirma_fechamento.html', {'title':'Fechamento Cliente', 'cliente_obj':cliente_obj, 'agendas':agendas, 'aberto':aberto, 'pago':pago, 'desmarcado':desmarcado})
+            return render(request, 'lavajato_cliente/cliente_fechamento.html', {'title':'Fechamento Cliente', 'clientes':clientes})
         return render(request, 'sistema_login/erro.html', {'title':'Erro'})
     else:
         return render(request, 'sistema_login/erro.html', {'title':'Erro'})

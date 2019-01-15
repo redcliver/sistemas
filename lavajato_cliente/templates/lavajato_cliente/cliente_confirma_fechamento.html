@@ -1,0 +1,110 @@
+{% extends 'lavajato_base.html' %}
+
+{% block body %}
+{% load static %}
+{% if msg %}
+    <h1 style="text-align:center;">{{msg}}</h1><hr />
+{%endif%}
+<h1>Lista de Serviços</h1><hr />
+    <form method="POST">
+    {%csrf_token%}
+    <input type="hidden" name="cliente_id" value="{{cliente_obj.id}}">
+    <div class="form-row">
+        <div class="form-group col-md-12">
+            <label for="inputName">Nome Completo </label>
+            <input type="text" class="form-control" id="inputEmail4" value="{{cliente_obj.nome}}" maxlength="200" disabled>
+        </div>
+        <div class="form-group col-md-9">
+        </div>
+        <div class="form-group col-md-3">
+            <select name="mes" class="form-control" >
+                <option disabled selected > -- Mes -- </option>
+                <option value="01">Jan</option>
+                <option value="02">Fev</option>
+                <option value="03">Mar</option>
+                <option value="04">Abr</option>
+                <option value="05">Mai</option>
+                <option value="06">Jun</option>
+                <option value="07">Jul</option>
+                <option value="08">Ago</option>
+                <option value="09">Set</option>
+                <option value="10">Out</option>
+                <option value="11">Nov</option>
+                <option value="12">Dez</option>
+            </select>
+            </div>
+        <div class="form-group col-md-9">
+        </div>
+        <div class="form-group col-md-3">
+            <button type="submit" class="btn btn-secondary float-right" formaction="/lavajato_cliente/fechamento_mensal" title="Buscar por data">Buscar</button>
+        </div>
+        <table class="table table-sm">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Hora</th>
+                    <th scope="col">Cliente</th>
+                    <th scope="col">Carro</th>
+                    <th scope="col">Total</th>
+                    <th scope="col">Estado</th>
+                    <th scope="col">Confirmacao</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for agenda in agendas %}
+                    {% if agenda.estado == '1' %}
+                        <tr>
+                            <td>{{agenda.id}}</td>
+                            <td>{{agenda.data|date:"H:i"}}</td>
+                            <td>{{agenda.cli.nome}}</td>
+                            <td>{{agenda.car.modelo}}</td>
+                            <td>R$ {{agenda.total}}</td>
+                            <td>{{agenda.get_estado_display}}</td>
+                            <td><button name="agenda_id" value="{{agenda.id}}" class="btn btn-success" formaction="/lavajato_agenda/confirmacao" title='Confirmar'>&#x2705;</button> &nbsp;<button name="agenda_id" value="{{agenda.id}}" class="btn btn-light" formaction="/lavajato_agenda/desmarcar" title="Desmarcar">&#x274C;</button></td>
+                        </tr>
+                    {% endif %}
+                    {% if agenda.estado == '2' %}
+                        <tr>
+                            <td>{{agenda.id}}</td>
+                            <td>{{agenda.data|date:"H:i"}}</td>
+                            <td>{{agenda.cli.nome}}</td>
+                            <td>{{agenda.car.modelo}}</td>
+                            <td>R$ {{agenda.total}}</td>
+                            <td>{{agenda.get_estado_display}}</td>
+                            <td>Finalizado</td>
+                        </tr>
+                    {% endif %}
+                    {% if agenda.estado == '3' %}
+                        <tr>
+                            <td>{{agenda.id}}</td>
+                            <td>{{agenda.data|date:"H:i"}}</td>
+                            <td>{{agenda.cli.nome}}</td>
+                            <td>{{agenda.car.modelo}}</td>
+                            <td>R$ {{agenda.total}}</td>
+                            <td>{{agenda.get_estado_display}}</td>
+                            <td>Finalizado</td>
+                        </tr>
+                    {% endif %}
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <hr />
+    <div class="form-row">
+        <div class="col-md-4 offset-md-6">
+            <h4 class="float-right">Pago: R$ {{pago}}</h4><br /><br />
+            <h3 class="float-right"><b>Aberto: R$ {{aberto}}</b></h3>
+        </div>
+        <br />
+    </div>
+    <br />
+    <div class="form-row">
+        <input type="hidden" name="cliente_id" value="{{cliente_obj.id}}">
+        <input type="hidden" name="mes_cli" value="{{mes}}">
+
+        <div class="col-md-4 offset-md-6">
+            <button type="submit" class="btn btn-secondary float-right" formmethod="GET" formaction="/lavajato_cliente/pagamento_geral" title="Receber todas as OS">Receber Tudo</button>
+        </div>
+    </div>
+    </form>
+{% endblock %}

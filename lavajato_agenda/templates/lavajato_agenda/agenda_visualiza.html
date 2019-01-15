@@ -22,6 +22,7 @@
                     <th scope="col">Data</th>
                     <th scope="col">Cliente</th>
                     <th scope="col">Carro</th>
+                    <th scope="col">Placa</th>
                     <th scope="col">Total</th>
                     <th scope="col">Estado</th>
                     <th scope="col">Confirmacao</th>
@@ -35,6 +36,7 @@
                             <td>{{agenda.data|date:"d/m/Y"}}</td>
                             <td>{{agenda.cli.nome}}</td>
                             <td>{{agenda.car.modelo}}</td>
+                            <td>{{agenda.car.placa}}</td>
                             <td>R$ {{agenda.total}}</td>
                             <td>{{agenda.get_estado_display}}</td>
                             <td><button name="agenda_id" value="{{agenda.id}}" class="btn btn-success" formaction="/lavajato_agenda/confirmacao" title='Confirmar'>&#x2705;</button> &nbsp;<button name="agenda_id" value="{{agenda.id}}" class="btn btn-light" formaction="/lavajato_agenda/desmarcar" title="Desmarcar">&#x274C;</button></td>

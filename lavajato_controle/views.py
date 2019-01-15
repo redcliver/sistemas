@@ -387,7 +387,7 @@ def extrato(request):
                     t_entradas = 0
                     t_saidas = 0
                     conta_all = conta_empresa.objects.filter(data__range=(data_inicio,data_fim)).all()
-                    for a in conta_empresa.objects.filter(operacao=1, data__range=(data_inicio,data_fim)data__month=mes).all():
+                    for a in conta_empresa.objects.filter(operacao=1, data__range=(data_inicio,data_fim)).all():
                         t_entradas = t_entradas + a.valor_operacao
                         n_entradas = n_entradas + 1
                     for b in conta_empresa.objects.filter(operacao=2, data__range=(data_inicio,data_fim)).all():

@@ -220,21 +220,20 @@ def pagamento_geral(request):
                 agendas = agenda.objects.filter(cli=cliente_obj, data__month=mes_cli, estado=1).all()
                 for a in agenda.objects.filter(cli=cliente_obj, data__month=mes_cli, estado=1).all():
                     aberto = aberto + a.total
-                return render(request, 'lavajato_cliente/cliente_fechar_os.html', {'title':'Fechamento Cliente', 'cliente_obj':cliente_obj, 'agendas':agendas, 'aberto':aberto})
-
-            if request.method == 'POST' and request.POST.get('cliente_id') != None and request.POST.get('mes') != None:
+                return render(request, 'lavajato_cliente/cliente_fechar_os.html', {'title':'Fechamento Cliente', 'cliente_obj':cliente_obj, 'agendas':agendas, 'aberto':aberto, 'mes_cli':mes_cli})
+            if request.method == 'POST' and request.POST.get('cliente_id') != None and request.POST.get('mes_cli') != None:
                 aberto = 0 
                 pago = 0
                 desmarcado = 0
                 cliente_id = request.POST.get('cliente_id')
-                mes = request.POST.get('mes')
+                mes_cli = request.POST.get('mes_cli')
                 cliente_obj = cliente.objects.get(id=cliente_id)
-                agendas = agenda.objects.filter(cli=cliente_obj, data_cadastro__month=mes).all()
-                for a in agenda.objects.filter(cli=cliente_obj, data_cadastro__month=mes, estado=1).all():
+                agendas = agenda.objects.filter(cli=cliente_obj, data__month=mes_cli).all()
+                for a in agenda.objects.filter(cli=cliente_obj, data__month=mes_cli, estado=1).all():
                     aberto = aberto + a.total
-                for b in agenda.objects.filter(cli=cliente_obj, data_cadastro__month=mes, estado=2).all():
+                for b in agenda.objects.filter(cli=cliente_obj, data__month=mes_cli, estado=2).all():
                     desmarcado = desmarcado + b.total
-                for c in agenda.objects.filter(cli=cliente_obj, data_cadastro__month=mes, estado=3).all():
+                for c in agenda.objects.filter(cli=cliente_obj, data__month=mes_cli, estado=3).all():
                     pago = pago + c.total
                 return render(request, 'lavajato_cliente/cliente_confirma_fechamento.html', {'title':'Fechamento Cliente', 'cliente_obj':cliente_obj, 'agendas':agendas, 'aberto':aberto, 'pago':pago, 'desmarcado':desmarcado})
             return render(request, 'lavajato_cliente/cliente_fechamento.html', {'title':'Fechamento Cliente', 'clientes':clientes})

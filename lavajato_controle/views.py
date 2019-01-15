@@ -379,6 +379,22 @@ def extrato(request):
                     n_saidas = n_saidas + 1
                 total_geral = t_entradas - t_saidas
                 return render(request, 'lavajato_controle/controle_conta_empresa.html', {'title':'Extrato da Conta Empresa', 'data_inicio':data_inicio, 'data_fim':data_fim, 't_saidas':t_saidas, 't_entradas':t_entradas, 'total_geral':total_geral, 'conta_all':conta_all})
+                if request.method == 'POST' and request.POST.get('data_inicio') != None and request.POST.get('data_fim') != None:
+                    data_inicio = request.POST.get('data_inicio')
+                    data_fim = request.POST.get('data_fim')
+                    n_entradas = 0
+                    n_saidas = 0
+                    t_entradas = 0
+                    t_saidas = 0
+                    conta_all = conta_empresa.objects.filter(data__range=(data_inicio,data_fim)).all()
+                    for a in conta_empresa.objects.filter(operacao=1, data__range=(data_inicio,data_fim)data__month=mes).all():
+                        t_entradas = t_entradas + a.valor_operacao
+                        n_entradas = n_entradas + 1
+                    for b in conta_empresa.objects.filter(operacao=2, data__range=(data_inicio,data_fim)).all():
+                        t_saidas = t_saidas + b.valor_operacao
+                        n_saidas = n_saidas + 1
+                    total_geral = t_entradas - t_saidas
+                    return render(request, 'lavajato_controle/controle_conta_empresa.html', {'title':'Extrato da Conta Empresa', 'data_inicio':data_inicio, 'data_fim':data_fim, 't_saidas':t_saidas, 't_entradas':t_entradas, 'total_geral':total_geral, 'conta_all':conta_all})
             return render(request, 'lavajato_home/home.html', {'title':'Home'})
         return render(request, 'sistema_login/erro.html', {'title':'Erro'})
     else:

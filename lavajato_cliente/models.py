@@ -17,6 +17,7 @@ class cliente(models.Model):
     id = models.AutoField(primary_key=True)
     nome = models.CharField(max_length=200)
     data_nasc = models.DateTimeField(null=True, blank=True)
+    cpf = models.CharField(max_length=30, null=True, blank=True)
     telefone = models.CharField(max_length=20, null=True, blank=True)
     celular = models.CharField(max_length=20, null=True, blank=True)
     email = models.CharField(max_length=200, null=True, blank=True)

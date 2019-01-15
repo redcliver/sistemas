@@ -10,6 +10,7 @@ def lavajato_cliente(request):
                 name = request.POST.get('nome')
                 telefone = request.POST.get('tel')
                 celular = request.POST.get('cel')
+                cpf = request.POST.get('cpf')
                 email = request.POST.get('mail')
                 endereco = request.POST.get('endereco')
                 numero = request.POST.get('numero')
@@ -17,7 +18,7 @@ def lavajato_cliente(request):
                 cidade = request.POST.get('cidade')
                 uf_cidade = request.POST.get('uf_cidade')
                 data_nasc = request.POST.get('data_nasc')
-                novo_cliente = cliente(nome=name, telefone=telefone, celular=celular, data_nasc = data_nasc, email=email, endereco=endereco, numero=numero, bairro=bairro, cidade=cidade, uf_cidade=uf_cidade)
+                novo_cliente = cliente(nome=name, telefone=telefone, celular=celular, data_nasc = data_nasc, cpf=cpf, email=email, endereco=endereco, numero=numero, bairro=bairro, cidade=cidade, uf_cidade=uf_cidade)
                 novo_cliente.save()
                 if request.POST.get('modelo') != None:
                     modelo = request.POST.get('modelo')
@@ -75,6 +76,7 @@ def salva(request):
                 nome = request.POST.get('nome')
                 tel = request.POST.get('tel')
                 cel = request.POST.get('cel')
+                cpf = request.POST.get('cpf')
                 mail = request.POST.get('mail')
                 endereco = request.POST.get('endereco')
                 numero = request.POST.get('numero')
@@ -85,6 +87,7 @@ def salva(request):
                 cliente_obj.nome = nome
                 cliente_obj.telefone = tel
                 cliente_obj.celular = cel
+                cliente_obj.cpf = cpf
                 cliente_obj.email = mail
                 cliente_obj.endereco = endereco
                 cliente_obj.numero = numero

@@ -21,6 +21,7 @@
                     <th scope="col">#</th>
                     <th scope="col">Hora</th>
                     <th scope="col">Cliente</th>
+                    <th scope="col">Carro</th>
                     <th scope="col">Total</th>
                     <th scope="col">Estado</th>
                     <th scope="col">Confirmacao</th>
@@ -33,6 +34,7 @@
                             <td>{{agenda.id}}</td>
                             <td>{{agenda.data|date:"H:i"}}</td>
                             <td>{{agenda.cli.nome}}</td>
+                            <td>{{agenda.car.modelo}}</td>
                             <td>R$ {{agenda.total}}</td>
                             <td>{{agenda.get_estado_display}}</td>
                             <td><button name="agenda_id" value="{{agenda.id}}" class="btn btn-success" formaction="/lavajato_agenda/confirmacao" title='Confirmar'>&#x2705;</button> &nbsp;<button name="agenda_id" value="{{agenda.id}}" class="btn btn-light" formaction="/lavajato_agenda/desmarcar" title="Desmarcar">&#x274C;</button></td>
@@ -43,6 +45,7 @@
                             <td>{{agenda.id}}</td>
                             <td>{{agenda.data|date:"H:i"}}</td>
                             <td>{{agenda.cli.nome}}</td>
+                            <td>{{agenda.car.modelo}}</td>
                             <td>R$ {{agenda.total}}</td>
                             <td>{{agenda.get_estado_display}}</td>
                             <td>Finalizado</td>
@@ -53,6 +56,7 @@
                             <td>{{agenda.id}}</td>
                             <td>{{agenda.data|date:"H:i"}}</td>
                             <td>{{agenda.cli.nome}}</td>
+                            <td>{{agenda.car.modelo}}</td>
                             <td>R$ {{agenda.total}}</td>
                             <td>{{agenda.get_estado_display}}</td>
                             <td>Finalizado</td>

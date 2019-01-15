@@ -8,6 +8,7 @@
 <h1>Novo Agendamento</h1><hr />
     <form method="POST">
     {%csrf_token%}
+    {% if cliente_obj == None %}
         <div class="form-row">
             <div class="form-group col-md-10">
                 <label for="inputName">Cliente<strong>*</strong></label>
@@ -15,6 +16,35 @@
                     <option disabled selected> -- Cliente -- </option>
                     {% for cliente in clientes %}
                     <option value={{cliente.id}}>{{cliente.nome}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group col-md-10">
+                <button type="submit" formmethod="GET" formaction="/lavajato_agenda/" class="btn btn-secondary float-right" title="Buscar">Buscar</button>
+            </div>
+        </div>
+    {% endif %}
+    {% if cliente_obj != None %}
+    <div class="form-row">
+        <div class="form-group col-md-10">
+            <label for="inputName">Cliente<strong>*</strong></label>
+            <select autofocus name="cliente_id" class="form-control">
+                <option value="{{cliente_obj.id}}" selected >{{cliente_obj.nome}}</option>
+            </select>
+        </div>
+        <div class="form-group col-md-10">
+            <button type="submit" formmethod="GET" formaction="/lavajato_agenda/" class="btn btn-secondary float-right" title="Buscar" disabled>Buscar</button>
+        </div>
+        </div>
+        <div class="form-row">
+            {% if carros %}
+            <input type="hidden" name="cliente_id" value="{{cliente_obj.id}}">
+            <div class="form-group col-md-10">
+                <label for="inputName">Carro<strong>*</strong></label>
+                <select autofocus name="carro_id" class="form-control" required>
+                    <option disabled selected> -- Carro -- </option>
+                    {% for carro in carros %}
+                    <option value={{carro.id}}>{{carro.modelo}}</option>
                     {% endfor %}
                 </select>
             </div>
@@ -45,5 +75,9 @@
         </div>
             <br />
             <button type="submit" class="btn btn-secondary float-right" title="Registrar novo agendamento">Registrar</button>
+
+            {% endif %}
+    
+    {% endif %}
     </form>
 {% endblock %}

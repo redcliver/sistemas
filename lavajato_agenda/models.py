@@ -1,6 +1,6 @@
 from django.db import models
 from django.utils import timezone
-from lavajato_cliente.models import cliente
+from lavajato_cliente.models import cliente, carro
 from lavajato_controle.models import funcionario, servico
 
 # Create your models here.
@@ -63,6 +63,7 @@ class agenda(models.Model):
     total_parcelas = models.IntegerField(default=1)
     pagas_parcelas = models.IntegerField(default=0)
     cli = models.ForeignKey(cliente, on_delete=models.CASCADE)
+    car = models.ForeignKey(carro, on_delete=models.CASCADE)
     data = models.DateTimeField(null=True, blank=True)
     subtotal = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     desconto = models.DecimalField(max_digits=10, decimal_places=2, default=0)

@@ -5,7 +5,7 @@ from datetime import datetime
 from datetime import timedelta, date
 from decimal import Decimal
 from .models import agenda, servico_item, parcela, pagamento
-from lavajato_cliente.models import cliente
+from lavajato_cliente.models import cliente, carro
 from lavajato_controle.models import funcionario, servico
 from lavajato_caixa.models import caixa_geral
 
@@ -17,6 +17,14 @@ def novo(request):
             clientes = cliente.objects.all().order_by('nome')
             servicos = servico.objects.all().order_by('nome')
             funcionarios = funcionario.objects.all().order_by('nome')
+            cliente_obj = None
+            if request.method == 'GET' and request.GET.get('cliente_id') != None:
+                cliente_id = request.GET.get('cliente_id')
+                cliente_obj = cliente.objects.filter(id=cliente_id).get()
+                carros = cliente_obj.carros.all()
+                servicos = servico.objects.all().order_by('nome')
+                funcionarios = funcionario.objects.all().order_by('nome')
+                return render(request, 'lavajato_agenda/agenda_novo.html', {'title':'Novo Agendamento', 'clientes':clientes, 'servicos':servicos, 'funcionarios':funcionarios, 'carros':carros, 'cliente_obj':cliente_obj})
             if request.method == 'POST' and request.POST.get('cliente_id') != None:
                 cliente_id = request.POST.get('cliente_id')
                 cliente_obj = cliente.objects.filter(id=cliente_id).get()
@@ -24,10 +32,13 @@ def novo(request):
                 servico_obj = servico.objects.filter(id=servico_id).get()
                 funcionario_id = request.POST.get('funcionario_id')
                 funcionario_obj = funcionario.objects.filter(id=funcionario_id).get()
+                carro_id = request.POST.get('carro_id')
+                carro_obj = carro.objects.filter(id=carro_id).get()
+
                 data = request.POST.get('data')
                 novo_serv_item = servico_item(serv=servico_obj, func=funcionario_obj)
                 novo_serv_item.save()
-                novo_agendamento = agenda(cli=cliente_obj, data = data, estado=1)
+                novo_agendamento = agenda(cli=cliente_obj,car=carro_obj, data = data, estado=1)
                 novo_agendamento.save()
                 novo_agendamento.item_servico.add(novo_serv_item)
                 novo_agendamento.subtotal = servico_obj.valor
@@ -38,7 +49,7 @@ def novo(request):
                 servicos = servico.objects.all().order_by('nome')
                 funcionarios = funcionario.objects.all().order_by('nome')
                 return render(request, 'lavajato_agenda/agenda_novo.html', {'title':'Novo Agendamento', 'msg':msg, 'clientes':clientes, 'servicos':servicos, 'funcionarios':funcionarios})
-            return render(request, 'lavajato_agenda/agenda_novo.html', {'title':'Novo Agendamento', 'clientes':clientes, 'servicos':servicos, 'funcionarios':funcionarios})
+            return render(request, 'lavajato_agenda/agenda_novo.html', {'title':'Novo Agendamento', 'clientes':clientes, 'servicos':servicos, 'funcionarios':funcionarios, 'cliente_obj':cliente_obj})
         return render(request, 'sistema_login/erro.html', {'title':'Erro'})
     else:
         return render(request, 'sistema_login/erro.html', {'title':'Erro'})

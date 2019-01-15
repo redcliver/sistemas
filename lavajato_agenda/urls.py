@@ -15,4 +15,5 @@ urlpatterns = [
     url(r'^dinheiro', views.dinheiro),
     url(r'^credito', views.credito),
     url(r'^debito', views.debito),
+    url(r'^metodo2', views.metodo2),
     ]

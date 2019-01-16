@@ -500,9 +500,14 @@ def metodo2(request):
                 agenda_obj.save()
                 caixa = caixa_geral.objects.latest('id')
                 ultimo_id = agenda_obj.id
-                novo_total = caixa.total + valor_1
-                desc = "Agendamento N:" + str(agenda_obj.id)
-                nova_entrada = caixa_geral(operacao=1, id_operacao=ultimo_id, valor_operacao=valor_1, descricao=desc, total=novo_total)
+                novo_total1 = caixa.total + pg_dinheiro
+                caixa.save()
+                desc1 = "Agendamento N:" + str(agenda_obj.id) + " - Dinheiro"
+                nova_entrada1 = caixa_geral(operacao=1, id_operacao=ultimo_id, valor_operacao=pg_dinheiro, descricao=desc1, total=novo_total1)
+                nova_entrada1.save()
+                novo_total = caixa.total + valor
+                desc = "Agendamento N:" + str(agenda_obj.id) + " - Cartao Credito"
+                nova_entrada = caixa_geral(operacao=1, id_operacao=ultimo_id, valor_operacao=valor, descricao=desc, total=novo_total)
                 nova_entrada.save()
                 msg = "Pagamento do agendamento "+str(agenda_obj.id)+ " concluido com sucesso."
                 return render(request, 'lavajato_home/home.html', {'title':'Home', 'msg':msg})
@@ -552,10 +557,14 @@ def metodo2(request):
                 agenda_obj.save()
                 caixa = caixa_geral.objects.latest('id')
                 ultimo_id = agenda_obj.id
-                novo_total = caixa.total + valor_1
-                desc = "Agendamento N:" + str(agenda_obj.id)
-                nova_entrada = caixa_geral(operacao=1, id_operacao=ultimo_id, valor_operacao=valor_1, descricao=desc, total=novo_total)
+                novo_total_1 = caixa.total + pg_dinheiro
+                desc1 = "Agendamento N:" + str(agenda_obj.id) + " - Dinheiro"
+                desc = "Agendamento N:" + str(agenda_obj.id) + " - Cartao Credito"
+                nova_entrada = caixa_geral(operacao=1, id_operacao=ultimo_id, valor_operacao=pg_dinheiro, descricao=desc1, total=novo_total_1)
                 nova_entrada.save()
+                novo_total = nova_entrada.total + valor_1
+                nova_entrada1 = caixa_geral(operacao=1, id_operacao=ultimo_id, valor_operacao=valor, descricao=desc, total=novo_total)
+                nova_entrada1.save()
                 msg = "Pagamento do agendamento "+str(agenda_obj.id)+ " concluido com sucesso."
                 return render(request, 'lavajato_home/home.html', {'title':'Home', 'msg':msg})
             return render(request, 'lavajato_agenda/agenda_visualiza.html', {'title':'Visualizar Agenda', 'agendas':agendas, 'hoje':hoje})

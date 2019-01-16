@@ -413,7 +413,7 @@ def metodo2(request):
                 novo_pagamento.save()
                 agenda_obj.pag.add(novo_pagamento)
                 agenda_obj.save()
-                nova_parcela = parcela(estado=2, valor=v_parcela, numero_parcela=1, total_parcelas=1, pag="Dinheiro", data=hoje)
+                nova_parcela = parcela(estado=2, valor=pg_dinheiro, numero_parcela=1, total_parcelas=1, pag="Dinheiro", data=hoje)
                 nova_parcela.save()
                 agenda_obj.parcelas.add(nova_parcela)
                 agenda_obj.save()

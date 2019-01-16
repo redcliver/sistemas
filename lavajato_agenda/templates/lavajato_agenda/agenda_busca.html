@@ -8,9 +8,9 @@
     <div class="form-row">
         <div class="form-group col-md-12">
             <select name="agenda_id" class="form-control" required>
-                <option disabled selected > -- Data -- Cliente -- </option>
+                <option disabled selected > -- Cliente -- Data -- </option>
                 {% for agenda in agendas %}
-                    <option value="{{agenda.id}}">{{agenda.data|date:"d/m/Y - H:i"}} -- {{agenda.cli.nome}}</option>
+                    <option value="{{agenda.id}}">{{agenda.cli.nome}} -- {agenda.data|date:"d/m/Y"}} </option>
                 {% endfor %}
             </select>
         </div>

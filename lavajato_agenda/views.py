@@ -254,9 +254,6 @@ def dinheiro(request):
                 recebido = request.POST.get('recebido')
                 hoje = datetime.now().strftime('%Y-%m-%d')
                 agenda_obj = agenda.objects.filter(id=agenda_id).get()
-                desc_total = agenda_obj.subtotal - agenda_obj.desconto
-                agenda_obj.total = desc_total
-                agenda_obj.save()
                 troco = agenda_obj.total - Decimal(recebido)
                 troco= troco * -1
                 agenda_obj.estado = 3
@@ -296,8 +293,6 @@ def debito(request):
                 data_pag = timezone.now() + timezone.timedelta(days=2)
                 agenda_id = request.POST.get('agenda_id')
                 agenda_obj = agenda.objects.filter(id=agenda_id).get()
-                desc_total = agenda_obj.subtotal - agenda_obj.desconto
-                agenda_obj.total = desc_total
                 agenda_obj.estado = 3
                 agenda_obj.pagas_parcelas = 1
                 agenda_obj.save()
@@ -334,8 +329,6 @@ def credito(request):
                 data_pag = timezone.now() + timezone.timedelta(days=30)
                 agenda_id = request.POST.get('agenda_id')
                 agenda_obj = agenda.objects.filter(id=agenda_id).get()
-                desc_total = agenda_obj.subtotal - agenda_obj.desconto
-                agenda_obj.total = desc_total
                 agenda_obj.estado = 3
                 agenda_obj.save()
                 valor = agenda_obj.total
@@ -362,8 +355,6 @@ def credito(request):
                 agenda_id = request.POST.get('agenda_id')
                 n_parcelas = request.POST.get('n_parcelas')
                 agenda_obj = agenda.objects.filter(id=agenda_id).get()
-                desc_total = agenda_obj.subtotal - agenda_obj.desconto
-                agenda_obj.total = desc_total
                 agenda_obj.total_parcelas = int(n_parcelas)
                 agenda_obj.estado = 3
                 agenda_obj.save()
@@ -410,8 +401,6 @@ def metodo2(request):
                 cartao = request.POST.get('cartao')
                 n_parcelas = request.POST.get('n_parcelas')
                 agenda_obj = agenda.objects.filter(id=agenda_id).get()
-                desc_total = agenda_obj.subtotal - agenda_obj.desconto
-                agenda_obj.total = desc_total
                 agenda_obj.save()
                 agenda_obj.estado = 3
                 agenda_obj.pagas_parcelas = 1

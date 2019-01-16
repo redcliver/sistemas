@@ -437,7 +437,7 @@ def metodo2(request):
                 desc = "Agendamento N:" + str(agenda_obj.id)
                 nova_entrada = caixa_geral(operacao=1, id_operacao=ultimo_id, valor_operacao=valor_1, descricao=desc, total=novo_total)
                 nova_entrada.save()
-                msg = "Pagamento do agendamento "+str(agenda_obj.id)+ "concluido com sucesso."
+                msg = "Pagamento do agendamento "+str(agenda_obj.id)+ " concluido com sucesso."
                 return render(request, 'lavajato_home/home.html', {'title':'Home', 'msg':msg})
             return render(request, 'lavajato_agenda/agenda_visualiza.html', {'title':'Visualizar Agenda', 'agendas':agendas, 'hoje':hoje})
         return render(request, 'sistema_login/erro.html', {'title':'Erro'})

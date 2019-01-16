@@ -207,7 +207,7 @@ def desconto(request):
                 agenda_id = request.POST.get('agenda_id')
                 desconto = request.POST.get('desconto')
                 agenda_obj = agenda.objects.filter(id=agenda_id).get()
-                agenda_obj.desconto = agenda_obj.desconto + desconto
+                agenda_obj.desconto = agenda_obj.desconto + Decimal(desconto)
                 desc_total = agenda_obj.total - Decimal(desconto)
                 agenda_obj.total = desc_total
                 agenda_obj.save()

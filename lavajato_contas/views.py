@@ -58,7 +58,9 @@ def edita(request):
             if request.method == 'POST' and request.POST.get('conta_id') != None:
                 conta_id = request.POST.get('conta_id')
                 conta_obj = conta.objects.get(id=conta_id)
-                return render(request, 'lavajato_contas/conta_edita.html', {'title':'Visualizar Conta', 'conta_obj':conta_obj})
+                dec_valor = conta_obj.valor
+                dec_valor = Decimal(dec_valor)
+                return render(request, 'lavajato_contas/conta_edita.html', {'title':'Visualizar Conta', 'conta_obj':conta_obj, 'dec_valor':dec_valor})
             return render(request, 'lavajato_contas/conta_busca_edita.html', {'title':'Editar Conta', 'contas':contas})
         return render(request, 'sistema_login/erro.html', {'title':'Erro'})
     else:

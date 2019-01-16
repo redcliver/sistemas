@@ -21,7 +21,11 @@
                 </div>
                 <div class="form-group col-md-3">
                     <label for="inputTel">Valor</label>
-                    <input type="text" class="form-control" value={{conta_obj.valor}} name="valor">
+                    <input type="text" class="form-control" value="R$ {{conta_obj.valor}}" disabled>
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="inputTel">Novo Valor</label>
+                    <input type="number" step="0.01" class="form-control" value={{conta_obj.valor}} name="valor">
                 </div>
                 <div class="form-group col-md-1">
                 </div>

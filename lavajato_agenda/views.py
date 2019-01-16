@@ -208,8 +208,9 @@ def desconto(request):
                 desconto = request.POST.get('desconto')
                 agenda_obj = agenda.objects.filter(id=agenda_id).get()
                 agenda_obj.desconto = desconto
-                agenda_obj.save()
                 desc_total = agenda_obj.total - Decimal(desconto)
+                agenda_obj.total = desc_total
+                agenda_obj.save()
                 servicos = agenda_obj.item_servico.all()
                 return render(request, 'lavajato_agenda/agenda_confirmacao.html', {'title':'Confirmar Agenda', 'agenda_obj':agenda_obj, 'servicos':servicos, 'desc_total':desc_total})
             return render(request, 'lavajato_agenda/agenda_visualiza.html', {'title':'Visualizar Agenda', 'agendas':agendas, 'hoje':hoje})

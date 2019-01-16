@@ -290,7 +290,7 @@ def debito(request):
                 agenda_obj = agenda.objects.filter(id=agenda_id).get()
                 return render(request, 'lavajato_agenda/agenda_troco.html', {'title':'Troco', 'agenda_obj':agenda_obj})
             if request.method == 'POST' and request.POST.get('agenda_id') != None:
-                taxas = taxa.objects.get(tipo=2)
+                taxas = taxa.objects.get(tipo=3)
                 dia = taxas.dias
                 data_pag = timezone.now() + timezone.timedelta(days=int(dia))
                 agenda_id = request.POST.get('agenda_id')
@@ -407,7 +407,7 @@ def credito(request):
             if request.method == 'POST' and request.POST.get('agenda_id') != None and request.POST.get('n_parcelas') != '1':
                 p = 0
                 c = 1
-                taxas = taxa.objects.get(tipo=1)
+                taxas = taxa.objects.get(tipo=2)
                 dia = taxas.dias
                 data_pag = timezone.now() + timezone.timedelta(days=int(dia))
                 agenda_id = request.POST.get('agenda_id')

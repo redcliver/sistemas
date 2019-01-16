@@ -304,8 +304,8 @@ def debito(request):
                 agenda_obj.pag.add(novo_pagamento)
                 agenda_obj.save()
                 v_juros = valor / 100
-                t_juros = taxas.juros
-                val_parc = v_juros * t_juros
+                t_juros = v_juros * float(taxas.juros)
+                val_parc = float(valor) - float(t_juros)
                 nova_parcela = parcela(estado=1, valor=val_parc, pag ="Cartao Debito", data=data_pag)
                 nova_parcela.save()
                 agenda_obj.parcelas.add(nova_parcela)
@@ -346,9 +346,10 @@ def elo(request):
                 novo_pagamento.save()
                 agenda_obj.pag.add(novo_pagamento)
                 agenda_obj.save()
+                valor = agenda_obj.total
                 v_juros = valor / 100
-                t_juros = taxas.juros
-                val_parc = v_juros * t_juros
+                t_juros = v_juros * float(taxas.juros)
+                val_parc = float(valor) - float(t_juros)
                 nova_parcela = parcela(estado=1, valor=val_parc, pag ="Cartao Debito", data=data_pag)
                 nova_parcela.save()
                 agenda_obj.parcelas.add(nova_parcela)
@@ -386,9 +387,10 @@ def credito(request):
                 novo_pagamento.save()
                 agenda_obj.pag.add(novo_pagamento)
                 agenda_obj.save()
+                valor = agenda_obj.total
                 v_juros = valor / 100
-                t_juros = taxas.juros
-                val_parc = v_juros * t_juros
+                t_juros = v_juros * float(taxas.juros)
+                val_parc = float(valor) - float(t_juros)
                 nova_parcela = parcela(estado=1, valor=val_parc, pag ="Cartao Credito a Vista", data=data_pag)
                 nova_parcela.save()
                 agenda_obj.parcelas.add(nova_parcela)
@@ -415,8 +417,8 @@ def credito(request):
                 agenda_obj.save()
                 valor = agenda_obj.total
                 v_juros = valor / 100
-                t_juros = taxas.juros
-                val_parc = v_juros * t_juros
+                t_juros = v_juros * float(taxas.juros)
+                val_parc = float(valor) - float(t_juros)
                 v_parcela = val_parc / int(n_parcelas)
                 while p < int(n_parcelas):
                     data_parcela = timedelta(days=int(dia)) * c
@@ -479,8 +481,8 @@ def metodo2(request):
                 agenda_obj.save()
                 valor = agenda_obj.total
                 v_juros = valor / 100
-                t_juros = taxas.juros
-                val_parc = v_juros * t_juros
+                t_juros = v_juros * float(taxas.juros)
+                val_parc = float(valor) - float(t_juros)
                 v_parcela = val_parc / int(n_parcelas)
                 while p < int(n_parcelas):
                     data_parcela = timedelta(days=int(dia)) * c

@@ -397,7 +397,7 @@ def metodo2(request):
                 p = 0
                 c = 1
                 agenda_id = request.POST.get('agenda_id')
-                dinheiro = request.POST.get('dinheiro')
+                pg_dinheiro = request.POST.get('dinheiro')
                 cartao = request.POST.get('cartao')
                 n_parcelas = request.POST.get('n_parcelas')
                 agenda_obj = agenda.objects.filter(id=agenda_id).get()
@@ -406,8 +406,9 @@ def metodo2(request):
                 agenda_obj.pagas_parcelas = 1
                 agenda_obj.save()
                 valor_1 = agenda_obj.total
-                valor = agenda_obj.total - Decimal(dinheiro)
-                novo_pagamento = pagamento(tipo=1,valor=Decimal(dinheiro), pag="Dinheiro")
+                pg_dinheiro = Decimal(pg_dinheiro)
+                valor = agenda_obj.total - pg_dinheiro
+                novo_pagamento = pagamento(tipo=1,valor=pg_dinheiro, pag="Dinheiro")
                 novo_pagamento.save()
                 agenda_obj.pag.add(novo_pagamento)
                 agenda_obj.save()

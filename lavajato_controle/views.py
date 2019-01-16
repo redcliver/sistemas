@@ -523,7 +523,7 @@ def teste(request):
                 taxas = taxa.objects.filter(tipo=1).get()
                 dias = taxas.dias
                 juros = taxas.juros
-                total = ((total/100)*juros)
+                total = (Decimal(total)/100)*juros)
                 return render(request, 'lavajato_controle/teste.html', {'title':'Taxa de Elo', 'dias':dias, 'juros':juros, 'total':total})
             return render(request, 'sistema_login/erro.html', {'title':'Erro'})
         return render(request, 'sistema_login/erro.html', {'title':'Erro'})

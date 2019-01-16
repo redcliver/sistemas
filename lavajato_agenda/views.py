@@ -506,7 +506,6 @@ def metodo2(request):
                 nova_entrada.save()
                 msg = "Pagamento do agendamento "+str(agenda_obj.id)+ " concluido com sucesso."
                 return render(request, 'lavajato_home/home.html', {'title':'Home', 'msg':msg})
-            return render(request, 'lavajato_agenda/agenda_visualiza.html', {'title':'Visualizar Agenda', 'agendas':agendas, 'hoje':hoje})
             if request.method == 'POST' and request.POST.get('dinheiro') != None and request.POST.get('agenda_id') != None and request.POST.get('cartao') != None and request.POST.get('n_parcelas') != '1':
                 p = 0
                 c = 1

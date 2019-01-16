@@ -519,12 +519,12 @@ def teste(request):
         cargo = request.user.last_name
         if empresa == 'dayson':
             if cargo == 'boss':
-                total=100
+                total1=100
                 taxas = taxa.objects.filter(tipo=1).get()
                 dias = taxas.dias
                 juros = taxas.juros
-                total = (total/100)*float(juros)
-                return render(request, 'lavajato_controle/teste.html', {'title':'Taxa de Elo', 'dias':dias, 'juros':juros, 'total':total})
+                total = (total1/100)*float(juros)
+                return render(request, 'lavajato_controle/teste.html', {'title':'Taxa de Elo', 'dias':dias, 'juros':juros, 'total':total, 'total1':total1})
             return render(request, 'sistema_login/erro.html', {'title':'Erro'})
         return render(request, 'sistema_login/erro.html', {'title':'Erro'})
     else:

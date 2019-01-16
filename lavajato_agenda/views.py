@@ -304,7 +304,49 @@ def debito(request):
                 agenda_obj.pag.add(novo_pagamento)
                 agenda_obj.save()
                 juros = taxas.juros 
-                val_parc = (agenda_obj.total / 100) * int(juros)
+                val_parc = (agenda_obj.total / 100) * juros
+                nova_parcela = parcela(estado=1, valor=val_parc, pag ="Cartao Debito", data=data_pag)
+                nova_parcela.save()
+                agenda_obj.parcelas.add(nova_parcela)
+                agenda_obj.save()
+                caixa = caixa_geral.objects.latest('id')
+                novo_total = caixa.total + agenda_obj.total
+                valor = agenda_obj.total
+                desc = "Agendamento N:" + str(agenda_obj.id)
+                nova_entrada = caixa_geral(operacao=1, id_operacao=agenda_obj.id, valor_operacao=valor, descricao=desc, total=novo_total)
+                nova_entrada.save()
+                msg = "Pagamento do agendamento "+str(agenda_obj.id)+ " concluido com sucesso."
+                total_msg = "Total: R$"+ str(valor)
+                return render(request, 'lavajato_home/home.html', {'title':'Home', 'msg':msg, 'total_msg':total_msg})
+            return render(request, 'lavajato_agenda/agenda_visualiza.html', {'title':'Visualizar Agenda', 'agendas':agendas, 'hoje':hoje})
+        return render(request, 'sistema_login/erro.html', {'title':'Erro'})
+    else:
+        return render(request, 'sistema_login/erro.html', {'title':'Erro'})
+
+def elo(request):
+    if request.user.is_authenticated():
+        empresa = request.user.get_short_name()
+        if empresa == 'dayson':
+            if request.method == 'GET' and request.GET.get('agenda_id') != None:
+                agenda_id = request.GET.get('agenda_id')
+                agenda_obj = agenda.objects.filter(id=agenda_id).get()
+                return render(request, 'lavajato_agenda/agenda_troco.html', {'title':'Troco', 'agenda_obj':agenda_obj})
+            if request.method == 'POST' and request.POST.get('agenda_id') != None:
+                taxas = taxa.objects.filter(tipo=4).get()
+                dia = taxas.dias
+                data_pag = timezone.now() + timezone.timedelta(days=int(dia))
+                agenda_id = request.POST.get('agenda_id')
+                agenda_obj = agenda.objects.filter(id=agenda_id).get()
+                agenda_obj.estado = 3
+                agenda_obj.pagas_parcelas = 1
+                agenda_obj.save()
+                valor = agenda_obj.total
+                novo_pagamento = pagamento(tipo=2,valor=valor)
+                novo_pagamento.save()
+                agenda_obj.pag.add(novo_pagamento)
+                agenda_obj.save()
+                juros = taxas.juros 
+                val_parc = (agenda_obj.total / 100) * juros
                 nova_parcela = parcela(estado=1, valor=val_parc, pag ="Cartao Debito", data=data_pag)
                 nova_parcela.save()
                 agenda_obj.parcelas.add(nova_parcela)
@@ -343,7 +385,7 @@ def credito(request):
                 agenda_obj.pag.add(novo_pagamento)
                 agenda_obj.save()
                 juros = taxas.juros 
-                val_parc = (agenda_obj.total / 100) * int(juros)
+                val_parc = (agenda_obj.total / 100) * juros
                 nova_parcela = parcela(estado=1, valor=val_parc, pag ="Cartao Credito a Vista", data=data_pag)
                 nova_parcela.save()
                 agenda_obj.parcelas.add(nova_parcela)
@@ -370,10 +412,10 @@ def credito(request):
                 agenda_obj.save()
                 valor = agenda_obj.total
                 juros = taxas.juros 
-                val_parc = (agenda_obj.total / 100) * int(juros)
+                val_parc = (valor / 100) * juros
                 v_parcela = val_parc / int(n_parcelas)
                 while p < int(n_parcelas):
-                    data_parcela = timedelta(days=30) * c
+                    data_parcela = timedelta(days=int(dia)) * c
                     data_pag = datetime.now() + data_parcela
                     nova_parcela = parcela(estado=1, valor=v_parcela, numero_parcela=c, total_parcelas=int(n_parcelas), pag ="Cartao Credito a Prazo", data=data_pag)
                     nova_parcela.save()

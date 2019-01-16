@@ -54,7 +54,7 @@
                 {% for agenda in agendas %}
                     {% if agenda.estado == '1' %}
                         <tr>
-                            <td>{{agenda.id}}</td>
+                            <td><button type="submit" style="background-color:transparent; " name="agenda_id" value="{{agenda.id}}" formaction="/lavajato_agenda/ver">{{agenda.id}}</button></button></td>
                             <td>{{agenda.data|date:"d/m/Y"}}</td>
                             <td>{{agenda.cli.nome}}</td>
                             <td>{{agenda.car.modelo}}</td>
@@ -65,7 +65,7 @@
                     {% endif %}
                     {% if agenda.estado == '2' %}
                         <tr>
-                            <td>{{agenda.id}}</td>
+                            <td><button type="submit" style="background-color:transparent; " name="agenda_id" value="{{agenda.id}}" formaction="/lavajato_agenda/ver">{{agenda.id}}</button></button></td>
                             <td>{{agenda.data|date:"d/m/Y"}}</td>
                             <td>{{agenda.cli.nome}}</td>
                             <td>{{agenda.car.modelo}}</td>
@@ -76,7 +76,7 @@
                     {% endif %}
                     {% if agenda.estado == '3' %}
                         <tr>
-                            <td>{{agenda.id}}</td>
+                            <td><button type="submit" style="background-color:transparent; " name="agenda_id" value="{{agenda.id}}" formaction="/lavajato_agenda/ver">{{agenda.id}}</button></button></td>
                             <td>{{agenda.data|date:"d/m/Y"}}</td>
                             <td>{{agenda.cli.nome}}</td>
                             <td>{{agenda.car.modelo}}</td>

@@ -73,12 +73,11 @@ def salva(request):
                 conta_obj = conta.objects.get(id=conta_id)
                 nome = request.POST.get('nome')
                 valor = request.POST.get('valor')
-                valor = Decimal(valor)
                 data_venc = request.POST.get('data_venc')
                 estado = request.POST.get('estado')
                 fixa = request.POST.get('fixa')
                 conta_obj.nome = nome
-                conta_obj.valor = valor
+                conta_obj.valor = Decimal(valor)
                 conta_obj.data_venc = data_venc
                 conta_obj.estado = estado
                 conta_obj.fixa = fixa

@@ -396,6 +396,7 @@ def metodo2(request):
             if request.method == 'POST' and request.POST.get('dinheiro') != None and request.POST.get('agenda_id') != None and request.POST.get('cartao') != None:
                 p = 0
                 c = 1
+                hoje = datetime.now().strftime('%Y-%m-%d')
                 agenda_id = request.POST.get('agenda_id')
                 pg_dinheiro = request.POST.get('dinheiro')
                 cartao = request.POST.get('cartao')
@@ -408,9 +409,13 @@ def metodo2(request):
                 valor_1 = agenda_obj.total
                 pg_dinheiro = Decimal(pg_dinheiro)
                 valor = agenda_obj.total - pg_dinheiro
-                novo_pagamento = pagamento(tipo=1,valor=pg_dinheiro, pag="Dinheiro")
+                novo_pagamento = pagamento(tipo=1,valor=pg_dinheiro)
                 novo_pagamento.save()
                 agenda_obj.pag.add(novo_pagamento)
+                agenda_obj.save()
+                nova_parcela = parcela(estado=2, valor=v_parcela, numero_parcela=1, total_parcelas=1, pag="Dinheiro", data=hoje)
+                nova_parcela.save()
+                agenda_obj.parcelas.add(nova_parcela)
                 agenda_obj.save()
                 v_parcela = valor / int(n_parcelas)
                 while p < int(n_parcelas):

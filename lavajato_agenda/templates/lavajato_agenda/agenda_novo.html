@@ -5,7 +5,7 @@
 {% if msg %}
     <h1 style="text-align:center;">{{msg}}</h1><hr />
 {%endif%}
-<h1>Novo Agendamento</h1><hr />
+<h1>Novo Ordem</h1><hr />
     <form method="POST">
     {%csrf_token%}
     {% if cliente_obj == None %}

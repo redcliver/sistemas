@@ -14,11 +14,19 @@
                 <label for="inputName">Cliente<strong>*</strong></label>
                 <input type="text" class="form-control" value="{{agenda_obj.cli.nome}}" disabled>
             </div>
+            <div class="form-group col-md-4">
+              <label for="inputName">Carro<strong>*</strong></label>
+              <input type="text" class="form-control" value="{{agenda_obj.car.modelo}}" disabled>
+            </div>
+            <div class="form-group col-md-4">
+              <label for="inputName">Placa<strong>*</strong></label>
+              <input type="text" class="form-control" value="{{agenda_obj.car.placa}}" disabled>
+            </div>
           <table class="table table-sm">
             <thead>
                 <tr>
                     <th scope="col">#</th>
-                    <th scope="col">Hora</th>
+                    <th scope="col">Data</th>
                     <th scope="col">Servico</th>
                     <th scope="col">Valor</th>
                     <th scope="col">Funcionario</th>
@@ -29,18 +37,18 @@
                   {% if item_servico.cancelado == '1' %}
                       <tr>
                           <td>{{item_servico.id}}</td>
-                          <td>{{item_servico.data_cadastro|date:"H:i"}}</td>
+                          <td>{{item_servico.data_cadastro|date:"d/m/Y"}}</td>
                           <td>{{item_servico.serv.nome}}</td>
-                          <td>{{item_servico.serv.valor}}</td>
+                          <td>R$ {{item_servico.serv.valor}}</td>
                           <td>{{item_servico.func.nome}}</td>
                       </tr>
                   {% endif %}
                   {% if item_servico.cancelado == '2' %}
                       <tr>
                           <td>{{item_servico.id}}</td>
-                          <td style="color:#ff3939;">{{item_servico.data_cadastro|date:"H:i"}}</td>
+                          <td style="color:#ff3939;">{{item_servico.data_cadastro|date:"d/m/Y"}}</td>
                           <td style="color:#ff3939;">{{item_servico.serv.nome}}</td>
-                          <td style="color:#ff3939;">{{item_servico.serv.valor}}</td>
+                          <td style="color:#ff3939;">R$ {{item_servico.serv.valor}}</td>
                           <td style="color:#ff3939;">{{item_servico.func.nome}}</td>
                       </tr>
                   {% endif %}

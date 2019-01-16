@@ -6,7 +6,7 @@
     <h1 style="text-align:center;">{{msg}}</h1><hr />
 {%endif%}
 <h1>Receber OS selecionada(s)</h1><hr />
-    <form method="GET">
+    <form method="POST">
         {% csrf_token %}
         <div class="form-row">
             <div class="form-group col-md-10">
@@ -19,6 +19,7 @@
                     <th scope="col">#</th>
                     <th scope="col">Data</th>
                     <th scope="col">Carro</th>
+                    <th scope="col">Placa</th>
                     <th scope="col">Valor</th>
                     <th scope="col">Estado</th>
                 </tr>
@@ -29,6 +30,7 @@
                         <td>{{agenda.id}}</td>
                         <td>{{agenda.data_cadastro|date:"d/m/Y"}}</td>
                         <td>{{agenda.car.modelo}}</td>
+                        <td>{{agenda.car.placa}}</td>
                         <td>{{agenda.total}}</td>
                         <td>{{agenda.get_estado_display}}</td>
                     </tr>
@@ -43,7 +45,7 @@
         <br />
         <input type="hidden" name="cliente_id" value="{{cliente_obj.id}}">
         <input type="hidden" name="mes_cli" value="{{mes_cli}}">
-        <label for="inputName">Pagamento<strong>*</strong></label><hr />
-        <button type="submit" class="btn btn-secondary" formaction="/lavajato_cliente/pagamento_geral" formmethod="POST">Receber</button>&nbsp;
+        <label for="inputName">Receber<strong>*</strong></label><hr />
+        <button type="submit" class="btn btn-secondary" formaction="/lavajato_cliente/receber_mensal" formmethod="POST">Receber</button>&nbsp;
     </form>
 {% endblock %}

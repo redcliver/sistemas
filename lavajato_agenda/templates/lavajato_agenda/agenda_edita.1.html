@@ -5,7 +5,7 @@
 {% if msg %}
     <h1 style="text-align:center;">{{msg}}</h1><hr />
 {%endif%}
-<h1>Editar Agendamento</h1><hr />
+<h1>Editar Ordem</h1><hr />
     <form method="POST">
     {%csrf_token%}
         <input type="hidden" name="agenda_id" value="{{agenda_obj.id}}"/>

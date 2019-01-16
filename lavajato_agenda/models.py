@@ -42,6 +42,7 @@ class parcela(models.Model):
     numero_parcela = models.IntegerField(default=1)
     total_parcelas = models.IntegerField(default=1)
     estado = models.CharField(max_length=1, choices=ESTADO)
+    pag = models.CharField(max_length=200, null=True, blank=True)
     valor = models.DecimalField(max_digits=10, decimal_places=2)
     data = models.DateTimeField(default=timezone.now)
     data_pagamento = models.DateTimeField(default=timezone.now)

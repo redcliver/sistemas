@@ -162,6 +162,24 @@ def visualiza(request):
     else:
         return render(request, 'sistema_login/erro.html', {'title':'Erro'})
 
+def ver(request):
+    if request.user.is_authenticated():
+        empresa = request.user.get_short_name()
+        if empresa == 'dayson':
+            agendas = agenda.objects.filter(estado=1).order_by('data')
+            servicos = servico.objects.all().order_by('nome')
+            funcionarios = funcionario.objects.all().order_by('nome')
+            if request.method == 'POST' and request.POST.get('agenda_id') != None:
+                agenda_id = request.POST.get('agenda_id')
+                agenda_obj = agenda.objects.filter(id=agenda_id).get()
+                it_servicos = agenda_obj.item_servico.all()
+                hoje = datetime.now().strftime('%d/%m/%Y')
+                return render(request, 'lavajato_agenda/agenda_ver.html', {'title':'Orcamento', 'agenda_obj':agenda_obj, 'it_servicos':it_servicos, 'hoje':hoje})
+            return render(request, 'lavajato_agenda/agenda_ver.html', {'title':'Visualizar Ordem', 'agendas':agendas, 'servicos':servicos, 'funcionarios':funcionarios})
+        return render(request, 'sistema_login/erro.html', {'title':'Erro'})
+    else:
+        return render(request, 'sistema_login/erro.html', {'title':'Erro'})
+
 def confirmacao(request):
     if request.user.is_authenticated():
         empresa = request.user.get_short_name()
@@ -233,6 +251,7 @@ def dinheiro(request):
             if request.method == 'POST' and request.POST.get('recebido') != None and request.POST.get('agenda_id') != None:
                 agenda_id = request.POST.get('agenda_id')
                 recebido = request.POST.get('recebido')
+                hoje = datetime.now().strftime('%Y-%m-%d')
                 agenda_obj = agenda.objects.filter(id=agenda_id).get()
                 desc_total = agenda_obj.subtotal - agenda_obj.desconto
                 agenda_obj.total = desc_total
@@ -246,6 +265,10 @@ def dinheiro(request):
                 novo_pagamento = pagamento(tipo=1,valor=valor)
                 novo_pagamento.save()
                 agenda_obj.pag.add(novo_pagamento)
+                agenda_obj.save()
+                nova_parcela = parcela(estado=2, valor=agenda_obj.total, pag ="Dinheiro", data_pagamento=hoje)
+                nova_parcela.save()
+                agenda_obj.parcelas.add(nova_parcela)
                 agenda_obj.save()
                 caixa = caixa_geral.objects.latest('id')
                 ultimo_id = agenda_obj.id
@@ -282,7 +305,7 @@ def debito(request):
                 novo_pagamento.save()
                 agenda_obj.pag.add(novo_pagamento)
                 agenda_obj.save()
-                nova_parcela = parcela(estado=1, valor=agenda_obj.total, data=data_pag)
+                nova_parcela = parcela(estado=1, valor=agenda_obj.total, pag ="Cartao Debito", data=data_pag)
                 nova_parcela.save()
                 agenda_obj.parcelas.add(nova_parcela)
                 agenda_obj.save()
@@ -319,7 +342,7 @@ def credito(request):
                 novo_pagamento.save()
                 agenda_obj.pag.add(novo_pagamento)
                 agenda_obj.save()
-                nova_parcela = parcela(estado=1, valor=agenda_obj.total, data=data_pag)
+                nova_parcela = parcela(estado=1, valor=agenda_obj.total, pag ="Cartao Credito", data=data_pag)
                 nova_parcela.save()
                 agenda_obj.parcelas.add(nova_parcela)
                 agenda_obj.save()
@@ -348,7 +371,7 @@ def credito(request):
                 while p < int(n_parcelas):
                     data_parcela = timedelta(days=30) * c
                     data_pag = datetime.now() + data_parcela
-                    nova_parcela = parcela(estado=1, valor=v_parcela, numero_parcela=c,total_parcelas=int(n_parcelas), data=data_pag)
+                    nova_parcela = parcela(estado=1, valor=v_parcela, numero_parcela=c, total_parcelas=int(n_parcelas), pag ="Cartao Credito", data=data_pag)
                     nova_parcela.save()
                     agenda_obj.parcelas.add(nova_parcela)
                     agenda_obj.save()
@@ -394,7 +417,7 @@ def metodo2(request):
                 agenda_obj.save()
                 valor_1 = agenda_obj.total
                 valor = agenda_obj.total - Decimal(dinheiro)
-                novo_pagamento = pagamento(tipo=1,valor=Decimal(dinheiro))
+                novo_pagamento = pagamento(tipo=1,valor=Decimal(dinheiro), pag="Dinheiro")
                 novo_pagamento.save()
                 agenda_obj.pag.add(novo_pagamento)
                 agenda_obj.save()
@@ -402,7 +425,7 @@ def metodo2(request):
                 while p < int(n_parcelas):
                     data_parcela = timedelta(days=30) * c
                     data_pag = datetime.now() + data_parcela
-                    nova_parcela = parcela(estado=1, valor=v_parcela, numero_parcela=c,total_parcelas=int(n_parcelas), data=data_pag)
+                    nova_parcela = parcela(estado=1, valor=v_parcela, numero_parcela=c, total_parcelas=int(n_parcelas), pag="Cartao Credito", data=data_pag)
                     nova_parcela.save()
                     agenda_obj.parcelas.add(nova_parcela)
                     agenda_obj.save()

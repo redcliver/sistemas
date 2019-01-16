@@ -1,7 +1,12 @@
 from django.shortcuts import render
+from django.utils import timezone
 import datetime
+from datetime import datetime
+from datetime import timedelta, date
+from decimal import Decimal
 from .models import cliente, carro
-from lavajato_agenda.models import agenda
+from lavajato_controle.models import conta_empresa
+from lavajato_agenda.models import agenda, pagamento, parcela
 # Create your views here.
 def lavajato_cliente(request):
     if request.user.is_authenticated():
@@ -237,6 +242,49 @@ def pagamento_geral(request):
                     pago = pago + c.total
                 return render(request, 'lavajato_cliente/cliente_confirma_fechamento.html', {'title':'Fechamento Cliente', 'cliente_obj':cliente_obj, 'agendas':agendas, 'aberto':aberto, 'pago':pago, 'desmarcado':desmarcado})
             return render(request, 'lavajato_cliente/cliente_fechamento.html', {'title':'Fechamento Cliente', 'clientes':clientes})
+        return render(request, 'sistema_login/erro.html', {'title':'Erro'})
+    else:
+        return render(request, 'sistema_login/erro.html', {'title':'Erro'})
+
+def receber_mensal(request):
+    if request.user.is_authenticated():
+        empresa = request.user.get_short_name()
+        if empresa == 'dayson':
+            if request.method == 'POST' and request.POST.get('cliente_id') != None and request.POST.get('mes_cli') != None:
+                aberto = 0 
+                pago = 0
+                desmarcado = 0
+                hoje = datetime.now().strftime('%Y-%m-%d')
+                ano = datetime.now().strftime('%Y')
+                cliente_id = request.POST.get('cliente_id')
+                mes_cli = request.POST.get('mes_cli')
+                cliente_obj = cliente.objects.get(id=cliente_id)
+                for a in agenda.objects.filter(cli=cliente_obj, data__month=mes_cli, estado=1).all():
+                    pago = pago + a.total
+                    desc_total = a.subtotal - a.desconto
+                    a.total = desc_total
+                    a.save()
+                    a.estado = 3
+                    a.pagas_parcelas = 1
+                    a.save()
+                    valor = a.total
+                    novo_pagamento = pagamento(tipo=1,valor=valor)
+                    novo_pagamento.save()
+                    a.pag.add(novo_pagamento)
+                    a.save()
+                    nova_parcela = parcela(estado=2, valor=a.total, pag ="Boleto Bancario", data_pagamento=hoje)
+                    nova_parcela.save()
+                    a.parcelas.add(nova_parcela)
+                    a.save()
+                conta_empresa_obj = conta_empresa.objects.latest('id')
+                ultimo_id = conta_empresa_obj.id + 1
+                novo_total = conta_empresa_obj.total + Decimal(pago)
+                desc = "Pagamento do mes "+ str(mes_cli) +"/"+ str(ano) +" - " + str(cliente_obj.nome)
+                nova_saida = conta_empresa(operacao=1, id_operacao=ultimo_id, valor_operacao=pago, descricao=desc, total=novo_total)
+                nova_saida.save()
+                agendas = agenda.objects.filter(cli=cliente_obj, data__month=mes_cli).all()
+                return render(request, 'lavajato_cliente/cliente_confirma_fechamento.html', {'title':'Fechamento Cliente', 'cliente_obj':cliente_obj, 'agendas':agendas, 'aberto':aberto, 'pago':pago, 'desmarcado':desmarcado})
+            return render(request, 'lavajato_cliente/cliente_fechar_os.html', {'title':'Fechamento Cliente', 'clientes':clientes})
         return render(request, 'sistema_login/erro.html', {'title':'Erro'})
     else:
         return render(request, 'sistema_login/erro.html', {'title':'Erro'})

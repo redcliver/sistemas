@@ -12,4 +12,5 @@ urlpatterns = [
     url(r'^carro_salva_edita', views.carro_salva_edita),
     url(r'^fechamento_mensal', views.fechamento_mensal),
     url(r'^pagamento_geral', views.pagamento_geral),
+    url(r'^receber_mensal', views.receber_mensal),
     ]

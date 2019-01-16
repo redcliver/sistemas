@@ -362,9 +362,9 @@ def extrato(request):
         if empresa == 'dayson':
             if cargo == 'boss':
                 hoje = datetime.now()
-                data_inicio = datetime.now().strftime('%Y-%m-%d')
-                data_fim = datetime.now() + timedelta(days=-30)
-                data_fim = data_fim.strftime('%Y-%m-%d')
+                data_fim = datetime.now().strftime('%Y-%m-%d')
+                data_inicio = datetime.now() + timedelta(days=-30)
+                data_inicio = data_inicio.strftime('%Y-%m-%d')
                 mes = hoje.month
                 n_entradas = 0
                 n_saidas = 0
@@ -378,7 +378,6 @@ def extrato(request):
                     t_saidas = t_saidas + b.valor_operacao
                     n_saidas = n_saidas + 1
                 total_geral = t_entradas - t_saidas
-                return render(request, 'lavajato_controle/controle_conta_empresa.html', {'title':'Extrato da Conta Empresa', 'data_inicio':data_inicio, 'data_fim':data_fim, 't_saidas':t_saidas, 't_entradas':t_entradas, 'total_geral':total_geral, 'conta_all':conta_all})
                 if request.method == 'POST' and request.POST.get('data_inicio') != None and request.POST.get('data_fim') != None:
                     data_inicio = request.POST.get('data_inicio')
                     data_fim = request.POST.get('data_fim')
@@ -395,6 +394,8 @@ def extrato(request):
                         n_saidas = n_saidas + 1
                     total_geral = t_entradas - t_saidas
                     return render(request, 'lavajato_controle/controle_conta_empresa.html', {'title':'Extrato da Conta Empresa', 'data_inicio':data_inicio, 'data_fim':data_fim, 't_saidas':t_saidas, 't_entradas':t_entradas, 'total_geral':total_geral, 'conta_all':conta_all})
+                return render(request, 'lavajato_controle/controle_conta_empresa.html', {'title':'Extrato da Conta Empresa', 'data_inicio':data_inicio, 'data_fim':data_fim, 't_saidas':t_saidas, 't_entradas':t_entradas, 'total_geral':total_geral, 'conta_all':conta_all})
+                
             return render(request, 'lavajato_home/home.html', {'title':'Home'})
         return render(request, 'sistema_login/erro.html', {'title':'Erro'})
     else:

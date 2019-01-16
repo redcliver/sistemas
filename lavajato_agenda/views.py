@@ -290,7 +290,7 @@ def debito(request):
                 agenda_obj = agenda.objects.filter(id=agenda_id).get()
                 return render(request, 'lavajato_agenda/agenda_troco.html', {'title':'Troco', 'agenda_obj':agenda_obj})
             if request.method == 'POST' and request.POST.get('agenda_id') != None:
-                taxas = taxa.objects.filter(tipo=2).get()
+                taxas = taxa.objects.get(tipo=2)
                 dia = taxas.dias
                 data_pag = timezone.now() + timezone.timedelta(days=int(dia))
                 agenda_id = request.POST.get('agenda_id')
@@ -333,7 +333,7 @@ def elo(request):
                 agenda_obj = agenda.objects.filter(id=agenda_id).get()
                 return render(request, 'lavajato_agenda/agenda_troco.html', {'title':'Troco', 'agenda_obj':agenda_obj})
             if request.method == 'POST' and request.POST.get('agenda_id') != None:
-                taxas = taxa.objects.filter(tipo=4).get()
+                taxas = taxa.objects.get(tipo=4)
                 dia = taxas.dias
                 data_pag = timezone.now() + timezone.timedelta(days=int(dia))
                 agenda_id = request.POST.get('agenda_id')
@@ -374,7 +374,7 @@ def credito(request):
             hoje = datetime.now().strftime('%Y-%m-%d')
             agendas = agenda.objects.filter(data__icontains=hoje)
             if request.method == 'POST' and request.POST.get('agenda_id') != None and request.POST.get('n_parcelas') == '1':
-                taxas = taxa.objects.filter(tipo=1).get()
+                taxas = taxa.objects.get(tipo=1)
                 dia = taxas.dias
                 data_pag = timezone.now() + timezone.timedelta(days=int(dia))
                 agenda_id = request.POST.get('agenda_id')
@@ -404,7 +404,7 @@ def credito(request):
             if request.method == 'POST' and request.POST.get('agenda_id') != None and request.POST.get('n_parcelas') != '1':
                 p = 0
                 c = 1
-                taxas = taxa.objects.filter(tipo=1).get()
+                taxas = taxa.objects.get(tipo=1)
                 dia = taxas.dias
                 data_pag = timezone.now() + timezone.timedelta(days=int(dia))
                 agenda_id = request.POST.get('agenda_id')
@@ -454,7 +454,7 @@ def metodo2(request):
             if request.method == 'POST' and request.POST.get('dinheiro') != None and request.POST.get('agenda_id') != None and request.POST.get('cartao') != None and request.POST.get('n_parcelas') == '1':
                 p = 0
                 c = 1
-                taxas = taxa.objects.filter(tipo=1).get()
+                taxas = taxa.objects.get(tipo=1)
                 dia = taxas.dias
                 hoje = datetime.now().strftime('%Y-%m-%d')
                 agenda_id = request.POST.get('agenda_id')
@@ -507,7 +507,7 @@ def metodo2(request):
             if request.method == 'POST' and request.POST.get('dinheiro') != None and request.POST.get('agenda_id') != None and request.POST.get('cartao') != None and request.POST.get('n_parcelas') != '1':
                 p = 0
                 c = 1
-                taxas = taxa.objects.filter(tipo=2).get()
+                taxas = taxa.objects.get(tipo=2)
                 dia = taxas.dias
                 hoje = datetime.now().strftime('%Y-%m-%d')
                 agenda_id = request.POST.get('agenda_id')

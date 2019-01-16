@@ -1,0 +1,11 @@
+{% extends 'lavajato_base.html' %}
+
+{% block body %}
+{% load static %}
+    {% if msg %}
+    <h1 style="text-align:center;">{{msg}}</h1><hr />
+    {%endif%}
+    <h1>TESTE</h1>
+    <hr />
+        <h3>dia {{dias}} <br /> juros {{juros}} <br /> TOTAL {{total}}</h3>
+{% endblock %}

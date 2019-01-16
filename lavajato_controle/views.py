@@ -513,3 +513,20 @@ def taxa_elo(request):
     else:
         return render(request, 'sistema_login/erro.html', {'title':'Erro'})
 
+def teste(request):
+    if request.user.is_authenticated():
+        empresa = request.user.get_short_name()
+        cargo = request.user.last_name
+        if empresa == 'dayson':
+            if cargo == 'boss':
+                total=100
+                taxas = taxa.objects.filter(tipo=1).get()
+                dias = taxas.dias
+                juros = taxas.juros
+                total = ((total/100)*juros)
+                return render(request, 'lavajato_controle/teste.html', {'title':'Taxa de Elo', 'dias':dias, 'juros':juros, 'total':total})
+            return render(request, 'sistema_login/erro.html', {'title':'Erro'})
+        return render(request, 'sistema_login/erro.html', {'title':'Erro'})
+    else:
+        return render(request, 'sistema_login/erro.html', {'title':'Erro'})
+

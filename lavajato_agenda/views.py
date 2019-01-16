@@ -534,8 +534,8 @@ def metodo2(request):
                 agenda_obj.save()
                 valor = agenda_obj.total
                 v_juros = valor / 100
-                t_juros = taxas.juros
-                val_parc = v_juros * t_juros
+                t_juros = v_juros * float(taxas.juros)
+                val_parc = float(valor) - float(t_juros)
                 v_parcela = val_parc / int(n_parcelas)
                 while p < int(n_parcelas):
                     data_parcela = timedelta(days=int(dia)) * c

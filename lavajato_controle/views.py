@@ -519,7 +519,7 @@ def teste(request):
         cargo = request.user.last_name
         if empresa == 'dayson':
             if cargo == 'boss':
-                total1=100
+                total1=750
                 taxas = taxa.objects.filter(tipo=1).get()
                 dias = taxas.dias
                 juros = taxas.juros

@@ -10,7 +10,7 @@
             <select name="agenda_id" class="form-control" required>
                 <option disabled selected > -- Cliente -- Data -- </option>
                 {% for agenda in agendas %}
-                    <option value="{{agenda.id}}">{{agenda.cli.nome}} -- {agenda.data|date:"d/m/Y"}} </option>
+                    <option value="{{agenda.id}}">{{agenda.cli.nome}} -- {{agenda.data|date:"d/m/Y"}} </option>
                 {% endfor %}
             </select>
         </div>

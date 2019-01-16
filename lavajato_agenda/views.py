@@ -152,10 +152,10 @@ def visualiza(request):
         empresa = request.user.get_short_name()
         if empresa == 'dayson':
             hoje = datetime.now().strftime('%Y-%m-%d')
-            agendas = agenda.objects.filter(data__date=hoje).all()
+            agendas = agenda.objects.filter(data__date=hoje).all().order_by('estado')
             if request.method == 'POST' and request.POST.get('data') != None:
                 hoje = request.POST.get('data')
-                agendas = agenda.objects.filter(data__date=hoje).all()
+                agendas = agenda.objects.filter(data__date=hoje).all().order_by('estado')
                 return render(request, 'lavajato_agenda/agenda_visualiza.html', {'title':'Visualizar Agenda', 'agendas':agendas, 'hoje':hoje})
             return render(request, 'lavajato_agenda/agenda_visualiza.html', {'title':'Visualizar Agenda', 'agendas':agendas, 'hoje':hoje})
         return render(request, 'sistema_login/erro.html', {'title':'Erro'})

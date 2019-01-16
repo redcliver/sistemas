@@ -20,4 +20,8 @@ urlpatterns = [
     url(r'^extrato', views.extrato),
     url(r'^conta_entrada', views.conta_entrada),
     url(r'^conta_retirada', views.conta_retirada),
+    url(r'^taxa_debito', views.taxa_debito),
+    url(r'^taxa_credito_vista', views.taxa_credito_vista),
+    url(r'^taxa_credito_prazo', views.taxa_credito_prazo),
+    url(r'^taxa_elo', views.taxa_elo),
     ]

@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .models import funcionario, servico, reg_ponto, conta_empresa
+from .models import funcionario, servico, reg_ponto, conta_empresa, taxa
 from django.utils import timezone
 from decimal import *
 from datetime import datetime
@@ -397,6 +397,118 @@ def extrato(request):
                 return render(request, 'lavajato_controle/controle_conta_empresa.html', {'title':'Extrato da Conta Empresa', 'data_inicio':data_inicio, 'data_fim':data_fim, 't_saidas':t_saidas, 't_entradas':t_entradas, 'total_geral':total_geral, 'conta_all':conta_all})
                 
             return render(request, 'lavajato_home/home.html', {'title':'Home'})
+        return render(request, 'sistema_login/erro.html', {'title':'Erro'})
+    else:
+        return render(request, 'sistema_login/erro.html', {'title':'Erro'})
+
+def taxa_debito(request):
+    if request.user.is_authenticated():
+        empresa = request.user.get_short_name()
+        cargo = request.user.last_name
+        if empresa == 'dayson':
+            if cargo == 'boss':
+                try:
+                    taxas = taxa.objects.filter(tipo=3).get()
+                except:
+                    taxas = taxa(tipo=3)
+                    taxas.save()
+                if request.method == 'POST' and request.POST.get('dias') != None and request.POST.get('juros') != None:
+                    dias = request.POST.get('dias')
+                    juros = request.POST.get('juros')
+                    taxa_id = request.POST.get('taxa_id')
+                    taxa_obj = taxa.objects.filter(id=taxa_id).get()
+                    taxa_obj.dias = dias
+                    taxa_obj.juros = juros
+                    taxa_obj.save()
+                    taxas = taxa.objects.filter(tipo=3).get()
+                    msg = "Taxas alteradas com sucesso"
+                    return render(request, 'lavajato_controle/taxa_debito.html', {'title':'Taxa de Debito', 'taxas':taxas, 'msg':msg})
+                return render(request, 'lavajato_controle/taxa_debito.html', {'title':'Taxa de Debito', 'taxas':taxas})
+            return render(request, 'sistema_login/erro.html', {'title':'Erro'})
+        return render(request, 'sistema_login/erro.html', {'title':'Erro'})
+    else:
+        return render(request, 'sistema_login/erro.html', {'title':'Erro'})
+
+def taxa_credito_vista(request):
+    if request.user.is_authenticated():
+        empresa = request.user.get_short_name()
+        cargo = request.user.last_name
+        if empresa == 'dayson':
+            if cargo == 'boss':
+                try:
+                    taxas = taxa.objects.filter(tipo=1).get()
+                except:
+                    taxas = taxa(tipo=1)
+                    taxas.save()
+                if request.method == 'POST' and request.POST.get('dias') != None and request.POST.get('juros') != None:
+                    dias = request.POST.get('dias')
+                    juros = request.POST.get('juros')
+                    taxa_id = request.POST.get('taxa_id')
+                    taxa_obj = taxa.objects.filter(id=taxa_id).get()
+                    taxa_obj.dias = dias
+                    taxa_obj.juros = juros
+                    taxa_obj.save()
+                    taxas = taxa.objects.filter(tipo=1).get()
+                    msg = "Taxas alteradas com sucesso"
+                    return render(request, 'lavajato_controle/taxa_credito.html', {'title':'Taxa de Credito', 'taxas':taxas, 'msg':msg})
+                return render(request, 'lavajato_controle/taxa_credito.html', {'title':'Taxa de Credito', 'taxas':taxas})
+            return render(request, 'sistema_login/erro.html', {'title':'Erro'})
+        return render(request, 'sistema_login/erro.html', {'title':'Erro'})
+    else:
+        return render(request, 'sistema_login/erro.html', {'title':'Erro'})
+
+def taxa_credito_prazo(request):
+    if request.user.is_authenticated():
+        empresa = request.user.get_short_name()
+        cargo = request.user.last_name
+        if empresa == 'dayson':
+            if cargo == 'boss':
+                try:
+                    taxas = taxa.objects.filter(tipo=2).get()
+                except:
+                    taxas = taxa(tipo=2)
+                    taxas.save()
+                if request.method == 'POST' and request.POST.get('dias') != None and request.POST.get('juros') != None:
+                    dias = request.POST.get('dias')
+                    juros = request.POST.get('juros')
+                    taxa_id = request.POST.get('taxa_id')
+                    taxa_obj = taxa.objects.filter(id=taxa_id).get()
+                    taxa_obj.dias = dias
+                    taxa_obj.juros = juros
+                    taxa_obj.save()
+                    taxas = taxa.objects.filter(tipo=2).get()
+                    msg = "Taxas alteradas com sucesso"
+                    return render(request, 'lavajato_controle/taxa_credito_prazo.html', {'title':'Taxa de Credito', 'taxas':taxas, 'msg':msg})
+                return render(request, 'lavajato_controle/taxa_credito_prazo.html', {'title':'Taxa de Credito', 'taxas':taxas})
+            return render(request, 'sistema_login/erro.html', {'title':'Erro'})
+        return render(request, 'sistema_login/erro.html', {'title':'Erro'})
+    else:
+        return render(request, 'sistema_login/erro.html', {'title':'Erro'})
+
+def taxa_elo(request):
+    if request.user.is_authenticated():
+        empresa = request.user.get_short_name()
+        cargo = request.user.last_name
+        if empresa == 'dayson':
+            if cargo == 'boss':
+                try:
+                    taxas = taxa.objects.filter(tipo=4).get()
+                except:
+                    taxas = taxa(tipo=4)
+                    taxas.save()
+                if request.method == 'POST' and request.POST.get('dias') != None and request.POST.get('juros') != None:
+                    dias = request.POST.get('dias')
+                    juros = request.POST.get('juros')
+                    taxa_id = request.POST.get('taxa_id')
+                    taxa_obj = taxa.objects.filter(id=taxa_id).get()
+                    taxa_obj.dias = dias
+                    taxa_obj.juros = juros
+                    taxa_obj.save()
+                    taxas = taxa.objects.filter(tipo=4).get()
+                    msg = "Taxas alteradas com sucesso"
+                    return render(request, 'lavajato_controle/taxa_elo.html', {'title':'Taxa de Elo', 'taxas':taxas, 'msg':msg})
+                return render(request, 'lavajato_controle/taxa_elo.html', {'title':'Taxa de Elo', 'taxas':taxas})
+            return render(request, 'sistema_login/erro.html', {'title':'Erro'})
         return render(request, 'sistema_login/erro.html', {'title':'Erro'})
     else:
         return render(request, 'sistema_login/erro.html', {'title':'Erro'})

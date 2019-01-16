@@ -58,3 +58,19 @@ class conta_empresa(models.Model):
     
     def __str__(self):
         return self.str(id)
+
+class taxa(models.Model):
+    TP = (
+        ('1', 'Credito a Vista'),
+        ('2', 'Credito a Prazo'),
+        ('3', 'Debito'),
+        ('4', 'Elo'),
+    )
+    id = models.AutoField(primary_key=True)
+    tipo = models.CharField(max_length=1, choices=TP)
+    dias = models.CharField(max_length=2, default=1)
+    juros = models.DecimalField(max_digits=5, decimal_places=2, default=0)
+    data_cadastro = models.DateTimeField(default=timezone.now)
+    
+    def __str__(self):
+        return self.__str__(tipo)

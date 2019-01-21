@@ -5,7 +5,7 @@ from datetime import datetime
 from datetime import timedelta, date
 from decimal import Decimal
 from .models import cliente, carro
-from lavajato_controle.models import conta_empresa
+from lavajato_controle.models import conta_empresa, taxa
 from lavajato_agenda.models import agenda, pagamento, parcela
 # Create your views here.
 def lavajato_cliente(request):
@@ -90,6 +90,7 @@ def salva(request):
                 cidade = request.POST.get('cidade')
                 uf_cidade = request.POST.get('uf_cidade')
                 data_nasc = request.POST.get('data_nasc')
+                bloqueado = request.POST.get('bloqueado')
                 cliente_obj.nome = nome
                 cliente_obj.telefone = tel
                 cliente_obj.celular = cel
@@ -101,6 +102,7 @@ def salva(request):
                 cliente_obj.cidade = cidade
                 cliente_obj.uf_cidade = uf_cidade
                 cliente_obj.data_nasc = data_nasc
+                cliente_obj.liberacao = bloqueado
                 cliente_obj.save()
                 msg = cliente_obj.nome + " editado(a) com sucesso!"
                 return render(request, 'lavajato_cliente/cliente_busca_edita.html', {'title':'Editar Cliente', 'clientes':clientes, 'msg':msg})
@@ -205,7 +207,9 @@ def fechamento_mensal(request):
                     desmarcado = desmarcado + b.total
                 for c in agenda.objects.filter(cli=cliente_obj, data__month=mes, estado=3).all():
                     pago = pago + c.total
-                
+                for d in agenda.objects.filter(cli=cliente_obj, data__month=mes, estado=1).all():
+                    d.boleto_total = aberto
+                    d.save()
                 return render(request, 'lavajato_cliente/cliente_confirma_fechamento.html', {'title':'Fechamento Cliente', 'cliente_obj':cliente_obj, 'agendas':agendas, 'aberto':aberto, 'pago':pago, 'desmarcado':desmarcado, 'mes':mes})
             return render(request, 'lavajato_cliente/cliente_fechamento.html', {'title':'Fechamento Cliente', 'clientes':clientes})
         return render(request, 'sistema_login/erro.html', {'title':'Erro'})
@@ -219,13 +223,19 @@ def pagamento_geral(request):
             clientes = cliente.objects.all().order_by('nome')
             if request.method == 'GET' and request.GET.get('cliente_id') != None and request.GET.get('mes_cli') != None:
                 aberto = 0
+                taxas = taxa.objects.filter(tipo=5).get()
+                prazo = datetime.now() + timezone.timedelta(days=int(taxas.dias))
+                prazo = prazo.strftime('%Y-%m-%d')
                 cliente_id = request.GET.get('cliente_id')
                 mes_cli = request.GET.get('mes_cli')
                 cliente_obj = cliente.objects.get(id=cliente_id)
                 agendas = agenda.objects.filter(cli=cliente_obj, data__month=mes_cli, estado=1).all()
                 for a in agenda.objects.filter(cli=cliente_obj, data__month=mes_cli, estado=1).all():
                     aberto = aberto + a.total
-                return render(request, 'lavajato_cliente/cliente_fechar_os.html', {'title':'Fechamento Cliente', 'cliente_obj':cliente_obj, 'agendas':agendas, 'aberto':aberto, 'mes_cli':mes_cli})
+                    a.boleto = prazo
+                    a.save()
+                msg = "Aviso de boleto gerado com sucesso."
+                return render(request, 'lavajato_cliente/cliente_fechar_os.html', {'title':'Fechamento Cliente', 'cliente_obj':cliente_obj, 'agendas':agendas, 'aberto':aberto, 'mes_cli':mes_cli, 'msg':msg})
             if request.method == 'POST' and request.POST.get('cliente_id') != None and request.POST.get('mes_cli') != None:
                 aberto = 0 
                 pago = 0
@@ -250,6 +260,7 @@ def receber_mensal(request):
     if request.user.is_authenticated():
         empresa = request.user.get_short_name()
         if empresa == 'dayson':
+            clientes = cliente.objects.all().order_by('nome')
             if request.method == 'POST' and request.POST.get('cliente_id') != None and request.POST.get('mes_cli') != None:
                 aberto = 0 
                 pago = 0
@@ -278,13 +289,52 @@ def receber_mensal(request):
                     a.save()
                 conta_empresa_obj = conta_empresa.objects.latest('id')
                 ultimo_id = conta_empresa_obj.id + 1
-                novo_total = conta_empresa_obj.total + Decimal(pago)
+                novo_total = float(conta_empresa_obj.total) + float(pago)
                 desc = "Pagamento do mes "+ str(mes_cli) +"/"+ str(ano) +" - " + str(cliente_obj.nome)
                 nova_saida = conta_empresa(operacao=1, id_operacao=ultimo_id, valor_operacao=pago, descricao=desc, total=novo_total)
                 nova_saida.save()
                 agendas = agenda.objects.filter(cli=cliente_obj, data__month=mes_cli).all()
                 return render(request, 'lavajato_cliente/cliente_confirma_fechamento.html', {'title':'Fechamento Cliente', 'cliente_obj':cliente_obj, 'agendas':agendas, 'aberto':aberto, 'pago':pago, 'desmarcado':desmarcado})
             return render(request, 'lavajato_cliente/cliente_fechar_os.html', {'title':'Fechamento Cliente', 'clientes':clientes})
+        return render(request, 'sistema_login/erro.html', {'title':'Erro'})
+    else:
+        return render(request, 'sistema_login/erro.html', {'title':'Erro'})
+
+def bloqueados(request):
+    if request.user.is_authenticated():
+        empresa = request.user.get_short_name()
+        if empresa == 'dayson':
+            bloqueio = datetime.now() + timezone.timedelta(days=-45)
+            bloqueio = bloqueio.strftime('%Y-%m-%d')
+            agendas = agenda.objects.filter(data__lte=bloqueio, estado=1).all().order_by('data')
+            negativado = 0 
+            for a in agenda.objects.filter(data__lte=bloqueio, estado=1).all():
+                negativado = negativado + a.total
+            return render(request, 'lavajato_cliente/cliente_bloqueados.html', {'title':'Clientes Negativados', 'negativado':negativado, 'agendas':agendas})
+        return render(request, 'sistema_login/erro.html', {'title':'Erro'})
+    else:
+        return render(request, 'sistema_login/erro.html', {'title':'Erro'})
+
+def pagar_mes(request):
+    if request.user.is_authenticated():
+        empresa = request.user.get_short_name()
+        if empresa == 'dayson':
+            if request.method == 'POST' and request.POST.get('cliente_id') != None and request.POST.get('mes_cli') != None:
+                aberto = 0 
+                pago = 0
+                desmarcado = 0
+                cliente_id = request.POST.get('cliente_id')
+                mes_cli = request.POST.get('mes_cli')
+                cliente_obj = cliente.objects.get(id=cliente_id)
+                agendas = agenda.objects.filter(cli=cliente_obj, data__month=mes_cli).all()
+                for a in agenda.objects.filter(cli=cliente_obj, data__month=mes_cli, estado=1).all():
+                    aberto = aberto + a.total
+                for b in agenda.objects.filter(cli=cliente_obj, data__month=mes_cli, estado=2).all():
+                    desmarcado = desmarcado + b.total
+                for c in agenda.objects.filter(cli=cliente_obj, data__month=mes_cli, estado=3).all():
+                    pago = pago + c.total
+                return render(request, 'lavajato_cliente/cliente_fechar_os.html', {'title':'Fechamento Cliente', 'cliente_obj':cliente_obj, 'agendas':agendas, 'aberto':aberto, 'pago':pago, 'desmarcado':desmarcado, 'mes_cli':mes_cli})
+            return render(request, 'lavajato_cliente/cliente_fechamento.html', {'title':'Fechamento Cliente'})
         return render(request, 'sistema_login/erro.html', {'title':'Erro'})
     else:
         return render(request, 'sistema_login/erro.html', {'title':'Erro'})

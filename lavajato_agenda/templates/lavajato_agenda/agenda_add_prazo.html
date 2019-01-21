@@ -1,0 +1,71 @@
+{% extends 'lavajato_base.html' %}
+
+{% block body %}
+{% load static %}
+    {% if msg %}
+    <h1 style="text-align:center;">{{msg}}</h1><hr />
+    {%endif%}
+    <h1>Adicionar Prazo</h1>
+    <hr />
+        <form method="post">
+        {% csrf_token %}
+            <div class="form-row">
+                <div class="form-group col-md-2">
+                    <label for="inputName">OS </label>
+                    <input type="text" class="form-control" value="{{agenda_obj.id}}" disabled>
+                </div>
+                <div class="form-group col-md-10">
+                </div>
+                <div class="form-group col-md-9">
+                    <label for="inputTel">Cliente</label>
+                    <input type="text" class="form-control" value="{{agenda_obj.cli.nome}}" disabled>
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="inputTel">Data OS</label>
+                    <input type="text" class="form-control" value="{{agenda_obj.data|date:"d/m/Y"}}" disabled>
+                </div>
+            </div>
+            <div class="form-row">
+                <table class="table table-sm">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Data</th>
+                            <th scope="col">Servico</th>
+                            <th scope="col">Valor</th>
+                            <th scope="col">Funcionario</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item_servico in it_servicos %}
+                            <tr>
+                                <td>{{item_servico.id}}</td>
+                                <td>{{item_servico.data_cadastro|date:"d/m/Y"}}</td>
+                                <td>{{item_servico.serv.nome}}</td>
+                                <td>{{item_servico.serv.valor}}</td>
+                                <td>{{item_servico.func.nome}}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-3">
+                </div>
+                <div class="form-group col-md-3">
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="inputTel">Data Boleto</label>
+                    <input type="text" class="form-control" value="{{agenda_obj.boleto|date:"d/m/Y"}}" disabled>
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="inputTel">Nova Data</label>
+                    <input type="date" class="form-control" name="nova_data">
+                </div>
+                </div>
+            </div>
+            <br />
+            <input type="hidden" name="agenda_id" value="{{agenda_obj.id}}" />
+            <button type="submit" formmethod="POST" formaction="/lavajato_agenda/add_prazo" class="btn btn-secondary float-right">Alterar Boleto</button>
+        </form>
+{% endblock %}

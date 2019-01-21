@@ -1,0 +1,51 @@
+{% extends 'lavajato_base.html' %}
+
+{% block body %}
+{% load static %}
+{% if msg %}
+    <h1 style="text-align:center;">{{msg}}</h1><hr />
+{%endif%}
+<h1>Boletos</h1><hr />
+    <form method="POST">
+    {%csrf_token%}
+    <div class="form-row">
+        <table class="table table-sm">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Data OS</th>
+                    <th scope="col">Cliente</th>
+                    <th scope="col">Carro</th>
+                    <th scope="col">Placa</th>
+                    <th scope="col">Total</th>
+                    <th scope="col">Estado</th>
+                    <th scope="col">Data do Boleto</th>
+                    <th scope="col">+ Prazo</th>
+                    <th scope="col">Pagamento</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                {% for agenda in agendas %}
+                    {% if agenda.estado == '1' %}
+                        <tr>
+                            <input type="hidden" name="mes_cli" value="{{agenda.data|date:"m"}}" />
+                            <input type="hidden" name="cliente_id" value="{{agenda.cli.id}}" />
+                            <td><button type="submit" style="background-color:transparent; " name="agenda_id" value="{{agenda.id}}" formaction="/lavajato_agenda/ver">{{agenda.id}}</button></button></td>
+                            <td>{{agenda.data|date:"d/m/Y"}}</td>
+                            <td>{{agenda.cli.nome}}</td>
+                            <td>{{agenda.car.modelo}}</td>
+                            <td>{{agenda.car.placa}}</td>
+                            <td>R$ {{agenda.total}}</td>
+                            <td>{{agenda.get_estado_display}}</td>
+                            <td>{{agenda.boleto|date:"d/m/Y"}}</td>
+                            <td><button name="agenda_id" value="{{agenda.id}}" class="btn btn-secondary" formmethod="GET" formaction="/lavajato_agenda/add_prazo" title="Adicionar prazo para pagamento">+ Prazo</button></td>
+                            <td><button type="submit" name="agenda_id" value="{{agenda.id}}" class="btn btn-secondary" formmethod="POST" formaction="/lavajato_cliente/pagar_mes" title="Pagar OS">Pagar</button></td>
+                        </tr>
+                    {% endif %}
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    </form>
+{% endblock %}

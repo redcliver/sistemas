@@ -52,6 +52,18 @@
                 </tbody>
             </table>
             </div>
+            <div class="form-row">
+                <div class="form-group col-md-10">
+                    <label for="inputTel">Observação</label>
+                    <textarea class="form-control" name="obs" id="exampleFormControlTextarea1" rows="6" >{{agenda_obj.obs}}</textarea>
+                </div>
+                <div class="form-group col-md-9">
+
+                </div>
+                <div class="form-group col-md-3">
+                    <button name="agenda_id" value="{{agenda_obj.id}}" class="btn btn-secondary" formaction="/lavajato_agenda/salvar" title="Salvar alteração">Salvar</button>                </div>
+                </div>
+            </div>
             <div class="col-md-5 offset-md-6">
                 <h3 class="float-right"><b>Total: R${{agenda_obj.total}}</b></h3>
             </div>

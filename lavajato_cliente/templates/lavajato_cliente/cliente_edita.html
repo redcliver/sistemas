@@ -54,6 +54,40 @@
                     <label for="inputTel">UF</label>
                     <input type="text" class="form-control" id="inputPassword4" value="{{cliente_obj.uf_cidade}}" style="text-transform: uppercase;" maxlength="2" name="uf_cidade">
                 </div>
+                {% if cliente_obj.liberacao == '2' %}
+                    <div class="form-group col-md-3">
+                        <label for="inputName">Bloqueado</label>
+                        <div class="form-check">
+                            <input class="form-check-input" name="bloqueado" value="2" type="radio" id="exampleRadios1" checked >
+                            <label class="form-check-label" for="exampleRadios1">
+                            Sim
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" name="bloqueado" value="1" type="radio" id="exampleRadios2" >
+                            <label class="form-check-label" for="exampleRadios2">
+                            Não
+                            </label>
+                        </div>
+                    </div>
+                {% endif %}
+                {% if cliente_obj.liberacao == '1' %}
+                    <div class="form-group col-md-3">
+                        <label for="inputName">Bloqueado</label>
+                        <div class="form-check">
+                            <input class="form-check-input" name="bloqueado" value="2" type="radio" id="exampleRadios1"  >
+                            <label class="form-check-label" for="exampleRadios1">
+                            Sim
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" name="bloqueado" value="1" type="radio" id="exampleRadios2" checked >
+                            <label class="form-check-label" for="exampleRadios2">
+                            Não
+                            </label>
+                        </div>
+                    </div>
+                {% endif %}
             </div>
             <br />
             <button type="submit" class="btn btn-secondary float-right" formaction="/lavajato_cliente/salva">Salvar</button>

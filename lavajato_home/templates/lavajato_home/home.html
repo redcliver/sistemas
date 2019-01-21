@@ -15,6 +15,89 @@
         <hr />
         <a href="/lavajato_estoque/lista_estoque_minimo" style="color:#030e39; font-size: 1.2rem;">{{estoque_min}} produto(s) em estoque minimo.</a>
         {% endif %}
+        {% if boleto %}
+        <hr />
+        <a href="/lavajato_agenda/boleto" style="color:#030e39; font-size: 1.2rem;">{{boleto}} boleto(s) vencido(s).</a>
+        {% endif %}
+        {% if bloqueados %}
+        <hr />
+        <a href="/lavajato_cliente/bloqueados" style="color:#030e39; font-size: 1.2rem;">{{bloqueados}} negativado(s).</a>
+        {% endif %}
+        {% if aniversario %}
+        <form method="POST">
+            {% csrf_token %}
+            <hr />
+            <h4 style="color:#030e39; font-size: 1.2rem;">Aniversariante(s)</h4>
+            <table class="table table-sm" style="color:#030e39; font-size: 1.2rem;">
+                <thead>
+                    <tr>
+                        <th scope="col-md-2">#</th>
+                        <th scope="col-md-4">Cliente</th>
+                        <th scope="col-md-2">Data de Nascimento</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for cliente in aniversario %}
+                    <tr>
+                        <td><button type="submit" style="background-color:transparent; " name="cliente_id" value="{{cliente.id}}" formaction="/lavajato_cliente/busca">{{cliente.id}}</button></td>
+                        <td scope="row">{{cliente.nome}}</td>
+                        <td>{{cliente.data_nasc|date:"d/m/Y"}}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </form>
+        {% endif %}
+        {% if cli_inativo %}
+        <form method="POST">
+            {% csrf_token %}
+            <hr />
+            <h4 style="color:#030e39; font-size: 1.2rem;">Clientes Inativos 30 Dias</h4>
+            <table class="table table-sm" style="color:#030e39; font-size: 1.2rem;">
+                <thead>
+                    <tr>
+                        <th scope="col-md-2">#</th>
+                        <th scope="col-md-4">Cliente</th>
+                        <th scope="col-md-2">Telefone</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for cliente in cli_inativo %}
+                    <tr>
+                        <td><button type="submit" style="background-color:transparent; " name="cliente_id" value="{{cliente.id}}" formaction="/lavajato_agenda/agenda_ultima_ordem">{{cliente.id}}</button></td>
+                        <td scope="row">{{cliente.nome}}</td>
+                        <td>{{cliente.telefone}} / {{cliente.celular}}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </form>
+        {% endif %}
+        {% if cli_ina_meses %}
+        <form method="POST">
+            {% csrf_token %}
+            <hr />
+            <h4 style="color:#030e39; font-size: 1.2rem;">Clientes Inativos 6 Meses</h4>
+            <table class="table table-sm" style="color:#030e39; font-size: 1.2rem;">
+                <thead>
+                    <tr>
+                        <th scope="col-md-2">#</th>
+                        <th scope="col-md-4">Cliente</th>
+                        <th scope="col-md-2">Telefone</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for cliente in cli_ina_meses %}
+                    <tr>
+                        <td><button type="submit" style="background-color:transparent; " name="cliente_id" value="{{cliente.id}}" formaction="/lavajato_agenda/agenda_ultima_ordem">{{cliente.id}}</button></td>
+                        <td scope="row">{{cliente.nome}}</td>
+                        <td>{{cliente.telefone}} / {{cliente.celular}}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </form>
+        {% endif %}
     {% endif %}
 </main>
 {% endblock %}

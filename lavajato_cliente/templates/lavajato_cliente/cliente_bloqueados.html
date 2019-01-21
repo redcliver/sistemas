@@ -1,0 +1,48 @@
+{% extends 'lavajato_base.html' %}
+
+{% block body %}
+{% load static %}
+{% if msg %}
+    <h1 style="text-align:center;">{{msg}}</h1><hr />
+{%endif%}
+<h1>Lista de Negativados</h1><hr />
+    <form method="POST">
+    {%csrf_token%}
+    <input type="hidden" name="cliente_id" value="{{cliente_obj.id}}">
+    <div class="form-row">
+        <table class="table table-sm">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Data</th>
+                    <th scope="col">Cliente</th>
+                    <th scope="col">Carro</th>
+                    <th scope="col">Placa</th>
+                    <th scope="col">Estado</th>
+                    <th scope="col">Valor</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for agenda in agendas %}
+                    <tr>
+                        <td><button type="submit" style="background-color:transparent; " name="agenda_id" value="{{agenda.id}}" formaction="/lavajato_agenda/ver">{{agenda.id}}</button></button></td>
+                        <td>{{agenda.data|date:"d/m/Y"}}</td>
+                        <td><button type="submit" style="background-color:transparent; " name="cliente_id" value="{{agenda.cli.id}}" formaction="/lavajato_cliente/busca">{{agenda.cli.nome}}</button></button></td>
+                        <td>{{agenda.car.modelo}}</td>
+                        <td>{{agenda.car.placa}}</td>
+                        <td>{{agenda.get_estado_display}}</td>
+                        <td>R$ {{agenda.total}}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <hr />
+    <div class="form-row">
+        <div class="col-md-6 offset-md-6">
+            <h3 class="float-right"><b>Total Negativado: R$ {{negativado}}</b></h3>
+        </div>
+        <br />
+    </div>
+    </form>
+{% endblock %}

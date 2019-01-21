@@ -65,6 +65,7 @@ class taxa(models.Model):
         ('2', 'Credito a Prazo'),
         ('3', 'Debito'),
         ('4', 'Elo'),
+        ('5', 'Boleto'),
     )
     id = models.AutoField(primary_key=True)
     tipo = models.CharField(max_length=1, choices=TP)

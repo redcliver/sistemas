@@ -36,8 +36,8 @@
             <button type="submit" formmethod="GET" formaction="/lavajato_agenda/" class="btn btn-secondary float-right" title="Buscar" disabled>Buscar</button>
         </div>
         </div>
+        {% if carros %}
         <div class="form-row">
-            {% if carros %}
             <input type="hidden" name="cliente_id" value="{{cliente_obj.id}}">
             <div class="form-group col-md-10">
                 <label for="inputName">Carro<strong>*</strong></label>
@@ -73,11 +73,19 @@
                 <input type="date" class="form-control" name="data" required>
             </div>
         </div>
-            <br />
-            <button type="submit" class="btn btn-secondary float-right" title="Registrar novo agendamento">Registrar</button>
-
-            {% endif %}
-    
+        <div class="form-row">
+            <div class="form-group col-md-10">
+                <label for="inputTel">Observação</label>
+                <textarea class="form-control" name="obs" id="exampleFormControlTextarea1" rows="6"></textarea>
+            </div>
+        </div>
+        <br />
+        <div class="form-row">
+            <div class="form-group col-md-10">
+                <button type="submit" class="btn btn-secondary float-right" title="Registrar novo agendamento">Registrar</button>
+            </div>
+        </div>
+        {% endif %}
     {% endif %}
     </form>
 {% endblock %}

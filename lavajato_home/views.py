@@ -1,18 +1,31 @@
 from django.shortcuts import render
 from lavajato_contas.models import conta
 from lavajato_estoque.models import produto
-from lavajato_agenda.models import parcela
+from lavajato_agenda.models import parcela, agenda
 from lavajato_caixa.models import caixa_geral
 from lavajato_controle.models import conta_empresa
+from lavajato_cliente.models import cliente
 from django.utils import timezone
 import datetime
+from datetime import datetime
+from datetime import timedelta, date
+from decimal import Decimal
 
 # Create your views here.
 def home(request):
     if request.user.is_authenticated():
         empresa = request.user.get_short_name()
         if empresa == 'dayson':
-            hoje = timezone.now().strftime('%Y-%m-%d')
+            hoje = datetime.now().strftime('%Y-%m-%d')
+            dia = datetime.now().strftime('%d')
+            mes = datetime.now().strftime('%m')
+            bloqueio = datetime.now() + timezone.timedelta(days=-45)
+            bloqueio = bloqueio.strftime('%Y-%m-%d')
+            bloqueados = 0
+            blacklist = None
+            boleto = 0
+            mes_passado = timezone.now() + timezone.timedelta(days=-30)
+            seis_meses = timezone.now() + timezone.timedelta(days=-150)
             try:
                 conta_geral = conta_empresa.objects.latest('id')
             except:
@@ -25,12 +38,27 @@ def home(request):
                 caixa.save()
             vencimento_conta = 0
             estoque_min = 0
-            for c in conta.objects.filter(estado=1, data_venc__icontains=hoje).all():
+            for a in conta.objects.filter(estado=1, data_venc__lte=hoje).all():
                 vencimento_conta = vencimento_conta + 1
-            for p in produto.objects.all():
-                if p.quantidade <= p.quantidade_minima or p.quantidade == p.quantidade_minima:
+            for b in produto.objects.all():
+                if b.quantidade <= b.quantidade_minima or b.quantidade == b.quantidade_minima:
                     estoque_min = estoque_min + 1
-            return render(request, 'lavajato_home/home.html', {'title':'Home', 'vencimento_conta':vencimento_conta, 'estoque_min':estoque_min})
+            for c in agenda.objects.filter(data__lte=bloqueio, estado=1).all():
+                cli_id = c.cli.id
+                cli_obj = cliente.objects.filter(id=cli_id).get()
+                cli_obj.liberacao = 2
+                cli_obj.save()
+                bloqueados = bloqueados + 1
+            for d in agenda.objects.filter(boleto__lte=hoje, estado=1):
+                boleto = boleto + 1
+            cli_inativo = cliente.objects.all()
+            cli_ina_meses = cliente.objects.all()
+            for f in agenda.objects.filter(data__gte=seis_meses).all():
+                cli_ina_meses = cli_ina_meses.exclude(id=f.cli.id)
+                if f.data >= mes_passado:
+                    cli_inativo = cli_inativo.exclude(id=f.cli.id)
+            aniversario = cliente.objects.filter(data_nasc__day=dia, data_nasc__month=mes).all()
+            return render(request, 'lavajato_home/home.html', {'title':'Home', 'boleto':boleto, 'bloqueados':bloqueados, 'aniversario':aniversario, 'vencimento_conta':vencimento_conta, 'estoque_min':estoque_min, 'cli_inativo':cli_inativo, 'cli_ina_meses':cli_ina_meses})
         return render(request, 'sistema_login/erro.html', {'title':'Erro'})
     else:
         return render(request, 'sistema_login/erro.html', {'title':'Erro'})

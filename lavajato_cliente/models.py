@@ -14,7 +14,12 @@ class carro(models.Model):
         return self.nome
 
 class cliente(models.Model):
+    LB = (
+        ('1', 'Ok'),
+        ('2', 'Bloqueado'),
+    )
     id = models.AutoField(primary_key=True)
+    liberacao = models.CharField(max_length=1, choices=LB, default=1)
     nome = models.CharField(max_length=200)
     data_nasc = models.DateTimeField(null=True, blank=True)
     cpf = models.CharField(max_length=30, null=True, blank=True)

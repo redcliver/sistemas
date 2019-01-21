@@ -24,5 +24,6 @@ urlpatterns = [
     url(r'^taxa_credito_vista', views.taxa_credito_vista),
     url(r'^taxa_credito_prazo', views.taxa_credito_prazo),
     url(r'^taxa_elo', views.taxa_elo),
+    url(r'^taxa_boleto', views.taxa_boleto),
     url(r'^teste', views.teste),
     ]

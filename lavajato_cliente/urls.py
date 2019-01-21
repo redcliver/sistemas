@@ -13,4 +13,6 @@ urlpatterns = [
     url(r'^fechamento_mensal', views.fechamento_mensal),
     url(r'^pagamento_geral', views.pagamento_geral),
     url(r'^receber_mensal', views.receber_mensal),
+    url(r'^bloqueados', views.bloqueados),
+    url(r'^pagar_mes', views.pagar_mes),
     ]

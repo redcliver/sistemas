@@ -513,6 +513,32 @@ def taxa_elo(request):
     else:
         return render(request, 'sistema_login/erro.html', {'title':'Erro'})
 
+def taxa_boleto(request):
+    if request.user.is_authenticated():
+        empresa = request.user.get_short_name()
+        cargo = request.user.last_name
+        if empresa == 'dayson':
+            if cargo == 'boss':
+                try:
+                    taxas = taxa.objects.filter(tipo=5).get()
+                except:
+                    taxas = taxa(tipo=5, dias=10)
+                    taxas.save()
+                if request.method == 'POST' and request.POST.get('dias') != None:
+                    dias = request.POST.get('dias')
+                    taxa_id = request.POST.get('taxa_id')
+                    taxa_obj = taxa.objects.filter(id=taxa_id).get()
+                    taxa_obj.dias = dias
+                    taxa_obj.save()
+                    taxas = taxa.objects.filter(tipo=5).get()
+                    msg = "Prazo alterado com sucesso"
+                    return render(request, 'lavajato_controle/taxa_boleto.html', {'title':'Prazo do Boleto', 'taxas':taxas, 'msg':msg})
+                return render(request, 'lavajato_controle/taxa_boleto.html', {'title':'Prazo do Boleto', 'taxas':taxas})
+            return render(request, 'sistema_login/erro.html', {'title':'Erro'})
+        return render(request, 'sistema_login/erro.html', {'title':'Erro'})
+    else:
+        return render(request, 'sistema_login/erro.html', {'title':'Erro'})
+
 def teste(request):
     if request.user.is_authenticated():
         empresa = request.user.get_short_name()

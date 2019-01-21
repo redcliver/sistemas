@@ -69,6 +69,9 @@ class agenda(models.Model):
     subtotal = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     desconto = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     total = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+    boleto_total = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+    boleto = models.DateTimeField(null=True, blank=True)
+    obs = models.CharField(max_length=1000, null=True, blank=True)
     data_cadastro = models.DateTimeField(default=timezone.now)
     
     def __str__(self):

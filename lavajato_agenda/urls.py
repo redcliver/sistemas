@@ -5,6 +5,7 @@ from . import views
 urlpatterns = [
     url(r'^$', views.novo),
     url(r'^edita', views.edita),
+    url(r'^salvar', views.salvar),
     url(r'^excluir', views.excluir),
     url(r'^busca', views.busca),
     url(r'^add_servico', views.add_servico),
@@ -17,4 +18,7 @@ urlpatterns = [
     url(r'^credito', views.credito),
     url(r'^debito', views.debito),
     url(r'^metodo2', views.metodo2),
+    url(r'^boleto', views.boleto),
+    url(r'^add_prazo', views.add_prazo),
+    url(r'^agenda_ultima_ordem', views.agenda_ultima_ordem),
     ]

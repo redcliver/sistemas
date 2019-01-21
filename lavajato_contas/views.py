@@ -96,10 +96,11 @@ def pagar(request):
     if request.user.is_authenticated():
         empresa = request.user.get_short_name()
         if empresa == 'dayson':
-            data_inicio = datetime.now().strftime('%Y-%m-%d')
+            data_inicio = datetime.now() + timedelta(days=-1)
+            data_inicio = data_inicio.strftime('%Y-%m-%d')
             data_fim = datetime.now().strftime('%Y-%m-%d')
             hoje = datetime.now()
-            contas_all = conta.objects.filter(data_venc__range=(data_inicio,data_fim)).all()
+            contas_all = conta.objects.filter(data_venc__lte=data_inicio).all()
             if request.method == 'GET' and request.GET.get('data_inicio') != None and request.GET.get('data_fim') != None:
                 data_inicio = request.GET.get('data_inicio')
                 data_fim = request.GET.get('data_fim')

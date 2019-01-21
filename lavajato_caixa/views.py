@@ -40,8 +40,8 @@ def entrada(request):
                 nova_entrada = caixa_geral(operacao=1, id_operacao=ultimo_id, valor_operacao=valor, descricao=desc, total=novo_total)
                 nova_entrada.save()
                 msg = "Entrada registrada com sucesso!"
-                return render(request, 'lavajato_caixa/caixa_entrada.html', {'title':'Entrada', 'msg':msg})
-            return render(request, 'lavajato_caixa/caixa_entrada.html', {'title':'Entrada'})
+                return render(request, 'lavajato_caixa/caixa_entrada.html', {'title':'Entrada', 'msg':msg,'caixa':caixa})
+            return render(request, 'lavajato_caixa/caixa_entrada.html', {'title':'Entrada', 'caixa':caixa})
         return render(request, 'sistema_login/erro.html', {'title':'Erro'})
     else:
         return render(request, 'sistema_login/erro.html', {'title':'Erro'})
@@ -61,8 +61,8 @@ def saida(request):
                 nova_saida = caixa_geral(operacao=2, id_operacao=ultimo_id, valor_operacao=valor, descricao=desc, total=novo_total)
                 nova_saida.save()
                 msg = "Saida registrada com sucesso!"
-                return render(request, 'lavajato_caixa/caixa_saida.html', {'title':'Saida', 'msg':msg})
-            return render(request, 'lavajato_caixa/caixa_saida.html', {'title':'Saida'})
+                return render(request, 'lavajato_caixa/caixa_saida.html', {'title':'Saida', 'msg':msg,'caixa':caixa})
+            return render(request, 'lavajato_caixa/caixa_saida.html', {'title':'Saida','caixa':caixa})
         return render(request, 'sistema_login/erro.html', {'title':'Erro'})
     else:
         return render(request, 'sistema_login/erro.html', {'title':'Erro'})

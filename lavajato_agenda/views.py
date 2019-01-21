@@ -635,10 +635,16 @@ def agenda_ultima_ordem(request):
         if empresa == 'dayson':
             if request.method == 'POST' and request.POST.get('cliente_id') != None:
                 cliente_id = request.POST.get('cliente_id')
-                agenda_obj = agenda.objects.filter(cli__id=cliente_id).latest('id')
-                it_servicos = agenda_obj.item_servico.all()
-                hoje = datetime.now().strftime('%d/%m/%Y')
-                return render(request, 'lavajato_agenda/agenda_ultima_ordem.html', {'title':'Ultima Ordem do Cliente', 'agenda_obj':agenda_obj, 'it_servicos':it_servicos, 'hoje':hoje})
+                try:
+                    agenda_obj = agenda.objects.filter(cli__id=cliente_id).latest('id')
+                    it_servicos = agenda_obj.item_servico.all()
+                    hoje = datetime.now().strftime('%d/%m/%Y')
+                    return render(request, 'lavajato_agenda/agenda_ultima_ordem.html', {'title':'Ultima Ordem do Cliente', 'agenda_obj':agenda_obj, 'it_servicos':it_servicos, 'hoje':hoje})
+                except:
+                    agenda_obj = None
+                    hoje = datetime.now().strftime('%d/%m/%Y')
+                    return render(request, 'lavajato_agenda/agenda_ultima_ordem.html', {'title':'Ultima Ordem do Cliente', 'agenda_obj':agenda_obj, 'hoje':hoje})
+
             return render(request, 'lavajato_agenda/agenda_ultima_ordem.html', {'title':'Visualizar Ordem', 'agendas':agendas, 'servicos':servicos, 'funcionarios':funcionarios})
         return render(request, 'sistema_login/erro.html', {'title':'Erro'})
     else:

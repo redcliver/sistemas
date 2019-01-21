@@ -643,7 +643,8 @@ def agenda_ultima_ordem(request):
                 except:
                     agenda_obj = None
                     hoje = datetime.now().strftime('%d/%m/%Y')
-                    return render(request, 'lavajato_agenda/agenda_ultima_ordem.html', {'title':'Ultima Ordem do Cliente', 'agenda_obj':agenda_obj, 'hoje':hoje})
+                    msg = "Cliente sem ordem aberta!"
+                    return render(request, 'lavajato_agenda/agenda_ultima_ordem.html', {'title':'Ultima Ordem do Cliente', 'agenda_obj':agenda_obj, 'hoje':hoje, 'msg':msg})
 
             return render(request, 'lavajato_agenda/agenda_ultima_ordem.html', {'title':'Visualizar Ordem', 'agendas':agendas, 'servicos':servicos, 'funcionarios':funcionarios})
         return render(request, 'sistema_login/erro.html', {'title':'Erro'})

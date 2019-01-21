@@ -21,4 +21,5 @@ urlpatterns = [
     url(r'^boleto', views.boleto),
     url(r'^add_prazo', views.add_prazo),
     url(r'^agenda_ultima_ordem', views.agenda_ultima_ordem),
+    url(r'^ordem_branco', views.ordem_branco),
     ]

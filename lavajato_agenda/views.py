@@ -650,3 +650,15 @@ def agenda_ultima_ordem(request):
         return render(request, 'sistema_login/erro.html', {'title':'Erro'})
     else:
         return render(request, 'sistema_login/erro.html', {'title':'Erro'})
+
+def ordem_branco(request):
+    if request.user.is_authenticated():
+        empresa = request.user.get_short_name()
+        if empresa == 'dayson':
+            agenda_obj = None
+            hoje = datetime.now().strftime('%d/%m/%Y')
+            msg = "Cliente sem ordem aberta!"
+            return render(request, 'lavajato_agenda/agenda_ultima_ordem.html', {'title':'Ordem do Cliente', 'agenda_obj':agenda_obj, 'hoje':hoje})
+        return render(request, 'sistema_login/erro.html', {'title':'Erro'})
+    else:
+        return render(request, 'sistema_login/erro.html', {'title':'Erro'})

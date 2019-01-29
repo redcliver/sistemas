@@ -50,6 +50,7 @@ def saida(request):
     if request.user.is_authenticated():
         empresa = request.user.get_short_name()
         if empresa == 'dayson':
+            caixa = caixa_geral.objects.latest('id')
             if request.method == 'POST' and request.POST.get('desc') != None:
                 desc = request.POST.get('desc')
                 valor = request.POST.get('valor')

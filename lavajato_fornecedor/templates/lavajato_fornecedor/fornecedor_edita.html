@@ -1,0 +1,94 @@
+{% extends 'lavajato_base.html' %}
+
+{% block body %}
+{% load static %}
+    {% if msg %}
+    <h1 style="text-align:center;">{{msg}}</h1><hr />
+    {%endif%}
+    <h1>Editar Fornecedor</h1>
+    <hr />
+        <form method="post" action="/lavajato_fornecedor/salva">
+        {% csrf_token %}
+        <input type="hidden" value="{{fornecedor_obj.id}}" name="fornecedor_id" />
+            <div class="form-row">
+                <div class="form-group col-md-12">
+                    <label for="inputName">Nome Completo </label>
+                    <input type="text" class="form-control" id="inputEmail4" name="nome" maxlength="200" value="{{fornecedor_obj.nome}}" required autofocus>
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="inputName">CPF / CNPJ</label>
+                    <input type="text" class="form-control" id="inputEmail4" name="cpf" maxlength="30" value="{{fornecedor_obj.cpf}}" >
+                </div>
+                <div class="form-group col-md-8">
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="inputTel">Telefone</label>
+                    <input type="text" class="form-control" name="tel" maxlength="14" onkeydown="javascript: fMasc( this, mTel );" value="{{fornecedor_obj.telefone}}" >
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="inputCel">Celular</label>
+                    <input type="text" class="form-control" name="cel" maxlength="14" onkeydown="javascript: fMasc( this, mTel );" value="{{fornecedor_obj.celular}}" >
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="inputEmail">E-mail</label>
+                    <input type="email" class="form-control" id="inputAddress2" maxlength="200" name="mail" value="{{fornecedor_obj.email}}" >
+                </div>
+                <div class="form-group col-md-9">
+                    <label for="inputEmail">Endereco</label>
+                    <input type="text" class="form-control" id="inputAddress2" maxlength="200" name="endereco" value="{{fornecedor_obj.endereco}}" >
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="inputEmail">Numero</label>
+                    <input type="text" class="form-control" id="inputAddress2" maxlength="6" name="numero" value="{{fornecedor_obj.numero}}" >
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="inputEmail">Bairro</label>
+                    <input type="text" class="form-control" id="inputAddress2" maxlength="200" name="bairro" value="{{fornecedor_obj.bairro}}" >
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="inputEmail">Cidade</label>
+                    <input type="text" class="form-control" id="inputAddress2" maxlength="200" name="cidade" value="{{fornecedor_obj.cidade}}" >
+                </div>
+                <div class="form-group col-md-1">
+                    <label for="inputTel">UF</label>
+                    <input type="text" class="form-control" id="inputPassword4" style="text-transform: uppercase;" maxlength="2" name="uf_cidade" value="{{fornecedor_obj.uf_cidade}}" >
+                </div>
+                {% if fornecedor_obj.estado == '2' %}
+                    <div class="form-group col-md-3">
+                        <label for="inputName">Bloqueado</label>
+                        <div class="form-check">
+                            <input class="form-check-input" name="bloqueado" value="2" type="radio" id="exampleRadios1" checked >
+                            <label class="form-check-label" for="exampleRadios1">
+                            Sim
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" name="bloqueado" value="1" type="radio" id="exampleRadios2" >
+                            <label class="form-check-label" for="exampleRadios2">
+                            Não
+                            </label>
+                        </div>
+                    </div>
+                {% endif %}
+                {% if fornecedor_obj.estado == '1' %}
+                    <div class="form-group col-md-3">
+                        <label for="inputName">Bloqueado</label>
+                        <div class="form-check">
+                            <input class="form-check-input" name="bloqueado" value="2" type="radio" id="exampleRadios1"  >
+                            <label class="form-check-label" for="exampleRadios1">
+                            Sim
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" name="bloqueado" value="1" type="radio" id="exampleRadios2" checked >
+                            <label class="form-check-label" for="exampleRadios2">
+                            Não
+                            </label>
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+            <br />
+            <button type="submit" class="btn btn-secondary float-right">Salvar</button>
+        </form>
+{% endblock %}

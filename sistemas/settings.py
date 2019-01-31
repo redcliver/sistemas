@@ -59,6 +59,7 @@ INSTALLED_APPS = [
     'lavajato_caixa',
     'lavajato_estoque',
     'lavajato_agenda',
+    'lavajato_fornecedor',
 
     # Mario
     'mario_home',

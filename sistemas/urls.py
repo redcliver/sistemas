@@ -37,6 +37,7 @@ urlpatterns = [
     url(r'^lavajato_caixa/', include('lavajato_caixa.urls')),
     url(r'^lavajato_estoque/', include('lavajato_estoque.urls')),
     url(r'^lavajato_agenda/', include('lavajato_agenda.urls')),
+    url(r'^lavajato_fornecedor/', include('lavajato_fornecedor.urls')),
 
     # URL Mario Miazaky
     url(r'^mario_home/', include('mario_home.urls')),

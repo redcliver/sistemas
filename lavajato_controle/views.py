@@ -290,7 +290,7 @@ def nova_senha(request):
                     usuario.set_password(nova_senha)
                     usuario.save()
                     msg = "Senha alterada com sucesso."
-                    return render(request, 'lavajato_controle/home.html', {'title':'Home', 'msg':msg})
+                    return render(request, 'lavajato_home/home.html', {'title':'Home', 'msg':msg})
                 if nova_senha != nova_senha_1:
                     msg = "Senhas incorretas, digite novamente."
                     return render(request, 'lavajato_controle/nova_senha.html', {'title':'Alterar senha', 'msg':msg})

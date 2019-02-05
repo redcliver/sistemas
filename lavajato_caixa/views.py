@@ -57,7 +57,7 @@ def saida(request):
                 caixa = caixa_geral.objects.latest('id')
                 ultimo_id = caixa.id_operacao
                 ultimo_id = int(ultimo_id) + 1
-                desc = "Retirada - "+desc
+                desc = "Retirada - " + desc
                 novo_total = caixa.total - Decimal(valor)
                 nova_saida = caixa_geral(operacao=2, id_operacao=ultimo_id, valor_operacao=valor, descricao=desc, total=novo_total)
                 nova_saida.save()
@@ -87,6 +87,7 @@ def conferencia(request):
                     t_debito = t_debito + p.valor
                 if p.tipo == '3':
                     t_credito = t_credito + p.valor
+            t_caixa = t_caixa + t_dinheiro
             if request.method == 'POST' and request.POST.get('data') != None:
                 hoje = request.POST.get('data')
                 caixas = caixa_geral.objects.filter(data__date=hoje)
@@ -102,6 +103,8 @@ def conferencia(request):
                         t_debito = t_debito + p.valor
                     if p.tipo == '3':
                         t_credito = t_credito + p.valor
+
+                t_caixa = t_caixa + t_dinheiro
                 return render(request, 'lavajato_caixa/caixa_conferencia.html', {'title':'Conferencia', 'caixas':caixas, 'hoje':hoje, 'total':total, 't_credito':t_credito, 't_debito':t_debito, 't_dinheiro':t_dinheiro, 't_caixa':t_caixa})
             return render(request, 'lavajato_caixa/caixa_conferencia.html', {'title':'Conferencia', 'caixas':caixas, 'hoje':hoje, 'total':total, 't_credito':t_credito, 't_debito':t_debito, 't_dinheiro':t_dinheiro, 't_caixa':t_caixa})
         return render(request, 'sistema_login/erro.html', {'title':'Erro'})
@@ -143,12 +146,12 @@ def fechar(request):
                 valor = request.POST.get('valor')
                 valor_1 = request.POST.get('valor')
                 t_cartao = t_credito + t_debito
-                valor = Decimal(valor) + t_cartao
+                valor_fechamento = Decimal(valor)
                 caixa = caixa_geral.objects.latest('id')
                 ultimo_id = caixa.id_operacao
                 ultimo_id = int(ultimo_id) + 1
-                novo_total = caixa.total - Decimal(valor)
-                nova_saida = caixa_geral(operacao=2, id_operacao=ultimo_id, valor_operacao=valor, descricao=desc, total=novo_total)
+                novo_total = caixa.total - valor_fechamento
+                nova_saida = caixa_geral(operacao=2, id_operacao=ultimo_id, valor_operacao=valor_fechamento, descricao=desc, total=novo_total)
                 nova_saida.save()
                 ultima_conta = conta_empresa.objects.latest('id')
                 desc1 = "Fechamento do caixa dia " + str(nova_saida.data.strftime('%d/%m/%Y'))

@@ -117,6 +117,7 @@ def fechar(request):
             t_dinheiro = 0
             t_debito = 0
             t_credito = 0
+            t_caixa = caixa.total
             for p in pagamento.objects.filter(data__date=hoje).all():
                 if p.tipo == '1':
                     t_dinheiro = t_dinheiro + p.valor
@@ -129,6 +130,8 @@ def fechar(request):
                 t_dinheiro = 0
                 t_debito = 0
                 t_credito = 0
+                caixa = caixa_geral.objects.latest('id')
+                t_caixa = caixa.total
                 for p in pagamento.objects.filter(data__date=hoje).all():
                     if p.tipo == '1':
                         t_dinheiro = t_dinheiro + p.valor
@@ -153,8 +156,8 @@ def fechar(request):
                 nova_entrada_conta = conta_empresa(operacao=1, id_operacao=nova_saida.id, valor_operacao=valor_1, descricao=desc1, total=novo_total_conta)
                 nova_entrada_conta.save()
                 msg = "Caixa fechado com sucesso, retirada de R$ " + str(valor_1)
-                return render(request, 'lavajato_caixa/caixa_fechar.html', {'title':'Fechar caixa', 'msg':msg, 't_credito':t_credito, 't_debito':t_debito, 't_dinheiro':t_dinheiro})
-            return render(request, 'lavajato_caixa/caixa_fechar.html', {'title':'Fechar caixa', 't_credito':t_credito, 't_debito':t_debito, 't_dinheiro':t_dinheiro})
+                return render(request, 'lavajato_caixa/caixa_fechar.html', {'title':'Fechar caixa', 'msg':msg, 't_credito':t_credito, 't_debito':t_debito, 't_dinheiro':t_dinheiro, 't_caixa':t_caixa})
+            return render(request, 'lavajato_caixa/caixa_fechar.html', {'title':'Fechar caixa', 't_credito':t_credito, 't_debito':t_debito, 't_dinheiro':t_dinheiro, 't_caixa':t_caixa})
         return render(request, 'sistema_login/erro.html', {'title':'Erro'})
     else:
         return render(request, 'sistema_login/erro.html', {'title':'Erro'})

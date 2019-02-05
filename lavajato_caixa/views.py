@@ -90,8 +90,11 @@ def conferencia(request):
             if request.method == 'POST' and request.POST.get('data') != None:
                 hoje = request.POST.get('data')
                 caixas = caixa_geral.objects.filter(data__date=hoje)
-                caixa = caixa_geral.objects.filter(data__date=hoje).latest('id')
-                t_caixa = caixa.total
+                try:
+                    caixa = caixa_geral.objects.filter(data__date=hoje).latest('id')
+                    t_caixa = caixa.total
+                except:
+                    t_caixa = 0
                 for p in pagamento.objects.filter(data__date=hoje).all():
                     if p.tipo == '1':
                         t_dinheiro = t_dinheiro + p.valor

@@ -79,6 +79,7 @@ def conferencia(request):
             t_dinheiro = 0
             t_debito = 0
             t_credito = 0
+            t_retirada = 0
             t_caixa = caixa.total
             for p in pagamento.objects.filter(data__date=hoje).all():
                 if p.tipo == '1':
@@ -87,6 +88,8 @@ def conferencia(request):
                     t_debito = t_debito + p.valor
                 if p.tipo == '3':
                     t_credito = t_credito + p.valor
+            for r in caixa_geral.objects.filter(data__date=hoje).filter(operacao=2, descricao__startswith="Retirada -").all():
+                t_retirada = t_retirada + r.valor_operacao
             t_caixa = t_caixa + t_dinheiro
             if request.method == 'POST' and request.POST.get('data') != None:
                 hoje = request.POST.get('data')
@@ -103,10 +106,11 @@ def conferencia(request):
                         t_debito = t_debito + p.valor
                     if p.tipo == '3':
                         t_credito = t_credito + p.valor
-
+                for r in caixa_geral.objects.filter(data__date=hoje).filter(operacao=2, descricao__startswith="Retirada -").all():
+                    t_retirada = t_retirada + r.valor_operacao
                 t_caixa = t_caixa + t_dinheiro
-                return render(request, 'lavajato_caixa/caixa_conferencia.html', {'title':'Conferencia', 'caixas':caixas, 'hoje':hoje, 'total':total, 't_credito':t_credito, 't_debito':t_debito, 't_dinheiro':t_dinheiro, 't_caixa':t_caixa})
-            return render(request, 'lavajato_caixa/caixa_conferencia.html', {'title':'Conferencia', 'caixas':caixas, 'hoje':hoje, 'total':total, 't_credito':t_credito, 't_debito':t_debito, 't_dinheiro':t_dinheiro, 't_caixa':t_caixa})
+                return render(request, 'lavajato_caixa/caixa_conferencia.html', {'title':'Conferencia', 'caixas':caixas, 'hoje':hoje, 'total':total, 't_credito':t_credito, 't_debito':t_debito, 't_dinheiro':t_dinheiro, 't_caixa':t_caixa, 't_retirada':t_retirada})
+            return render(request, 'lavajato_caixa/caixa_conferencia.html', {'title':'Conferencia', 'caixas':caixas, 'hoje':hoje, 'total':total, 't_credito':t_credito, 't_debito':t_debito, 't_dinheiro':t_dinheiro, 't_caixa':t_caixa, 't_retirada':t_retirada})
         return render(request, 'sistema_login/erro.html', {'title':'Erro'})
     else:
         return render(request, 'sistema_login/erro.html', {'title':'Erro'})

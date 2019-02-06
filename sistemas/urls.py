@@ -5,7 +5,7 @@ Definition of urls for sistemas.
 from datetime import datetime
 from django.conf.urls import url
 import django.contrib.auth.views
-from django.contrib.auth.views import login
+from django.contrib.auth.views import LoginView, LogoutView
 
 import app.forms
 import app.views
@@ -17,8 +17,8 @@ admin.autodiscover()
 
 urlpatterns = [
     # Sistema
-    url(r'^$', login, {'template_name': 'sistema_login/login.html'}),
-    url(r'^sistema_login/', include('sistema_login.urls')),
+    url(r'^$', LoginView.as_view(template_name='sistema_login/login.html'), name="login"),
+    url(r'^sistema_login/', LoginView.as_view(template_name='sistema_login/login.html'), name="login"),
 
     # URL Chica Diniz
     url(r'^chica_home/', include('chica_home.urls')),
@@ -48,30 +48,11 @@ urlpatterns = [
     url(r'^top_cliente/', include('top_cliente.urls')),
 
     # Padrao
-    url(r'^contact$', app.views.contact, name='contact'),
-    url(r'^about$', app.views.about, name='about'),
-    url(r'^login/$',
-        django.contrib.auth.views.login,
-        {
-            'template_name': 'app/login.html',
-            'authentication_form': app.forms.BootstrapAuthenticationForm,
-            'extra_context':
-            {
-                'title': 'Log in',
-                'year': datetime.now().year,
-            }
-        },
-        name='login'),
-    url(r'^logout$',
-        django.contrib.auth.views.logout,
-        {
-            'next_page': '/',
-        },
-        name='logout'),
+    url(r'^logout$', LogoutView.as_view(template_name='sistema_login/login.html'), name="login"),
 
     # Uncomment the admin/doc line below to enable admin documentation:
     # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
 
     # Admin
-    url(r'^admin/', include(admin.site.urls)),
+    url(r'^admin/', admin.site.urls),
 ]

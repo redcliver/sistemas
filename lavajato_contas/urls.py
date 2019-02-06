@@ -12,4 +12,5 @@ urlpatterns = [
     url(r'^confirmar_recebimento', views.confirmar_recebimento),
     url(r'^relatorio', views.relatorio_pagar),
     url(r'^receber', views.receber),
+    url(r'^excluir', views.excluir),
     ]

@@ -286,3 +286,19 @@ def relatorio_pagar(request):
         return render(request, 'sistema_login/erro.html', {'title':'Erro'})
     else:
         return render(request, 'sistema_login/erro.html', {'title':'Erro'})
+
+def excluir(request):
+    if request.user.is_authenticated():
+        empresa = request.user.get_short_name()
+        if empresa == 'dayson':
+            if request.method == 'POST' and request.POST.get('conta_id') != None:
+                conta_id = request.POST.get('conta_id')
+                conta_obj = conta.objects.get(id=conta_id)
+                conta_obj.detele()
+                msg = conta_obj.nome + " deletado(a) com sucesso!"
+                contas = conta.objects.all().order_by('data_venc')
+                return render(request, 'lavajato_contas/conta_busca_edita.html', {'title':'Editar Conta', 'msg':msg, 'contas':contas})
+            return render(request, 'lavajato_contas/conta_busca_edita.html', {'title':'Editar Conta'})
+        return render(request, 'sistema_login/erro.html', {'title':'Erro'})
+    else:
+        return render(request, 'sistema_login/erro.html', {'title':'Erro'})

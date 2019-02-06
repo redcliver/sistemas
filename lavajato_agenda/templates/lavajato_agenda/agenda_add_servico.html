@@ -23,31 +23,32 @@
                 </select>
             </div>
             <div class="form-group col-md-12">
-                    <label for="inputName">Funcionario<strong>*</strong></label>
-                    <select autofocus name="funcionario_id" class="form-control" required>
-                        <option disabled selected> -- Funcionario -- </option>
-                        {% for funcionario in funcionarios %}
-                            <option value={{funcionario.id}}>{{funcionario.nome}}</option>
-                        {% endfor %}
-                    </select>
-                </div>
-                <br />
-                <div class="form-group col-md-12">
-                    <button type="submit" class="btn btn-secondary float-right" formaction="/lavajato_agenda/add_servico" title="Adicionar servico">Adicionar</button>
-                </div>
+                <label for="inputName">Funcionario<strong>*</strong></label>
+                <select autofocus name="funcionario_id" class="form-control" required>
+                    <option disabled selected> -- Funcionario -- </option>
+                    {% for funcionario in funcionarios %}
+                    <option value={{funcionario.id}}>{{funcionario.nome}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <br />
+            <div class="form-group col-md-12">
+                <button type="submit" class="btn btn-secondary float-right" formaction="/lavajato_agenda/add_servico" title="Adicionar servico">Adicionar</button>
+            </div>
             <hr />
-                <table class="table table-responsive">
-                <thead>
-                    <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">Data</th>
-                        <th scope="col">Servico</th>
-                        <th scope="col">Valor</th>
-                        <th scope="col">Funcionario</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for item_servico in it_servicos %}
+            <div class="form-group col-md-12">
+                <table class="table table-responsive-md">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Data</th>
+                            <th scope="col">Servico</th>
+                            <th scope="col">Valor</th>
+                            <th scope="col">Funcionario</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item_servico in it_servicos %}
                         <tr>
                             <td width="10%">{{item_servico.id}}</td>
                             <td width="15%">{{item_servico.data_cadastro|date:"d/m/Y"}}</td>
@@ -55,10 +56,11 @@
                             <td width="15%">{{item_servico.serv.valor}}</td>
                             <td width="30%">{{item_servico.func.nome}}</td>
                         </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+                        {% endfor %}
+                    </tbody>
+                </table>
             </div>
+        </div>
         <div class="form-row">
             <div class="form-group col-md-4">
             </div>

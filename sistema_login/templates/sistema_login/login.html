@@ -146,7 +146,7 @@
     <div class="jumbotron ">
         <div class="container">
             <div class="col-md-4 offset-md-4 center">
-                <form method="POST">
+                <form method="POST" action="/">
                     {% csrf_token %}
                     <div class="form-group">
                         <label for="exampleInputEmail1">Usuário</label>
@@ -173,7 +173,7 @@
         </div>
     </div>
     <footer>
-        <center style="font-size:20px;">HeadTec Desenvolvimento de Sistemas &#9474; 2018</center>
+        <center style="font-size:20px;">HeadTec Desenvolvimento de Sistemas &#9474; <script>document.write(new Date().getFullYear());</script></center>
     </footer>
     <!--===============================================================================================-->
     <script src="{% static '/vendor/jquery/jquery-3.2.1.min.js' %}"></script>

@@ -18,7 +18,7 @@ admin.autodiscover()
 urlpatterns = [
     # Sistema
     url(r'^$', LoginView.as_view(template_name='sistema_login/login.html'), name="login"),
-    url(r'^sistema_login/', LoginView.as_view(template_name='sistema_login/login.html'), name="login"),
+    url(r'^sistema_login/', include('sistema_login.urls')),
 
     # URL Chica Diniz
     url(r'^chica_home/', include('chica_home.urls')),

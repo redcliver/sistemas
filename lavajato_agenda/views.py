@@ -199,6 +199,24 @@ def ver(request):
     else:
         return render(request, 'sistema_login/erro.html', {'title':'Erro'})
 
+def checklist(request):
+    if request.user.is_authenticated():
+        empresa = request.user.get_short_name()
+        if empresa == 'dayson':
+            agendas = agenda.objects.filter(estado=1).order_by('data')
+            servicos = servico.objects.all().order_by('nome')
+            funcionarios = funcionario.objects.all().order_by('nome')
+            if request.method == 'POST' and request.POST.get('agenda_id') != None:
+                agenda_id = request.POST.get('agenda_id')
+                agenda_obj = agenda.objects.filter(id=agenda_id).get()
+                it_servicos = agenda_obj.item_servico.all()
+                hoje = datetime.now().strftime('%d/%m/%Y')
+                return render(request, 'lavajato_agenda/agenda_checklist.html', {'title':'Check-list', 'agenda_obj':agenda_obj, 'it_servicos':it_servicos, 'hoje':hoje})
+            return render(request, 'lavajato_agenda/agenda_checklist.html', {'title':'Check-list', 'agendas':agendas, 'servicos':servicos, 'funcionarios':funcionarios})
+        return render(request, 'sistema_login/erro.html', {'title':'Erro'})
+    else:
+        return render(request, 'sistema_login/erro.html', {'title':'Erro'})
+
 def confirmacao(request):
     if request.user.is_authenticated():
         empresa = request.user.get_short_name()

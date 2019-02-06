@@ -37,7 +37,7 @@
                     <button type="submit" class="btn btn-secondary float-right" formaction="/lavajato_agenda/add_servico" title="Adicionar servico">Adicionar</button>
                 </div>
             <hr />
-                <table class="table table-sm">
+                <table class="table table-responsive">
                 <thead>
                     <tr>
                         <th scope="col">#</th>
@@ -50,11 +50,11 @@
                 <tbody>
                     {% for item_servico in it_servicos %}
                         <tr>
-                            <td>{{item_servico.id}}</td>
-                            <td>{{item_servico.data_cadastro|date:"d/m/Y"}}</td>
-                            <td>{{item_servico.serv.nome}}</td>
-                            <td>{{item_servico.serv.valor}}</td>
-                            <td>{{item_servico.func.nome}}</td>
+                            <td width="10%">{{item_servico.id}}</td>
+                            <td width="15%">{{item_servico.data_cadastro|date:"d/m/Y"}}</td>
+                            <td width="30%">{{item_servico.serv.nome}}</td>
+                            <td width="15%">{{item_servico.serv.valor}}</td>
+                            <td width="30%">{{item_servico.func.nome}}</td>
                         </tr>
                     {% endfor %}
                 </tbody>
@@ -67,8 +67,14 @@
         </div>
         <br />
         <div class="form-row">
-            <button type="submit" formaction="/lavajato_agenda/check_list" class="btn btn-secondary float-left">Check-List</button>
-            <button type="submit" formaction="/lavajato_agenda/ver" class="btn btn-secondary float-right">Finalizar</button>
+            <div class="form-group col-md-4">
+                <button type="submit" formaction="/lavajato_agenda/checklist" class="btn btn-secondary float-left">Check-List</button>
+            </div>
+            <div class="form-group col-md-4">
+            </div>
+            <div class="form-group col-md-4">
+                <button type="submit" formaction="/lavajato_agenda/ver" class="btn btn-secondary float-right">Finalizar</button>
+            </div>
         </div>
-    </form>
+</form>
 {% endblock %}

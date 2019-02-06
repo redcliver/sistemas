@@ -11,6 +11,7 @@ urlpatterns = [
     url(r'^add_servico', views.add_servico),
     url(r'^visualiza', views.visualiza),
     url(r'^ver', views.ver),
+    url(r'^checklist', views.checklist),
     url(r'^confirmacao', views.confirmacao),
     url(r'^desconto', views.desconto),
     url(r'^desmarcar', views.desmarcar),

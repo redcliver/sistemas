@@ -79,7 +79,7 @@ def salva(request):
                 estado = request.POST.get('estado')
                 fixa = request.POST.get('fixa')
                 conta_obj.nome = nome
-                if valor != None or valor != '':
+                if valor != None or valor != "":
                     conta_obj.valor = Decimal(valor)
                 conta_obj.data_venc = data_venc
                 conta_obj.estado = estado

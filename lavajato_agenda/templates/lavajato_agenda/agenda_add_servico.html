@@ -1,5 +1,4 @@
 {% extends 'lavajato_base.html' %}
-
 {% block body %}
 {% load static %}
 {% if msg %}
@@ -10,11 +9,11 @@
     {%csrf_token%}
         <input type="hidden" name="agenda_id" value="{{agenda_obj.id}}"/>
         <div class="form-row">
-            <div class="form-group col-md-10">
+            <div class="form-group col-md-12">
                 <label for="inputName">Cliente<strong>*</strong></label>
                 <input type="text" class="form-control" value="{{agenda_obj.cli.nome}}" disabled>
             </div>
-            <div class="form-group col-md-10">
+            <div class="form-group col-md-12">
                 <label for="inputName">Servico<strong>*</strong></label>
                 <select autofocus name="servico_id" class="form-control" required>
                     <option disabled selected> -- Servico -- </option>
@@ -23,7 +22,7 @@
                     {% endfor %}
                 </select>
             </div>
-            <div class="form-group col-md-10">
+            <div class="form-group col-md-12">
                     <label for="inputName">Funcionario<strong>*</strong></label>
                     <select autofocus name="funcionario_id" class="form-control" required>
                         <option disabled selected> -- Funcionario -- </option>
@@ -33,7 +32,7 @@
                     </select>
                 </div>
                 <br />
-                <div class="form-group col-md-10">
+                <div class="form-group col-md-12">
                     <button type="submit" class="btn btn-secondary float-right" formaction="/lavajato_agenda/add_servico" title="Adicionar servico">Adicionar</button>
                 </div>
             <hr />
@@ -61,7 +60,11 @@
             </table>
             </div>
         <div class="form-row">
-            <div class="col-md-4 offset-md-6">
+            <div class="form-group col-md-4">
+            </div>
+            <div class="form-group col-md-4">
+            </div>
+            <div class="form-group col-md-4">
                 <h3 class="float-right"><b>Total: R${{agenda_obj.total}}</b></h3>
             </div>
         </div>

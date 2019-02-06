@@ -34,7 +34,7 @@
                 {% for conta in contas_all %}
                     {% if conta.estado == '1' %}
                         <tr>
-                            <td>{{conta.id}}</td>
+                            <td><button type="submit" style="background-color:transparent; " name="conta_id" value="{{conta.id}}" formaction="/lavajato_contas/busca">{{conta.id}}</button></td>
                             <td>{{conta.data_venc|date:"H:i"}}</td>
                             <td>{{conta.nome}}</td>
                             <td>R$ {{conta.valor}}</td>
@@ -43,8 +43,8 @@
                         </tr>
                     {% endif %}
                     {% if agenda.estado == '2' %}
-                    <tr>
-                            <td>{{conta.id}}</td>
+                        <tr>
+                            <td><button type="submit" style="background-color:transparent; " name="conta_id" value="{{conta.id}}" formaction="/lavajato_contas/busca">{{conta.id}}</button></td>
                             <td>{{conta.data_venc|date:"H:i"}}</td>
                             <td>{{conta.nome}}</td>
                             <td>R$ {{conta.valor}}</td>

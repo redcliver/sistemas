@@ -80,7 +80,7 @@ def salva(request):
                 fixa = request.POST.get('fixa')
                 conta_obj.nome = nome
                 if novo_valor != None:
-                    if novo_valor != '999999':
+                    if novo_valor != '0':
                         novo_valor = Decimal(novo_valor)
                         conta_obj.valor = novo_valor
                 conta_obj.data_venc = data_venc

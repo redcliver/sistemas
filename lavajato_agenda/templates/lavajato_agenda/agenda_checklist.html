@@ -14,7 +14,7 @@
                 <select name="agenda_id" class="form-control" required>
                     <option disabled selected > -- Data -- Cliente -- Carro -- Placa</option>
                     {% for agenda in agendas %}
-                    <option value="{{agenda.id}}">{{agenda.data|date:"d/m/Y"}} -- {{agenda.cli.nome}} -- {{agenda.car.nome}}-- {{agenda.car.placa}}</option>
+                    <option value="{{agenda.id}}">{{agenda.data|date:"d/m/Y"}} -- {{agenda.cli.nome}} -- {{agenda.car.modelo}}-- {{agenda.car.placa}}</option>
                     {% endfor %}
                 </select>
             </div>

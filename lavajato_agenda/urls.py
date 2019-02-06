@@ -18,6 +18,7 @@ urlpatterns = [
     url(r'^dinheiro', views.dinheiro),
     url(r'^credito', views.credito),
     url(r'^debito', views.debito),
+    url(r'^debito_elo', views.debito_elo),
     url(r'^metodo2', views.metodo2),
     url(r'^boleto', views.boleto),
     url(r'^add_prazo', views.add_prazo),

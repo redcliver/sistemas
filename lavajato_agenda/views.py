@@ -362,7 +362,7 @@ def debito(request):
     else:
         return render(request, 'sistema_login/erro.html', {'title':'Erro'})
 
-def elo(request):
+def debito_elo(request):
     if request.user.is_authenticated():
         empresa = request.user.get_short_name()
         if empresa == 'dayson':
@@ -388,7 +388,7 @@ def elo(request):
                 v_juros = valor / 100
                 t_juros = float(v_juros) * float(taxas.juros)
                 val_parc = float(valor) - float(t_juros)
-                nova_parcela = parcela(estado=1, valor=val_parc, pag ="Cartao Debito", data=data_pag)
+                nova_parcela = parcela(estado=1, valor=val_parc, pag ="Cartao Debito ELO", data=data_pag)
                 nova_parcela.save()
                 agenda_obj.parcelas.add(nova_parcela)
                 agenda_obj.save()

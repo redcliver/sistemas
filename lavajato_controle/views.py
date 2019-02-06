@@ -8,7 +8,7 @@ from lavajato_agenda.models import agenda
 from django.contrib.auth.models import User
 
 # Create your views here.
-def chica_controle(request):
+def lavajato_controle(request):
     if request.user.is_authenticated():
         empresa = request.user.get_short_name()
         cargo = request.user.last_name
@@ -485,7 +485,7 @@ def taxa_credito_prazo(request):
     else:
         return render(request, 'sistema_login/erro.html', {'title':'Erro'})
 
-def taxa_elo(request):
+def taxa_debito_elo(request):
     if request.user.is_authenticated():
         empresa = request.user.get_short_name()
         cargo = request.user.last_name
@@ -506,8 +506,36 @@ def taxa_elo(request):
                     taxa_obj.save()
                     taxas = taxa.objects.filter(tipo=4).get()
                     msg = "Taxas alteradas com sucesso"
-                    return render(request, 'lavajato_controle/taxa_elo.html', {'title':'Taxa de Elo', 'taxas':taxas, 'msg':msg})
-                return render(request, 'lavajato_controle/taxa_elo.html', {'title':'Taxa de Elo', 'taxas':taxas})
+                    return render(request, 'lavajato_controle/taxa_debito_elo.html', {'title':'Taxa Debito Elo', 'taxas':taxas, 'msg':msg})
+                return render(request, 'lavajato_controle/taxa_debito_elo.html', {'title':'Taxa Debito Elo', 'taxas':taxas})
+            return render(request, 'sistema_login/erro.html', {'title':'Erro'})
+        return render(request, 'sistema_login/erro.html', {'title':'Erro'})
+    else:
+        return render(request, 'sistema_login/erro.html', {'title':'Erro'})
+
+def taxa_credito_elo(request):
+    if request.user.is_authenticated():
+        empresa = request.user.get_short_name()
+        cargo = request.user.last_name
+        if empresa == 'dayson':
+            if cargo == 'boss':
+                try:
+                    taxas = taxa.objects.filter(tipo=5).get()
+                except:
+                    taxas = taxa(tipo=5)
+                    taxas.save()
+                if request.method == 'POST' and request.POST.get('dias') != None and request.POST.get('juros') != None:
+                    dias = request.POST.get('dias')
+                    juros = request.POST.get('juros')
+                    taxa_id = request.POST.get('taxa_id')
+                    taxa_obj = taxa.objects.filter(id=taxa_id).get()
+                    taxa_obj.dias = dias
+                    taxa_obj.juros = juros
+                    taxa_obj.save()
+                    taxas = taxa.objects.filter(tipo=5).get()
+                    msg = "Taxas alteradas com sucesso"
+                    return render(request, 'lavajato_controle/taxa_credito_elo.html', {'title':'Taxa Credito Elo', 'taxas':taxas, 'msg':msg})
+                return render(request, 'lavajato_controle/taxa_credito_elo.html', {'title':'Taxa Credito Elo', 'taxas':taxas})
             return render(request, 'sistema_login/erro.html', {'title':'Erro'})
         return render(request, 'sistema_login/erro.html', {'title':'Erro'})
     else:
@@ -520,9 +548,9 @@ def taxa_boleto(request):
         if empresa == 'dayson':
             if cargo == 'boss':
                 try:
-                    taxas = taxa.objects.filter(tipo=5).get()
+                    taxas = taxa.objects.filter(tipo=6).get()
                 except:
-                    taxas = taxa(tipo=5, dias=10)
+                    taxas = taxa(tipo=6, dias=10)
                     taxas.save()
                 if request.method == 'POST' and request.POST.get('dias') != None:
                     dias = request.POST.get('dias')
@@ -530,7 +558,7 @@ def taxa_boleto(request):
                     taxa_obj = taxa.objects.filter(id=taxa_id).get()
                     taxa_obj.dias = dias
                     taxa_obj.save()
-                    taxas = taxa.objects.filter(tipo=5).get()
+                    taxas = taxa.objects.filter(tipo=6).get()
                     msg = "Prazo alterado com sucesso"
                     return render(request, 'lavajato_controle/taxa_boleto.html', {'title':'Prazo do Boleto', 'taxas':taxas, 'msg':msg})
                 return render(request, 'lavajato_controle/taxa_boleto.html', {'title':'Prazo do Boleto', 'taxas':taxas})
@@ -539,20 +567,4 @@ def taxa_boleto(request):
     else:
         return render(request, 'sistema_login/erro.html', {'title':'Erro'})
 
-def teste(request):
-    if request.user.is_authenticated():
-        empresa = request.user.get_short_name()
-        cargo = request.user.last_name
-        if empresa == 'dayson':
-            if cargo == 'boss':
-                total1=750
-                taxas = taxa.objects.filter(tipo=1).get()
-                dias = taxas.dias
-                juros = taxas.juros
-                total = (total1/100)*float(juros)
-                return render(request, 'lavajato_controle/teste.html', {'title':'Taxa de Elo', 'dias':dias, 'juros':juros, 'total':total, 'total1':total1})
-            return render(request, 'sistema_login/erro.html', {'title':'Erro'})
-        return render(request, 'sistema_login/erro.html', {'title':'Erro'})
-    else:
-        return render(request, 'sistema_login/erro.html', {'title':'Erro'})
 

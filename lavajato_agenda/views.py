@@ -48,7 +48,7 @@ def novo(request):
                 clientes = cliente.objects.all().order_by('nome')
                 servicos = servico.objects.all().order_by('nome')
                 funcionarios = funcionario.objects.all().order_by('nome')
-                return render(request, 'lavajato_agenda/agenda_novo.html', {'title':'Novo Agendamento', 'msg':msg, 'clientes':clientes, 'servicos':servicos, 'funcionarios':funcionarios})
+                return render(request, 'lavajato_agenda/agenda_add_servico.html', {'title':'Novo Servico', 'msg':msg, 'clientes':clientes, 'servicos':servicos, 'funcionarios':funcionarios})
             return render(request, 'lavajato_agenda/agenda_novo.html', {'title':'Novo Agendamento', 'clientes':clientes, 'servicos':servicos, 'funcionarios':funcionarios, 'cliente_obj':cliente_obj})
         return render(request, 'sistema_login/erro.html', {'title':'Erro'})
     else:

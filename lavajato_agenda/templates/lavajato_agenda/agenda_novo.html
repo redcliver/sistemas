@@ -29,11 +29,8 @@
         <div class="form-group col-md-10">
             <label for="inputName">Cliente<strong>*</strong></label>
             <select name="cliente_id" class="form-control">
-                <option value="{{cliente_obj.id}}" selected >{{cliente_obj.nome}}</option>
+                <option value="{{cliente_obj.id}}" selected disabled>{{cliente_obj.nome}}</option>
             </select>
-        </div>
-        <div class="form-group col-md-10">
-            <button type="submit" formmethod="GET" formaction="/lavajato_agenda/" class="btn btn-secondary float-right" title="Buscar" disabled>Buscar</button>
         </div>
         </div>
         {% if carros %}

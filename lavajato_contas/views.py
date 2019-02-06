@@ -54,7 +54,7 @@ def edita(request):
     if request.user.is_authenticated():
         empresa = request.user.get_short_name()
         if empresa == 'dayson':
-            contas = conta.objects.filter(estado=1).all().order_by('nome')
+            contas = conta.objects.filter(estado=1).all().order_by('data_venc')
             if request.method == 'POST' and request.POST.get('conta_id') != None:
                 conta_id = request.POST.get('conta_id')
                 conta_obj = conta.objects.get(id=conta_id)
@@ -294,7 +294,7 @@ def excluir(request):
             if request.method == 'POST' and request.POST.get('conta_id') != None:
                 conta_id = request.POST.get('conta_id')
                 conta_obj = conta.objects.get(id=conta_id)
-                conta_obj.detele()
+                conta_obj.delete()
                 msg = conta_obj.nome + " deletado(a) com sucesso!"
                 contas = conta.objects.all().order_by('data_venc')
                 return render(request, 'lavajato_contas/conta_busca_edita.html', {'title':'Editar Conta', 'msg':msg, 'contas':contas})

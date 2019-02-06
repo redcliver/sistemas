@@ -326,6 +326,9 @@
             num=num.replace(/\D/g,"")
             return num
         }
+        $(document).ready(function () {
+            $("#placa").inputmask({ mask: 'AAA-9999' });
+        });
     </script>
 </body>
 </html>

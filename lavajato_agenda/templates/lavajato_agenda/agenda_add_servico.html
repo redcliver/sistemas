@@ -60,9 +60,15 @@
                 </tbody>
             </table>
             </div>
+        <div class="form-row">
             <div class="col-md-4 offset-md-6">
                 <h3 class="float-right"><b>Total: R${{agenda_obj.total}}</b></h3>
             </div>
+        </div>
+        <br />
+        <div class="form-row">
+            <button type="submit" formaction="/lavajato_agenda/check_list" class="btn btn-secondary float-left">Check-List</button>
+            <button type="submit" formaction="/lavajato_agenda/ver" class="btn btn-secondary float-right">Finalizar</button>
         </div>
     </form>
 {% endblock %}

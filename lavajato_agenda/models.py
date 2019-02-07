@@ -23,6 +23,8 @@ class pagamento(models.Model):
         ('1', 'Dinheiro'),
         ('2', 'Cartao Debito'),
         ('3', 'Cartao Credito'),
+        ('4', 'Cartao Debito ELO'),
+        ('5', 'Cartao Credito ELO'),
     )
     id = models.AutoField(primary_key=True)
     tipo = models.CharField(max_length=1, choices=TP)

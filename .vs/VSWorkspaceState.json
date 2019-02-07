@@ -1,10 +1,17 @@
 {
   "ExpandedNodes": [
     "",
-    "\\sistema_login",
-    "\\sistema_login\\templates",
-    "\\sistema_login\\templates\\sistema_login"
+    "\\lavajato_agenda",
+    "\\lavajato_caixa",
+    "\\lavajato_caixa\\templates",
+    "\\lavajato_caixa\\templates\\lavajato_caixa",
+    "\\lavajato_cliente\\templates",
+    "\\lavajato_cliente\\templates\\lavajato_cliente",
+    "\\lavajato_controle",
+    "\\lavajato_controle\\templates",
+    "\\lavajato_controle\\templates\\lavajato_controle",
+    "\\lavajato_home\\templates"
   ],
-  "SelectedNode": "\\sistema_login\\templates\\sistema_login\\login.html",
+  "SelectedNode": "\\lavajato_controle\\templates\\lavajato_controle\\taxa_debito_elo.html",
   "PreviewInSolutionExplorer": false
 }

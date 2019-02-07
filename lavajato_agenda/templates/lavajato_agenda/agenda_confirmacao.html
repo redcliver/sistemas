@@ -111,14 +111,16 @@
                 </button>
               </div>
               <div class="modal-body">
-                <h3 for="inputName"><b>Total: R$ {{desc_total}}</b></h3>
+                <h3 for="inputName"><b>Total: R$ {{desc_total}}</b></h3><br /><br /><br />
               </div>
               <div class="modal-footer">
                   <button type="submit" class="btn btn-secondary " formmethod="GET" formaction="/lavajato_agenda/dinheiro" title="Pagamento em dinheiro">Dinheiro</button>&nbsp;
                   <button type="submit" class="btn btn-secondary " formaction="/lavajato_agenda/debito" title="Pagamento em cartao de debito">Cartao Debito</button>&nbsp;
-                  <button type="submit" class="btn btn-secondary " formaction="/lavajato_agenda/debito_elo" title="Pagamento em cartao de debito">Cartao Debito ELO</button>&nbsp;
-                  <button type="button" class="btn btn-secondary" data-dismiss="modal" data-toggle="modal" data-target="#exampleModal3">Cartao Credito</button>
-                  <button type="submit" class="btn btn-secondary " data-dismiss="modal" data-toggle="modal" data-target="#exampleModal5">Cartao Credito ELO</button>&nbsp;
+                  <button type="submit" class="btn btn-secondary " formaction="/lavajato_agenda/elodebito" title="Pagamento em cartao de debito">Cartao Debito ELO</button>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" data-toggle="modal" data-target="#exampleModal3">Cartao Credito</button>&nbsp;
+                <button type="submit" class="btn btn-secondary " data-dismiss="modal" data-toggle="modal" data-target="#exampleModal5">Cartao Credito ELO</button>
               </div>
             </div>
           </div>
@@ -218,7 +220,7 @@
                         <input type="number" class="form-control" value="1" name="n_parcelas" title="Digite o numero de parcelas" required />
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-secondary " formaction="/lavajato_agenda/metodo2" title="Registrar Pagamento">Registrar</button>&nbsp;
+                        <button type="submit" class="btn btn-secondary " formaction="/lavajato_agenda/elometodo2" title="Registrar Pagamento">Registrar</button>&nbsp;
                     </div>
                 </div>
             </div>
@@ -246,7 +248,7 @@
                         <input type="number" class="form-control" value="1" name="n_parcelas" title="Digite o numero de parcelas" required />
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-secondary" formaction="/lavajato_agenda/credito">Registrar</button>
+                        <button type="submit" class="btn btn-secondary" formaction="/lavajato_agenda/elocredito">Registrar</button>
                     </div>
                 </div>
             </div>

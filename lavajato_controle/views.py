@@ -485,7 +485,7 @@ def taxa_credito_prazo(request):
     else:
         return render(request, 'sistema_login/erro.html', {'title':'Erro'})
 
-def taxa_debito_elo(request):
+def taxa_elo_debito(request):
     if request.user.is_authenticated():
         empresa = request.user.get_short_name()
         cargo = request.user.last_name
@@ -506,8 +506,8 @@ def taxa_debito_elo(request):
                     taxa_obj.save()
                     taxas = taxa.objects.filter(tipo=4).get()
                     msg = "Taxas alteradas com sucesso"
-                    return render(request, 'lavajato_controle/taxa_debito_elo.html', {'title':'Taxa Debito Elo', 'taxas':taxas, 'msg':msg})
-                return render(request, 'lavajato_controle/taxa_debito_elo.html', {'title':'Taxa Debito Elo', 'taxas':taxas})
+                    return render(request, 'lavajato_controle/taxa_elo_debito.html', {'title':'Taxa Debito Elo', 'taxas':taxas, 'msg':msg})
+                return render(request, 'lavajato_controle/taxa_elo_debito.html', {'title':'Taxa Debito Elo', 'taxas':taxas})
             return render(request, 'sistema_login/erro.html', {'title':'Erro'})
         return render(request, 'sistema_login/erro.html', {'title':'Erro'})
     else:

@@ -23,7 +23,7 @@ urlpatterns = [
     url(r'^taxa_debito', views.taxa_debito),
     url(r'^taxa_credito_vista', views.taxa_credito_vista),
     url(r'^taxa_credito_prazo', views.taxa_credito_prazo),
-    url(r'^taxa_elo', views.taxa_elo),
+    url(r'^taxa_elo_debito', views.taxa_elo_debito),
+    url(r'^taxa_credito_elo', views.taxa_credito_elo),
     url(r'^taxa_boleto', views.taxa_boleto),
-    url(r'^teste', views.teste),
     ]

@@ -214,13 +214,46 @@ def receber(request):
             t_recebido = 0
             n_recebido = 0
             n_geral = 0
+            t_dinheiro = 0
+            n_dinheiro = 0
+            t_debito = 0
+            n_debito = 0
+            t_elodebito = 0
+            n_elodebito = 0
+            t_elocredito = 0
+            n_elocredito = 0
+            t_avistacredito = 0
+            n_avistacredito = 0
+            t_prazocredito = 0
+            n_prazocredito = 0
             parcela_all = parcela.objects.filter(data__month=mes).all().order_by('data')
             for a in parcela.objects.filter(estado=1, data__month=mes).all():
-                    t_receber = t_receber + a.valor
-                    n_receber = n_receber + 1
+                t_receber = t_receber + a.valor
+                n_receber = n_receber + 1
             for b in parcela.objects.filter(estado=2, data__month=mes).all():
-                    t_recebido = t_recebido + b.valor
-                    n_recebido = n_recebido + 1
+                t_recebido = t_recebido + b.valor
+                n_recebido = n_recebido + 1
+            for c in parcela.objects.filter(pag="Dinheiro", data__month=mes).all():
+                t_dinheiro = t_dinheiro + c.valor
+                n_dinheiro = n_dinheiro + 1
+            for d in parcela.objects.filter(pag="Cartao Debito", data__month=mes).all():
+                t_debito = t_debito + d.valor
+                n_debito = n_debito + 1
+            for e in parcela.objects.filter(pag="Cartao ELO Debito", data__month=mes).all():
+                t_elodebito = t_elodebito + e.valor
+                n_elodebito = n_elodebito + 1
+            for f in parcela.objects.filter(pag="Cartao Credito ELO a Vista", data__month=mes).all():
+                t_elocredito = t_elocredito + f.valor
+                n_elocredito = n_elocredito + 1
+            for g in parcela.objects.filter(pag="Cartao Credito ELO a Prazo", data__month=mes).all():
+                t_elocredito = t_elocredito + f.valor
+                n_elocredito = n_elocredito + 1
+            for h in parcela.objects.filter(pag="Cartao Credito a Vista", data__month=mes).all():
+                t_avistacredito = t_avistacredito + h.valor
+                n_avistacredito = n_avistacredito + 1
+            for i in parcela.objects.filter(pag="Cartao Credito a Prazo", data__month=mes).all():
+                t_prazocredito = t_prazocredito + i.valor
+                n_prazocredito = n_prazocredito + 1
             n_geral = n_receber + n_recebido
             total_geral = t_receber + t_recebido
             if request.method == 'POST' and request.POST.get('data_inicio') != None and request.POST.get('data_fim') != None:
@@ -231,6 +264,18 @@ def receber(request):
                 t_recebido = 0
                 n_recebido = 0
                 n_geral = 0
+                t_dinheiro = 0
+                n_dinheiro = 0
+                t_debito = 0
+                n_debito = 0
+                t_elodebito = 0
+                n_elodebito = 0
+                t_elocredito = 0
+                n_elocredito = 0
+                t_avistacredito = 0
+                n_avistacredito = 0
+                t_prazocredito = 0
+                n_prazocredito = 0
                 parcela_all = parcela.objects.filter(data__range=(data_inicio,data_fim)).all().order_by('data')
                 for a in parcela.objects.filter(estado=1, data__range=(data_inicio,data_fim)).all():
                         t_receber = t_receber + a.valor
@@ -238,10 +283,31 @@ def receber(request):
                 for b in parcela.objects.filter(estado=2, data__range=(data_inicio,data_fim)).all():
                         t_recebido = t_recebido + b.valor
                         n_recebido = n_recebido + 1
+                for c in parcela.objects.filter(pag="Dinheiro", data__range=(data_inicio,data_fim)).all():
+                    t_dinheiro = t_dinheiro + c.valor
+                    n_dinheiro = n_dinheiro + 1
+                for d in parcela.objects.filter(pag="Cartao Debito", data__range=(data_inicio,data_fim)).all():
+                    t_debito = t_debito + d.valor
+                    n_debito = n_debito + 1
+                for e in parcela.objects.filter(pag="Cartao ELO Debito", data__range=(data_inicio,data_fim)).all():
+                    t_elodebito = t_elodebito + e.valor
+                    n_elodebito = n_elodebito + 1
+                for f in parcela.objects.filter(pag="Cartao Credito ELO a Prazo", data__range=(data_inicio,data_fim)).all():
+                    t_elocredito = t_elocredito + f.valor
+                    n_elocredito = n_elocredito + 1
+                for g in parcela.objects.filter(pag="Cartao Credito ELO a Vista", data__range=(data_inicio,data_fim)).all():
+                    t_elocredito = t_elocredito + g.valor
+                    n_elocredito = n_elocredito + 1
+                for h in parcela.objects.filter(pag="Cartao Credito a Vista", data__range=(data_inicio,data_fim)).all():
+                    t_avistacredito = t_avistacredito + h.valor
+                    n_avistacredito = n_avistacredito + 1
+                for i in parcela.objects.filter(pag="Cartao Credito a Prazo", data__range=(data_inicio,data_fim)).all():
+                    t_prazocredito = t_prazocredito + i.valor
+                    n_prazocredito = n_prazocredito + 1
                 n_geral = n_receber + n_recebido
                 total_geral = t_receber + t_recebido
-                return render(request, 'lavajato_contas/conta_relatorio_receber.html', {'title':'Relatorio Contas a Receber', 'data_inicio':data_inicio, 'data_fim':data_fim, 'parcela_all':parcela_all, 'n_receber':n_receber, 't_receber':t_receber, 'n_recebido':n_recebido, 't_recebido':t_recebido, 'total_geral':total_geral, 'n_geral':n_geral})
-            return render(request, 'lavajato_contas/conta_relatorio_receber.html', {'title':'Relatorio Contas a Receber', 'data_inicio':data_inicio, 'data_fim':data_fim, 'parcela_all':parcela_all, 'n_receber':n_receber, 't_receber':t_receber, 'n_recebido':n_recebido, 't_recebido':t_recebido, 'total_geral':total_geral, 'n_geral':n_geral})
+                return render(request, 'lavajato_contas/conta_relatorio_receber.html', {'title':'Relatorio Contas a Receber', 'data_inicio':data_inicio, 'data_fim':data_fim, 'parcela_all':parcela_all, 'n_receber':n_receber, 't_receber':t_receber, 'n_recebido':n_recebido, 't_recebido':t_recebido, 'total_geral':total_geral, 'n_geral':n_geral, 'n_dinheiro':n_dinheiro, 't_dinheiro':t_dinheiro, 'n_debito':n_debito, 't_debito':t_debito, 'n_elodebito':n_elodebito, 't_elodebito':t_elodebito, 'n_elocredito':n_elocredito, 't_elocredito':t_elocredito, 'n_avistacredito':n_avistacredito, 't_avistacredito':t_avistacredito, 'n_prazocredito':n_prazocredito, 't_prazocredito':t_prazocredito})
+            return render(request, 'lavajato_contas/conta_relatorio_receber.html', {'title':'Relatorio Contas a Receber', 'data_inicio':data_inicio, 'data_fim':data_fim, 'parcela_all':parcela_all, 'n_receber':n_receber, 't_receber':t_receber, 'n_recebido':n_recebido, 't_recebido':t_recebido, 'total_geral':total_geral, 'n_geral':n_geral, 'n_dinheiro':n_dinheiro, 't_dinheiro':t_dinheiro, 'n_debito':n_debito, 't_debito':t_debito, 'n_elodebito':n_elodebito, 't_elodebito':t_elodebito, 'n_elocredito':n_elocredito, 't_elocredito':t_elocredito, 'n_avistacredito':n_avistacredito, 't_avistacredito':t_avistacredito, 'n_prazocredito':n_prazocredito, 't_prazocredito':t_prazocredito})
         return render(request, 'sistema_login/erro.html', {'title':'Erro'})
     else:
         return render(request, 'sistema_login/erro.html', {'title':'Erro'})

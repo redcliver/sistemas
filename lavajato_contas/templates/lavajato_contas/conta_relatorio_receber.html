@@ -32,11 +32,47 @@
             <tbody>
                 <tr>
                     <td scope="row">1</td>
-                    <td>Cartao Credito</td>
-                    <td>{{n_geral}}</td>
+                    <td>Dinheiro</td>
+                    <td>{{n_dinheiro}}</td>
                     <td>-</td>
-                    <td>R$ {{total_geral}}</td>
+                    <td>R$ {{t_dinheiro}}</td>
                 </tr>
+                <tr>
+                    <td scope="row">2</td>
+                    <td>Cartao Debito</td>
+                    <td>{{n_debito}}</td>
+                    <td>-</td>
+                    <td>R$ {{t_debito}}</td>
+                </tr>
+                <tr>
+                    <td scope="row">3</td>
+                    <td>Cartao Debito ELO</td>
+                    <td>{{n_elodebito}}</td>
+                    <td>-</td>
+                    <td>R$ {{t_elodebito}}</td>
+                </tr>
+                <tr>
+                    <td scope="row">4</td>
+                    <td>Cartao Credito a Vista</td>
+                    <td>{{n_avistacredito}}</td>
+                    <td>-</td>
+                    <td>R$ {{t_avistacredito}}</td>
+                </tr>
+                <tr>
+                    <td scope="row">5</td>
+                    <td>Cartao Credito a Prazo</td>
+                    <td>{{n_prazocredito}}</td>
+                    <td>-</td>
+                    <td>R$ {{t_prazocredito}}</td>
+                </tr>
+                <tr>
+                    <td scope="row">6</td>
+                    <td>Cartao Credito ELO</td>
+                    <td>{{n_elocredito}}</td>
+                    <td>-</td>
+                    <td>R$ {{t_elocredito}}</td>
+                </tr>
+                
             </tbody>
         </table>
         <br/>
@@ -57,7 +93,7 @@
                         <tr>
                             <td scope="row">{{parcela.id}}</td>
                             <td>{{parcela.data|date:"d/m/Y"}}</td>
-                            <td>Parcela Cartao {{parcela.numero_parcela}}/{{parcela.total_parcelas}}</td>
+                            <td>{{parcela.pag}} {{parcela.numero_parcela}}/{{parcela.total_parcelas}}</td>
                             <td>R$ {{parcela.valor}}</td>
                             <td>{{parcela.get_estado_display}}</td>
                          </tr>

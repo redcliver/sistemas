@@ -362,7 +362,7 @@ def debito(request):
     else:
         return render(request, 'sistema_login/erro.html', {'title':'Erro'})
 
-def debito_elo(request):
+def elodebito(request):
     if request.user.is_authenticated():
         empresa = request.user.get_short_name()
         if empresa == 'dayson':
@@ -388,7 +388,7 @@ def debito_elo(request):
                 v_juros = valor / 100
                 t_juros = float(v_juros) * float(taxas.juros)
                 val_parc = float(valor) - float(t_juros)
-                nova_parcela = parcela(estado=1, valor=val_parc, pag ="Cartao Debito ELO", data=data_pag)
+                nova_parcela = parcela(estado=1, valor=val_parc, pag ="Cartao ELO Debito", data=data_pag)
                 nova_parcela.save()
                 agenda_obj.parcelas.add(nova_parcela)
                 agenda_obj.save()
@@ -485,7 +485,7 @@ def credito(request):
     else:
         return render(request, 'sistema_login/erro.html', {'title':'Erro'})
 
-def credito_elo(request):
+def elocredito(request):
     if request.user.is_authenticated():
         empresa = request.user.get_short_name()
         if empresa == 'dayson':
@@ -508,7 +508,7 @@ def credito_elo(request):
                 v_juros = valor / 100
                 t_juros = float(v_juros) * float(taxas.juros)
                 val_parc = float(valor) - float(t_juros)
-                nova_parcela = parcela(estado=1, valor=val_parc, pag ="Cartao Credito a Vista ELO", data=data_pag)
+                nova_parcela = parcela(estado=1, valor=val_parc, pag ="Cartao Credito ELO a Vista", data=data_pag)
                 nova_parcela.save()
                 agenda_obj.parcelas.add(nova_parcela)
                 agenda_obj.save()
@@ -540,7 +540,7 @@ def credito_elo(request):
                 while p < int(n_parcelas):
                     data_parcela = timedelta(days=int(dia)) * c
                     data_pag = datetime.now() + data_parcela
-                    nova_parcela = parcela(estado=1, valor=v_parcela, numero_parcela=c, total_parcelas=int(n_parcelas), pag ="Cartao Credito a Prazo ELO", data=data_pag)
+                    nova_parcela = parcela(estado=1, valor=v_parcela, numero_parcela=c, total_parcelas=int(n_parcelas), pag ="Cartao Credito ELO a Prazo", data=data_pag)
                     nova_parcela.save()
                     agenda_obj.parcelas.add(nova_parcela)
                     agenda_obj.save()
@@ -604,7 +604,7 @@ def metodo2(request):
                 while p < int(n_parcelas):
                     data_parcela = timedelta(days=int(dia)) * c
                     data_pag = datetime.now() + data_parcela
-                    nova_parcela = parcela(estado=1, valor=v_parcela, numero_parcela=c, total_parcelas=int(n_parcelas), pag="Cartao Credito", data=data_pag)
+                    nova_parcela = parcela(estado=1, valor=v_parcela, numero_parcela=c, total_parcelas=int(n_parcelas), pag="Cartao Credito a Vista", data=data_pag)
                     nova_parcela.save()
                     agenda_obj.parcelas.add(nova_parcela)
                     agenda_obj.save()
@@ -661,7 +661,7 @@ def metodo2(request):
                 while p < int(n_parcelas):
                     data_parcela = timedelta(days=int(dia)) * c
                     data_pag = datetime.now() + data_parcela
-                    nova_parcela = parcela(estado=1, valor=v_parcela, numero_parcela=c, total_parcelas=int(n_parcelas), pag="Cartao Credito", data=data_pag)
+                    nova_parcela = parcela(estado=1, valor=v_parcela, numero_parcela=c, total_parcelas=int(n_parcelas), pag="Cartao Credito a Prazo", data=data_pag)
                     nova_parcela.save()
                     agenda_obj.parcelas.add(nova_parcela)
                     agenda_obj.save()
@@ -688,7 +688,7 @@ def metodo2(request):
     else:
         return render(request, 'sistema_login/erro.html', {'title':'Erro'})
 
-def metodo2_elo(request):
+def elometodo2(request):
     if request.user.is_authenticated():
         empresa = request.user.get_short_name()
         if empresa == 'dayson':
@@ -728,7 +728,7 @@ def metodo2_elo(request):
                 while p < int(n_parcelas):
                     data_parcela = timedelta(days=int(dia)) * c
                     data_pag = datetime.now() + data_parcela
-                    nova_parcela = parcela(estado=1, valor=v_parcela, numero_parcela=c, total_parcelas=int(n_parcelas), pag="Cartao Credito ELO", data=data_pag)
+                    nova_parcela = parcela(estado=1, valor=v_parcela, numero_parcela=c, total_parcelas=int(n_parcelas), pag="Cartao Credito ELO a Vista", data=data_pag)
                     nova_parcela.save()
                     agenda_obj.parcelas.add(nova_parcela)
                     agenda_obj.save()
@@ -785,7 +785,7 @@ def metodo2_elo(request):
                 while p < int(n_parcelas):
                     data_parcela = timedelta(days=int(dia)) * c
                     data_pag = datetime.now() + data_parcela
-                    nova_parcela = parcela(estado=1, valor=v_parcela, numero_parcela=c, total_parcelas=int(n_parcelas), pag="Cartao Credito ELO", data=data_pag)
+                    nova_parcela = parcela(estado=1, valor=v_parcela, numero_parcela=c, total_parcelas=int(n_parcelas), pag="Cartao Credito ELO a Prazo", data=data_pag)
                     nova_parcela.save()
                     agenda_obj.parcelas.add(nova_parcela)
                     agenda_obj.save()

@@ -103,7 +103,7 @@ def nova_saida(request):
         empresa = request.user.get_short_name()
         if empresa == 'dayson':
             produtos = produto.objects.all().order_by('nome')
-            if request.method == 'POST' and 'venda' in request.POST:
+            if request.method == 'POST' and request.POST.get('venda') == '1':
                 produto_id = request.POST.get('nova_saida')
                 quantidade = request.POST.get('quantidade')
                 produto_obj = produto.objects.filter(id=produto_id).get()

@@ -7,9 +7,9 @@ class produto(models.Model):
     nome = models.CharField(max_length=200)
     valor_venda = models.DecimalField(max_digits=10, decimal_places=2)
     valor_compra = models.DecimalField(max_digits=10, decimal_places=2)
-    quantidade = models.IntegerField()
-    quantidade_minima = models.IntegerField()
-    lucro = models.IntegerField(null=True, blank=True)
+    quantidade = models.DecimalField(max_digits=10, decimal_places=2)
+    quantidade_minima = models.DecimalField(max_digits=10, decimal_places=2)
+    lucro = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
     data_cadastro = models.DateTimeField(default=timezone.now)
     
     def __str__(self):
@@ -20,7 +20,7 @@ class lote(models.Model):
     prod = models.ForeignKey(produto,on_delete=models.CASCADE)
     valor_venda = models.DecimalField(max_digits=10, decimal_places=2)
     valor_compra = models.DecimalField(max_digits=10, decimal_places=2)
-    quantidade = models.IntegerField()
+    quantidade = models.DecimalField(max_digits=10, decimal_places=2)
     data_cadastro = models.DateTimeField(default=timezone.now)
     
     def __str__(self):
@@ -32,9 +32,9 @@ class retiradas(models.Model):
         ('2', 'Venda'),
     )
     id = models.AutoField(primary_key=True)
-    uso = models.CharField(max_length=1, choices=OP)
+    uso = models.CharField(max_length=1, choices=OP, default=1)
     prod = models.ForeignKey(produto,on_delete=models.CASCADE)
-    quantidade = models.IntegerField()
+    quantidade = models.DecimalField(max_digits=10, decimal_places=2)
     data = models.DateTimeField(default=timezone.now)
     
     def __str__(self):

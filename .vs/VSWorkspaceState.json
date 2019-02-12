@@ -2,16 +2,13 @@
   "ExpandedNodes": [
     "",
     "\\lavajato_agenda",
-    "\\lavajato_caixa",
+    "\\lavajato_agenda\\templates",
+    "\\lavajato_agenda\\templates\\lavajato_agenda",
     "\\lavajato_caixa\\templates",
     "\\lavajato_caixa\\templates\\lavajato_caixa",
-    "\\lavajato_cliente\\templates",
-    "\\lavajato_cliente\\templates\\lavajato_cliente",
-    "\\lavajato_controle",
     "\\lavajato_controle\\templates",
-    "\\lavajato_controle\\templates\\lavajato_controle",
-    "\\lavajato_home\\templates"
+    "\\lavajato_controle\\templates\\lavajato_controle"
   ],
-  "SelectedNode": "\\lavajato_controle\\templates\\lavajato_controle\\taxa_debito_elo.html",
+  "SelectedNode": "\\lavajato_agenda\\templates\\lavajato_agenda\\agenda_ordem_branco.html",
   "PreviewInSolutionExplorer": false
 }

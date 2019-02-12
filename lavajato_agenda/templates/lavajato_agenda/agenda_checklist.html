@@ -5,9 +5,11 @@
 {% if msg %}
     <h1 style="text-align:center;">{{msg}}</h1><hr />
 {%endif%}
+
     <form method="POST">
     {%csrf_token%}
         {% if agenda_obj == None %}
+        <h3>Check-list</h3><hr />
         <div class="form-row">
             <div class="form-group col-md-12">
                 <select name="agenda_id" class="form-control" required>

@@ -343,7 +343,9 @@
             return [p1, p2].join('-');
         }
         function mPlaca(placa) {
-            placa = placa.replace(/([^\d]*)(\d*)/, replacer);
+            placa = placa.replace(/\w/g, "")
+            placa = placa.replace(/(\w{3})(\w)/, "$1-$2")
+            placa = placa.replace(/(\d{4})(\d)/, "$1.$2")
             return placa
         }
     </script>

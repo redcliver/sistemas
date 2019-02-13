@@ -344,7 +344,7 @@
         }
         function mPlaca(placa) {
             placa = placa.replace(/\W/g, "")
-            placa = placa.replace(/^(\D{3})(^\D)/, "$1-$2")
+            placa = placa.replace(/^(\D{3})(\w)/, "$1-$2")
             placa = placa.replace(/(\D{4})(\D)(\D)/, "$1$2$3")
             return placa
         }

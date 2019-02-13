@@ -337,26 +337,12 @@
             cep = cep.replace(/\.(\d{3})(\d)/, ".$1-$2")
             return cep
         }
-    </script>
-    <script type="text/javascript">
-        jQuery.noConflict();
-        jQuery(function ($) {
-            $("#placa").mask("aaa-9999");
-        });
-    </script>
-    <script>
-        $(document).ready(function(){
-        $("#money").inputmask('decimal', {
-                    'alias': 'numeric',
-                    'groupSeparator': ',',
-                    'autoGroup': true,
-                    'digits': 2,
-                    'radixPoint': ".",
-                    'digitsOptional': false,
-                    'allowMinus': false,
-                    'prefix': 'R$ ',
-                    'placeholder': ''
-        });
+        function mTESTE(teste) {
+            teste = teste.replace(/\D/g, "")
+            teste = teste.replace(/^(\d{2})(\d)/, "$1.$2")
+            teste = teste.replace(/\.(\d{3})(\d)/, ".$1-$2")
+            return teste
+        }
     </script>
 </body>
 </html>

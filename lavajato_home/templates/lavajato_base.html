@@ -338,8 +338,9 @@
             return cep
         }
         function mTESTE(teste) {
-            teste = teste.replace(/\D/g, "")
-            teste = teste.replace(/\.(\d{3})(\d)/, ".$1-$2")
+            if (teste.length == 9) {
+                teste = teste.replace(/(.{1})$/, "-$1")
+
             return teste
         }
     </script>

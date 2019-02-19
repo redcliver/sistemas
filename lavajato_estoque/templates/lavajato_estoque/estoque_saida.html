@@ -14,7 +14,7 @@
                 <label for="inputName">Produto<strong>*</strong></label>
                 <input type="text" class="form-control" name="nome" value="{{produto_obj.nome}}" disabled>
                 <br>
-                <button type="submit" class="btn btn-secondary float-right" title="Registrar saida de outro produto">Outro</button>
+                <button type="submit" formaction="/lavajato_estoque/saida" class="btn btn-secondary float-right" title="Registrar saída de outro produto.">Outro</button>
             </div>
         </div>
         <hr />
@@ -29,7 +29,7 @@
                         {% endfor %}
                     </select>
                 <br>
-                <button type="submit" class="btn btn-secondary float-right" title="Registrar saida do produto">Proximo</button>
+                <button type="submit" class="btn btn-secondary float-right" title="Registrar saída do produto.">Proximo</button>
             </div>
         </div>
         {% endif %}
@@ -66,7 +66,7 @@
         </div>
         <div class="form-row">
             <div class="form-group col-md-10">
-                <button type="submit" class="btn btn-secondary float-right" formaction="/lavajato_estoque/nova_saida" title="Salvar registro de saida">Registrar</button>
+                <button type="submit" class="btn btn-secondary float-right" formaction="/lavajato_estoque/nova_saida" title="Salvar registro de saída.">Registrar</button>
             </div>
         </div>
         {% endif %}

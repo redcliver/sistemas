@@ -9,12 +9,16 @@
     <form method="POST">
     {%csrf_token%}
         <div class="form-row">
-            <div class="form-group col-md-9"></div>
-            <div class="form-group col-md-3">
-                <label>Data</label>
-                <input type="date" class="form-control" value="{{hoje}}" name="data" title="Selecione a data" />
-                <button type="submit" class="btn btn-secondary float-right" title="Buscar por data">Buscar</button>
-            </div>
+            <div class="form-group col-md-6"></div>
+                <div class="form-group col-md-3">
+                    <label>Data Início</label>
+                    <input type="date" class="form-control" value="{{data_inicio}}" name="data_inicio" title="Selecione a data."/>
+                </div>
+                <div class="form-group col-md-3">
+                    <label>Data Fim</label>
+                    <input type="date" class="form-control" value="{{data_fim}}" name="data_fim" title="Selecione a data."/>
+                    <button type="submit" class="btn btn-secondary float-right" title="Buscar por data.">Buscar</button>
+                </div>
             {% if caixas %}
             <div class="form-group col-md-12">
                 <table class="table table-responsive-md">
@@ -31,12 +35,12 @@
                     <tbody>
                         {% for caixa_geral in caixas %}
                         <tr>
-                            <td width="5%">{{caixa_geral.id_operacao}}</td>
+                            <td width="7%">{{caixa_geral.id}}</td>
                             <td width="10%">{{caixa_geral.data|date:"d/m/Y"}}</td>
-                            <td width="15%">{{caixa_geral.get_operacao_display}}</td>
-                            <td width="10%">R$ {{caixa_geral.valor_operacao}}</td>
-                            <td width="50%">{{caixa_geral.descricao}}</td>
-                            <td width="10%">R$ {{caixa_geral.total}}</td>
+                            <td width="13%">{{caixa_geral.get_operacao_display}}</td>
+                            <td width="15%">R$ {{caixa_geral.valor_operacao}}</td>
+                            <td width="40%">{{caixa_geral.get_tipo_display}}</td>
+                            <td width="15%">R$ {{caixa_geral.total}}</td>
                         </tr>
                         {% endfor %}
                     </tbody>
@@ -47,11 +51,13 @@
         <hr />
         <div class="form-row">
             <div class="form-group col align-self-end">
-                <h3><br><b>Total Cartao Credito: R$ {{t_credito}}</b></h3>
-                <h3><b>Total Cartao Debito: R$ {{t_debito}}</b></h3>
-                <h3><b>Total Dinheiro: R$ {{t_dinheiro}}</b></h3>
-                <h3><b>Total Retirada: R$ {{t_retirada}}</b></h3>
-                <h3><b>Total em Caixa: R$ {{t_caixa}}</b></h3>
+                <h4><br><b>Total Cartao Crédito: R$ {{t_credito}}</b></h4>
+                <h4><b>Total Cartao Débito: R$ {{t_debito}}</b></h4>
+                <h4><b>Total Cartao ELO Crédito: R$ {{t_elocredito}}</b></h4>
+                <h4><b>Total Cartao ELO Débito: R$ {{t_elodebito}}</b></h4>
+                <h4><b>Total Dinheiro: R$ {{t_dinheiro}}</b></h4>
+                <h4><b>Total Retirada: R$ {{t_retirada}}</b></h4>
+                <h4><b>Total em Caixa: R$ {{t_caixa}}</b></h4>
             </div>
         </div>
 </form>

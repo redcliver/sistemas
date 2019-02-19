@@ -163,7 +163,6 @@
                             <a class="dropdown-item sansserif1" style="color: #030e39;" href="/lavajato_agenda/edita">Editar Ordem</a>
                             <a class="dropdown-item sansserif1" style="color: #030e39;" href="/lavajato_agenda/visualiza">Visualizar Ordem</a>
                             <a class="dropdown-item sansserif1" style="color: #030e39;" href="/lavajato_agenda/checklist">Check-list</a>
-                            <a class="dropdown-item sansserif1" style="color: #030e39;" href="#">Pagamento Parcial</a>
                         </div>
                     </div>
                 </li>
@@ -347,6 +346,16 @@
             placa = placa.replace(/^(\D{3})(\w)/, "$1-$2")
             placa = placa.replace(/\D(\D)(\D)(\D)(\D)/, "$1$2$3")
             return placa
+        }
+        function mQnt(qnt) {
+            qnt = qnt.replace(/\D/g, "")
+            qnt = qnt.replace(/(\d{1})(\d)/, "$1.$2")
+            return qnt
+        }
+        function mValor(valor) {
+            valor = valor.replace(/\D/g, "")
+            valor = valor.replace(/(\d)(\d{2})$/, "$1.$2")
+            return valor
         }
     </script>
 </body>

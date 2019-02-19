@@ -1,0 +1,62 @@
+{% extends 'lavajato_base.html' %}
+
+{% block body %}
+{% load static %}
+{% if msg %}
+    <h1 style="text-align:center;">{{msg}}</h1><hr />
+{%endif%}
+<h1>Pagamento Parcial</h1><hr />
+    <form method="POST">
+    {%csrf_token%}
+    <div class="form-row">
+            <div class="form-group col-md-6"></div>
+            <div class="form-group col-md-3">
+                <label>Data Inicio</label>
+                <input type="date" class="form-control" value="{{data_inicio}}" name="data_inicio" title="Selecione a data"/>
+            </div>
+            <div class="form-group col-md-3">
+                <label>Data Fim</label>
+                <input type="date" class="form-control" value="{{data_fim}}" name="data_fim" title="Selecione a data"/>
+                <button type="submit" formmethod="GET" class="btn btn-secondary float-right" title="Buscar por data">Buscar</button>
+            </div>
+        <table class="table table-sm">
+            <thead>
+                <tr>
+                    <th scope="col-md-2">#</th>
+                    <th scope="col-md-4">Data</th>
+                    <th scope="col-md-2">Descricao</th>
+                    <th scope="col-md-2">Valor</th>
+                    <th scope="col-md-2">Estado</th>
+                    <th scope="col-md-2">Confirmar</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if parcela_all %}
+                    {% for parcela in parcela_all %}
+                        {% if parcela.estado == '1' %}
+                        <tr>
+                            <td scope="row">{{parcela.id}}</td>
+                            <td>{{parcela.data|date:"d/m/Y"}}</td>
+                            <td>Parcela Cartao {{parcela.numero_parcela}}/{{parcela.total_parcelas}}</td>
+                            <td>R$ {{parcela.valor}}</td>
+                            <td>{{parcela.get_estado_display}}</td>
+                            <td><button name="parcela_id" value="{{parcela.id}}" class="btn btn-secondary" formaction="/lavajato_contas/confirmar_recebimento" title='Confirmar'>Confirmar</button></td>
+                        </tr>
+                        {% endif %}
+                        {% if parcela.estado == '2' %}
+                        <tr>
+                            <td scope="row">{{parcela.id}}</td>
+                            <td>{{parcela.data|date:"d/m/Y"}}</td>
+                            <td>Parcela Cartao</td>
+                            <td>R$ {{parcela.valor}}</td>
+                            <td>{{parcela.get_estado_display}}</td>
+                            <td>Recebida</td>
+                        </tr>
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
+    </form>
+{% endblock %}

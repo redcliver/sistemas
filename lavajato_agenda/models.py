@@ -25,9 +25,11 @@ class pagamento(models.Model):
         ('3', 'Cartao Credito'),
         ('4', 'Cartao Debito ELO'),
         ('5', 'Cartao Credito ELO'),
+        ('6', 'Boleto'),
+        ('7', 'Transferencia'),
     )
     id = models.AutoField(primary_key=True)
-    tipo = models.CharField(max_length=1, choices=TP)
+    tipo = models.CharField(max_length=1, choices=TP, default= 1)
     valor = models.DecimalField(max_digits=10, decimal_places=2)
     descricao = models.CharField(max_length=200, null=True, blank=True)
     data = models.DateTimeField(default=timezone.now)
@@ -40,11 +42,20 @@ class parcela(models.Model):
         ('1', 'Em Aberto'),
         ('2', 'Paga'),
     )
+    PG = (
+        ('1', 'Dinheiro'),
+        ('2', 'Cartao Debito'),
+        ('3', 'Cartao Credito'),
+        ('4', 'Cartao Debito ELO'),
+        ('5', 'Cartao Credito ELO'),
+        ('6', 'Boleto'),
+        ('7', 'Transferencia'),
+    )
     id = models.AutoField(primary_key=True)
     numero_parcela = models.IntegerField(default=1)
     total_parcelas = models.IntegerField(default=1)
     estado = models.CharField(max_length=1, choices=ESTADO)
-    pag = models.CharField(max_length=200, null=True, blank=True)
+    pag = models.CharField(max_length=1, choices=PG, default=1)
     valor = models.DecimalField(max_digits=10, decimal_places=2)
     data = models.DateTimeField(default=timezone.now)
     data_pagamento = models.DateTimeField(default=timezone.now)
@@ -70,6 +81,7 @@ class agenda(models.Model):
     data = models.DateTimeField(null=True, blank=True)
     subtotal = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     desconto = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+    pag_parcial = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     total = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
     boleto_total = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
     boleto = models.DateTimeField(null=True, blank=True)

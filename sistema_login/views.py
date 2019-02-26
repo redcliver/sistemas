@@ -27,7 +27,7 @@ def sistema_login(request):
                 ultimo_id = z.id
                 novo_total = conta_empresa_obj.total + z.valor
                 valor = z.valor
-                desc = "Parcela : " + str(z.id)
+                desc = "Parcela : " + str(z.numero_parcela) + "/" + str(z.total_parcelas)
                 nova_entrada = conta_empresa(operacao=1, id_operacao=ultimo_id, valor_operacao=valor, descricao=desc, total=novo_total)
                 nova_entrada.save()
             dia = datetime.now().strftime('%d')

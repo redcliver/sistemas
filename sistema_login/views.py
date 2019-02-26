@@ -19,7 +19,17 @@ def sistema_login(request):
         if empresa == 'chicadiniz':
             return render(request, 'chica_home/home.html', {'title':'Home'})
         elif empresa == 'dayson':
-            hoje = datetime.now().strftime('%Y-%m-%d')
+            data = datetime.now().strftime('%Y-%m-%d')
+            for z in parcela.objects.filter(data__lte=data, estado=1).all():
+                z.estado = 2
+                z.save()
+                conta_empresa_obj = conta_empresa.objects.latest('id')
+                ultimo_id = z.id
+                novo_total = conta_empresa_obj.total + z.valor
+                valor = z.valor
+                desc = "Parcela : " + str(z.id)
+                nova_entrada = conta_empresa(operacao=1, id_operacao=ultimo_id, valor_operacao=valor, descricao=desc, total=novo_total)
+                nova_entrada.save()
             dia = datetime.now().strftime('%d')
             mes = datetime.now().strftime('%m')
             bloqueio = datetime.now() + timezone.timedelta(days=-45)
@@ -41,7 +51,7 @@ def sistema_login(request):
                 caixa.save()
             vencimento_conta = 0
             estoque_min = 0
-            for a in conta.objects.filter(estado=1, data_venc__lte=hoje).all():
+            for a in conta.objects.filter(estado=1, data_venc__lte=data).all():
                 vencimento_conta = vencimento_conta + 1
             for b in produto.objects.all():
                 if b.quantidade <= b.quantidade_minima or b.quantidade == b.quantidade_minima:
@@ -52,7 +62,7 @@ def sistema_login(request):
                 cli_obj.liberacao = 2
                 cli_obj.save()
                 bloqueados = bloqueados + 1
-            for d in agenda.objects.filter(boleto__lte=hoje, estado=1):
+            for d in agenda.objects.filter(boleto__lte=data, estado=1):
                 boleto = boleto + 1
             cli_inativo = cliente.objects.all()
             cli_ina_meses = cliente.objects.all()

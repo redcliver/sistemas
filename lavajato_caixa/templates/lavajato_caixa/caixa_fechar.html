@@ -17,7 +17,7 @@
         <div class="form-row">
             <div class="form-group col-md-3">
                 <label for="inputCel">Valor da Retirada</label>
-                <input type="number" class="form-control" step="0.1" name="valor" title="Digire o valor a ser retirado no fechamento">
+                <input type="text" class="form-control" name="valor" maxlength="10" onkeydown="javascript: fMasc( this, mValor );" required>
             </div>
         </div>
         <br />

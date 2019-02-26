@@ -256,9 +256,9 @@ def confirmar_recebimento(request):
                 ultimo_id = parcela_obj.id
                 novo_total = conta_empresa_obj.total + parcela_obj.valor
                 valor = parcela_obj.valor
-                desc = "Recebimento da Parcela : " + str(parcela_obj.id)
-                nova_saida = conta_empresa(operacao=1, id_operacao=ultimo_id, valor_operacao=valor, descricao=desc, total=novo_total)
-                nova_saida.save()
+                desc = "Parcela : " + str(parcela_obj.id)
+                nova_entrada = conta_empresa(operacao=1, id_operacao=ultimo_id, valor_operacao=valor, descricao=desc, total=novo_total)
+                nova_entrada.save()
                 parcela_all = parcela.objects.filter(data__range=(data_inicio,data_fim)).all().order_by('data')
                 return render(request, 'lavajato_contas/conta_receber.html', {'title':'Receber Conta', 'data_inicio':data_inicio, 'data_fim':data_fim, 'parcela_all':parcela_all})
             return render(request, 'lavajato_contas/conta_receber.html', {'title':'Receber Conta', 'data_inicio':data_inicio, 'data_fim':data_fim, 'parcela_all':parcela_all})

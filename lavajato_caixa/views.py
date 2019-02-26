@@ -75,7 +75,7 @@ def conferencia(request):
             data = datetime.now().strftime('%Y-%m-%d')
             data_limite = datetime.now() + timezone.timedelta(days=1)
             caixas = caixa_geral.objects.filter(data__date=(data)).order_by('data')
-            caixa = caixa_geral.objects.filter(data__date=(data)).latest('id')
+            caixa = caixa_geral.objects.latest('id')
             total = caixa.total
             t_dinheiro = 0
             t_debito = 0

@@ -860,3 +860,14 @@ def pag_parcial(request):
         return render(request, 'sistema_login/erro.html', {'title':'Erro'})
     else:
         return render(request, 'sistema_login/erro.html', {'title':'Erro'})
+
+def pag_vencidos(request):
+    if request.user.is_authenticated():
+        empresa = request.user.get_short_name()
+        if empresa == 'dayson':
+            hoje = datetime.now()
+            agendas = agenda.objects.filter(data_pagamento__lte=hoje, estado=1).all().order_by('data_pagamento')
+            return render(request, 'lavajato_agenda/agenda_pag_vencidos.html', {'title':'Pagamentos Vencidos', 'agendas':agendas})
+        return render(request, 'sistema_login/erro.html', {'title':'Erro'})
+    else:
+        return render(request, 'sistema_login/erro.html', {'title':'Erro'})

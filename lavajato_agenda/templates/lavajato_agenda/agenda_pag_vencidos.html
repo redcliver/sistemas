@@ -1,0 +1,68 @@
+{% extends 'lavajato_base.html' %}
+
+{% block body %}
+{% load static %}
+{% if msg %}
+    <h1 style="text-align:center;">{{msg}}</h1><hr />
+{%endif%}
+<h1>Pagamentos Vencidos</h1><hr />
+    <form method="POST">
+    {%csrf_token%}
+    <div class="form-row">
+        <table class="table table-responsive-sm">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Data</th>
+                    <th scope="col">Cliente</th>
+                    <th scope="col">Carro</th>
+                    <th scope="col">Placa</th>
+                    <th scope="col">Total</th>
+                    <th scope="col">Data Pag.</th>
+                    <th scope="col">Visualizar</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for agenda in agendas %}
+                    {% if agenda.estado == '1' %}
+                        <tr>
+                            <td width="5%"><button type="submit" style="background-color:transparent; " name="agenda_id" value="{{agenda.id}}" formaction="/lavajato_agenda/ver">{{agenda.id}}</button></button></td>
+                            <td width="10%">{{agenda.data|date:"d/m/Y"}}</td>
+                            <td width="15%">{{agenda.cli.nome}}</td>
+                            <td width="10%">{{agenda.car.modelo}}</td>
+                            <td width="10%">{{agenda.car.placa}}</td>
+                            <td width="10%">R$ {{agenda.subtotal}}</td>
+                            <td width="10%">{{agenda.data_pagamento|date:"d/m/Y"}}</td>
+                            <td width="10%"><button type="submit" name="agenda_id" value="{{agenda.id}}" class="btn btn-secondary" formaction="/lavajato_agenda/confirmacao" title='Confirmar'>Visualizar</button></td>
+                        </tr>
+                    {% endif %}
+                    {% if agenda.estado == '2' %}
+                        <tr>
+                            <td width="5%"><button type="submit" style="background-color:transparent; " name="agenda_id" value="{{agenda.id}}" formaction="/lavajato_agenda/ver">{{agenda.id}}</button></button></td>
+                            <td width="10%">{{agenda.data|date:"d/m/Y"}}</td>
+                            <td width="15%">{{agenda.cli.nome}}</td>
+                            <td width="10%">{{agenda.car.modelo}}</td>
+                            <td width="10%">{{agenda.car.placa}}</td>
+                            <td width="10%">R$ {{agenda.subtotal}}</td>
+                            <td width="10%">{{agenda.get_estado_display}}</td>
+                            <td width="10%">Finalizado</td>
+                        </tr>
+                    {% endif %}
+                    {% if agenda.estado == '3' %}
+                        <tr>
+                            <td width="5%"><button type="submit" style="background-color:transparent; " name="agenda_id" value="{{agenda.id}}" formaction="/lavajato_agenda/ver">{{agenda.id}}</button></button></td>
+                            <td width="10%">{{agenda.data|date:"d/m/Y"}}</td>
+                            <td width="15%">{{agenda.cli.nome}}</td>
+                            <td width="10%">{{agenda.car.modelo}}</td>
+                            <td width="10%">{{agenda.car.placa}}</td>
+                            <td width="10%">R$ {{agenda.subtotal}}</td>
+                            <td width="10%">{{agenda.get_estado_display}}</td>
+                            <td width="10%">Finalizado</td>
+                        </tr>
+                    {% endif %}
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    </form>
+{% endblock %}

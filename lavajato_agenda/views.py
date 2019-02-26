@@ -62,8 +62,15 @@ def busca(request):
     if request.user.is_authenticated():
         empresa = request.user.get_short_name()
         if empresa == 'dayson':
-            hoje = datetime.now().strftime('%Y-%m-%d')
-            agendas = agenda.objects.filter(estado=1).order_by('data')
+            data_inicio = datetime.now().strftime('%Y-%m-%d')
+            data_fim = datetime.now() + timezone.timedelta(days=1)
+            data_fim = data_fim.strftime('%Y-%m-%d')            
+            agendas = agenda.objects.filter(data__range=(data_inicio,data_fim),estado=1).order_by('data')
+            if request.method == 'GET' and request.POST.get('data_inicio') != None and request.POST.get('data_fim') != None:
+                data_inicio = request.GET.get('data_inicio')                
+                data_fim = request.GET.get('data_fim')
+                agendas = agenda.objects.filter(data__range=(data_inicio,data_fim)).all()
+                return render(request, 'lavajato_agenda/agenda_busca.html', {'title':'Editar Agenda', 'agendas':agendas, 'data_inicio':data_inicio, 'data_fim':data_fim})
             if request.method == 'POST' and request.POST.get('agenda_id') != None:
                 agenda_id = request.POST.get('agenda_id')
                 agenda_obj = agenda.objects.filter(id=agenda_id).get()
@@ -71,7 +78,7 @@ def busca(request):
                 funcionarios = funcionario.objects.all().order_by('nome')
                 it_servicos = agenda_obj.item_servico.all()
                 return render(request, 'lavajato_agenda/agenda_add_servico.html', {'title':'Adicionar Servico', 'agenda_obj':agenda_obj, 'servicos':servicos, 'funcionarios':funcionarios, 'it_servicos':it_servicos})
-            return render(request, 'lavajato_agenda/agenda_busca.html', {'title':'Editar Agenda', 'agendas':agendas, 'hoje':hoje})
+            return render(request, 'lavajato_agenda/agenda_busca.html', {'title':'Editar Agenda', 'agendas':agendas, 'data_inicio':data_inicio, 'data_fim':data_fim})
         return render(request, 'sistema_login/erro.html', {'title':'Erro'})
     else:
         return render(request, 'sistema_login/erro.html', {'title':'Erro'})
@@ -111,18 +118,21 @@ def edita(request):
     if request.user.is_authenticated():
         empresa = request.user.get_short_name()
         if empresa == 'dayson':
-            hoje = datetime.now().strftime('%Y-%m-%d')
-            agendas = agenda.objects.filter(data__date=timezone.now()).all()
-            if request.method == 'POST' and request.POST.get('data') != None:
-                hoje = request.POST.get('data')
-                agendas = agenda.objects.filter(data__date=hoje).all()
-                return render(request, 'lavajato_agenda/agenda_edita.html', {'title':'Editar Agenda', 'agendas':agendas, 'hoje':hoje})
+            data_inicio = datetime.now().strftime('%Y-%m-%d')
+            data_fim = datetime.now() + timezone.timedelta(days=1)
+            data_fim = data_fim.strftime('%Y-%m-%d')
+            agendas = agenda.objects.filter(data__range=(data_inicio,data_fim)).all()
+            if request.method == 'POST' and request.POST.get('data_inicio') != None and request.POST.get('data_fim') != None:
+                data_inicio = request.POST.get('data_inicio')                
+                data_fim = request.POST.get('data_fim')
+                agendas = agenda.objects.filter(data__range=(data_inicio,data_fim)).all()
+                return render(request, 'lavajato_agenda/agenda_edita.html', {'title':'Editar Agenda', 'agendas':agendas, 'data_inicio':data_inicio, 'data_fim':data_fim})
             if request.method == 'GET' and request.GET.get('agenda_id') != None:
                 agenda_id = request.GET.get('agenda_id')
                 agenda_obj = agenda.objects.filter(id=agenda_id).get()
                 it_servicos = agenda_obj.item_servico.all()
                 return render(request, 'lavajato_agenda/agenda_edita.1.html', {'title':'Editar Agenda', 'agenda_obj':agenda_obj, 'it_servicos':it_servicos})
-            return render(request, 'lavajato_agenda/agenda_edita.html', {'title':'Editar Agenda', 'agendas':agendas, 'hoje':hoje})
+            return render(request, 'lavajato_agenda/agenda_edita.html', {'title':'Editar Agenda', 'agendas':agendas, 'data_inicio':data_inicio, 'data_fim':data_fim})
         return render(request, 'sistema_login/erro.html', {'title':'Erro'})
     else:
         return render(request, 'sistema_login/erro.html', {'title':'Erro'})

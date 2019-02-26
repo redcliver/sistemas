@@ -2,23 +2,77 @@
 
 {% block body %}
 {% load static %}
-<h1>Selecione a Ordem</h1><hr /><br />
+{% if msg %}
+    <h1 style="text-align:center;">{{msg}}</h1><hr />
+{%endif%}
+<h1>Selecione a Ordem</h1><hr />
     <form method="POST">
     {%csrf_token%}
     <div class="form-row">
-        <div class="form-group col-md-12">
-            <select name="agenda_id" class="form-control" required>
-                <option disabled selected > -- Cliente -- Data -- </option>
+            <div class="form-group col-md-6"></div>
+            <div class="form-group col-md-3">
+                <label>Data Inicio</label>
+                <input type="date" class="form-control" value="{{data_inicio}}" name="data_inicio" title="Selecione a data"/>
+            </div>
+            <div class="form-group col-md-3">
+                <label>Data Fim</label>
+                <input type="date" class="form-control" value="{{data_fim}}" name="data_fim" title="Selecione a data"/>
+                <button type="submit" formmethod="GET" class="btn btn-secondary float-right" title="Buscar por data">Buscar</button>
+            </div>
+        <table class="table table-responsive-sm">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Data</th>
+                    <th scope="col">Cliente</th>
+                    <th scope="col">Carro</th>
+                    <th scope="col">Placa</th>
+                    <th scope="col">Total</th>
+                    <th scope="col">Estado</th>
+                    <th scope="col">Adicionar</th>
+                </tr>
+            </thead>
+            <tbody>
                 {% for agenda in agendas %}
-                    <option value="{{agenda.id}}">{{agenda.cli.nome}} -- {{agenda.data|date:"d/m/Y"}} </option>
+                    {% if agenda.estado == '1' %}
+                        <tr>
+                            <td>{{agenda.id}}</td>
+                            <td>{{agenda.data|date:"d/m/Y"}}</td>
+                            <td>{{agenda.cli.nome}}</td>
+                            <td>{{agenda.car.modelo}}</td>
+                            <td>{{agenda.car.placa}}</td>
+                            <td>R$ {{agenda.total}}</td>
+                            <td>{{agenda.get_estado_display}}</td>
+                            <td><button name="agenda_id" value="{{agenda.id}}" class="btn btn-secondary" formmethod="POST" formaction="/lavajato_agenda/busca" title="Adicionar serviço.">Adicionar</button></td>
+                        </tr>
+                    {% endif %}
+                    {% if agenda.estado == '2' %}
+                        <tr>
+                            <td>{{agenda.id}}</td>
+                            <td>{{agenda.data|date:"d/m/Y"}}</td>
+                            <td>{{agenda.cli.nome}}</td>
+                            <td>{{agenda.car.modelo}}</td>
+                            <td>{{agenda.car.placa}}</td>
+                            <td>R$ {{agenda.total}}</td>
+                            <td>{{agenda.get_estado_display}}</td>
+                            <td>Finalizado</td>
+                        </tr>
+                    {% endif %}
+                    {% if agenda.estado == '3' %}
+                        <tr>
+                            <td>{{agenda.id}}</td>
+                            <td>{{agenda.data|date:"d/m/Y"}}</td>
+                            <td>{{agenda.cli.nome}}</td>
+                            <td>{{agenda.car.modelo}}</td>
+                            <td>{{agenda.car.placa}}</td>
+                            <td>R$ {{agenda.total}}</td>
+                            <td>{{agenda.get_estado_display}}</td>
+                            <td>Finalizado</td>
+                        </tr>
+                    {% endif %}
                 {% endfor %}
-            </select>
-        </div>
-    </div>
-    <div class="form-row">
-        <div class="form-group col-md-12">
-            <button type="submit" class="btn btn-secondary float-right" title="Buscar agendamento">Buscar</button>
-        </div>
+            </tbody>
+        </table>
     </div>
     </form>
 {% endblock %}

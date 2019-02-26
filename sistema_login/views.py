@@ -51,6 +51,7 @@ def sistema_login(request):
                 caixa.save()
             vencimento_conta = 0
             estoque_min = 0
+            pag_vencidos = 0
             for a in conta.objects.filter(estado=1, data_venc__lte=data).all():
                 vencimento_conta = vencimento_conta + 1
             for b in produto.objects.all():
@@ -64,6 +65,8 @@ def sistema_login(request):
                 bloqueados = bloqueados + 1
             for d in agenda.objects.filter(boleto__lte=data, estado=1):
                 boleto = boleto + 1
+            for e in agenda.objects.filter(data_pagamento__lte=data, estado=1):
+                pag_vencidos = pag_vencidos + 1
             cli_inativo = cliente.objects.all()
             cli_ina_meses = cliente.objects.all()
             for f in agenda.objects.filter(data__gte=seis_meses).all():
@@ -71,7 +74,7 @@ def sistema_login(request):
                 if f.data >= mes_passado:
                     cli_inativo = cli_inativo.exclude(id=f.cli.id)
             aniversario = cliente.objects.filter(data_nasc__day=dia, data_nasc__month=mes).all()
-            return render(request, 'lavajato_home/home.html', {'title':'Home', 'boleto':boleto, 'bloqueados':bloqueados, 'aniversario':aniversario, 'vencimento_conta':vencimento_conta, 'estoque_min':estoque_min, 'cli_inativo':cli_inativo, 'cli_ina_meses':cli_ina_meses})
+            return render(request, 'lavajato_home/home.html', {'title':'Home','pag_vencidos':pag_vencidos, 'boleto':boleto, 'bloqueados':bloqueados, 'aniversario':aniversario, 'vencimento_conta':vencimento_conta, 'estoque_min':estoque_min, 'cli_inativo':cli_inativo, 'cli_ina_meses':cli_ina_meses})
         elif empresa == 'mario':
             return render(request, 'mario_home/home.html', {'title':'Home'})
         elif empresa == 'top':

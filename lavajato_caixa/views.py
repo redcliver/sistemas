@@ -24,15 +24,30 @@ def entrada(request):
     if request.user.is_authenticated():
         empresa = request.user.get_short_name()
         if empresa == 'dayson':
-            try:
-                caixa = caixa_geral.objects.latest('id')
-            except:
-                caixa = caixa_geral(operacao=1, id_operacao=1, valor_operacao=0, descricao="Abertura", total=0)
-                caixa.save()
+            data_limite = datetime.now() + timezone.timedelta(days=1)
+            t_caixa = 0
+            total_retirada = 0
+            for y in caixa_geral.objects.filter(data__lte=(data_limite)).filter(operacao=2, descricao__startswith="Retirada -").all():
+                total_retirada = total_retirada + y.valor_operacao
+            for z in caixa_geral.objects.filter(data__lte=(data_limite)).filter(operacao=2, descricao__startswith="Pagamento conta").all():
+                total_retirada = total_retirada + z.valor_operacao
+            for w in pagamento.objects.filter(data__lte=(data_limite), tipo=1).all():
+                t_caixa = t_caixa + w.valor
+            t_caixa = t_caixa - total_retirada
             if request.method == 'POST' and request.POST.get('desc') != None:
                 desc = request.POST.get('desc')
                 valor = request.POST.get('valor')
                 caixa = caixa_geral.objects.latest('id')
+                data_limite = datetime.now() + timezone.timedelta(days=1)
+                t_caixa = 0
+                total_retirada = 0
+                for y in caixa_geral.objects.filter(data__lte=(data_limite)).filter(operacao=2, descricao__startswith="Retirada -").all():
+                    total_retirada = total_retirada + y.valor_operacao
+                for z in caixa_geral.objects.filter(data__lte=(data_limite)).filter(operacao=2, descricao__startswith="Pagamento conta").all():
+                    total_retirada = total_retirada + z.valor_operacao
+                for w in pagamento.objects.filter(data__lte=(data_limite), tipo=1).all():
+                    t_caixa = t_caixa + w.valor
+                t_caixa = t_caixa - total_retirada
                 ultimo_id = caixa.id_operacao
                 ultimo_id = int(ultimo_id) + 1
                 desc = "Entrada - "+desc
@@ -40,8 +55,8 @@ def entrada(request):
                 nova_entrada = caixa_geral(operacao=1, tipo=1, id_operacao=ultimo_id, valor_operacao=valor, descricao=desc, total=novo_total)
                 nova_entrada.save()
                 msg = "Entrada registrada com sucesso!"
-                return render(request, 'lavajato_caixa/caixa_entrada.html', {'title':'Entrada', 'msg':msg,'caixa':caixa})
-            return render(request, 'lavajato_caixa/caixa_entrada.html', {'title':'Entrada', 'caixa':caixa})
+                return render(request, 'lavajato_caixa/caixa_entrada.html', {'title':'Entrada', 'msg':msg,'t_caixa':t_caixa})
+            return render(request, 'lavajato_caixa/caixa_entrada.html', {'title':'Entrada', 't_caixa':t_caixa})
         return render(request, 'sistema_login/erro.html', {'title':'Erro'})
     else:
         return render(request, 'sistema_login/erro.html', {'title':'Erro'})
@@ -50,11 +65,30 @@ def saida(request):
     if request.user.is_authenticated():
         empresa = request.user.get_short_name()
         if empresa == 'dayson':
-            caixa = caixa_geral.objects.latest('id')
+            data_limite = datetime.now() + timezone.timedelta(days=1)
+            t_caixa = 0
+            total_retirada = 0
+            for y in caixa_geral.objects.filter(data__lte=(data_limite)).filter(operacao=2, descricao__startswith="Retirada -").all():
+                total_retirada = total_retirada + y.valor_operacao
+            for z in caixa_geral.objects.filter(data__lte=(data_limite)).filter(operacao=2, descricao__startswith="Pagamento conta").all():
+                total_retirada = total_retirada + z.valor_operacao
+            for w in pagamento.objects.filter(data__lte=(data_limite), tipo=1).all():
+                t_caixa = t_caixa + w.valor
+            t_caixa = t_caixa - total_retirada
             if request.method == 'POST' and request.POST.get('desc') != None:
                 desc = request.POST.get('desc')
                 valor = request.POST.get('valor')
                 caixa = caixa_geral.objects.latest('id')
+                data_limite = datetime.now() + timezone.timedelta(days=1)
+                t_caixa = 0
+                total_retirada = 0
+                for y in caixa_geral.objects.filter(data__lte=(data_limite)).filter(operacao=2, descricao__startswith="Retirada -").all():
+                    total_retirada = total_retirada + y.valor_operacao
+                for z in caixa_geral.objects.filter(data__lte=(data_limite)).filter(operacao=2, descricao__startswith="Pagamento conta").all():
+                    total_retirada = total_retirada + z.valor_operacao
+                for w in pagamento.objects.filter(data__lte=(data_limite), tipo=1).all():
+                    t_caixa = t_caixa + w.valor
+                t_caixa = t_caixa - total_retirada
                 ultimo_id = caixa.id_operacao
                 ultimo_id = int(ultimo_id) + 1
                 desc = "Retirada - " + desc
@@ -62,8 +96,8 @@ def saida(request):
                 nova_saida = caixa_geral(operacao=2, tipo=1, id_operacao=ultimo_id, valor_operacao=valor, descricao=desc, total=novo_total)
                 nova_saida.save()
                 msg = "Saida registrada com sucesso!"
-                return render(request, 'lavajato_caixa/caixa_saida.html', {'title':'Saida', 'msg':msg,'caixa':caixa})
-            return render(request, 'lavajato_caixa/caixa_saida.html', {'title':'Saida','caixa':caixa})
+                return render(request, 'lavajato_caixa/caixa_saida.html', {'title':'Saida', 'msg':msg,'t_caixa':t_caixa})
+            return render(request, 'lavajato_caixa/caixa_saida.html', {'title':'Saida','t_caixa':t_caixa})
         return render(request, 'sistema_login/erro.html', {'title':'Erro'})
     else:
         return render(request, 'sistema_login/erro.html', {'title':'Erro'})

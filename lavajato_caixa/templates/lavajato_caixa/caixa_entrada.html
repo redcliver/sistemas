@@ -8,11 +8,11 @@
 <h1>Entrada</h1><hr />
     <form method="POST">
     {%csrf_token%}
-        <h3 for="inputName"><b>Total em Caixa: R$ {{caixa.total}}</b></h3><hr />
+        <h3 for="inputName"><b>Total de Dinheiro em Caixa: R$ {{t_caixa}}</b></h3><hr />
         <div class="form-row">
                 <div class="form-group col-md-9">
-                    <label for="inputName">Descricao </label>
-                    <input type="text" class="form-control" id="inputEmail4" name="desc" maxlength="200" required autofocus title="Digite a descricao da entrada">
+                    <label for="inputName">Descrição </label>
+                    <input type="text" class="form-control" id="inputEmail4" name="desc" maxlength="200" required autofocus title="Digite a descrição da entrada.">
                 </div>
                 <div class="form-group col-md-3">
                     
@@ -23,6 +23,6 @@
                 </div>
             </div>
             <br />
-            <button type="submit" class="btn btn-secondary float-right" title="Salvar registro de entrada">Registrar</button>
+            <button type="submit" class="btn btn-secondary float-right" title="Salvar registro de entrada.">Registrar</button>
     </form>
 {% endblock %}

@@ -5,14 +5,14 @@
 {% if msg %}
     <h1 style="text-align:center;">{{msg}}</h1><hr />
 {%endif%}
-<h1>Saida</h1><hr />
+<h1>Saída</h1><hr />
     <form method="POST">
     {%csrf_token%}
-    <h3 for="inputName"><b>Total em Caixa: R$ {{caixa.total}}</b></h3><hr />
+    <h3 for="inputName"><b>Total de Dinheiro em Caixa: R$ {{t_caixa}}</b></h3><hr />
         <div class="form-row">
                 <div class="form-group col-md-9">
-                    <label for="inputName">Descricao </label>
-                    <input type="text" class="form-control" id="inputEmail4" name="desc" maxlength="200" required autofocus title="Digite a descricao da saida">
+                    <label for="inputName">Descrição </label>
+                    <input type="text" class="form-control" id="inputEmail4" name="desc" maxlength="200" required autofocus title="Digite a descrição da saída.">
                 </div>
                 <div class="form-group col-md-3">
                     
@@ -23,6 +23,6 @@
                 </div>
             </div>
             <br />
-            <button type="submit" class="btn btn-secondary float-right" title="Salvar registro da saida">Registrar</button>
+            <button type="submit" class="btn btn-secondary float-right" title="Salvar registro da saída.">Registrar</button>
     </form>
 {% endblock %}

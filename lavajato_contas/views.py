@@ -298,25 +298,25 @@ def receber(request):
             for b in parcela.objects.filter(estado=2, data__month=mes).all():
                 t_recebido = t_recebido + b.valor
                 n_recebido = n_recebido + 1
-            for c in parcela.objects.filter(pag="Dinheiro", data__month=mes).all():
+            for c in parcela.objects.filter(pag=1, data__month=mes).all():
                 t_dinheiro = t_dinheiro + c.valor
                 n_dinheiro = n_dinheiro + 1
-            for d in parcela.objects.filter(pag="Cartao Debito", data__month=mes).all():
+            for d in parcela.objects.filter(pag=2, data__month=mes).all():
                 t_debito = t_debito + d.valor
                 n_debito = n_debito + 1
-            for e in parcela.objects.filter(pag="Cartao ELO Debito", data__month=mes).all():
+            for e in parcela.objects.filter(pag=4, data__month=mes).all():
                 t_elodebito = t_elodebito + e.valor
                 n_elodebito = n_elodebito + 1
-            for f in parcela.objects.filter(pag="Cartao Credito ELO a Vista", data__month=mes).all():
+            for f in parcela.objects.filter(pag=5, data__month=mes).all():
                 t_elocredito = t_elocredito + f.valor
                 n_elocredito = n_elocredito + 1
-            for g in parcela.objects.filter(pag="Cartao Credito ELO a Prazo", data__month=mes).all():
+            for g in parcela.objects.filter(pag=5, data__month=mes).all():
                 t_elocredito = t_elocredito + f.valor
                 n_elocredito = n_elocredito + 1
-            for h in parcela.objects.filter(pag="Cartao Credito a Vista", data__month=mes).all():
+            for h in parcela.objects.filter(pag=3, data__month=mes).all():
                 t_avistacredito = t_avistacredito + h.valor
                 n_avistacredito = n_avistacredito + 1
-            for i in parcela.objects.filter(pag="Cartao Credito a Prazo", data__month=mes).all():
+            for i in parcela.objects.filter(pag=3, data__month=mes).all():
                 t_prazocredito = t_prazocredito + i.valor
                 n_prazocredito = n_prazocredito + 1
             n_geral = n_receber + n_recebido
@@ -348,25 +348,25 @@ def receber(request):
                 for b in parcela.objects.filter(estado=2, data__range=(data_inicio,data_fim)).all():
                         t_recebido = t_recebido + b.valor
                         n_recebido = n_recebido + 1
-                for c in parcela.objects.filter(pag="Dinheiro", data__range=(data_inicio,data_fim)).all():
+                for c in parcela.objects.filter(pag=1, data__range=(data_inicio,data_fim)).all():
                     t_dinheiro = t_dinheiro + c.valor
                     n_dinheiro = n_dinheiro + 1
-                for d in parcela.objects.filter(pag="Cartao Debito", data__range=(data_inicio,data_fim)).all():
+                for d in parcela.objects.filter(pag=2, data__range=(data_inicio,data_fim)).all():
                     t_debito = t_debito + d.valor
                     n_debito = n_debito + 1
-                for e in parcela.objects.filter(pag="Cartao ELO Debito", data__range=(data_inicio,data_fim)).all():
+                for e in parcela.objects.filter(pag=4, data__range=(data_inicio,data_fim)).all():
                     t_elodebito = t_elodebito + e.valor
                     n_elodebito = n_elodebito + 1
-                for f in parcela.objects.filter(pag="Cartao Credito ELO a Prazo", data__range=(data_inicio,data_fim)).all():
+                for f in parcela.objects.filter(pag=5, data__range=(data_inicio,data_fim)).all():
                     t_elocredito = t_elocredito + f.valor
                     n_elocredito = n_elocredito + 1
-                for g in parcela.objects.filter(pag="Cartao Credito ELO a Vista", data__range=(data_inicio,data_fim)).all():
+                for g in parcela.objects.filter(pag=5, data__range=(data_inicio,data_fim)).all():
                     t_elocredito = t_elocredito + g.valor
                     n_elocredito = n_elocredito + 1
-                for h in parcela.objects.filter(pag="Cartao Credito a Vista", data__range=(data_inicio,data_fim)).all():
+                for h in parcela.objects.filter(pag=3, data__range=(data_inicio,data_fim)).all():
                     t_avistacredito = t_avistacredito + h.valor
                     n_avistacredito = n_avistacredito + 1
-                for i in parcela.objects.filter(pag="Cartao Credito a Prazo", data__range=(data_inicio,data_fim)).all():
+                for i in parcela.objects.filter(pag=3, data__range=(data_inicio,data_fim)).all():
                     t_prazocredito = t_prazocredito + i.valor
                     n_prazocredito = n_prazocredito + 1
                 n_geral = n_receber + n_recebido

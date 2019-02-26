@@ -19,7 +19,7 @@ def sistema_login(request):
         if empresa == 'chicadiniz':
             return render(request, 'chica_home/home.html', {'title':'Home'})
         elif empresa == 'dayson':
-            data = datetime.now().strftime('%Y-%m-%d')
+            data = datetime.now() + timezone.timedelta(days=1)
             for z in parcela.objects.filter(data__lte=data, estado=1).all():
                 z.estado = 2
                 z.save()

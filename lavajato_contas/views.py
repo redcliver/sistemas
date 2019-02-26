@@ -223,7 +223,8 @@ def conta_receber(request):
         empresa = request.user.get_short_name()
         if empresa == 'dayson':
             data_inicio = datetime.now().strftime('%Y-%m-%d')
-            data_fim = datetime.now().strftime('%Y-%m-%d')
+            data_fim = datetime.now() + timezone.timedelta(days=1)
+            data_fim = data_fim.strftime('%Y-%m-%d')
             hoje = datetime.now()
             parcela_all = parcela.objects.filter(data__range=(data_inicio,data_fim)).all().order_by('data')
             if request.method == 'GET' and request.GET.get('data_inicio') != None and request.GET.get('data_fim') != None:

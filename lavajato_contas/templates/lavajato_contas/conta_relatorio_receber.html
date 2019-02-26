@@ -93,7 +93,7 @@
                         <tr>
                             <td scope="row">{{parcela.id}}</td>
                             <td>{{parcela.data|date:"d/m/Y"}}</td>
-                            <td>{{parcela.pag}} {{parcela.numero_parcela}}/{{parcela.total_parcelas}}</td>
+                            <td>{{parcela.get_pag_display}} {{parcela.numero_parcela}}/{{parcela.total_parcelas}}</td>
                             <td>R$ {{parcela.valor}}</td>
                             <td>{{parcela.get_estado_display}}</td>
                          </tr>

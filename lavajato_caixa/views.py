@@ -37,7 +37,7 @@ def entrada(request):
                 ultimo_id = int(ultimo_id) + 1
                 desc = "Entrada - "+desc
                 novo_total = caixa.total + Decimal(valor)
-                nova_entrada = caixa_geral(operacao=1, id_operacao=ultimo_id, valor_operacao=valor, descricao=desc, total=novo_total)
+                nova_entrada = caixa_geral(operacao=1, tipo=1, id_operacao=ultimo_id, valor_operacao=valor, descricao=desc, total=novo_total)
                 nova_entrada.save()
                 msg = "Entrada registrada com sucesso!"
                 return render(request, 'lavajato_caixa/caixa_entrada.html', {'title':'Entrada', 'msg':msg,'caixa':caixa})
@@ -72,11 +72,10 @@ def conferencia(request):
     if request.user.is_authenticated():
         empresa = request.user.get_short_name()
         if empresa == 'dayson':
-            data_inicio = datetime.now() + timezone.timedelta(days=-7)
-            data_inicio = data_inicio.strftime('%Y-%m-%d')
-            data_fim = datetime.now().strftime('%Y-%m-%d')
-            caixas = caixa_geral.objects.filter(data__range=(data_inicio,data_fim)).order_by('data')
-            caixa = caixa_geral.objects.latest('id')
+            data = datetime.now().strftime('%Y-%m-%d')
+            data_limite = datetime.now() + timezone.timedelta(days=1)
+            caixas = caixa_geral.objects.filter(data__date=(data)).order_by('data')
+            caixa = caixa_geral.objects.filter(data__date=(data)).latest('id')
             total = caixa.total
             t_dinheiro = 0
             t_debito = 0
@@ -84,8 +83,10 @@ def conferencia(request):
             t_elodebito = 0
             t_elocredito = 0
             t_retirada = 0
-            t_caixa = caixa.total
-            for p in pagamento.objects.filter(data__range=(data_inicio,data_fim)).all():
+            total_retirada = 0
+            total_din = 0
+            t_caixa = 0
+            for p in pagamento.objects.filter(data__date=(data)).all():
                 if p.tipo == '1':
                     t_dinheiro = t_dinheiro + p.valor
                 if p.tipo == '2':
@@ -96,19 +97,32 @@ def conferencia(request):
                     t_elodebito = t_elodebito + p.valor
                 if p.tipo == '5':
                     t_elocredito = t_elocredito + p.valor
-            for r in caixa_geral.objects.filter(data__range=(data_inicio,data_fim)).filter(operacao=2, descricao__startswith="Retirada -").all():
+            for r in caixa_geral.objects.filter(data__date=(data)).filter(operacao=2, descricao__startswith="Retirada -").all():
                 t_retirada = t_retirada + r.valor_operacao
-            t_caixa = t_caixa + t_dinheiro
-            if request.method == 'POST' and request.POST.get('data_inicio') != None and request.POST.get('data_fim') != None:
-                data_inicio = request.POST.get('data_inicio')
-                data_fim = request.POST.get('data_fim')
-                caixas = caixa_geral.objects.filter(data__range=(data_inicio,data_fim))
-                try:
-                    caixa = caixa_geral.objects.filter(data__range=(data_inicio,data_fim)).latest('id')
-                    t_caixa = caixa.total
-                except:
-                    t_caixa = 0
-                for p in pagamento.objects.filter(data__range=(data_inicio,data_fim)).all():
+            for s in caixa_geral.objects.filter(data__date=(data)).filter(operacao=2, descricao__startswith="Pagamento conta").all():
+                t_retirada = t_retirada + s.valor_operacao
+            for y in caixa_geral.objects.filter(data__lte=(data_limite)).filter(operacao=2, descricao__startswith="Retirada -").all():
+                total_retirada = total_retirada + y.valor_operacao
+            for z in caixa_geral.objects.filter(data__lte=(data_limite)).filter(operacao=2, descricao__startswith="Pagamento conta").all():
+                total_retirada = total_retirada + z.valor_operacao
+            for w in pagamento.objects.filter(data__lte=(data_limite), tipo=1).all():
+                t_caixa = t_caixa + w.valor
+            t_caixa = t_caixa - total_retirada
+            if request.method == 'POST' and request.POST.get('data') != None:
+                data = request.POST.get('data')
+                data_limite = datetime.strptime(data, '%Y-%m-%d')
+                data_limite = data_limite + timezone.timedelta(days=1)
+                caixas = caixa_geral.objects.filter(data__date=(data))
+                t_dinheiro = 0
+                t_debito = 0
+                t_credito = 0
+                t_elodebito = 0
+                t_elocredito = 0
+                t_retirada = 0
+                total_retirada = 0
+                total_din = 0
+                t_caixa = 0
+                for p in pagamento.objects.filter(data__date=(data)).all():
                     if p.tipo == '1':
                         t_dinheiro = t_dinheiro + p.valor
                     if p.tipo == '2':
@@ -119,11 +133,19 @@ def conferencia(request):
                         t_elodebito = t_elodebito + p.valor
                     if p.tipo == '5':
                         t_elocredito = t_elocredito + p.valor
-                for r in caixa_geral.objects.filter(data__range=(data_inicio,data_fim)).filter(operacao=2, descricao__startswith="Retirada -").all():
+                for r in caixa_geral.objects.filter(data__date=(data)).filter(operacao=2, descricao__startswith="Retirada -").all():
                     t_retirada = t_retirada + r.valor_operacao
-                t_caixa = t_caixa + t_dinheiro
-                return render(request, 'lavajato_caixa/caixa_conferencia.html', {'title':'Conferencia', 'caixas':caixas, 'data_inicio':data_inicio, 'data_fim':data_fim, 'total':total, 't_credito':t_credito, 't_debito':t_debito, 't_elocredito':t_elocredito, 't_elodebito':t_elodebito, 't_dinheiro':t_dinheiro, 't_caixa':t_caixa, 't_retirada':t_retirada})
-            return render(request, 'lavajato_caixa/caixa_conferencia.html', {'title':'Conferencia', 'caixas':caixas, 'data_inicio':data_inicio, 'data_fim':data_fim, 'total':total, 't_credito':t_credito, 't_debito':t_debito, 't_elocredito':t_elocredito, 't_elodebito':t_elodebito, 't_dinheiro':t_dinheiro, 't_caixa':t_caixa, 't_retirada':t_retirada})
+                for s in caixa_geral.objects.filter(data__date=(data)).filter(operacao=2, descricao__startswith="Pagamento conta").all():
+                    t_retirada = t_retirada + s.valor_operacao
+                for y in caixa_geral.objects.filter(data__lte=data_limite).filter(operacao=2, descricao__startswith="Retirada -").all():
+                    total_retirada = total_retirada + y.valor_operacao
+                for z in caixa_geral.objects.filter(data__lte=data_limite).filter(operacao=2, descricao__startswith="Pagamento conta").all():
+                    total_retirada = total_retirada + z.valor_operacao
+                for w in pagamento.objects.filter(data__lte=data_limite, tipo=1).all():
+                    t_caixa = t_caixa + w.valor
+                t_caixa = t_caixa - total_retirada
+                return render(request, 'lavajato_caixa/caixa_conferencia.html', {'title':'Conferencia', 'caixas':caixas, 'data':data, 'total':total, 't_credito':t_credito, 't_debito':t_debito, 't_elocredito':t_elocredito, 't_elodebito':t_elodebito, 't_dinheiro':t_dinheiro, 't_caixa':t_caixa, 't_retirada':t_retirada})
+            return render(request, 'lavajato_caixa/caixa_conferencia.html', {'title':'Conferencia', 'caixas':caixas, 'data':data, 'total':total, 't_credito':t_credito, 't_debito':t_debito, 't_elocredito':t_elocredito, 't_elodebito':t_elodebito, 't_dinheiro':t_dinheiro, 't_caixa':t_caixa, 't_retirada':t_retirada})
         return render(request, 'sistema_login/erro.html', {'title':'Erro'})
     else:
         return render(request, 'sistema_login/erro.html', {'title':'Erro'})
@@ -132,33 +154,47 @@ def fechar(request):
     if request.user.is_authenticated():
         empresa = request.user.get_short_name()
         if empresa == 'dayson':
-            hoje = datetime.now().strftime('%Y-%m-%d')
-            caixa = caixa_geral.objects.latest('id')
+            data = datetime.now().strftime('%Y-%m-%d')
+            data_limite = datetime.now() + timezone.timedelta(days=1)
+            caixa = caixa_geral.objects.latest('id')            
+            total = caixa.total
+
             t_dinheiro = 0
             t_debito = 0
             t_credito = 0
-            t_caixa = caixa.total
-            for p in pagamento.objects.filter(data__date=hoje).all():
+            t_elodebito = 0
+            t_elocredito = 0
+            t_retirada = 0
+            total_retirada = 0
+            total_din = 0
+            t_caixa = 0
+            for p in pagamento.objects.filter(data__date=(data)).all():
                 if p.tipo == '1':
                     t_dinheiro = t_dinheiro + p.valor
                 if p.tipo == '2':
                     t_debito = t_debito + p.valor
                 if p.tipo == '3':
                     t_credito = t_credito + p.valor
+                if p.tipo == '4':
+                    t_elodebito = t_elodebito + p.valor
+                if p.tipo == '5':
+                    t_elocredito = t_elocredito + p.valor
+            for r in caixa_geral.objects.filter(data__date=(data)).filter(operacao=2, descricao__startswith="Retirada -").all():
+                t_retirada = t_retirada + r.valor_operacao
+            for s in caixa_geral.objects.filter(data__date=(data)).filter(operacao=2, descricao__startswith="Pagamento conta").all():
+                t_retirada = t_retirada + s.valor_operacao
+            for y in caixa_geral.objects.filter(data__lte=data_limite).filter(operacao=2, descricao__startswith="Retirada -").all():
+                total_retirada = total_retirada + y.valor_operacao
+            for z in caixa_geral.objects.filter(data__lte=data_limite).filter(operacao=2, descricao__startswith="Pagamento conta").all():
+                total_retirada = total_retirada + z.valor_operacao
+            for w in pagamento.objects.filter(data__lte=data_limite, tipo=1).all():
+                t_caixa = t_caixa + w.valor
+            t_caixa = t_caixa - total_retirada
             if request.method == 'POST' and request.POST.get('valor') != None:
-                hoje = datetime.now().strftime('%Y-%m-%d')
-                t_dinheiro = 0
-                t_debito = 0
-                t_credito = 0
-                caixa = caixa_geral.objects.latest('id')
-                t_caixa = caixa.total
-                for p in pagamento.objects.filter(data__date=hoje).all():
-                    if p.tipo == '1':
-                        t_dinheiro = t_dinheiro + p.valor
-                    if p.tipo == '2':
-                        t_debito = t_debito + p.valor
-                    if p.tipo == '3':
-                        t_credito = t_credito + p.valor
+                data = datetime.now().strftime('%Y-%m-%d')
+                data_limite = datetime.strptime(data, '%Y-%m-%d')
+                data_limite = data_limite + timezone.timedelta(days=1)
+                caixas = caixa_geral.objects.filter(data__date=(data))
                 desc = "Retirada - Fechamento de caixa"
                 valor = request.POST.get('valor')
                 valor_1 = request.POST.get('valor')
@@ -168,7 +204,7 @@ def fechar(request):
                 ultimo_id = caixa.id_operacao
                 ultimo_id = int(ultimo_id) + 1
                 novo_total = caixa.total - valor_fechamento
-                nova_saida = caixa_geral(operacao=2, id_operacao=ultimo_id, valor_operacao=valor_fechamento, descricao=desc, total=novo_total)
+                nova_saida = caixa_geral(operacao=2, tipo=1, id_operacao=ultimo_id, valor_operacao=valor_fechamento, descricao=desc, total=novo_total)
                 nova_saida.save()
                 ultima_conta = conta_empresa.objects.latest('id')
                 desc1 = "Fechamento do caixa dia " + str(nova_saida.data.strftime('%d/%m/%Y'))
@@ -176,8 +212,39 @@ def fechar(request):
                 nova_entrada_conta = conta_empresa(operacao=1, id_operacao=nova_saida.id, valor_operacao=valor_1, descricao=desc1, total=novo_total_conta)
                 nova_entrada_conta.save()
                 msg = "Caixa fechado com sucesso, retirada de R$ " + str(valor_1)
-                return render(request, 'lavajato_caixa/caixa_fechar.html', {'title':'Fechar caixa', 'msg':msg, 't_credito':t_credito, 't_debito':t_debito, 't_dinheiro':t_dinheiro, 't_caixa':t_caixa})
-            return render(request, 'lavajato_caixa/caixa_fechar.html', {'title':'Fechar caixa', 't_credito':t_credito, 't_debito':t_debito, 't_dinheiro':t_dinheiro, 't_caixa':t_caixa})
+                t_dinheiro = 0
+                t_debito = 0
+                t_credito = 0
+                t_elodebito = 0
+                t_elocredito = 0
+                t_retirada = 0
+                total_retirada = 0
+                total_din = 0
+                t_caixa = 0
+                for p in pagamento.objects.filter(data__date=(data)).all():
+                    if p.tipo == '1':
+                        t_dinheiro = t_dinheiro + p.valor
+                    if p.tipo == '2':
+                        t_debito = t_debito + p.valor
+                    if p.tipo == '3':
+                        t_credito = t_credito + p.valor
+                    if p.tipo == '4':
+                        t_elodebito = t_elodebito + p.valor
+                    if p.tipo == '5':
+                        t_elocredito = t_elocredito + p.valor
+                for r in caixa_geral.objects.filter(data__date=(data)).filter(operacao=2, descricao__startswith="Retirada -").all():
+                    t_retirada = t_retirada + r.valor_operacao
+                for s in caixa_geral.objects.filter(data__date=(data)).filter(operacao=2, descricao__startswith="Pagamento conta").all():
+                    t_retirada = t_retirada + s.valor_operacao
+                for y in caixa_geral.objects.filter(data__lte=data_limite).filter(operacao=2, descricao__startswith="Retirada -").all():
+                    total_retirada = total_retirada + y.valor_operacao
+                for z in caixa_geral.objects.filter(data__lte=data_limite).filter(operacao=2, descricao__startswith="Pagamento conta").all():
+                    total_retirada = total_retirada + z.valor_operacao
+                for w in pagamento.objects.filter(data__lte=data_limite, tipo=1).all():
+                    t_caixa = t_caixa + w.valor
+                t_caixa = t_caixa - total_retirada
+                return render(request, 'lavajato_caixa/caixa_conferencia.html', {'title':'Conferencia', 'caixas':caixas, 'data':data, 'total':total, 't_credito':t_credito, 't_debito':t_debito, 't_elocredito':t_elocredito, 't_elodebito':t_elodebito, 't_dinheiro':t_dinheiro, 't_caixa':t_caixa, 't_retirada':t_retirada})
+            return render(request, 'lavajato_caixa/caixa_fechar.html', {'title':'Fechar caixa', 'data':data, 't_credito':t_credito, 't_debito':t_debito, 't_elocredito':t_elocredito, 't_elodebito':t_elodebito, 't_dinheiro':t_dinheiro, 't_caixa':t_caixa, 't_retirada':t_retirada})
         return render(request, 'sistema_login/erro.html', {'title':'Erro'})
     else:
         return render(request, 'sistema_login/erro.html', {'title':'Erro'})

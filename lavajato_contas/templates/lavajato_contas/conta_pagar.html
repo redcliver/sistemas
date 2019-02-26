@@ -19,7 +19,7 @@
                 <input type="date" class="form-control" value="{{data_fim}}" name="data_fim" title="Selecione a data"/>
                 <button type="submit" formmethod="GET" class="btn btn-secondary float-right" title="Buscar por data">Buscar</button>
             </div>
-        <table class="table table-sm">
+        <table class="table table-responsive-sm">
             <thead>
                 <tr>
                     <th scope="col">#</th>
@@ -33,23 +33,23 @@
             <tbody>
                 {% for conta in contas_all %}
                     {% if conta.estado == '1' %}
-                <tr>
-                    <td><button type="submit" style="background-color:transparent; " name="conta_id" value="{{conta.id}}" formaction="/lavajato_contas/busca">{{conta.id}}</button></td>
-                    <td>{{conta.data_venc|date:"d/m/Y"}}</td>
-                    <td>{{conta.nome}}</td>
-                    <td>R$ {{conta.valor}}</td>
-                    <td>{{conta.get_estado_display}}</td>
-                    <td><button name="conta_id" value="{{conta.id}}" class="btn btn-secondary" title='Pagar conta'>Pagar</button> </td>
-                </tr>
+                    <tr>
+                        <td><button type="submit" style="background-color:transparent; " name="conta_id" value="{{conta.id}}" formaction="/lavajato_contas/busca">{{conta.id}}</button></td>
+                        <td>{{conta.data_venc|date:"d/m/Y"}}</td>
+                        <td>{{conta.nome}}</td>
+                        <td>R$ {{conta.valor}}</td>
+                        <td>{{conta.get_estado_display}}</td>
+                        <td><button name="conta_id" value="{{conta.id}}" class="btn btn-secondary" title='Pagar conta.'>Pagar</button></td>
+                    </tr>
                     {% endif %}
                     {% if agenda.estado == '2' %}
-                <tr>
-                    <td><button type="submit" style="background-color:transparent; " name="conta_id" value="{{conta.id}}" formaction="/lavajato_contas/busca">{{conta.id}}</button></td>
-                    <td>{{conta.data_venc|date:"H:i"}}</td>
-                    <td>{{conta.nome}}</td>
-                    <td>R$ {{conta.valor}}</td>
-                    <td>Paga</td>
-                </tr>
+                    <tr>
+                        <td><button type="submit" style="background-color:transparent; " name="conta_id" value="{{conta.id}}" formaction="/lavajato_contas/busca">{{conta.id}}</button></td>
+                        <td>{{conta.data_venc|date:"d/m/Y"}}</td>
+                        <td>{{conta.nome}}</td>
+                        <td>R$ {{conta.valor}}</td>
+                        <td>Paga</td>
+                    </tr>
                     {% endif %}
                 {% endfor %}
             </tbody>

@@ -10,16 +10,37 @@
     {%csrf_token%}
         <input type="hidden" name="agenda_id" value="{{agenda_obj.id}}"/>
         <div class="form-row">
-            <div class="form-group col-md-10">
+            <div class="form-group col-md-12">
                 <label for="inputName">Cliente<strong>*</strong></label>
                 <input type="text" class="form-control" value="{{agenda_obj.cli.nome}}" disabled>
             </div>
-            <hr />
-                <table class="table table-sm">
+            <div class="form-group col-md-4">
+                <label for="inputName">Carro<strong>*</strong></label>
+                <input type="text" class="form-control" value="{{agenda_obj.car.modelo}}" disabled>
+            </div>
+            <div class="form-group col-md-4">
+                <label for="inputName">Placa<strong>*</strong></label>
+                <input type="text" class="form-control" value="{{agenda_obj.car.placa}}" disabled>
+            </div>
+            <div class="form-group col-md-4">
+            </div>
+            {% if data_pagamento1 %}
+                <div class="form-group col-md-3">
+                    <label for="inputName">Data Pagamento<strong>*</strong></label>
+                    <input type="text" name="data_pagamento" class="form-control" value="{{data_pagamento1}}" disabled/>
+                </div>
+            {% else %}
+                <div class="form-group col-md-3">
+                    <label for="inputName">Data Pagamento<strong>*</strong></label>
+                    <input type="date" name="data_pagamento" class="form-control" value="{{agenda_obj.data_pagamento|date:"Y-m-d"}}" />
+                </div>
+            {% endif %}
+            <div class="form-group col-md-12">
+                <table class="table table-responsive-sm">
                 <thead>
                     <tr>
                         <th scope="col">#</th>
-                        <th scope="col">Hora</th>
+                        <th scope="col">Data</th>
                         <th scope="col">Servico</th>
                         <th scope="col">Valor</th>
                         <th scope="col">Funcionario</th>
@@ -31,7 +52,7 @@
                     {% if item_servico.cancelado == '1' %}
                         <tr>
                             <td>{{item_servico.id}}</td>
-                            <td>{{item_servico.data_cadastro|date:"H:i"}}</td>
+                            <td>{{item_servico.data_cadastro|date:"d/m/Y"}}</td>
                             <td>{{item_servico.serv.nome}}</td>
                             <td>{{item_servico.serv.valor}}</td>
                             <td>{{item_servico.func.nome}}</td>
@@ -41,7 +62,7 @@
                     {% if item_servico.cancelado == '2' %}
                         <tr>
                             <td>{{item_servico.id}}</td>
-                            <td style="color:#ff3939;">{{item_servico.data_cadastro|date:"H:i"}}</td>
+                            <td style="color:#ff3939;">{{item_servico.data_cadastro|date:"d/m/Y"}}</td>
                             <td style="color:#ff3939;">{{item_servico.serv.nome}}</td>
                             <td style="color:#ff3939;">{{item_servico.serv.valor}}</td>
                             <td style="color:#ff3939;">{{item_servico.func.nome}}</td>
@@ -52,19 +73,25 @@
                 </tbody>
             </table>
             </div>
-            <div class="form-row">
-                <div class="form-group col-md-10">
-                    <label for="inputTel">Observação</label>
-                    <textarea class="form-control" name="obs" id="exampleFormControlTextarea1" rows="6" >{{agenda_obj.obs}}</textarea>
-                </div>
-                <div class="form-group col-md-9">
-
-                </div>
-                <div class="form-group col-md-3">
-                    <button name="agenda_id" value="{{agenda_obj.id}}" class="btn btn-secondary" formaction="/lavajato_agenda/salvar" title="Salvar alteração">Salvar</button>                </div>
-                </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-md-12">
+                <label for="inputTel">Observação</label>
+                <textarea class="form-control" name="obs" id="exampleFormControlTextarea1" rows="6" >{{agenda_obj.obs}}</textarea>
             </div>
-            <div class="col-md-5 offset-md-6">
+            <div class="form-group col-md-9">
+
+            </div>
+            <div class="form-group col-md-3">
+                <button name="agenda_id" value="{{agenda_obj.id}}" class="btn btn-secondary float-right" formaction="/lavajato_agenda/salvar" title="Salvar alteração">Salvar</button>                
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-md-4">
+            </div>
+            <div class="form-group col-md-4">
+            </div>
+            <div class="form-group col-md-4">
                 <h3 class="float-right"><b>Total: R${{agenda_obj.total}}</b></h3>
             </div>
         </div>

@@ -6,58 +6,82 @@
     <h1 style="text-align:center;">{{msg}}</h1><hr />
 {%endif%}
 <h1>Conferir caixa</h1><hr />
-    <form method="POST">
+    <form method="POST" action="/lavajato_caixa/conferencia/">
     {%csrf_token%}
         <div class="form-row">
-            <div class="form-group col-md-6"></div>
+            <div class="form-group col-md-9"></div>
                 <div class="form-group col-md-3">
-                    <label>Data Início</label>
-                    <input type="date" class="form-control" value="{{data_inicio}}" name="data_inicio" title="Selecione a data."/>
-                </div>
-                <div class="form-group col-md-3">
-                    <label>Data Fim</label>
-                    <input type="date" class="form-control" value="{{data_fim}}" name="data_fim" title="Selecione a data."/>
+                    <label>Data</label>
+                    <input type="date" class="form-control" value="{{data}}" name="data" title="Selecione a data."/>
                     <button type="submit" class="btn btn-secondary float-right" title="Buscar por data.">Buscar</button>
                 </div>
             {% if caixas %}
             <div class="form-group col-md-12">
                 <table class="table table-responsive-md">
                     <thead>
+                        <h4>Entradas</h4>
                         <tr>
                             <th scope="col">#</th>
                             <th scope="col">Data</th>
                             <th scope="col">Op.</th>
-                            <th scope="col">Valor Op.</th>
                             <th scope="col">Desc. Op.</th>
-                            <th scope="col">Total</th>
+                            <th scope="col">Valor Op.</th>
                         </tr>
                     </thead>
                     <tbody>
                         {% for caixa_geral in caixas %}
+                        {% if caixa_geral.operacao == '1' %}
                         <tr>
                             <td width="7%">{{caixa_geral.id}}</td>
                             <td width="10%">{{caixa_geral.data|date:"d/m/Y"}}</td>
                             <td width="13%">{{caixa_geral.get_operacao_display}}</td>
+                            <td width="40%">{{caixa_geral.descricao}} - {{caixa_geral.get_tipo_display}}</td>
                             <td width="15%">R$ {{caixa_geral.valor_operacao}}</td>
-                            <td width="40%">{{caixa_geral.get_tipo_display}}</td>
-                            <td width="15%">R$ {{caixa_geral.total}}</td>
                         </tr>
+                        {%endif%}
                         {% endfor %}
                     </tbody>
                 </table>
-                {% endif %}
             </div>
+            <div class="form-group col-md-12">
+                    <table class="table table-responsive-md">
+                        <thead>
+                            <h4>Saídas</h4>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Data</th>
+                                <th scope="col">Op.</th>
+                                <th scope="col">Desc. Op.</th>
+                                <th scope="col">Valor Op.</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for caixa_geral in caixas %}
+                            {% if caixa_geral.operacao == '2' %}
+                            <tr>
+                                <td width="7%">{{caixa_geral.id}}</td>
+                                <td width="10%">{{caixa_geral.data|date:"d/m/Y"}}</td>
+                                <td width="13%">{{caixa_geral.get_operacao_display}}</td>
+                                <td width="15%">R$ {{caixa_geral.valor_operacao}}</td>
+                                <td width="40%">{{caixa_geral.descricao}} - {{caixa_geral.get_tipo_display}}</td>
+                            </tr>
+                            {%endif%}
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% endif %}
         </div>
         <hr />
         <div class="form-row">
             <div class="form-group col align-self-end">
-                <h4><br><b>Total Cartao Crédito: R$ {{t_credito}}</b></h4>
-                <h4><b>Total Cartao Débito: R$ {{t_debito}}</b></h4>
-                <h4><b>Total Cartao ELO Crédito: R$ {{t_elocredito}}</b></h4>
-                <h4><b>Total Cartao ELO Débito: R$ {{t_elodebito}}</b></h4>
-                <h4><b>Total Dinheiro: R$ {{t_dinheiro}}</b></h4>
-                <h4><b>Total Retirada: R$ {{t_retirada}}</b></h4>
-                <h4><b>Total em Caixa: R$ {{t_caixa}}</b></h4>
+                <h5><br>Total Cartao Crédito: <b>R$ {{t_credito}}</b></h5>
+                <h5>Total Cartao Débito: <b>R$ {{t_debito}}</b></h5>
+                <h5>Total Cartao ELO Crédito: <b>R$ {{t_elocredito}}</b></h5>
+                <h5>Total Cartao ELO Débito: <b>R$ {{t_elodebito}}</b></h5>
+                <h5>Total Dinheiro: <b>R$ {{t_dinheiro}}</b></h5>
+                <h5>Total Retirada: <b>R$ {{t_retirada}}</b></h5>
+                <h4>Total de Dinheiro em Caixa: <b>R$ {{t_caixa}}</b></h4>
             </div>
         </div>
 </form>

@@ -37,7 +37,7 @@
                             <td width="15%">{{agenda.cli.nome}}</td>
                             <td width="10%">{{agenda.car.modelo}}</td>
                             <td width="10%">{{agenda.car.placa}}</td>
-                            <td width="10%">R$ {{agenda.total}}</td>
+                            <td width="10%">R$ {{agenda.subtotal}}</td>
                             <td width="10%">{{agenda.get_estado_display}}</td>
                             <td width="10%"><button type="submit" name="agenda_id" value="{{agenda.id}}" class="btn btn-success" formaction="/lavajato_agenda/confirmacao" title='Confirmar'>&#x2705;</button> &nbsp;<button type="submit" name="agenda_id" value="{{agenda.id}}" class="btn btn-light" formaction="/lavajato_agenda/desmarcar" title="Desmarcar">&#x274C;</button></td>
                         </tr>
@@ -49,7 +49,7 @@
                             <td width="15%">{{agenda.cli.nome}}</td>
                             <td width="10%">{{agenda.car.modelo}}</td>
                             <td width="10%">{{agenda.car.placa}}</td>
-                            <td width="10%">R$ {{agenda.total}}</td>
+                            <td width="10%">R$ {{agenda.subtotal}}</td>
                             <td width="10%">{{agenda.get_estado_display}}</td>
                             <td width="10%">Finalizado</td>
                         </tr>
@@ -61,7 +61,7 @@
                             <td width="15%">{{agenda.cli.nome}}</td>
                             <td width="10%">{{agenda.car.modelo}}</td>
                             <td width="10%">{{agenda.car.placa}}</td>
-                            <td width="10%">R$ {{agenda.total}}</td>
+                            <td width="10%">R$ {{agenda.subtotal}}</td>
                             <td width="10%">{{agenda.get_estado_display}}</td>
                             <td width="10%">Finalizado</td>
                         </tr>

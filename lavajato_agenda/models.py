@@ -86,6 +86,7 @@ class agenda(models.Model):
     boleto_total = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
     boleto = models.DateTimeField(null=True, blank=True)
     obs = models.CharField(max_length=1000, null=True, blank=True)
+    data_pagamento = models.DateTimeField(default=timezone.now)
     data_cadastro = models.DateTimeField(default=timezone.now)
     
     def __str__(self):

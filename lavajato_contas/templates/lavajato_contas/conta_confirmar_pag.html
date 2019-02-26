@@ -1,0 +1,35 @@
+{% extends 'lavajato_base.html' %}
+
+{% block body %}
+{% load static %}
+    {% if msg %}
+    <h1 style="text-align:center;">{{msg}}</h1><hr />
+    {%endif%}
+    <h1>Pagar Conta</h1>
+    <hr />
+        <form method="post">
+        {% csrf_token %}
+            <input type="hidden" name="conta_id" value="{{conta_obj.id}}" />
+            <div class="form-row">
+                <div class="form-group col-md-9">
+                    <label for="inputName">Descricao da conta </label>
+                    <input type="text" class="form-control" value="{{conta_obj.nome}}" maxlength="200" disabled>
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="inputTel">Data de Venc.</label>
+                    <input type="text" class="form-control" value="{{conta_obj.data_venc|date:"d/m/Y"}}" disabled>
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="inputTel">Valor</label>
+                    <input type="text" class="form-control" value="R$ {{conta_obj.valor}}" disabled>
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="inputTel">Estado</label>
+                    <input type="text" class="form-control" value="{{conta_obj.get_estado_display}}" disabled>
+                </div>
+            </div>
+            <br />
+            <button type="submit" formaction="/lavajato_contas/pagamento_caixa" class="btn btn-secondary float-right">Pagamento do Caixa</button>
+            <button type="submit" formaction="/lavajato_contas/pagamento_gerencia" class="btn btn-secondary float-right">Pagamento Gerencia</button>
+        </form>
+{% endblock %}

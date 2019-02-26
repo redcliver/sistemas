@@ -27,11 +27,11 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'ff45c9aa-ee6e-456f-b84e-f037d2233108'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = [
     'headtec.herokuapp.com',
-    'localhost',
+#    'localhost',
 ]
 
 
@@ -113,16 +113,16 @@ WSGI_APPLICATION = 'sistemas.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.9/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'sistemas',
-        'USER': 'postgres',
-        'PASSWORD': 'igor3355',
-        'HOST': '127.0.0.1',
-        'PORT': '', # 8000 is default
-    }
-}
+#DATABASES = {
+#    'default': {
+#        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#        'NAME': 'sistemas',
+#        'USER': 'postgres',
+#        'PASSWORD': 'igor3355',
+#        'HOST': '127.0.0.1',
+#        'PORT': '', # 8000 is default
+#    }
+#}
 
 DATABASES['default'] = dj_database_url.config(conn_max_age=600, ssl_require=True)
 

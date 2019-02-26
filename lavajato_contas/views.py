@@ -6,7 +6,7 @@ from lavajato_caixa.models import caixa_geral
 from lavajato_agenda.models import parcela
 from lavajato_controle.models import conta_empresa
 from datetime import datetime
-from datetime import timedelta
+from datetime import timedelta, date
 from decimal import Decimal
 
 # Create your views here.
@@ -95,7 +95,7 @@ def salva(request):
     else:
         return render(request, 'sistema_login/erro.html', {'title':'Erro'})
 
-def pagar(request):
+def pagamento_gerencia(request):
     if request.user.is_authenticated():
         empresa = request.user.get_short_name()
         if empresa == 'dayson':
@@ -103,15 +103,7 @@ def pagar(request):
             data_inicio = datetime.now().strftime('%Y-%m-%d')
             data_fim = data_fim.strftime('%Y-%m-%d')
             hoje = datetime.now()
-            contas_all = conta.objects.filter(data_venc__lte=data_inicio).all()
-            if request.method == 'GET' and request.GET.get('data_inicio') != None and request.GET.get('data_fim') != None:
-                data_inicio = request.GET.get('data_inicio')
-                data_fim = request.GET.get('data_fim')
-                contas_all = conta.objects.filter(data_venc__range=(data_inicio,data_fim)).all()
-                return render(request, 'lavajato_contas/conta_pagar.html', {'title':'Buscar Conta', 'contas_all':contas_all, 'data_inicio':data_inicio, 'data_fim':data_fim})
             if request.method == 'POST' and request.POST.get('conta_id') != None:
-                data_inicio = request.POST.get('data_inicio')
-                data_fim = request.POST.get('data_fim')
                 conta_id = request.POST.get('conta_id')
                 conta_obj = conta.objects.get(id=conta_id)
                 if conta_obj.fixa == 'Nao':
@@ -147,8 +139,80 @@ def pagar(request):
                     msg = conta_obj.nome + " pago(a) e agendada com sucesso!"
                     contas_all = conta.objects.filter(data_venc__range=(data_inicio,data_fim)).all()
                     return render(request, 'lavajato_contas/conta_pagar.html', {'title':'Pagar Conta', 'contas_all':contas_all, 'data_inicio':data_inicio, 'data_fim':data_fim, 'msg':msg})
-
                 return render(request, 'lavajato_contas/conta_pagar.html', {'title':'Pagar Conta', 'conta_obj':conta_obj})
+            return render(request, 'lavajato_contas/conta_pagar.html', {'title':'Pagar Conta'})
+        return render(request, 'sistema_login/erro.html', {'title':'Erro'})
+    else:
+        return render(request, 'sistema_login/erro.html', {'title':'Erro'})
+
+def pagamento_caixa(request):
+    if request.user.is_authenticated():
+        empresa = request.user.get_short_name()
+        if empresa == 'dayson':
+            data_fim = datetime.now() + timedelta(days=1)
+            data_inicio = datetime.now().strftime('%Y-%m-%d')
+            data_fim = data_fim.strftime('%Y-%m-%d')
+            hoje = datetime.now()
+            if request.method == 'POST' and request.POST.get('conta_id') != None:
+                conta_id = request.POST.get('conta_id')
+                conta_obj = conta.objects.get(id=conta_id)
+                if conta_obj.fixa == 'Nao':
+                    conta_obj.data_pagamento = hoje
+                    conta_obj.estado = 2
+                    conta_obj.save()
+                    caixa_geral_obj = caixa_geral.objects.latest('id')
+                    ultimo_id = conta_obj.id
+                    novo_total = caixa_geral_obj.total - conta_obj.valor
+                    valor = conta_obj.valor
+                    desc = "Pagamento conta : " + str(conta_obj.nome)
+                    nova_saida = caixa_geral(operacao=2, id_operacao=ultimo_id, tipo=1, valor_operacao=valor, descricao=desc, total=novo_total)
+                    nova_saida.save()
+                    msg = conta_obj.nome + " pago(a) com sucesso!"
+                    contas_all = conta.objects.filter(data_venc__range=(data_inicio,data_fim)).all()
+                    return render(request, 'lavajato_contas/conta_pagar.html', {'title':'Pagar Conta', 'contas_all':contas_all, 'data_inicio':data_inicio, 'data_fim':data_fim, 'msg':msg})
+                if conta_obj.fixa == 'Sim':
+                    conta_obj.data_pagamento = hoje
+                    conta_obj.estado = 2
+                    conta_obj.save()
+                    caixa_geral_obj = caixa_geral.objects.latest('id')
+                    ultimo_id = conta_obj.id
+                    novo_total = caixa_geral_obj.total - conta_obj.valor
+                    valor = conta_obj.valor
+                    desc = "Pagamento conta : " + str(conta_obj.nome)
+                    nova_saida = caixa_geral(operacao=2, id_operacao=ultimo_id, tipo=1, valor_operacao=valor, descricao=desc, total=novo_total)
+                    nova_saida.save()
+                    nome = conta_obj.nome
+                    data_venc = conta_obj.data_venc + timedelta(days=30)
+                    fixa = "Sim"
+                    nova_conta = conta(nome=nome, valor=valor, fixa=fixa, data_venc=data_venc, estado=1)
+                    nova_conta.save()
+                    msg = conta_obj.nome + " pago(a) e agendada com sucesso!"
+                    contas_all = conta.objects.filter(data_venc__range=(data_inicio,data_fim)).all()
+                    return render(request, 'lavajato_contas/conta_pagar.html', {'title':'Pagar Conta', 'contas_all':contas_all, 'data_inicio':data_inicio, 'data_fim':data_fim, 'msg':msg})
+                return render(request, 'lavajato_contas/conta_pagar.html', {'title':'Pagar Conta', 'conta_obj':conta_obj})
+            return render(request, 'lavajato_contas/conta_pagar.html', {'title':'Pagar Conta'})
+        return render(request, 'sistema_login/erro.html', {'title':'Erro'})
+    else:
+        return render(request, 'sistema_login/erro.html', {'title':'Erro'})
+
+def pagar(request):
+    if request.user.is_authenticated():
+        empresa = request.user.get_short_name()
+        if empresa == 'dayson':
+            data_fim = datetime.now() + timedelta(days=1)
+            data_inicio = datetime.now().strftime('%Y-%m-%d')
+            data_fim = data_fim.strftime('%Y-%m-%d')
+            hoje = datetime.now()
+            contas_all = conta.objects.filter(data_venc__lte=data_inicio).all()
+            if request.method == 'GET' and request.GET.get('data_inicio') != None and request.GET.get('data_fim') != None:
+                data_inicio = request.GET.get('data_inicio')
+                data_fim = request.GET.get('data_fim')
+                contas_all = conta.objects.filter(data_venc__range=(data_inicio,data_fim)).all()
+                return render(request, 'lavajato_contas/conta_pagar.html', {'title':'Buscar Conta', 'contas_all':contas_all, 'data_inicio':data_inicio, 'data_fim':data_fim})
+            if request.method == 'POST' and request.POST.get('conta_id') != None:
+                conta_id = request.POST.get('conta_id')
+                conta_obj = conta.objects.get(id=conta_id)
+                return render(request, 'lavajato_contas/conta_confirmar_pag.html', {'title':'Pagar Conta', 'conta_obj':conta_obj})
             return render(request, 'lavajato_contas/conta_pagar.html', {'title':'Pagar Conta', 'contas_all':contas_all, 'data_inicio':data_inicio, 'data_fim':data_fim})
         return render(request, 'sistema_login/erro.html', {'title':'Erro'})
     else:

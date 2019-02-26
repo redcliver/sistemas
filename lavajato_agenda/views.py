@@ -3,6 +3,7 @@ from django.utils import timezone
 import datetime
 from datetime import datetime
 from datetime import timedelta, date
+from django.utils.dateparse import parse_date
 from decimal import Decimal
 from .models import agenda, servico_item, parcela, pagamento
 from lavajato_cliente.models import cliente, carro
@@ -19,12 +20,13 @@ def novo(request):
             funcionarios = funcionario.objects.all().order_by('nome')
             cliente_obj = None
             if request.method == 'GET' and request.GET.get('cliente_id') != None:
+                hoje = datetime.now().strftime('%Y-%m-%d')
                 cliente_id = request.GET.get('cliente_id')
                 cliente_obj = cliente.objects.filter(id=cliente_id).get()
                 carros = cliente_obj.carros.all()
                 servicos = servico.objects.all().order_by('nome')
                 funcionarios = funcionario.objects.all().order_by('nome')
-                return render(request, 'lavajato_agenda/agenda_novo.html', {'title':'Novo Agendamento', 'clientes':clientes, 'servicos':servicos, 'funcionarios':funcionarios, 'carros':carros, 'cliente_obj':cliente_obj})
+                return render(request, 'lavajato_agenda/agenda_novo.html', {'title':'Novo Agendamento', 'clientes':clientes, 'servicos':servicos, 'funcionarios':funcionarios, 'carros':carros, 'cliente_obj':cliente_obj, 'hoje':hoje})
             if request.method == 'POST' and request.POST.get('cliente_id') != None:
                 cliente_id = request.POST.get('cliente_id')
                 cliente_obj = cliente.objects.filter(id=cliente_id).get()
@@ -36,9 +38,10 @@ def novo(request):
                 carro_obj = carro.objects.filter(id=carro_id).get()
                 obs = request.POST.get('obs')
                 data = request.POST.get('data')
+                data_pagamento = request.POST.get('data_pagamento')
                 novo_serv_item = servico_item(serv=servico_obj, func=funcionario_obj)
                 novo_serv_item.save()
-                novo_agendamento = agenda(cli=cliente_obj,car=carro_obj, data = data, estado=1, obs=obs)
+                novo_agendamento = agenda(cli=cliente_obj,car=carro_obj, data = data, estado=1, obs=obs, data_pagamento=data_pagamento)
                 novo_agendamento.save()
                 novo_agendamento.item_servico.add(novo_serv_item)
                 novo_agendamento.subtotal = servico_obj.valor
@@ -131,12 +134,16 @@ def salvar(request):
             if request.method == 'POST' and request.POST.get('obs') != None and request.POST.get('agenda_id') != None:
                 obs = request.POST.get('obs')
                 agenda_id = request.POST.get('agenda_id')
+                data_pagamento = request.POST.get('data_pagamento')
                 agenda_obj = agenda.objects.filter(id=agenda_id).get()
+                agenda_obj.data_pagamento = data_pagamento
                 agenda_obj.obs = obs
                 agenda_obj.save()
-                msg = "Observacao alterada com sucesso"
+                msg = "Ordem alterada com sucesso"
                 it_servicos = agenda_obj.item_servico.all()
-                return render(request, 'lavajato_agenda/agenda_edita.1.html', {'title':'Editar Agenda', 'agenda_obj':agenda_obj, 'it_servicos':it_servicos, 'msg':msg})
+                hoje = datetime.now().strftime('%Y-%m-%d')
+                agendas = agenda.objects.filter(data__date=timezone.now()).all()
+                return render(request, 'lavajato_agenda/agenda_edita.html', {'title':'Editar Agenda', 'agendas':agendas, 'hoje':hoje})
             return render(request, 'lavajato_agenda/agenda_visualiza.html', {'title':'Salva Agenda'})
         return render(request, 'sistema_login/erro.html', {'title':'Erro'})
     else:
@@ -306,7 +313,7 @@ def dinheiro(request):
                     caixa = caixa_geral.objects.latest('id')
                     id_op = agenda_obj.id
                     novo_total = caixa.total + dinheiro
-                    desc = "Agendamento N:" + str(agenda_obj.id) + " - DINHEIRO"
+                    desc = "OS N:" + str(agenda_obj.id)
                     nova_entrada = caixa_geral(operacao=1, tipo=1, id_operacao=id_op, valor_operacao=dinheiro, descricao=desc, total=novo_total)
                     nova_entrada.save()
                     msg = "Pagamento do agendamento "+str(agenda_obj.id)+ " concluído com sucesso."
@@ -329,7 +336,7 @@ def dinheiro(request):
                     caixa = caixa_geral.objects.latest('id')
                     id_op = agenda_obj.id
                     novo_total = caixa.total + dinheiro
-                    desc = "Agendamento N:" + str(agenda_obj.id) + " - DINHEIRO"
+                    desc = "OS N:" + str(agenda_obj.id) 
                     nova_entrada = caixa_geral(operacao=1, tipo=1, id_operacao=id_op, valor_operacao=dinheiro, descricao=desc, total=novo_total)
                     nova_entrada.save()
                     servicos = agenda_obj.item_servico.all()
@@ -375,7 +382,7 @@ def elo_debito(request):
                     agenda_obj.save()
                     caixa = caixa_geral.objects.latest('id')
                     novo_total = caixa.total + debito
-                    desc = "Agendamento N:" + str(agenda_obj.id) + " - DÉBITO ELO"
+                    desc = "OS N:" + str(agenda_obj.id) 
                     nova_entrada = caixa_geral(operacao=1, tipo=4, id_operacao=agenda_obj.id, valor_operacao=debito, descricao=desc, total=novo_total)
                     nova_entrada.save()
                     msg = "Pagamento do agendamento " +str(agenda_obj.id)+ " concluído com sucesso."
@@ -401,7 +408,7 @@ def elo_debito(request):
                     agenda_obj.save()
                     caixa = caixa_geral.objects.latest('id')
                     novo_total = caixa.total + debito
-                    desc = "Agendamento N:" + str(agenda_obj.id) + " - DÉBITO ELO"
+                    desc = "Agendamento N:" + str(agenda_obj.id)
                     nova_entrada = caixa_geral(operacao=1, tipo=4, id_operacao=agenda_obj.id, valor_operacao=debito, descricao=desc, total=novo_total)
                     nova_entrada.save()
                     servicos = agenda_obj.item_servico.all()
@@ -446,7 +453,7 @@ def debito(request):
                     agenda_obj.save()
                     caixa = caixa_geral.objects.latest('id')
                     novo_total = caixa.total + debito
-                    desc = "Agendamento N:" + str(agenda_obj.id) + " - DÉBITO"
+                    desc = "OS N:" + str(agenda_obj.id) 
                     nova_entrada = caixa_geral(operacao=1, tipo=3, id_operacao=agenda_obj.id, valor_operacao=debito, descricao=desc, total=novo_total)
                     nova_entrada.save()
                     msg = "Pagamento do agendamento " +str(agenda_obj.id)+ " concluído com sucesso."
@@ -472,7 +479,7 @@ def debito(request):
                     agenda_obj.save()
                     caixa = caixa_geral.objects.latest('id')
                     novo_total = caixa.total + debito
-                    desc = "Agendamento N:" + str(agenda_obj.id) + " - DÉBITO"
+                    desc = "Agendamento N:" + str(agenda_obj.id) 
                     nova_entrada = caixa_geral(operacao=1, tipo=3, id_operacao=agenda_obj.id, valor_operacao=debito, descricao=desc, total=novo_total)
                     nova_entrada.save()
                     servicos = agenda_obj.item_servico.all()
@@ -516,7 +523,7 @@ def elo_credito(request):
                     agenda_obj.save()
                     caixa = caixa_geral.objects.latest('id')
                     novo_total = caixa.total + credito
-                    desc = "Agendamento N:" + str(agenda_obj.id) + " - CRÉDITO ELO"
+                    desc = "OS N:" + str(agenda_obj.id) 
                     nova_entrada = caixa_geral(operacao=1, tipo=5, id_operacao=agenda_obj.id, valor_operacao=credito, descricao=desc, total=novo_total)
                     nova_entrada.save()
                     msg = "Pagamento do agendamento " +str(agenda_obj.id)+ " concluído com sucesso."
@@ -550,7 +557,7 @@ def elo_credito(request):
                     agenda_obj.save()
                     caixa = caixa_geral.objects.latest('id')
                     novo_total = caixa.total + credito
-                    desc = "Agendamento N:" + str(agenda_obj.id) + " - CRÉDITO ELO"
+                    desc = "OS N:" + str(agenda_obj.id) 
                     nova_entrada = caixa_geral(operacao=1, tipo=5, id_operacao=agenda_obj.id, valor_operacao=credito, descricao=desc, total=novo_total)
                     nova_entrada.save()
                     msg = "Pagamento do agendamento " +str(agenda_obj.id)+ " concluído com sucesso."
@@ -575,7 +582,7 @@ def elo_credito(request):
                     agenda_obj.save()
                     caixa = caixa_geral.objects.latest('id')
                     novo_total = caixa.total + credito
-                    desc = "Agendamento N:" + str(agenda_obj.id) + " - CRÉDITO ELO"
+                    desc = "OS N:" + str(agenda_obj.id) 
                     nova_entrada = caixa_geral(operacao=1, tipo=5, id_operacao=agenda_obj.id, valor_operacao=credito, descricao=desc, total=novo_total)
                     nova_entrada.save()
                     servicos = agenda_obj.item_servico.all()
@@ -610,7 +617,7 @@ def elo_credito(request):
                     agenda_obj.save()
                     caixa = caixa_geral.objects.latest('id')
                     novo_total = caixa.total + credito
-                    desc = "Agendamento N:" + str(agenda_obj.id) + " - CRÉDITO ELO"
+                    desc = "OS N:" + str(agenda_obj.id) 
                     nova_entrada = caixa_geral(operacao=1, tipo=5, id_operacao=agenda_obj.id, valor_operacao=credito, descricao=desc, total=novo_total)
                     nova_entrada.save()
                     servicos = agenda_obj.item_servico.all()
@@ -654,7 +661,7 @@ def credito(request):
                     agenda_obj.save()
                     caixa = caixa_geral.objects.latest('id')
                     novo_total = caixa.total + credito
-                    desc = "Agendamento N:" + str(agenda_obj.id) + " - CRÉDITO"
+                    desc = "OS N:" + str(agenda_obj.id)
                     nova_entrada = caixa_geral(operacao=1, tipo=3, id_operacao=agenda_obj.id, valor_operacao=credito, descricao=desc, total=novo_total)
                     nova_entrada.save()
                     msg = "Pagamento do agendamento " +str(agenda_obj.id)+ " concluído com sucesso."
@@ -685,10 +692,11 @@ def credito(request):
                     agenda_obj.pag.add(novo_pagamento)
                     agenda_obj.pag_parcial = agenda_obj.pag_parcial + credito
                     agenda_obj.total = agenda_obj.total - credito
+                    agenda_obj.estado = 3
                     agenda_obj.save()
                     caixa = caixa_geral.objects.latest('id')
                     novo_total = caixa.total + credito
-                    desc = "Agendamento N:" + str(agenda_obj.id) + " - CRÉDITO"
+                    desc = "OS N:" + str(agenda_obj.id) 
                     nova_entrada = caixa_geral(operacao=1, tipo=3, id_operacao=agenda_obj.id, valor_operacao=credito, descricao=desc, total=novo_total)
                     nova_entrada.save()
                     msg = "Pagamento do agendamento " +str(agenda_obj.id)+ " concluído com sucesso."
@@ -713,7 +721,7 @@ def credito(request):
                     agenda_obj.save()
                     caixa = caixa_geral.objects.latest('id')
                     novo_total = caixa.total + credito
-                    desc = "Agendamento N:" + str(agenda_obj.id) + " - CRÉDITO"
+                    desc = "OS N:" + str(agenda_obj.id) + " - CRÉDITO"
                     nova_entrada = caixa_geral(operacao=1, tipo=3, id_operacao=agenda_obj.id, valor_operacao=credito, descricao=desc, total=novo_total)
                     nova_entrada.save()
                     servicos = agenda_obj.item_servico.all()
@@ -748,7 +756,7 @@ def credito(request):
                     agenda_obj.save()
                     caixa = caixa_geral.objects.latest('id')
                     novo_total = caixa.total + credito
-                    desc = "Agendamento N:" + str(agenda_obj.id) + " - CRÉDITO"
+                    desc = "OS N:" + str(agenda_obj.id) 
                     nova_entrada = caixa_geral(operacao=1, tipo=3, id_operacao=agenda_obj.id, valor_operacao=credito, descricao=desc, total=novo_total)
                     nova_entrada.save()
                     servicos = agenda_obj.item_servico.all()

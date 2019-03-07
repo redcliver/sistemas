@@ -62,7 +62,7 @@ def home(request):
                 bloqueados = bloqueados + 1
             for d in agenda.objects.filter(boleto__lte=data, estado=1):
                 boleto = boleto + 1
-            for e in agenda.objects.filter(data_pagamento__lte=data, estado=1):
+            for e in agenda.objects.filter(data_pagamento__lte=data, estado=1).all():
                 pag_vencidos = pag_vencidos + 1
             cli_inativo = cliente.objects.all()
             cli_ina_meses = cliente.objects.all()

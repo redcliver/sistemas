@@ -28,6 +28,10 @@
                               <label for="inputName">Placa</label>
                               <input type="text" class="form-control" value="{{agenda_obj.car.placa}}" disabled>
                           </div>
+                          <div class="form-group col-md-4">
+                            <label for="inputName">Data Pag.</label>
+                            <input type="text" class="form-control" value="{{agenda_obj.data_pagamento|date:"d/m/Y"}}" disabled>
+                        </div>
                           <div class="form-group col-md-12">
                               <h4 for="inputName">Serviços</h4>
                           </div>

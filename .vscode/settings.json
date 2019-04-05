@@ -1,4 +1,4 @@
 {
-    "python.pythonPath": "/home/igor/.local/share/virtualenvs/marioseguros-kzOLJ6Br/bin/python",
+    "python.pythonPath": "/usr/bin/python3",
     "python.linting.pylintEnabled": false
 }

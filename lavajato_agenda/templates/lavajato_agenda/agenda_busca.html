@@ -43,7 +43,7 @@
                             <td>{{agenda.car.placa}}</td>
                             <td>R$ {{agenda.total}}</td>
                             <td>{{agenda.get_estado_display}}</td>
-                            <td><button name="agenda_id" value="{{agenda.id}}" class="btn btn-secondary" formmethod="POST" formaction="/lavajato_agenda/busca" title="Adicionar serviço.">Adicionar</button></td>
+                            <td><button name="agenda_id" value="{{agenda.id}}" class="btn btn-secondary" formmethod="GET" formaction="/lavajato_agenda/busca" title="Adicionar serviço.">Adicionar</button></td>
                         </tr>
                     {% endif %}
                     {% if agenda.estado == '2' %}

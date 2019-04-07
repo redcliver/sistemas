@@ -65,8 +65,8 @@ def busca(request):
             data_inicio = datetime.now().strftime('%Y-%m-%d')
             data_fim = datetime.now() + timezone.timedelta(days=1)
             data_fim = data_fim.strftime('%Y-%m-%d')            
-            agendas = agenda.objects.filter(data__range=(data_inicio,data_fim),estado=1).order_by('data')
-            if request.method == 'GET' and request.POST.get('data_inicio') != None and request.POST.get('data_fim') != None:
+            agendas = agenda.objects.filter(data__range=(data_inicio,data_fim)).order_by('data')
+            if request.method == 'GET' and request.GET.get('data_inicio') != None and request.GET.get('data_fim') != None:
                 data_inicio = request.GET.get('data_inicio')                
                 data_fim = request.GET.get('data_fim')
                 agendas = agenda.objects.filter(data__range=(data_inicio,data_fim)).all()

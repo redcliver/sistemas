@@ -37,7 +37,7 @@
                         <tr>
                             <td scope="row">{{parcela.id}}</td>
                             <td>{{parcela.data|date:"d/m/Y"}}</td>
-                            <td>Parcela Cartao {{parcela.numero_parcela}}/{{parcela.total_parcelas}}</td>
+                            <td>Parcela {{parcela.numero_parcela}}/{{parcela.total_parcelas}} - {{parcela.get_pag_display}}</td>
                             <td>R$ {{parcela.valor}}</td>
                             <td>{{parcela.get_estado_display}}</td>
                             <td><button name="parcela_id" value="{{parcela.id}}" class="btn btn-secondary" formaction="/lavajato_contas/confirmar_recebimento" title='Confirmar'>Confirmar</button></td>
@@ -47,7 +47,7 @@
                         <tr>
                             <td scope="row">{{parcela.id}}</td>
                             <td>{{parcela.data|date:"d/m/Y"}}</td>
-                            <td>Parcela Cartao</td>
+                            <td>Parcela {{parcela.numero_parcela}}/{{parcela.total_parcelas}} - {{parcela.get_pag_display}}</td>
                             <td>R$ {{parcela.valor}}</td>
                             <td>{{parcela.get_estado_display}}</td>
                             <td>Recebida</td>

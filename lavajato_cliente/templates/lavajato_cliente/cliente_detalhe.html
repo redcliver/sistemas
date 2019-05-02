@@ -1,0 +1,37 @@
+{% extends 'lavajato_base.html' %}
+
+{% block body %}
+{% load static %}
+<h1>Informação Cliente</h1><hr /><br />
+    <form method="POST">
+    {%csrf_token%}
+    <div class="form-row">
+        <div class="form-group col-md-12">
+            <select name="cliente_id" class="form-control" disabled>
+                <option disabled selected > {{cliente_obj.nome}} </option>
+            </select>
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="form-group col-md-12">
+        <h4>Geral</h4><br />
+        <h5>Quantidade: {{qnt_total}}</h5><br />
+        <h5>Valor total: R$ {{valor_total}}</h5><hr /><hr />
+        <h4>Ordens Pagas</h4><br />
+        <h5>Quantidade: {{qnt_pago}}<h5><br />
+        <h5>Valor total: R$ {{valor_pago}}<h5><hr /><hr />
+        <h4>Ordens desmarcadas</h4><br />
+        <h5>Quantidade: {{qnt_desmarcado}}</h5><br />
+        <h5>Valor total: R$ {{valor_desmarcado}}</h5><hr /><hr />
+        <h4>Ordens em Aberto</h4><br />
+        <h5>Quantidade: {{qnt_aberto}}</h5><br />
+        <h5>Valor total: R$ {{valor_aberto}}</h5>
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="form-group col-md-12">
+            <button type="submit" class="btn btn-secondary float-right"formaction="/lavajato_home/">Sair</button>
+        </div>
+    </div>
+    </form>
+{% endblock %}

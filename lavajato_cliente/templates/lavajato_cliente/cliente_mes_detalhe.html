@@ -1,0 +1,80 @@
+{% extends 'lavajato_base.html' %}
+
+{% block body %}
+{% load static %}
+<h1>Informação Cliente</h1><hr /><br />
+    <form method="POST">
+    {%csrf_token%}
+    <div class="form-row">
+        <div class="form-group col-md-12">
+            <select name="cliente_id" class="form-control" disabled>
+                <option disabled selected > {{cliente_obj.nome}} </option>
+            </select>
+        </div>
+        <div class="form-group col-md-9">
+
+        </div>
+        <div class="form-group col-md-3">
+            <select name="mes" class="form-control" disabled>
+            {% if mes == '01' %}
+                <option value="01">Jan</option>
+            {% endif %}
+            {% if mes == '02' %}
+                <option value="02">Fev</option>
+            {% endif %}
+            {% if mes == '03' %}
+                <option value="03">Mar</option>
+            {% endif %}
+            {% if mes == '04' %}
+                <option value="04">Abr</option>
+            {% endif %}
+            {% if mes == '05' %}
+                <option value="05">Mai</option>
+            {% endif %}
+            {% if mes == '06' %}
+                <option value="06">Jun</option>
+            {% endif %}
+            {% if mes == '07' %}
+                <option value="07">Jul</option>
+            {% endif %}
+            {% if mes == '08' %}
+                <option value="08">Ago</option>
+            {% endif %}
+            {% if mes == '09' %}
+                <option value="09">Set</option>
+            {% endif %}
+            {% if mes == '10' %}
+                <option value="10">Out</option>
+            {% endif %}
+            {% if mes == '11' %}
+                <option value="11">Nov</option>
+            {% endif %}
+            {% if mes == '12' %}
+                <option value="12">Dez</option>
+            {% endif %}
+            </select>
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="form-group col-md-12">
+        <h4>Geral</h4><br />
+        <h5>Quantidade: {{qnt_total}}</h5><br />
+        <h5>Valor total: R$ {{valor_total}}</h5><hr /><hr />
+        <h4>Ordens Pagas</h4><br />
+        <h5>Quantidade: {{qnt_pago}}<h5><br />
+        <h5>Valor total: R$ {{valor_pago}}<h5><hr /><hr />
+        <h4>Ordens desmarcadas</h4><br />
+        <h5>Quantidade: {{qnt_desmarcado}}</h5><br />
+        <h5>Valor total: R$ {{valor_desmarcado}}</h5><hr /><hr />
+        <h4>Ordens em Aberto</h4><br />
+        <h5>Quantidade: {{qnt_aberto}}</h5><br />
+        <h5>Valor total: R$ {{valor_aberto}}</h5>
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="form-group col-md-12">
+            <button type="submit" class="btn btn-secondary float-right"formaction="/lavajato_home/">Sair</button>
+        </div>
+    </div>
+    </form>
+{% endblock %}

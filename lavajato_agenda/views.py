@@ -682,16 +682,15 @@ def credito(request):
                     hoje = timezone.now()
                     n_parcelas = request.POST.get('n_parcelas')
                     taxas = taxa.objects.get(tipo=3)
-                    dia = taxas.dias
-                    data_pag = timezone.now() + timezone.timedelta(days=int(dia))
                     v_juros = credito / 100
                     t_juros = float(v_juros) * float(taxas.juros)
                     val_parc = float(credito) - float(t_juros)
                     v_parcela = val_parc / int(n_parcelas)
                     while p < int(n_parcelas):
+                        dia = taxas.dias
                         data_parcela = timedelta(days=int(dia)) * c
                         data_pag = datetime.now() + data_parcela
-                        nova_parcela = parcela(estado=1, valor=v_parcela, numero_parcela=c, total_parcelas=int(n_parcelas), pag = 5, data=data_pag)
+                        nova_parcela = parcela(estado=1, valor=v_parcela, numero_parcela=c, total_parcelas=int(n_parcelas), pag = 3, data=data_pag)
                         nova_parcela.save()
                         agenda_obj.parcelas.add(nova_parcela)
                         agenda_obj.save()
@@ -743,16 +742,15 @@ def credito(request):
                     hoje = timezone.now()
                     n_parcelas = request.POST.get('n_parcelas')
                     taxas = taxa.objects.get(tipo=3)
-                    dia = taxas.dias
-                    data_pag = timezone.now() + timezone.timedelta(days=int(dia))
                     v_juros = credito / 100
                     t_juros = float(v_juros) * float(taxas.juros)
                     val_parc = float(credito) - float(t_juros)
                     v_parcela = val_parc / int(n_parcelas)
                     while p < int(n_parcelas):
+                        dia = taxas.dias
                         data_parcela = timedelta(days=int(dia)) * c
                         data_pag = datetime.now() + data_parcela
-                        nova_parcela = parcela(estado=1, valor=v_parcela, numero_parcela=c, total_parcelas=int(n_parcelas), pag = 5, data=data_pag)
+                        nova_parcela = parcela(estado=1, valor=v_parcela, numero_parcela=c, total_parcelas=int(n_parcelas), pag = 3, data=data_pag)
                         nova_parcela.save()
                         agenda_obj.parcelas.add(nova_parcela)
                         agenda_obj.save()

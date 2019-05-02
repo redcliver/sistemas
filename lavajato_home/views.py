@@ -24,9 +24,14 @@ def home(request):
                 ultimo_id = z.id
                 novo_total = conta_empresa_obj.total + z.valor
                 valor = z.valor
-                desc = "Parcela : " + str(z.numero_parcela) + "/" + str(z.total_parcelas)
+                desc = "Recebimento parcela : " + str(z.numero_parcela) + "/" + str(z.total_parcelas)
                 nova_entrada = conta_empresa(operacao=1, id_operacao=ultimo_id, valor_operacao=valor, descricao=desc, total=novo_total)
                 nova_entrada.save()
+                caixa_geral_obj = caixa_geral.objects.latest('id')
+                id_op = caixa_geral_obj.id + 1
+                novo_total1 = float(caixa_geral_obj.total) + float(valor)
+                nova_entrada_caixa = caixa_geral(operacao=1, tipo=z.pag, id_operacao=ultimo_id, valor_operacao=float(valor), descricao=desc, total=novo_total1)
+                nova_entrada_caixa.save()
             dia = datetime.now().strftime('%d')
             mes = datetime.now().strftime('%m')
             bloqueio = datetime.now() + timezone.timedelta(days=-45)

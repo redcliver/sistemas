@@ -251,16 +251,33 @@ def confirmar_recebimento(request):
                 parcela_id = request.POST.get('parcela_id')
                 parcela_obj = parcela.objects.filter(id=parcela_id).get()  
                 data_pagamento = datetime.now()    
+                hoje = datetime.now().strftime("%m-%d-%Y")
                 parcela_obj.estado = 2
                 parcela_obj.save()
                 conta_empresa_obj = conta_empresa.objects.latest('id')
                 ultimo_id = parcela_obj.id
                 novo_total = conta_empresa_obj.total + parcela_obj.valor
                 valor = parcela_obj.valor
-                desc = "Parcela : " + str(parcela_obj.id)
-                nova_entrada = conta_empresa(operacao=1, id_operacao=ultimo_id, valor_operacao=valor, descricao=desc, total=novo_total)
-                nova_entrada.save()
-                parcela_all = parcela.objects.filter(data__range=(data_inicio,data_fim)).all().order_by('data')
+                if parcela_obj.data_pagamento == hoje:
+                    desc = "Recebimento Parcela : " + str(parcela_obj.numero_parcela) + "/" + str(parcela_obj.total_parcelas)
+                    nova_entrada = conta_empresa(operacao=1, id_operacao=ultimo_id, valor_operacao=valor, descricao=desc, total=novo_total)
+                    nova_entrada.save()
+                    caixa_geral_obj = caixa_geral.objects.latest('id')
+                    id_op = caixa_geral_obj.id + 1
+                    novo_total1 = float(caixa_geral_obj.total) + float(valor)
+                    nova_entrada_caixa = caixa_geral(operacao=1, tipo=parcela_obj.pag, id_operacao=ultimo_id, valor_operacao=float(valor), descricao=desc, total=novo_total1)
+                    nova_entrada_caixa.save()
+                    parcela_all = parcela.objects.filter(data__range=(data_inicio,data_fim)).all().order_by('data')
+                if parcela_obj.data_pagamento <= hoje:
+                    desc = "Adiantamento Parcela : " + str(parcela_obj.numero_parcela) + "/" + str(parcela_obj.total_parcelas)
+                    nova_entrada = conta_empresa(operacao=1, id_operacao=ultimo_id, valor_operacao=valor, descricao=desc, total=novo_total)
+                    nova_entrada.save()
+                    caixa_geral_obj = caixa_geral.objects.latest('id')
+                    id_op = caixa_geral_obj.id + 1
+                    novo_total1 = float(caixa_geral_obj.total) + float(valor)
+                    nova_entrada_caixa = caixa_geral(operacao=1, tipo=parcela_obj.pag, id_operacao=ultimo_id, valor_operacao=float(valor), descricao=desc, total=novo_total1)
+                    nova_entrada_caixa.save()
+                    parcela_all = parcela.objects.filter(data__range=(data_inicio,data_fim)).all().order_by('data')
                 return render(request, 'lavajato_contas/conta_receber.html', {'title':'Receber Conta', 'data_inicio':data_inicio, 'data_fim':data_fim, 'parcela_all':parcela_all})
             return render(request, 'lavajato_contas/conta_receber.html', {'title':'Receber Conta', 'data_inicio':data_inicio, 'data_fim':data_fim, 'parcela_all':parcela_all})
         return render(request, 'sistema_login/erro.html', {'title':'Erro'})

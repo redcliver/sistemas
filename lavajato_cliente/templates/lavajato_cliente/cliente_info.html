@@ -1,0 +1,45 @@
+{% extends 'lavajato_base.html' %}
+
+{% block body %}
+{% load static %}
+<h1>Informação Cliente</h1><hr /><br />
+    <form method="POST">
+    {%csrf_token%}
+    <div class="form-row">
+        <div class="form-group col-md-12">
+            <select name="cliente_id" class="form-control" required>
+                <option disabled selected > -- Cliente -- </option>
+                {% for cliente in clientes %}
+                    <option value="{{cliente.id}}">{{cliente.nome}}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-group col-md-9">
+
+        </div>
+        <div class="form-group col-md-3">
+            <select name="mes" class="form-control">
+                <option disabled selected > -- Mes -- </option>
+                <option value="01">Jan</option>
+                <option value="02">Fev</option>
+                <option value="03">Mar</option>
+                <option value="04">Abr</option>
+                <option value="05">Mai</option>
+                <option value="06">Jun</option>
+                <option value="07">Jul</option>
+                <option value="08">Ago</option>
+                <option value="09">Set</option>
+                <option value="10">Out</option>
+                <option value="11">Nov</option>
+                <option value="12">Dez</option>
+            </select>
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="form-group col-md-12">
+            <button type="submit" class="btn btn-secondary float-right" formaction="/lavajato_cliente/informacao">Geral</button>&nbsp;&nbsp;
+            <button type="submit" class="btn btn-secondary float-right" formaction="/lavajato_cliente/mes_informacao">Mensal</button>
+        </div>
+    </div>
+    </form>
+{% endblock %}

@@ -91,7 +91,7 @@
     </div>
     <hr />
     <div class="form-row">
-        <div class="col-md-4 offset-md-6">
+        <div class="form-group col-md-12">
             <h4 class="float-right">Pago: R$ {{pago}}</h4><br /><br />
             <h3 class="float-right"><b>Aberto: R$ {{aberto}}</b></h3>
         </div>
@@ -102,7 +102,7 @@
         <input type="hidden" name="cliente_id" value="{{cliente_obj.id}}">
         <input type="hidden" name="mes_cli" value="{{mes}}">
         {% if aberto > 0 %}
-        <div class="col-md-4 offset-md-6">
+        <div class="form-group col-md-12">
             <button type="submit" class="btn btn-secondary float-right" formmethod="GET" formaction="/lavajato_cliente/pagamento_geral" title="Receber todas as OS">Gerar Boleto</button>
         </div>
         {% endif %}

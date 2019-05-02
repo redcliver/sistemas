@@ -15,4 +15,6 @@ urlpatterns = [
     url(r'^receber_mensal', views.receber_mensal),
     url(r'^bloqueados', views.bloqueados),
     url(r'^pagar_mes', views.pagar_mes),
+    url(r'^informacao', views.informacao),
+    url(r'^mes_informacao', views.mes_informacao),
     ]

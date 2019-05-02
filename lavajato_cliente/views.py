@@ -7,6 +7,7 @@ from decimal import Decimal
 from .models import cliente, carro
 from lavajato_controle.models import conta_empresa, taxa
 from lavajato_agenda.models import agenda, pagamento, parcela
+from lavajato_caixa.models import caixa_geral
 # Create your views here.
 def lavajato_cliente(request):
     if request.user.is_authenticated():
@@ -283,16 +284,16 @@ def receber_mensal(request):
                     novo_pagamento.save()
                     a.pag.add(novo_pagamento)
                     a.save()
-                    nova_parcela = parcela(estado=2, valor=a.total, pag ="Boleto Bancario", data_pagamento=hoje)
+                    nova_parcela = parcela(estado=2, valor=valor, pag = 1, data_pagamento=hoje)
                     nova_parcela.save()
                     a.parcelas.add(nova_parcela)
                     a.save()
-                conta_empresa_obj = conta_empresa.objects.latest('id')
-                ultimo_id = conta_empresa_obj.id + 1
-                novo_total = float(conta_empresa_obj.total) + float(pago)
+                caixa_geral_obj = caixa_geral.objects.latest('id')
+                id_op = caixa_geral_obj.id + 1
+                novo_total = float(caixa_geral_obj.total) + float(pago)
                 desc = "Pagamento do mes "+ str(mes_cli) +"/"+ str(ano) +" - " + str(cliente_obj.nome)
-                nova_saida = conta_empresa(operacao=1, id_operacao=ultimo_id, valor_operacao=pago, descricao=desc, total=novo_total)
-                nova_saida.save()
+                nova_entrada = caixa_geral(operacao=1, tipo=1, id_operacao=id_op, valor_operacao=float(pago), descricao=desc, total=novo_total)
+                nova_entrada.save()
                 agendas = agenda.objects.filter(cli=cliente_obj, data__month=mes_cli).all()
                 return render(request, 'lavajato_cliente/cliente_confirma_fechamento.html', {'title':'Fechamento Cliente', 'cliente_obj':cliente_obj, 'agendas':agendas, 'aberto':aberto, 'pago':pago, 'desmarcado':desmarcado})
             return render(request, 'lavajato_cliente/cliente_fechar_os.html', {'title':'Fechamento Cliente', 'clientes':clientes})
@@ -335,6 +336,77 @@ def pagar_mes(request):
                     pago = pago + c.total
                 return render(request, 'lavajato_cliente/cliente_fechar_os.html', {'title':'Fechamento Cliente', 'cliente_obj':cliente_obj, 'agendas':agendas, 'aberto':aberto, 'pago':pago, 'desmarcado':desmarcado, 'mes_cli':mes_cli})
             return render(request, 'lavajato_cliente/cliente_fechamento.html', {'title':'Fechamento Cliente'})
+        return render(request, 'sistema_login/erro.html', {'title':'Erro'})
+    else:
+        return render(request, 'sistema_login/erro.html', {'title':'Erro'})
+
+def informacao(request):
+    if request.user.is_authenticated():
+        empresa = request.user.get_short_name()
+        if empresa == 'dayson':
+            clientes = cliente.objects.all().order_by('nome')
+            if request.method == 'POST' and request.POST.get('cliente_id') != None:
+                cliente_id = request.POST.get('cliente_id')
+                cliente_obj = cliente.objects.get(id=cliente_id)
+                ano = timezone.now() + timezone.timedelta(days=-365)
+                valor_aberto = 0
+                qnt_aberto = 0
+                valor_desmarcado = 0
+                qnt_desmarcado = 0
+                valor_pago = 0
+                qnt_pago = 0
+                qnt_total = 0
+                valor_total = 0
+                for a in agenda.objects.filter( estado=1, cli__id__contains=cliente_id).all():
+                    valor_aberto = valor_aberto + a.total
+                    qnt_aberto = qnt_aberto + 1
+                for b in agenda.objects.filter( estado=2, cli__id__contains=cliente_id).all():
+                    valor_desmarcado = valor_desmarcado + b.total
+                    qnt_desmarcado = qnt_desmarcado + 1
+                for c in agenda.objects.filter( estado=3, cli__id__contains=cliente_id).all():
+                    valor_pago = valor_pago + c.total
+                    qnt_pago = qnt_pago + 1
+                for d in agenda.objects.filter( cli__id__contains=cliente_id).all():
+                    valor_total = valor_total + d.total
+                    qnt_total = qnt_total + 1
+                return render(request, 'lavajato_cliente/cliente_detalhe.html', {'title':'Informação Cliente', 'cliente_obj':cliente_obj, 'valor_aberto':valor_aberto, 'qnt_aberto':qnt_aberto, 'valor_desmarcado':valor_desmarcado, 'qnt_desmarcado':qnt_desmarcado, 'valor_pago':valor_pago, 'qnt_pago':qnt_pago, 'qnt_total':qnt_total, 'valor_total':valor_total})
+            return render(request, 'lavajato_cliente/cliente_info.html', {'title':'Informaçaão Cliente', 'clientes':clientes})
+        return render(request, 'sistema_login/erro.html', {'title':'Erro'})
+    else:
+        return render(request, 'sistema_login/erro.html', {'title':'Erro'})
+
+def mes_informacao(request):
+    if request.user.is_authenticated():
+        empresa = request.user.get_short_name()
+        if empresa == 'dayson':
+            clientes = cliente.objects.all().order_by('nome')
+            if request.method == 'POST' and request.POST.get('cliente_id') != None and request.POST.get('mes') !=None:
+                cliente_id = request.POST.get('cliente_id')
+                mes = request.POST.get('mes')
+                cliente_obj = cliente.objects.get(id=cliente_id)
+                ano = timezone.now() + timezone.timedelta(days=-365)
+                valor_aberto = 0
+                qnt_aberto = 0
+                valor_desmarcado = 0
+                qnt_desmarcado = 0
+                valor_pago = 0
+                qnt_pago = 0
+                qnt_total = 0
+                valor_total = 0
+                for a in agenda.objects.filter(data__month=mes, estado=1, cli__id__contains=cliente_id).all():
+                    valor_aberto = valor_aberto + a.total
+                    qnt_aberto = qnt_aberto + 1
+                for b in agenda.objects.filter(data__month=mes, estado=2, cli__id__contains=cliente_id).all():
+                    valor_desmarcado = valor_desmarcado + b.total
+                    qnt_desmarcado = qnt_desmarcado + 1
+                for c in agenda.objects.filter(data__month=mes, estado=3, cli__id__contains=cliente_id).all():
+                    valor_pago = valor_pago + c.total
+                    qnt_pago = qnt_pago + 1
+                for d in agenda.objects.filter(data__month=mes, cli__id__contains=cliente_id).all():
+                    valor_total = valor_total + d.total
+                    qnt_total = qnt_total + 1
+                return render(request, 'lavajato_cliente/cliente_mes_detalhe.html', {'title':'Informação Cliente', 'cliente_obj':cliente_obj, 'valor_aberto':valor_aberto, 'qnt_aberto':qnt_aberto, 'valor_desmarcado':valor_desmarcado, 'qnt_desmarcado':qnt_desmarcado, 'valor_pago':valor_pago, 'qnt_pago':qnt_pago, 'qnt_total':qnt_total, 'valor_total':valor_total, 'mes':mes})
+            return render(request, 'lavajato_cliente/cliente_info.html', {'title':'Informaçaão Cliente', 'clientes':clientes})
         return render(request, 'sistema_login/erro.html', {'title':'Erro'})
     else:
         return render(request, 'sistema_login/erro.html', {'title':'Erro'})
